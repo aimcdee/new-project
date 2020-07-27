@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.conf.dao.ConfBannerWaresDao">
+
+    <!--根据轮播图ID获取轮播商品对象集合-->
+    <select id="getBannerWaresListByBannerId" resultType="com.project.modules.conf.vo.Invoking.ConfBannerWaresInvokingVo">
+        SELECT
+            id,
+            banner_id,
+            deal_wares_id,
+            image
+        FROM
+            conf_banner_wares
+        WHERE
+            banner_id = #{bannerId}
+    </select>
+
+    <!--根据企业商品ID获取企业商品标题和企业商品封面图路径-->
+    <select id="getDealWaresInvokingVoByDealWaresId" resultType="java.lang.String">
+        SELECT
+            deal_wares_title
+        FROM
+            deal_wares AS deal_wares
+        WHERE
+            deal_wares.deal_wares_id = #{dealWaresId}
+    </select>
+</mapper>

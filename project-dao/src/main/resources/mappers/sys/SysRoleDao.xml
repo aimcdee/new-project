@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.modules.sys.dao.SysRoleDao">
+
+    <!--校验角色名称是否已存在-->
+    <select id="checkNameRepeat" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_role
+        <where>
+            role_name = #{roleName}
+            <if test="roleId != null and !&quot;&quot;.equals(roleId)">
+                AND role_id != #{roleId}
+            </if>
+        </where>
+    </select>
+
+    <!--分页查询系统角色列表-->
+    <select id="queryByPage" resultType="com.project.modules.sys.vo.list.SysRoleListVo">
+        SELECT
+            sys_role.role_id,
+            sys_role.role_name,
+            sys_role.status,
+            sys_role.remake,
+            sys_role.create_time
+        FROM
+            sys_role AS sys_role
+        <where>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                sys_role.status = #{status}
+            </if>
+            <if test="roleName != null and roleName.trim() != ''">
+                AND sys_role.role_name = #{roleName}
+            </if>
+        </where>
+        ORDER BY sys_role.role_id ASC
+    </select>
+
+    <!--根据系统用户ID查询该用户的系统角色关系-->
+    <select id="getRoleListByUserId" resultType="com.project.modules.sys.vo.invoking.SysRoleInvokingVo">
+        SELECT
+            sys_role.role_id,
+            sys_role.role_name
+        FROM
+            sys_role AS sys_role
+            LEFT JOIN sys_user_role AS sys_user_role ON sys_role.role_id = sys_user_role.role_id
+        WHERE
+            sys_user_role.user_id = #{userId}
+    </select>
+
+    <!--根据系统角色ID查询角色详情-->
+    <select id="getSysRoleInfoVo" resultType="com.project.modules.sys.vo.info.SysRoleInfoVo">
+        SELECT
+            role_id,
+            role_name,
+            status,
+            remake,
+            create_time
+        FROM
+            sys_role
+        WHERE
+            role_id = #{roleId}
+    </select>
+</mapper>

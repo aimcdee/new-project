@@ -1,0 +1,63 @@
+#wx:
+##  AppID(小程序ID)
+#  appId: wx34a5d97a411a3f76
+##  AppSecret(小程序密钥)
+#  appSecret: d0cca150921cc3ac18ebaedbe6902fba
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      url: jdbc:mysql://rm-m5et46hg59keyooq3ko.mysql.rds.aliyuncs.com:3306/car?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=FALSE&serverTimezone=GMT%2b8
+      username: mcdee
+      password: Lyd_13422356022
+      driverClassName: com.mysql.cj.jdbc.Driver
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  #      web-stat-filter:
+  #        #  关闭druid对session的监控 发现大量的错误信息session ip change too many
+  #        session-stat-enable: false
+  redis:
+    database: 5
+    host: r-wz95887bf628b004pd.redis.rds.aliyuncs.com
+    port: 6379
+    password: Lyd13422356022      # 密码（默认为空）
+    timeout: 15000  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+
+#    ws-topic-name: school_websocket #websocket推送redis主题的名称
+#  rabbitmq:
+#    host: 122.51.119.145
+#    port: 5672
+#    username: admin
+#    password: admin
+#    listener:
+#      simple:
+#        acknowledge-mode: manual

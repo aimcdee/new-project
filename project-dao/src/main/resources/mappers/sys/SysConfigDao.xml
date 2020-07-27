@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.sys.dao.SysConfigDao">
+
+    <!--校验配置名称是否已存在-->
+    <select id="checkNameRepeat" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_config
+        <where>
+            name = #{name}
+            <if test="configId != null and !&quot;&quot;.equals(configId)">
+                AND config_id != #{configId}
+            </if>
+        </where>
+    </select>
+
+    <!--校验配置编码是否已存在-->
+    <select id="checkCodeRepeat" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_config
+        <where>
+            code = #{code}
+            <if test="configId != null and !&quot;&quot;.equals(configId)">
+                AND config_id != #{configId}
+            </if>
+        </where>
+    </select>
+
+    <!--分页查询系统配置信息-->
+    <select id="queryPage" resultType="com.project.modules.sys.vo.list.SysConfigListVo">
+        SELECT
+            sys_config.config_id,
+            sys_config.name,
+            sys_config.code,
+            sys_config.value,
+            sys_config.memo,
+            sys_config.status
+        FROM
+            sys_config AS sys_config
+            ORDER BY sys_config.create_time ASC
+    </select>
+
+    <!--根据configId获取系统配置信息-->
+    <select id="info" resultType="com.project.modules.sys.vo.info.SysConfigInfoVo">
+        SELECT
+            sys_config.config_id,
+            sys_config.name,
+            sys_config.code,
+            sys_config.value,
+            sys_config.memo
+        FROM
+            sys_config AS sys_config
+        WHERE
+            sys_config.config_id = #{configId}
+    </select>
+
+    <!--根据configId获取系统配置对象-->
+    <select id="getSysConfigEntityById" resultType="com.project.modules.sys.entity.SysConfigEntity">
+        SELECT
+            sys_config.config_id,
+            sys_config.name,
+            sys_config.code,
+            sys_config.value,
+            sys_config.memo,
+            sys_config.update_user_id,
+            sys_config.update_Time
+        FROM
+            sys_config AS sys_config
+        WHERE
+            sys_config.config_id = #{configId}
+    </select>
+</mapper>

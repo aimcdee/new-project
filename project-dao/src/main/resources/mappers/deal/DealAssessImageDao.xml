@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealAssessImageDao">
+
+    <!--根据评估ID查询行驶证图对象-->
+    <select id="getDriveImage" resultType="com.project.modules.deal.entity.DealAssessImageEntity">
+        SELECT
+            image_id,
+            image,
+            image_type,
+            deal_assess_id
+        FROM
+            deal_assess_image
+        WHERE
+            deal_assess_id = #{dealAssessId}
+            AND image_type = #{type}
+    </select>
+
+    <!--根据评估ID查询评估商品图集合对象-->
+    <select id="getWaresImages" resultType="com.project.modules.deal.entity.DealAssessImageEntity">
+        SELECT
+            image_id,
+            image,
+            image_type,
+            deal_assess_id
+        FROM
+            deal_assess_image
+        WHERE
+            deal_assess_id = #{dealAssessId}
+            AND image_type = #{type}
+    </select>
+
+</mapper>

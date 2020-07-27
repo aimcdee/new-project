@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealWaresDao">
+
+    <!--分页企业商品列表-->
+    <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealWaresListVo">
+        SELECT
+            deal_wares.deal_wares_id,
+            deal_wares.deal_wares_title,
+            deal_wares.deal_wares_no,
+            deal_wares.release_area_id,
+            deal_wares.release_area_name,
+            deal_wares.contact_phone,
+            deal_wares.contact_name,
+            deal_wares.sex,
+            deal_wares.wares_frame_code,
+            deal_wares.cou_brand_id,
+            deal_wares.cou_series_id,
+            deal_wares.cou_wares_id,
+            deal_wares.cou_model_id,
+            deal_wares.trade_price,
+            deal_wares.retail_price,
+            deal_wares.register_time,
+            deal_wares.distance,
+            deal_wares.license_id,
+            deal_wares.license_code,
+            deal_wares.pro_area_id,
+            deal_wares.pro_area_name,
+            deal_wares.city_area_id,
+            deal_wares.city_area_name,
+            deal_wares.county_area_id,
+            deal_wares.county_area_name,
+            deal_wares.addr,
+            deal_wares.wares_remark,
+            deal_wares.transfer_num,
+            deal_wares.is_transfer,
+            deal_wares.is_mortgage,
+            deal_wares.is_maintain,
+            deal_wares.sell_status,
+            deal_wares.online_status,
+            deal_wares.submit_time,
+            deal_wares.deal_store_id
+        FROM
+            deal_wares AS deal_wares
+            JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
+        <where>
+            <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
+                deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
+            </if>
+            <if test="releaseAreaId != null and !&quot;&quot;.equals(releaseAreaId)">
+                AND deal_wares.release_area_id = #{releaseAreaId}
+            </if>
+            <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
+                AND deal_wares.cou_brand_id = #{couBrandId}
+            </if>
+            <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
+                AND deal_wares.cou_series_id = #{couSeriesId}
+            </if>
+            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
+                AND deal_wares.cou_wares_id = #{couWaresId}
+            </if>
+            <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
+                AND deal_wares.cou_model_id = #{couModelId}
+            </if>
+            <if test="dealStoreId != null and !&quot;&quot;.equals(dealStoreId)">
+                AND deal_wares.deal_store_id = #{dealStoreId}
+            </if>
+            <if test="proAreaId != null and !&quot;&quot;.equals(proAreaId)">
+                AND deal_wares.pro_area_id = #{proAreaId}
+            </if>
+            <if test="cityAreaId != null and !&quot;&quot;.equals(cityAreaId)">
+                AND deal_wares.city_area_id = #{cityAreaId}
+            </if>
+            <if test="countyAreaId != null and !&quot;&quot;.equals(countyAreaId)">
+                AND deal_wares.county_area_id = #{countyAreaId}
+            </if>
+            <if test="onlineStatus != null and !&quot;&quot;.equals(onlineStatus)">
+                AND deal_wares.online_status = #{onlineStatus}
+            </if>
+            <if test="sellStatus != null and !&quot;&quot;.equals(sellStatus)">
+                AND deal_wares.sell_status = #{sellStatus}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_wares.submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY deal_user_store.credit_grade DESC, deal_wares.submit_time DESC
+    </select>
+
+    <!--企业客户分页查询自己上传的企业商品列表-->
+    <select id="queryPersonalPage" resultType="com.project.modules.deal.vo.wx.DealWaresWxPersonalListVo">
+        SELECT
+            deal_wares_id,
+            deal_wares_title,
+            deal_wares_no,
+            cou_brand_id,
+            register_time,
+            distance,
+            sell_status,
+            online_status,
+            submit_time
+        FROM
+            deal_wares
+        <where>
+            <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
+                cou_brand_id = #{couBrandId}
+            </if>
+            <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
+                AND cou_series_id = #{couSeriesId}
+            </if>
+            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
+                AND cou_wares_id = #{couWaresId}
+            </if>
+            <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
+                AND cou_model_id = #{couModelId}
+            </if>
+            <if test="dealStoreId != null and !&quot;&quot;.equals(dealStoreId)">
+                AND deal_store_id = #{dealStoreId}
+            </if>
+            <if test="proAreaId != null and !&quot;&quot;.equals(proAreaId)">
+                AND pro_area_id = #{proAreaId}
+            </if>
+            <if test="cityAreaId != null and !&quot;&quot;.equals(cityAreaId)">
+                AND city_area_id = #{cityAreaId}
+            </if>
+            <if test="countyAreaId != null and !&quot;&quot;.equals(countyAreaId)">
+                AND county_area_id = #{countyAreaId}
+            </if>
+            <if test="onlineStatus != null and !&quot;&quot;.equals(onlineStatus)">
+                AND online_status = #{onlineStatus}
+            </if>
+            <if test="sellStatus != null and !&quot;&quot;.equals(sellStatus)">
+                AND sell_status = #{sellStatus}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY submit_time DESC
+    </select>
+
+    <!--企业端分页查询商品列表-->
+    <select id="queryStorePage" resultType="com.project.modules.deal.vo.wx.DealWaresWxStoreListVo">
+        SELECT
+            deal_wares.deal_wares_id,
+            deal_wares.deal_wares_title,
+            deal_wares.deal_wares_no,
+            deal_wares.cou_brand_id,
+            deal_wares.trade_price,
+            deal_wares.register_time,
+            deal_wares.distance,
+            deal_wares.submit_time,
+            deal_user_store.deal_store_name,
+            deal_user_store.credit_grade
+        FROM
+            deal_wares AS deal_wares
+            JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
+        <where>
+            deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
+            <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
+                AND deal_wares.cou_brand_id = #{couBrandId}
+            </if>
+            <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
+                AND deal_wares.cou_series_id = #{couSeriesId}
+            </if>
+            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
+                AND deal_wares.cou_wares_id = #{couWaresId}
+            </if>
+            <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
+                AND deal_wares.cou_model_id = #{couModelId}
+            </if>
+            <if test="proAreaId != null and !&quot;&quot;.equals(proAreaId)">
+                AND deal_wares.pro_area_id = #{proAreaId}
+            </if>
+            <if test="cityAreaId != null and !&quot;&quot;.equals(cityAreaId)">
+                AND deal_wares.city_area_id = #{cityAreaId}
+            </if>
+            <if test="countyAreaId != null and !&quot;&quot;.equals(countyAreaId)">
+                AND deal_wares.county_area_id = #{countyAreaId}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_wares.submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY deal_user_store.credit_grade DESC, deal_wares.submit_time DESC
+    </select>
+
+    <!--零售端分页查询商品列表-->
+    <select id="queryRetailPage" resultType="com.project.modules.deal.vo.wx.DealWaresWxRetailListVo">
+        SELECT
+            deal_wares.deal_wares_id,
+            deal_wares.deal_wares_title,
+            deal_wares.deal_wares_no,
+            deal_wares.cou_brand_id,
+            deal_wares.retail_price,
+            deal_wares.register_time,
+            deal_wares.distance,
+            deal_wares.submit_time,
+            deal_user_store.deal_store_name,
+            deal_user_store.credit_grade
+        FROM
+            deal_wares AS deal_wares
+            JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
+        <where>
+            deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
+            <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
+                AND deal_wares.cou_brand_id = #{couBrandId}
+            </if>
+            <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
+                AND deal_wares.cou_series_id = #{couSeriesId}
+            </if>
+            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
+                AND deal_wares.cou_wares_id = #{couWaresId}
+            </if>
+            <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
+                AND deal_wares.cou_model_id = #{couModelId}
+            </if>
+            <if test="proAreaId != null and !&quot;&quot;.equals(proAreaId)">
+                AND deal_wares.pro_area_id = #{proAreaId}
+            </if>
+            <if test="cityAreaId != null and !&quot;&quot;.equals(cityAreaId)">
+                AND deal_wares.city_area_id = #{cityAreaId}
+            </if>
+            <if test="countyAreaId != null and !&quot;&quot;.equals(countyAreaId)">
+                AND deal_wares.county_area_id = #{countyAreaId}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_wares.submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY deal_user_store.credit_grade DESC, deal_wares.submit_time DESC
+    </select>
+
+    <!--获取企业商品的详情-->
+    <select id="info" resultType="com.project.modules.deal.vo.info.DealWaresInfoVo">
+        SELECT
+            deal_wares_id,
+            deal_wares_title,
+            deal_wares_no,
+            release_area_id,
+            release_area_name,
+            contact_phone,
+            contact_name,
+            sex,
+            wares_frame_code,
+            cou_brand_id,
+            cou_series_id,
+            cou_wares_id,
+            cou_model_id,
+            trade_price,
+            retail_price,
+            register_time,
+            distance,
+            license_id,
+            license_code,
+            pro_area_id,
+            pro_area_name,
+            city_area_id,
+            city_area_name,
+            county_area_id,
+            county_area_name,
+            addr,
+            wares_remark,
+            transfer_num,
+            is_transfer,
+            is_mortgage,
+            is_maintain,
+            sell_status,
+            online_status,
+            submit_time,
+            deal_store_id
+        FROM
+            deal_wares
+        WHERE
+            deal_wares_id = #{dealWaresId}
+    </select>
+
+    <!--获取企业端商品的详情-->
+    <select id="store" resultType="com.project.modules.deal.vo.wx.DealWaresWxStoreInfoVo">
+        SELECT
+            deal_wares.deal_wares_id,
+            deal_wares.deal_wares_title,
+            deal_wares.contact_phone,
+            deal_wares.contact_name,
+            deal_wares.sex,
+            deal_wares.cou_brand_id,
+            deal_wares.trade_price,
+            deal_wares.register_time,
+            deal_wares.distance,
+            deal_wares.pro_area_id,
+            deal_wares.pro_area_name,
+            deal_wares.city_area_id,
+            deal_wares.city_area_name,
+            deal_wares.county_area_id,
+            deal_wares.county_area_name,
+            deal_wares.addr,
+            deal_wares.wares_remark,
+            deal_wares.transfer_num,
+            deal_wares.is_transfer,
+            deal_wares.is_mortgage,
+            deal_wares.is_maintain,
+            deal_wares.submit_time,
+            deal_user_store.deal_store_name,
+            deal_user_store.credit_grade
+        FROM
+            deal_wares AS deal_wares
+            JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
+        WHERE
+            deal_wares.deal_wares_id = #{dealWaresId}
+    </select>
+
+    <!--获取零售端商品的详情-->
+    <select id="retail" resultType="com.project.modules.deal.vo.wx.DealWaresWxRetailInfoVo">
+        SELECT
+            deal_wares.deal_wares_id,
+            deal_wares.deal_wares_title,
+            deal_wares.contact_phone,
+            deal_wares.contact_name,
+            deal_wares.sex,
+            deal_wares.cou_brand_id,
+            deal_wares.retail_price,
+            deal_wares.register_time,
+            deal_wares.distance,
+            deal_wares.pro_area_id,
+            deal_wares.pro_area_name,
+            deal_wares.city_area_id,
+            deal_wares.city_area_name,
+            deal_wares.county_area_id,
+            deal_wares.county_area_name,
+            deal_wares.addr,
+            deal_wares.wares_remark,
+            deal_wares.transfer_num,
+            deal_wares.is_transfer,
+            deal_wares.is_mortgage,
+            deal_wares.is_maintain,
+            deal_wares.submit_time,
+            deal_user_store.deal_store_name,
+            deal_user_store.credit_grade
+        FROM
+            deal_wares AS deal_wares
+            JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
+        WHERE
+            deal_wares.deal_wares_id = #{dealWaresId}
+    </select>
+</mapper>

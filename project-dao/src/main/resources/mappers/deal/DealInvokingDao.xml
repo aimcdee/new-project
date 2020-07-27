@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealInvokingDao">
+
+    <!--校验客户状态是否为正常-->
+    <select id="checkDealUserStatus" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            deal_user
+        WHERE
+            deal_user_id = #{dealUserId} AND status = #{status}
+    </select>
+
+    <!--根据归属人ID获取归属人名称-->
+    <select id="getSysUserNameBySysUserId" resultType="java.lang.String">
+        SELECT
+            user_name AS sysUserName
+        FROM
+            sys_user
+        WHERE
+            user_id = #{sysUserId}
+    </select>
+
+    <!--根据区域ID获取区域名称-->
+    <select id="getAreaNameById" resultType="java.lang.String">
+        SELECT
+            area_name
+        FROM
+            cust_area
+        WHERE
+            area_id = #{areaId}
+    </select>
+
+    <!--根据评估ID商品的ID和名称-->
+    <select id="getAssessWares" resultType="java.lang.Long">
+        SELECT
+            cou_wares_id
+        FROM
+            deal_assess
+        WHERE
+            deal_assess_id = #{dealAssessId}
+            AND sell_status = #{status}
+    </select>
+
+    <!--根据评估ID商品的ID和名称-->
+    <select id="getDealUserIdByDealAssessId" resultType="java.lang.Long">
+        SELECT
+            deal_user_id
+        FROM
+            deal_assess
+        WHERE
+            deal_assess_id = #{dealAssessId}
+            AND sell_status = #{status}
+    </select>
+
+    <!--根据品牌ID获取品牌名称-->
+    <select id="getCouBrandNameById" resultType="java.lang.String">
+        SELECT
+            cou_brand_name
+        FROM
+            cou_wares_brand
+        WHERE
+            cou_brand_id = #{couBrandId}
+    </select>
+
+    <!--根据品牌系列ID获取品牌系列名称-->
+    <select id="getCouSeriesNameById" resultType="java.lang.String">
+        SELECT
+            cou_series_name
+        FROM
+            cou_wares_series
+        WHERE
+            cou_series_id = #{couSeriesId}
+    </select>
+
+    <!--根据商品ID获取商品名称-->
+    <select id="getCouWaresNameById" resultType="java.lang.String">
+        SELECT
+            cou_wares_name
+        FROM
+            cou_wares
+        WHERE
+            cou_wares_id = #{couWaresId}
+    </select>
+
+    <!--根据商品ID获取商品名称和年款-->
+    <select id="getCouWaresNameAndYearById" resultType="com.project.modules.cou.vo.Invoking.CouWaresNameAndYearInvokingVo">
+        SELECT
+            cou_wares_name,
+            market_year
+        FROM
+            cou_wares
+        WHERE
+            cou_wares_id = #{couWaresId}
+    </select>
+
+    <!--根据商品型号ID获取商品型号名称-->
+    <select id="getCouModelNameById" resultType="java.lang.String">
+        SELECT
+            cou_model_name
+        FROM
+            cou_wares_model
+        WHERE
+            cou_model_id = #{couModelId}
+    </select>
+
+    <!--根据客户企业ID查询客户企业详情-->
+    <select id="getDealUserStoreEntity" resultType="com.project.modules.deal.entity.DealUserStoreEntity">
+        SELECT
+            deal_store_id,
+            deposit_price,
+            credit_grade
+        FROM
+            deal_user_store
+        WHERE
+            deal_store_id = #{dealStoreId}
+    </select>
+
+    <!--根据客户ID获取客户名称-->
+    <select id="getDealUserNameById" resultType="java.lang.String">
+        SELECT
+            deal_user_name
+        FROM
+            deal_user
+        WHERE
+            deal_user_id = #{dealUserId}
+    </select>
+
+    <!--根据客户企业表ID查询客户是否是企业客户-->
+    <select id="checkUserStore" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            deal_user AS deal_user
+            JOIN deal_user_store AS deal_user_store ON deal_user_store.deal_user_id = deal_user.deal_user_id
+        WHERE
+            deal_user_store.deal_store_id = #{dealStoreId} AND deal_user.type = #{type}
+    </select>
+
+    <!--根据客户企业表ID查询该条企业认证信息是否已通过认证-->
+    <select id="checkStoreStatus" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            deal_user_store
+        WHERE
+            deal_store_id = #{dealStoreId} AND examine = #{examine}
+    </select>
+
+    <!--根据企业认证ID获取客户ID-->
+    <select id="getDealUserIdByStoreId" resultType="java.lang.Long">
+        SELECT
+            deal_user_id
+        FROM
+            deal_user_store
+        WHERE
+            deal_store_id = #{dealStoreId}
+    </select>
+
+    <!--根据牌照ID获取牌照编码-->
+    <select id="getLicenseCodeById" resultType="java.lang.String">
+        SELECT
+            license_code
+        FROM
+            cust_area_license
+        WHERE
+            license_id = #{licenseId}
+    </select>
+
+<!--    &lt;!&ndash;根据客户企业ID获取客户名称&ndash;&gt;-->
+<!--    <select id="getDealUserNameByStoreId" resultType="java.lang.String">-->
+<!--        SELECT-->
+<!--            deal_user.deal_user_name-->
+<!--        FROM-->
+<!--            deal_user AS deal_user-->
+<!--            JOIN deal_user_store AS deal_user_store ON deal_user.deal_user_id = deal_user_store.deal_user_id-->
+<!--        WHERE-->
+<!--            deal_user_store.deal_store_id = #{dealStoreId}-->
+<!--    </select>-->
+
+    <!--根据客户企业ID获取客户名称和ID-->
+    <select id="getDealStoreUserInvokingVoByStoreId" resultType="com.project.modules.deal.vo.invoking.DealStoreUserInvokingVo">
+        SELECT
+            deal_user.deal_user_id,
+            deal_user.deal_user_name
+        FROM
+            deal_user AS deal_user
+            JOIN deal_user_store AS deal_user_store ON deal_user.deal_user_id = deal_user_store.deal_user_id
+        WHERE
+            deal_user_store.deal_store_id = #{dealStoreId}
+    </select>
+
+    <!--获取出售商品标题-->
+    <select id="getDealWaresTitleById" resultType="java.lang.String">
+        SELECT
+            deal_wares_title
+        FROM
+            deal_wares
+        WHERE
+            deal_wares_id = #{dealWaresId}
+    </select>
+    <select id="getDealUserStoreRefundCheckInvokingVo" resultType="com.project.modules.deal.vo.invoking.DealUserStoreCheckInvokingVo">
+        SELECT
+            deal_user_id,
+            deposit_price
+        FROM
+            deal_user_store
+        WHERE
+            deal_store_id = #{dealStoreId}
+            AND examine = #{examine}
+    </select>
+
+    <!--根据用户ID和企业认证状态获取客户企业ID-->
+    <select id="getDealStoreId" resultType="java.lang.Long">
+        SELECT
+            deal_store_id
+        FROM
+            deal_user_store
+        <where>
+            deal_user_id = #{dealUserId}
+            AND examine = #{examine}
+        </where>
+    </select>
+
+    <!--修改用户的客户类型-->
+    <update id="updateDealUserType">
+        UPDATE
+            deal_user AS deal_user
+        SET
+            deal_user.type = #{type}
+        WHERE
+            deal_user_id = #{dealUserId}
+    </update>
+
+    <!--更新个人评估商品交易状态-->
+    <update id="updateAssessSellStstus">
+        UPDATE
+            deal_assess
+        SET
+            sell_status = #{status}
+        WHERE
+            deal_assess_id = #{dealAssessId}
+    </update>
+
+    <!--更新客户企业详情中的保证金总金额和信用等级-->
+    <update id="updateDealUserStoreEntity">
+        UPDATE
+            deal_user_store
+        SET
+            deposit_price = #{depositPrice},
+            credit_grade = #{creditGrade}
+        WHERE
+            deal_store_id = #{dealStoreId}
+    </update>
+
+    <!--修改企业认证为作废-->
+    <update id="updateDealUserStoreExamine">
+        UPDATE
+            deal_user_store
+        SET
+            deposit_price = #{depositPrice},
+            examine = #{examine}
+        WHERE
+            deal_store_id = #{dealStoreId}
+    </update>
+
+</mapper>

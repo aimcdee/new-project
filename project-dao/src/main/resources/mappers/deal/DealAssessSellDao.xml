@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealAssessSellDao">
+
+    <!--分页查询个人评估商品出售列表-->
+    <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealAssessSellListVo">
+        SELECT
+            deal_assess_sell.deal_sell_id,
+            deal_assess_sell.deal_sell_title,
+            deal_assess_sell.deal_assess_id,
+            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.contact_phone,
+            deal_assess_sell.contact_name,
+            deal_assess_sell.pro_area_id,
+            deal_assess_sell.pro_area_name,
+            deal_assess_sell.city_area_id,
+            deal_assess_sell.city_area_name,
+            deal_assess_sell.county_area_id,
+            deal_assess_sell.county_area_name,
+            deal_assess_sell.addr,
+            deal_assess_sell.sys_user_id,
+            deal_assess_sell.sell_price,
+            deal_assess_sell.status,
+            deal_assess_sell.examine_user_id,
+            deal_assess_sell.examine_time
+        FROM
+            deal_assess_sell AS deal_assess_sell
+        <where>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                deal_assess_sell.status = #{status}
+            </if>
+            <if test="contactName != null and contactName.trim() != ''">
+                AND deal_assess_sell.contact_name LIKE "%"#{contactName}"%"
+            </if>
+            <if test="contactPhone != null and contactPhone.trim() != ''">
+                AND deal_assess_sell.contact_phone = #{contactPhone}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_assess_sell.create_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY deal_assess_sell.create_time DESC
+    </select>
+
+    <!--根据评估商品出售ID获取评估商品出售详情-->
+    <select id="info" resultType="com.project.modules.deal.vo.info.DealAssessSellInfoVo">
+        SELECT
+            deal_assess_sell.deal_sell_id,
+            deal_assess_sell.deal_sell_title,
+            deal_assess_sell.deal_assess_id,
+            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.contact_phone,
+            deal_assess_sell.contact_name,
+            deal_assess_sell.pro_area_id,
+            deal_assess_sell.pro_area_name,
+            deal_assess_sell.city_area_id,
+            deal_assess_sell.city_area_name,
+            deal_assess_sell.county_area_id,
+            deal_assess_sell.county_area_name,
+            deal_assess_sell.addr,
+            deal_assess_sell.sys_user_id,
+            deal_assess_sell.sell_price,
+            deal_assess_sell.status,
+            deal_assess_sell.examine_user_id,
+            deal_assess_sell.examine_time
+        FROM
+            deal_assess_sell AS deal_assess_sell
+        WHERE
+            deal_assess_sell.deal_sell_id = #{dealSellId}
+    </select>
+
+    <!--分页查询个人评估商品出售列表-->
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealAssessSellWxListVo">
+        SELECT
+            deal_assess_sell.deal_sell_id,
+            deal_assess_sell.deal_sell_title,
+            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.sys_user_id,
+            deal_assess_sell.sell_price,
+            deal_assess_sell.status
+        FROM
+            deal_assess_sell AS deal_assess_sell
+            JOIN deal_assess AS deal_assess ON deal_assess_sell.deal_assess_id = deal_assess.deal_assess_id
+        WHERE
+            deal_assess.deal_user_id = #{dealUserId}
+            ORDER BY deal_assess_sell.create_time DESC
+    </select>
+
+    <!--根据评估商品出售ID获取个人评估商品出售详情-->
+    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.DealAssessSellWxInfoVo">
+        SELECT
+            deal_assess_sell.deal_sell_id,
+            deal_assess_sell.deal_sell_title,
+            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.sys_user_id,
+            deal_assess_sell.sell_price,
+            deal_assess_sell.status
+        FROM
+            deal_assess_sell AS deal_assess_sell
+        WHERE
+            deal_assess_sell.deal_sell_id = #{dealSellId}
+    </select>
+</mapper>

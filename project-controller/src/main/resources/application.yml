@@ -1,0 +1,96 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 8086
+  connection-timeout: 5000ms
+  servlet:
+    context-path: /
+
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 500000
+  ConnectTimeout: 500000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true  #是否所有操作都重试
+
+
+# eureka调用配置
+feign:
+  hystrix:
+    threadpool:
+      default:
+        coreSize: 200
+        maxQueueSize: 200
+        queueSizeRejectionThreshold: 200
+    command:
+      execution:
+        timeout:
+          #如果enabled设置为false，则请求超时交给ribbon控制
+          enabled: false
+
+# 服务器地址
+file:
+  path:
+    ipUrl: http://118.190.26.73/Image/
+    fileUrl: /usr/local/Image/
+
+spring:
+  application:
+    name: project-controller
+  # 测试环境 dev
+  profiles:
+    active: dev
+  # jackson时间格式化
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /static/**
+  resources:
+    add-mappings: false
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://122.51.119.145:8080/eureka/
+#      defaultZone: http://localhost:8080/eureka/
+    # 缓存清单每隔30秒跟新一次
+    registry-fetch-interval-seconds: 10
+  instance:
+    hostname: project-controller
+    # 实例使用ip进行访问
+    prefer-ip-address: true
+    # 实例显示id
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 服务续约任务调用间隔时间，默认30秒
+    lease-renewal-interval-in-seconds: 5
+    # 服务失效时间，默认90秒
+    lease-expiration-duration-in-seconds: 20
+    #状态页面和健康指标
+    statusPageUrlPath: ${server.servlet.context-path}/swagger/index.html
+
+renren:
+  redis:
+    open: false
+  shiro:
+    redis: false
+  # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
+  jwt:
+    # 加密秘钥
+    secret: wICxOEA05rlvikbw2rw6[heigrace.com]
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.modules.sys.dao.SysRoleDeptDao">
+
+    <!--根据系统角色ID获取系统部门-->
+    <select id="getDeptIdByRoleId" resultType="java.lang.Long">
+        SELECT
+            dept_id
+        FROM
+            sys_role_dept
+        WHERE
+            role_id = #{roleId}
+    </select>
+</mapper>

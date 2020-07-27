@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.modules.sys.dao.SysUserRoleDao">
+
+    <!--根据系统用户ID查询该用户的系统角色关系-->
+    <select id="getRoleIdListByUserId" resultType="java.lang.Long">
+        SELECT
+            role_id
+        FROM
+            sys_user_role
+        WHERE
+            user_id = #{userId}
+    </select>
+
+    <!--根据用户ID获取用户的角色列表-->
+    <select id="findRoleList" resultType="com.project.modules.sys.vo.invoking.SysRoleInvokingVo">
+        SELECT
+            sys_role.role_id,
+            sys_role.role_name
+        FROM
+            sys_user_role AS sys_user_role
+            LEFT JOIN sys_role AS sys_role ON sys_role.role_id = sys_user_role.role_id
+        WHERE
+            sys_user_role.user_id = #{userId}
+    </select>
+</mapper>

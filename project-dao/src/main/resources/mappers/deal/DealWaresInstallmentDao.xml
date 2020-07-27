@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealWaresInstallmentDao">
+
+    <!--分页查询咨询分期客户列表-->
+    <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealWaresInstallmentListVo">
+        SELECT
+            deal_wares_installment.installment_id,
+            deal_wares_installment.deal_user_id,
+            deal_user.deal_user_name,
+            deal_wares_installment.deal_wares_id,
+            deal_wares_installment.deal_wares_title,
+            deal_wares_installment.contact_name,
+            deal_wares_installment.contact_phone,
+            deal_wares_installment.sex,
+            deal_wares_installment.submit_time,
+            deal_wares_installment.follow_status,
+            deal_wares_installment.sys_user_id,
+            deal_wares_installment.follow_remark,
+            deal_wares_installment.follow_time
+        FROM
+            deal_wares_installment AS deal_wares_installment
+            JOIN deal_user AS deal_user ON deal_wares_installment.deal_user_id = deal_user.deal_user_id
+        <where>
+            <if test="dealUserName != null and dealUserName.trim() != ''">
+                deal_user.deal_user_name LIKE "%"#{dealUserName}"%"
+            </if>
+            <if test="dealUserId != null and !&quot;&quot;.equals(dealUserId) != ''">
+                deal_wares_installment.deal_user_id = #{dealUserId}
+            </if>
+            <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
+                AND deal_wares_installment.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
+            </if>
+            <if test="contactName != null and contactName.trim() != ''">
+                AND deal_wares_installment.contact_name LIKE "%"#{contactName}"%"
+            </if>
+            <if test="contactPhone != null and contactPhone.trim() != ''">
+                AND deal_wares_installment.contact_phone = #{contactPhone}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_wares_installment.submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY deal_wares_installment.submit_time DESC
+    </select>
+
+    <!--分页查询咨询分期客户列表-->
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealWaresInstallmentWxListVo">
+        SELECT
+        installment_id,
+        deal_wares_id,
+        deal_wares_title,
+        submit_time,
+        follow_status,
+        sys_user_id
+        FROM
+        deal_wares_installment
+        <where>
+            <if test="dealUserId != null and !&quot;&quot;.equals(dealUserId) != ''">
+                deal_user_id = #{dealUserId}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY submit_time DESC
+    </select>
+
+    <!--获取咨询分期客户详情-->
+    <select id="info" resultType="com.project.modules.deal.vo.info.DealWaresInstallmentInfoVo">
+        SELECT
+            deal_wares_installment.installment_id,
+            deal_wares_installment.deal_user_id,
+            deal_user.deal_user_name,
+            deal_wares_installment.deal_wares_id,
+            deal_wares_installment.deal_wares_title,
+            deal_wares_installment.contact_name,
+            deal_wares_installment.contact_phone,
+            deal_wares_installment.sex,
+            deal_wares_installment.submit_time,
+            deal_wares_installment.follow_status,
+            deal_wares_installment.sys_user_id,
+            sys_user.user_name AS sysUserName,
+            deal_wares_installment.follow_remark,
+            deal_wares_installment.follow_time
+        FROM
+            deal_wares_installment AS deal_wares_installment
+            LEFT JOIN deal_user AS deal_user ON deal_wares_installment.deal_user_id = deal_user.deal_user_id
+            LEFT JOIN sys_user AS sys_user ON deal_wares_installment.sys_user_id = sys_user.user_id
+        WHERE
+            deal_wares_installment.installment_id = #{installmentId}
+    </select>
+</mapper>

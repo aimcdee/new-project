@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.cust.dao.CustAreaDao">
+
+    <!--查看树状区域列表-->
+    <select id="getCustAreaTreeList" resultType="com.project.modules.cust.vo.list.CustAreaTreeVo">
+        SELECT
+            area_id,
+            area_name,
+            parent_id
+        FROM
+            cust_area
+    </select>
+
+    <!--查看该区域下所有的子区域-->
+    <select id="getAllAreaTreeList" resultType="com.project.modules.cust.vo.list.CustAreaTreeVo">
+        SELECT
+            area_id,
+            area_name,
+            parent_id
+        FROM
+            cust_area
+        WHERE
+            parent_id = #{areaId}
+    </select>
+
+    <!--分页查询区域列表-->
+    <select id="queryPage" resultType="com.project.modules.cust.vo.list.CustAreaListVo">
+        SELECT
+            cust_area.area_id,
+            cust_area.area_name,
+            cust_area.parent_id,
+            cust_area.type
+        FROM
+            cust_area AS cust_area
+        <where>
+            <if test="areaIdList != null and areaIdList.size() &gt; 0">
+                AND cust_area.area_id IN
+                <foreach collection="areaIdList" item="areaId" open="(" separator="," close=")">
+                    #{areaId}
+                </foreach>
+            </if>
+            ORDER BY cust_area.area_id ASC, cust_area.type ASC
+        </where>
+    </select>
+
+    <!--根据上级区域ID获取上级区域名称-->
+    <select id="getParentNameByParentId" resultType="java.lang.String">
+        SELECT
+            area_name
+        FROM
+            cust_area
+        WHERE
+            area_id = #{parentId}
+    </select>
+
+<!--    &lt;!&ndash;查看区域&ndash;&gt;-->
+<!--    <select id="getCustAreaInvokingVo" resultType="com.project.modules.cust.vo.invoking.CustAreaInvokingVo">-->
+<!--        SELECT-->
+<!--        area_id,-->
+<!--        area_name-->
+<!--        FROM-->
+<!--        cust_area-->
+<!--        <where>-->
+<!--            type = #{type}-->
+<!--            <if test="parentId != null and !&quot;&quot;.equals(parentId)">-->
+<!--                AND parent_id = #{parentId}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!--查看区域-->
+    <select id="getCustAreaInvokingVo" resultType="com.project.modules.cust.vo.invoking.CustAreaInvokingVo">
+        SELECT
+            area_id,
+            area_name
+        FROM
+            cust_area
+        <where>
+            type = #{type}
+            <if test="areaId != null and !&quot;&quot;.equals(areaId)">
+                AND area_id = #{areaId}
+            </if>
+            <if test="parentId != null and !&quot;&quot;.equals(parentId)">
+                AND parent_id = #{parentId}
+            </if>
+        </where>
+    </select>
+
+    <!--获取该区域下所有子区域-->
+    <select id="getChildAreaIdList" resultType="java.lang.Long">
+        SELECT
+            area_id
+        FROM
+            cust_area
+        WHERE
+            parent_id = #{areaId}
+    </select>
+</mapper>

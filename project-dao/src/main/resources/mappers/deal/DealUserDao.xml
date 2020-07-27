@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealUserDao">
+
+    <!--分页查询客户列表-->
+    <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealUserListVo">
+        SELECT
+            deal_user.deal_user_id,
+            deal_user.deal_user_name,
+            deal_user.phone,
+            deal_user.status,
+            deal_user.type,
+            deal_user.integral,
+            deal_user.create_time
+        FROM
+            deal_user AS deal_user
+        <where>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                deal_user.status = #{status}
+            </if>
+            <if test="dealUserName != null and dealUserName.trim() != ''">
+                AND deal_user.deal_user_name LIKE "%"#{dealUserName}"%"
+            </if>
+            <if test="dealPhone!= null and dealPhone.trim() != ''">
+                AND deal_user.phone = #{dealPhone}
+            </if>
+            <if test="type != null and !&quot;&quot;.equals(type)">
+                AND deal_user.type = #{type}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_user.create_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+            ORDER BY deal_user.create_time DESC
+    </select>
+
+    <!--根据userID获取客户信息-->
+    <select id="getDealUserInfoVo" resultType="com.project.modules.deal.vo.info.DealUserInfoVo">
+        SELECT
+            deal_user.deal_user_id,
+            deal_user.deal_user_name,
+            deal_user.phone,
+            deal_user.type,
+            deal_user.integral,
+            deal_user.create_time
+        FROM
+            deal_user AS deal_user
+        WHERE
+            deal_user.deal_user_id = #{dealUserId}
+    </select>
+
+    <!--获取所有用户ID集合-->
+    <select id="getDealUserList" resultType="com.project.modules.deal.vo.invoking.DealUserInvokingVo">
+        SELECT
+            deal_user_id,
+            deal_user_name
+        FROM
+            deal_user
+        WHERE
+            status = #{status}
+    </select>
+
+    <!--获取企业用户ID集合-->
+    <select id="getStoreUserList" resultType="com.project.modules.deal.vo.invoking.DealUserInvokingVo">
+        SELECT
+            deal_user_store.deal_store_id,
+            deal_user.deal_user_id,
+            deal_user.deal_user_name
+        FROM
+            deal_user AS deal_user
+            JOIN deal_user_store AS deal_user_store ON deal_user.deal_user_id = deal_user_store.deal_user_id
+        WHERE
+            deal_user_store.examine = #{examine}
+            AND deal_user.type = #{type}
+    </select>
+
+    <!--根据客户ID,客户类型和客户状态查询是否存在该客户-->
+    <select id="getCountDealUser" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            deal_user AS deal_user
+        WHERE
+            deal_user.status = #{status}
+            AND deal_user.deal_user_id = #{dealUserId}
+            AND deal_user.type = #{type}
+    </select>
+
+</mapper>

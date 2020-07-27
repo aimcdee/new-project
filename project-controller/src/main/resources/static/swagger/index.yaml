@@ -1,0 +1,7672 @@
+swagger: '2.0'
+info:
+  description: new-project管理后台API
+  version: 1.0.0
+  title: 新项目管理后台
+
+basePath: /
+
+schemes:
+  - http
+
+#认证
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "token"
+    in: "header"
+
+#定义接口数据
+paths:
+  /login:
+    post:
+      tags:
+        - 用户登录
+      summary: 用户登录
+      produces:
+        - application/json
+      parameters:
+        - name: "body"
+          description: 管理员对象
+          in: "body"
+          schema:
+            $ref: '#/definitions/LoginUserVo'
+          required: true
+      responses:
+        '200':
+          description: "token信息"
+          schema:
+            $ref: '#/definitions/Login'
+  /logout:
+    post:
+      tags:
+        - 用户登录
+      summary: 退出登录
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/user/check:
+    get:
+      tags:
+        - 用户管理
+      summary: 校验手机号码是否已存在
+      produces:
+        - application/json
+      parameters:
+        - name: phone
+          description: 手机号码
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回联系方式是否存在
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              schedule:
+                description: 返回联系方式是否存在
+  /sys/user/list:
+    get:
+      tags:
+        - 用户管理
+      summary: 查询用户列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: userName
+          description: 用户名
+          in: query
+          type: string
+        - name: phone
+          description: 用户手机号码
+          in: query
+          type: string
+        - name: deptId
+          description: 部门ID
+          in: query
+          type: integer
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回用户列表
+          schema:
+            $ref: '#/definitions/SysUserEntities'
+  /sys/user/save:
+    post:
+      tags:
+        - 用户管理
+      summary: 新增用户
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 用户对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysUserSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/user/info/{userId}:
+    get:
+      tags:
+        - 用户管理
+      summary: 获取用户信息
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          description: 用户ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回用户信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/SysUserInfoVo'
+  /sys/user/update:
+    post:
+      tags:
+        - 用户管理
+      summary: 修改用户
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 用户对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysUserUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/user/normal/{userId}:
+    get:
+      tags:
+        - 用户管理
+      summary: 修改用户状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          description: 用户ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/user/disable/{userId}:
+    get:
+      tags:
+        - 用户管理
+      summary: 修改用户状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          description: 用户ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/user/getSysUser:
+    get:
+      tags:
+        - 用户管理
+      summary: 获取用户ID和用户名称
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回用户信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/SysUserListInvokingVo'
+
+  /sys/dept/treeList:
+    get:
+      tags:
+        - 部门管理
+      summary: 部门树形列表
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回部门树形列表
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              deptList:
+                description: 部门列表
+                type: array
+                items:
+                  $ref: '#/definitions/SysDeptTreeVo'
+  /sys/dept/check:
+    get:
+      tags:
+        - 部门管理
+      summary: 校验部门名称是否已存在
+      produces:
+        - application/json
+      parameters:
+        - name: deptName
+          description: 部门名称
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回联系方式是否存在
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              schedule:
+                description: 返回部门名称是否存在
+  /sys/dept/list:
+    get:
+      tags:
+        - 部门管理
+      summary: 查询系统部门列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: deptId
+          description: 部门ID
+          in: query
+          type: integer
+        - name: deptName
+          description: 部门名称
+          in: query
+          type: string
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回部门列表
+          schema:
+            $ref: '#/definitions/SysDeptEntities'
+  /sys/dept/save:
+    post:
+      tags:
+        - 部门管理
+      summary: 新增部门
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 部门对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysDeptSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/dept/info/{deptId}:
+    get:
+      tags:
+        - 部门管理
+      summary: 获取部门信息
+      produces:
+        - application/json
+      parameters:
+        - name: deptId
+          description: 部门ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回部门信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/SysDeptInfoVo'
+  /sys/dept/update:
+    post:
+      tags:
+        - 部门管理
+      summary: 修改部门
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 部门对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysDeptUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/dept/normal/{deptId}:
+    get:
+      tags:
+        - 部门管理
+      summary: 修改部门状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: deptId
+          description: 部门ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/dept/disable/{deptId}:
+    get:
+      tags:
+        - 部门管理
+      summary: 修改部门状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: deptId
+          description: 部门ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/dept/delete/{deptId}:
+    get:
+      tags:
+        - 部门管理
+      summary: 删除部门
+      produces:
+        - application/json
+      parameters:
+        - name: deptId
+          description: 部门ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+  /sys/role/check:
+    get:
+      tags:
+        - 角色管理
+      summary: 校验角色名称是否已存在
+      produces:
+        - application/json
+      parameters:
+        - name: roleName
+          description: 角色名称
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回角色名称是否已存在
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              schedule:
+                description: 返回角色名称是否已存在
+  /sys/role/list:
+    get:
+      tags:
+        - 角色管理
+      summary: 查询角色列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: roleName
+          description: 角色名称
+          in: query
+          type: string
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回角色列表
+          schema:
+            $ref: '#/definitions/SysRoleEntities'
+  /sys/role/save:
+    post:
+      tags:
+        - 角色管理
+      summary: 新增角色
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 角色对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysRoleSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/role/info/{roleId}:
+    get:
+      tags:
+        - 角色管理
+      summary: 获取角色信息
+      produces:
+        - application/json
+      parameters:
+        - name: roleId
+          description: 角色ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回角色信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/SysDeptInfoVo'
+  /sys/role/update:
+    post:
+      tags:
+        - 角色管理
+      summary: 修改角色
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 角色对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysRoleUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/role/normal/{roleId}:
+    get:
+      tags:
+        - 角色管理
+      summary: 修改角色状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: roleId
+          description: 角色ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/role/disable/{roleId}:
+    get:
+      tags:
+        - 角色管理
+      summary: 修改角色状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: roleId
+          description: 角色ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/role/delete/{roleId}:
+    get:
+      tags:
+        - 角色管理
+      summary: 删除角色
+      produces:
+        - application/json
+      parameters:
+        - name: roleId
+          description: 角色ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+  /sys/menu/nav:
+    get:
+      tags:
+        - 菜单管理
+      summary: 导航菜单列表
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回导航菜单列表
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              menuList:
+                description: 菜单列表
+                type: array
+                items:
+                  $ref: '#/definitions/SysMenuEntity'
+              permissions:
+                description: 权限列表
+                type: array
+                items:
+                  type: string
+  /sys/menu/pageList:
+    get:
+      tags:
+        - 菜单管理
+      summary: 查询菜单列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+      responses:
+        '200':
+          description: 返回菜单列表
+          schema:
+            $ref: '#/definitions/SysMenuEntities'
+  /sys/menu/list:
+    get:
+      tags:
+        - 菜单管理
+      summary: 菜单列表
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回菜单列表
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SysMenuEntity'
+  /sys/menu/select:
+    get:
+      tags:
+        - 菜单管理
+      summary: 选择菜单
+      description: 添加、修改菜单的时候，选择上级菜单接口
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回菜单列表
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              menuList:
+                description: 菜单列表
+                type: array
+                items:
+                  $ref: '#/definitions/SysMenuEntity'
+  /sys/menu/info/{menuId}:
+    get:
+      tags:
+        - 菜单管理
+      summary: 获取菜单信息
+      produces:
+        - application/json
+      parameters:
+        - name: menuId
+          description: 菜单ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回菜单信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              menu:
+                description: 菜单信息
+                $ref: '#/definitions/SysMenuEntity'
+  /sys/menu/save:
+    post:
+      tags:
+        - 菜单管理
+      summary: 添加菜单
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 菜单对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysMenuEntityEdit'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/menu/update:
+    post:
+      tags:
+        - 菜单管理
+      summary: 修改菜单
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 菜单对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysMenuEntityEdit'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/menu/delete/{menuId}:
+    post:
+      tags:
+        - 菜单管理
+      summary: 删除菜单
+      produces:
+        - application/json
+      parameters:
+        - name: menuId
+          description: 菜单ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+  /sys/config/checkName:
+    get:
+      tags:
+        - 参数管理
+      summary: 校验配置名称是否已存在
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          description: 配置名称
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回配置名称是否已存在
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              schedule:
+                description: 返回配置名称是否已存在
+  /sys/config/checkCode:
+    get:
+      tags:
+        - 参数管理
+      summary: 校验配置编码是否已存在
+      produces:
+        - application/json
+      parameters:
+        - name: code
+          description: 配置编码
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回配置编码是否已存在
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              schedule:
+                description: 返回配置编码是否已存在
+  /sys/config/list:
+    get:
+      tags:
+        - 参数管理
+      summary: 分页查询参数配置列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: key
+          description: 参数名
+          in: query
+          type: string
+      responses:
+        '200':
+          description: 返回参数列表
+          schema:
+            $ref: '#/definitions/SysConfigEntities'
+  /sys/config/save:
+    post:
+      tags:
+        - 参数管理
+      summary: 新增参数配置
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 参数对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysConfigSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/config/info/{configId}:
+    get:
+      tags:
+        - 参数管理
+      summary: 获取参数配置信息
+      produces:
+        - application/json
+      parameters:
+        - name: configId
+          description: 参数ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回参数信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/SysConfigInfoVo'
+  /sys/config/update:
+    post:
+      tags:
+        - 参数管理
+      summary: 修改参数配置
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 参数对象
+          in: body
+          schema:
+            $ref: '#/definitions/SysConfigUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/config/normal/{configId}:
+    get:
+      tags:
+        - 参数管理
+      summary: 修改参数配置状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: configId
+          description: 配置ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /sys/config/disable/{configId}:
+    get:
+      tags:
+        - 参数管理
+      summary: 修改参数配置状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: configId
+          description: 配置ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+  /cust/area/treeList:
+    get:
+      tags:
+        - 区域管理
+      summary: 区域树形列表
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回区域树形列表
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              menuList:
+                description: 区域列表
+                type: array
+                items:
+                  $ref: '#/definitions/CustAreaTreeVo'
+  /cust/area/list:
+    get:
+      tags:
+        - 区域管理
+      summary: 分页查询区域列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: areaId
+          description: 区域ID
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回区域列表
+          schema:
+            $ref: '#/definitions/CustAreaEntities'
+  /cust/area/province:
+    get:
+      tags:
+        - 区域管理
+      summary: 查看省份
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回省份信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回省份信息
+                $ref: '#/definitions/CustAreaInvokingVo'
+  /cust/area/city/{areaId}:
+    get:
+      tags:
+        - 区域管理
+      summary: 查看市区
+      produces:
+        - application/json
+      parameters:
+        - name: areaId
+          description: 区域ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回市区信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回市区信息
+                $ref: '#/definitions/CustAreaInvokingVo'
+  /cust/area/county/{areaId}:
+    get:
+      tags:
+        - 区域管理
+      summary: 查看县/区
+      produces:
+        - application/json
+      parameters:
+        - name: areaId
+          description: 区域ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回县/区信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回县/区信息
+                $ref: '#/definitions/CustAreaInvokingVo'
+  /conf/banner/list:
+    get:
+      tags:
+        - 轮播图管理
+      summary: 分页查询轮播图列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: bannerName
+          description: 轮播图标题
+          in: query
+          type: string
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回轮播图列表
+          schema:
+            $ref: '#/definitions/ConfBannerEntities'
+  /conf/banner/upload/image:
+    post:
+      tags:
+        - 轮播图管理
+      summary: 轮播图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /conf/banner/delete/image:
+    get:
+      tags:
+        - 轮播图管理
+      summary: 删除轮播图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /conf/banner/save:
+    post:
+      tags:
+        - 轮播图管理
+      summary: 新增轮播图信息
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 轮播图对象
+          in: body
+          schema:
+            $ref: '#/definitions/ConfBannerSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /conf/banner/info/{bannerId}:
+    get:
+      tags:
+        - 轮播图管理
+      summary: 获取轮播图信息
+      produces:
+        - application/json
+      parameters:
+        - name: bannerId
+          description: 轮播图ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回轮播图信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回轮播图信息
+                $ref: '#/definitions/ConfBannerInfoVo'
+  /conf/banner/update:
+    post:
+      tags:
+        - 轮播图管理
+      summary: 修改轮播图信息
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 轮播图对象
+          in: body
+          schema:
+            $ref: '#/definitions/ConfBannerUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /conf/banner/normal/{bannerId}:
+    get:
+      tags:
+        - 轮播图管理
+      summary: 修改轮播图状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: bannerId
+          description: 轮播图ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /conf/banner/disable/{bannerId}:
+    get:
+      tags:
+        - 轮播图管理
+      summary: 修改轮播图状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: bannerId
+          description: 轮播图ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/list:
+    get:
+      tags:
+        - 品牌管理-商品模块
+      summary: 分页查询商品列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: couBrandId
+          description: 所属品牌ID
+          in: query
+          type: integer
+        - name: couSeriesId
+          description: 所属系列ID
+          in: query
+          type: integer
+        - name: couModelId
+          description: 所属型号ID
+          in: query
+          type: integer
+        - name: couWaresName
+          description: 商品名称
+          in: query
+          type: string
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回商品列表
+          schema:
+            $ref: '#/definitions/CouWaresEntities'
+  /cou/wares/save:
+    post:
+      tags:
+        - 品牌管理-商品模块
+      summary: 新增商品信息
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 商品对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/info/{couWaresId}:
+    get:
+      tags:
+        - 品牌管理-商品模块
+      summary: 获取商品信息
+      produces:
+        - application/json
+      parameters:
+        - name: couWaresId
+          description: 商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回商品对象信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/CouWaresInfoVo'
+  /cou/wares/update:
+    post:
+      tags:
+        - 品牌管理-商品模块
+      summary: 修改商品信息
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 商品对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/normal/{couWaresId}:
+    get:
+      tags:
+        - 品牌管理-商品模块
+      summary: 修改商品状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: couWaresId
+          description: 商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/disable/{couWaresId}:
+    get:
+      tags:
+        - 品牌管理-商品模块
+      summary: 修改商品状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: couWaresId
+          description: 商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/getCouWaresList/{couSeriesId}:
+    get:
+      tags:
+        - 品牌管理-商品模块
+      summary: 获取根据品牌系列ID所有商品对象
+      produces:
+        - application/json
+      parameters:
+        - name: couSeriesId
+          description: 品牌系列ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回商品信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/CouWaresInvokingVo'
+  /cou/wares/brand/list:
+    get:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 分页查询品牌列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: couBrandName
+          description: 品牌名称
+          in: query
+          type: string
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回品牌列表
+          schema:
+            $ref: '#/definitions/CouWaresBrandEntities'
+  /cou/wares/brand/upload/image:
+    post:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 上传品牌logo图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/brand/delete/image:
+    get:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 删除品牌logo图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/brand/save:
+    post:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 新增品牌信息
+      produces:
+        - application/json
+      parameters:
+        - name: brand
+          description: 品牌对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresBrandSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/brand/info/{couBrandId}:
+    get:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 获取品牌信息
+      produces:
+        - application/json
+      parameters:
+        - name: couBrandId
+          description: 品牌ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回品牌对象信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/CouWaresBrandInfoVo'
+  /cou/wares/brand/update:
+    post:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 修改品牌信息
+      produces:
+        - application/json
+      parameters:
+        - name: brand
+          description: 品牌对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresBrandUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/brand/normal/{couBrandId}:
+    get:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 修改品牌状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: couBrandId
+          description: 品牌ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/brand/disable/{couBrandId}:
+    get:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 修改品牌状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: couBrandId
+          description: 品牌ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/brand/getCouBrandList:
+    get:
+      tags:
+        - 品牌管理-品牌模块
+      summary: 获取所有品牌对象
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回品牌信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/CouWaresBrandInvokingVo'
+  /cou/wares/series/list:
+    get:
+      tags:
+        - 品牌管理-系列模块
+      summary: 分页查询品牌系列列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: couBrandId
+          description: 品牌ID
+          in: query
+          type: integer
+        - name: couSeriesName
+          description: 品牌系列名称
+          in: query
+          type: string
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: 返回品牌系列列表
+          schema:
+            $ref: '#/definitions/CouWaresBrandSeriesEntities'
+  /cou/wares/series/save:
+    post:
+      tags:
+        - 品牌管理-系列模块
+      summary: 新增品牌系列信息
+      produces:
+        - application/json
+      parameters:
+        - name: series
+          description: 品牌系列对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresSeriesSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/series/info/{couSeriesId}:
+    get:
+      tags:
+        - 品牌管理-系列模块
+      summary: 获取品牌系列信息
+      produces:
+        - application/json
+      parameters:
+        - name: couSeriesId
+          description: 品牌系列ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回品牌系列信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/CouWaresSeriesInfoVo'
+  /cou/wares/series/update:
+    post:
+      tags:
+        - 品牌管理-系列模块
+      summary: 修改品牌系列信息
+      produces:
+        - application/json
+      parameters:
+        - name: series
+          description: 品牌系列对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresSeriesUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/series/normal/{couSeriesId}:
+    get:
+      tags:
+        - 品牌管理-系列模块
+      summary: 修改品牌系列状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: couSeriesId
+          description: 品牌系列ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/series/disable/{couSeriesId}:
+    get:
+      tags:
+        - 品牌管理-系列模块
+      summary: 修改品牌系列状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: couSeriesId
+          description: 品牌系列ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/series/getCouSeriesList/{couBrandId}:
+    get:
+      tags:
+        - 品牌管理-系列模块
+      summary: 根据品牌ID获取所有品牌系列对象
+      produces:
+        - application/json
+      parameters:
+        - name: couBrandId
+          description: 品牌ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回品牌系列信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/CouWaresSeriesInvokingVo'
+  /cou/wares/model/list:
+    get:
+      tags:
+        - 品牌管理-型号模块
+      summary: 分页查询商品型号列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: couModelName
+          description: 商品类型名称
+          in: query
+          type: string
+        - name: status
+          description: 状态 0.禁用 1.正常
+          in: query
+          type: string
+      responses:
+        '200':
+          description: 返回商品型号列表
+          schema:
+            $ref: '#/definitions/CouWaresModelEntities'
+  /cou/wares/model/upload/image:
+    post:
+      tags:
+        - 品牌管理-型号模块
+      summary: 上传商品型号图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/model/delete/image:
+    get:
+      tags:
+        - 品牌管理-型号模块
+      summary: 删除商品型号图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/model/save:
+    post:
+      tags:
+        - 品牌管理-型号模块
+      summary: 新增商品型号信息
+      produces:
+        - application/json
+      parameters:
+        - name: model
+          description: 商品型号对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresModelSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/model/info/{couModelId}:
+    get:
+      tags:
+        - 品牌管理-型号模块
+      summary: 获取商品型号信息
+      produces:
+        - application/json
+      parameters:
+        - name: couModelId
+          description: 商品型号ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回商品型号信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/CouWaresModelInfoVo'
+  /cou/wares/model/update:
+    post:
+      tags:
+        - 品牌管理-型号模块
+      summary: 修改商品型号信息
+      produces:
+        - application/json
+      parameters:
+        - name: model
+          description: 商品型号对象
+          in: body
+          schema:
+            $ref: '#/definitions/CouWaresModelUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/model/normal/{couModelId}:
+    get:
+      tags:
+        - 品牌管理-型号模块
+      summary: 修改商品型号状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: couModelId
+          description: 商品型号ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/model/disable/{couModelId}:
+    get:
+      tags:
+        - 品牌管理-型号模块
+      summary: 修改商品型号状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: couModelId
+          description: 商品型号ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /cou/wares/model/getCouModelList:
+    get:
+      tags:
+        - 品牌管理-型号模块
+      summary: 获取所有商品型号对象
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回商品型号信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/CouWaresModelInvokingVo'
+  /deal/user/list:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 分页查询状态为正常的客户列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealUserName
+          description: 客户名称
+          in: query
+          type: string
+        - name: phone
+          description: 客户手机号码
+          in: query
+          type: string
+        - name: type
+          description: 客户类型 0.个人客户 1.企业客户
+          in: query
+          type: integer
+        - name: status
+          description: 状态 0.禁用 1正常
+          in: query
+          type: integer
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回客户列表
+          schema:
+            $ref: '#/definitions/DealUserEntities'
+  /deal/user/save:
+    post:
+      tags:
+        - 客户商品-客户模块
+      summary: 新增客户
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 客户对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/info/{dealUserId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 获取客户信息
+      produces:
+        - application/json
+      parameters:
+        - name: dealUserId
+          description: 客户ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回客户信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserInfoVo'
+  /deal/user/update:
+    post:
+      tags:
+        - 客户商品-客户模块
+      summary: 修改客户配置
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 客户对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/normal/{dealUserId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 修改客户状态为启用
+      produces:
+        - application/json
+      parameters:
+        - name: dealUserId
+          description: 客户ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/disable/{dealUserId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 修改客户状态为禁用
+      produces:
+        - application/json
+      parameters:
+        - name: dealUserId
+          description: 客户ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/getDealUserList:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 获取用户集合
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回客户信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserInvokingVo'
+  /deal/user/getStoreUserList:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 获取企业用户集合
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回客户信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserInvokingVo'
+  /deal/user/cashOut/{dealUserId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 客户提现
+      produces:
+        - application/json
+      parameters:
+        - name: dealStoreId
+          description: 客户企业ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+  /deal/user/store/listPage:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 分页企业的申请记录
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealUserId
+          description: 客户ID
+          in: query
+          type: integer
+        - name: dealUserPhone
+          description: 客户联系电话
+          in: query
+          type: string
+      responses:
+        '200':
+          description: 返回客户列表
+          schema:
+            $ref: '#/definitions/DealStoreEntities'
+  /deal/user/store/upload/image:
+    post:
+      tags:
+        - 客户商品-客户模块
+      summary: 上传客户企业门面图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: phone
+          description: 客户手机号码
+          in: query
+          type: string
+          required: true
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/delete/image:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 删除客户企业门面图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/save:
+    post:
+      tags:
+        - 客户商品-客户模块
+      summary: 申请企业认证
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          description: 企业认证对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/list:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 分页客户查看申请成为企业的申请记录
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealUserId
+          description: 客户ID
+          in: query
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回客户列表
+          schema:
+            $ref: '#/definitions/DealUserStoreEntities'
+  /deal/user/store/info/{dealStoreId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 查看客户企业验证详情
+      produces:
+        - application/json
+      parameters:
+        - name: dealStoreId
+          description: 客户企业ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回企业认证信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserStoreInfoVo'
+  /deal/user/store/fail/{dealStoreId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 审核客户企业验证为失败
+      produces:
+        - application/json
+      parameters:
+        - name: dealStoreId
+          description: 客户企业ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/success/{dealStoreId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 审核客户企业验证为成功
+      produces:
+        - application/json
+      parameters:
+        - name: dealStoreId
+          description: 客户企业ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/waste/{dealStoreId}:
+    get:
+      tags:
+        - 客户商品-客户模块
+      summary: 审核客户企业验证为作废
+      produces:
+        - application/json
+      parameters:
+        - name: dealStoreId
+          description: 客户企业ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/deposit/list:
+    get:
+      tags:
+        - 客户商品-保证金模块
+      summary: 分页查询保证金单列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealPhone
+          description: 所属客户手机号码
+          in: query
+          type: string
+        - name: status
+          description: 审核状态 0.放弃 1.驳回 2.财务审核中 3.经理审核中 4.通过
+          in: query
+          type: integer
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回保证金列表
+          schema:
+            $ref: '#/definitions/DealUserStoreDepositEntities'
+  /deal/user/store/deposit/save:
+    post:
+      tags:
+        - 客户商品-保证金模块
+      summary: 新增保证金单
+      produces:
+        - application/json
+      parameters:
+        - name: deposit
+          description: 保证金对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreDepositSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/deposit/info/{depositId}:
+    get:
+      tags:
+        - 客户商品-保证金模块
+      summary: 查看客户企业保证金单详情
+      produces:
+        - application/json
+      parameters:
+        - name: depositId
+          description: 保证金ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回保证金单信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserStoreDepositInfoVo'
+  /deal/user/store/deposit/update:
+    post:
+      tags:
+        - 客户商品-保证金模块
+      summary: 修改保证金单
+      produces:
+        - application/json
+      parameters:
+        - name: deposit
+          description: 保证金对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreDepositUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/deposit/cancel/{depositId}:
+    get:
+      tags:
+        - 客户商品-保证金模块
+      summary: 修改单据状态为放弃
+      produces:
+        - application/json
+      parameters:
+        - name: depositId
+          description: 保证金ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/deposit/reject:
+    post:
+      tags:
+        - 客户商品-保证金模块
+      summary: 修改单据状态为驳回
+      produces:
+        - application/json
+      parameters:
+        - name: deposit
+          description: 保证金对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreDepositInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/deposit/manager:
+    post:
+      tags:
+        - 客户商品-保证金模块
+      summary: 修改单据状态为经理审核
+      produces:
+        - application/json
+      parameters:
+        - name: deposit
+          description: 保证金对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreDepositInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/deposit/success:
+    post:
+      tags:
+        - 客户商品-保证金模块
+      summary: 修改单据状态为已通过
+      produces:
+        - application/json
+      parameters:
+        - name: deposit
+          description: 保证金对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreDepositInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/deposit/getExamineList/{depositId}:
+    get:
+      tags:
+        - 客户商品-保证金模块
+      summary: 获取保证金单据的审核记录
+      produces:
+        - application/json
+      parameters:
+        - name: depositId
+          description: 保证金ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回审核信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealBillExamineInvokingVo'
+  /deal/user/store/refund/list:
+    get:
+      tags:
+        - 客户商品-退费单模块
+      summary: 分页查询退费单列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealPhone
+          description: 所属客户手机号码
+          in: query
+          type: string
+        - name: status
+          description: 审核状态 0.放弃 1.驳回 2.财务审核中 3.经理审核中 4.通过
+          in: query
+          type: integer
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回退费单列表
+          schema:
+            $ref: '#/definitions/DealUserStoreRefundEntities'
+  /deal/user/store/refund/save:
+    post:
+      tags:
+        - 客户商品-退费单模块
+      summary: 新增退费单
+      produces:
+        - application/json
+      parameters:
+        - name: refund
+          description: 退费单对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreRefundSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/refund/info/{refundId}:
+    get:
+      tags:
+        - 客户商品-退费单模块
+      summary: 查看企业客户退费单详情
+      produces:
+        - application/json
+      parameters:
+        - name: refundId
+          description: 退费单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回退费单信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserStoreRefundInfoVo'
+  /deal/user/store/refund/update:
+    post:
+      tags:
+        - 客户商品-退费单模块
+      summary: 修改退费单
+      produces:
+        - application/json
+      parameters:
+        - name: refund
+          description: 退费单对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreRefundUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/refund/cancel/{refundId}:
+    get:
+      tags:
+        - 客户商品-退费单模块
+      summary: 修改单据状态为放弃
+      produces:
+        - application/json
+      parameters:
+        - name: refundId
+          description: 退费单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/refund/reject:
+    post:
+      tags:
+        - 客户商品-退费单模块
+      summary: 修改单据状态为驳回
+      produces:
+        - application/json
+      parameters:
+        - name: refund
+          description: 退费单对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreRefundInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/refund/manager:
+    post:
+      tags:
+        - 客户商品-退费单模块
+      summary: 修改单据状态为经理审核
+      produces:
+        - application/json
+      parameters:
+        - name: refund
+          description: 退费单对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreRefundInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/refund/success:
+    post:
+      tags:
+        - 客户商品-退费单模块
+      summary: 修改单据状态为已通过
+      produces:
+        - application/json
+      parameters:
+        - name: refund
+          description: 退费单对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreRefundInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/refund/getExamineList/{refundId}:
+    get:
+      tags:
+        - 客户商品-退费单模块
+      summary: 获取退费单单据的审核记录
+      produces:
+        - application/json
+      parameters:
+        - name: refundId
+          description: 退费单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回审核信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealBillExamineInvokingVo'
+  /deal/user/store/finance/list:
+    get:
+      tags:
+        - 客户商品-金融单模块
+      summary: 分页查询金融单列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealPhone
+          description: 所属企业客户手机号码
+          in: query
+          type: integer
+        - name: contactPhone
+          description: 联系电话
+          in: query
+          type: string
+        - name: contactName
+          description: 联系人名称
+          in: query
+          type: string
+        - name: status
+          description: 审核状态 0.作废 1.待处理 2.处理中 3.已完成
+          in: query
+          type: integer
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回金融单列表
+          schema:
+            $ref: '#/definitions/DealUserStoreFinanceEntities'
+  /deal/user/store/finance/save:
+    post:
+      tags:
+        - 客户商品-金融单模块
+      summary: 新增金融单
+      produces:
+        - application/json
+      parameters:
+        - name: finance
+          description: 金融单对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreFinanceSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/finance/info/{financeId}:
+    get:
+      tags:
+        - 客户商品-金融单模块
+      summary: 查看企业客户退费单详情
+      produces:
+        - application/json
+      parameters:
+        - name: financeId
+          description: 金融单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回金融单信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserStoreFinanceInfoVo'
+  /deal/user/store/finance/checkpending:
+    post:
+      tags:
+        - 客户商品-金融单模块
+      summary: 修改金融单状态为处理中
+      produces:
+        - application/json
+      parameters:
+        - name: finance
+          description: 金融单跟进对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealFinanceFollowInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/finance/waste/{financeId}:
+    get:
+      tags:
+        - 客户商品-金融单模块
+      summary: 修改金融单状态为已作废
+      produces:
+        - application/json
+      parameters:
+        - name: financeId
+          description: 金融单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/finance/success:
+    post:
+      tags:
+        - 客户商品-金融单模块
+      summary: 修改金融单状态为已完成
+      produces:
+        - application/json
+      parameters:
+        - name: finance
+          description: 金融单金额对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealFinancePriceInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/user/store/finance/getExamineList/{financeId}:
+    get:
+      tags:
+        - 客户商品-金融单模块
+      summary: 获取金融单的审核记录
+      produces:
+        - application/json
+      parameters:
+        - name: financeId
+          description: 金融单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回金融单信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealBillExamineInvokingVo'
+  /deal/assess/list:
+    get:
+      tags:
+        - 客户商品-评估模块
+      summary: 分页查询商品评估列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: status
+          description: 个人商品审核状态 0.待审核   1.已审核   2.已作废
+          in: query
+          type: integer
+        - name: dealUserId
+          description: 客户ID
+          in: query
+          type: integer
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回商品评价列表
+          schema:
+            $ref: '#/definitions/DealAssessEntities'
+  /deal/assess/upload/waresImage:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 评估商品图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: phone
+          description: 客户手机号码
+          in: query
+          type: string
+          required: true
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/upload/drivingImage:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 行驶证图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: phone
+          description: 客户手机号码
+          in: query
+          type: string
+          required: true
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/delete/image:
+    get:
+      tags:
+        - 客户商品-评估模块
+      summary: 删除商品评估图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/save:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 新增商品评估信息
+      produces:
+        - application/json
+      parameters:
+        - name: waresType
+          description: 商品评估对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealAssessSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/info/{dealAssessId}:
+    get:
+      tags:
+        - 客户商品-评估模块
+      summary: 获取商品评估信息
+      produces:
+        - application/json
+      parameters:
+        - name: dealAssessId
+          description: 商品评估ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回商品评估信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/DealAssessInfoVo'
+  /deal/assess/update:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 商品评估价格
+      produces:
+        - application/json
+      parameters:
+        - name: waresType
+          description: 商品评估对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealAssessUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/waste/{dealAssessId}:
+    get:
+      tags:
+        - 客户商品-评估模块
+      summary: 审核客户提交的评估作废
+      produces:
+        - application/json
+      parameters:
+        - name: dealAssessId
+          description: 评估ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/sell/list:
+    get:
+      tags:
+        - 客户商品-评估模块
+      summary: 分页查询个人评估商品出售列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: status
+          description: 出售情况 0.已取消 1.待处理 2.处理中 3.已完成
+          in: query
+          type: integer
+        - name: contactName
+          description: 联系人名称
+          in: query
+          type: string
+        - name: contactPhone
+          description: 联系人电话
+          in: query
+          type: string
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回个人评估商品出售列表
+          schema:
+            $ref: '#/definitions/DealAssessSellEntities'
+  /deal/assess/sell/save:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 新增个人评估商品出售
+      produces:
+        - application/json
+      parameters:
+        - name: sell
+          description: 个人评估商品出售对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealAssessSellSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/sell/info/{dealSellId}:
+    get:
+      tags:
+        - 客户商品-评估模块
+      summary: 根据个人评估商品出售ID获取个人评估商品出售详情
+      produces:
+        - application/json
+      parameters:
+        - name: dealSellId
+          description: 评估商品出售ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回个人评估商品出售信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/DealAssessSellInfoVo'
+  /deal/assess/sell/update:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 修改个人评估商品出售信息
+      produces:
+        - application/json
+      parameters:
+        - name: sell
+          description: 个人评估商品出售对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealAssessSellUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/sell/processing:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 修改个人评估商品出售状态为处理中
+      produces:
+        - application/json
+      parameters:
+        - name: sell
+          description: 个人评估商品出售跟进人对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealSellFollowInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/sell/cancel/{dealSellId}:
+    get:
+      tags:
+        - 客户商品-评估模块
+      summary: 修改个人评估商品出售状态为已取消
+      produces:
+        - application/json
+      parameters:
+        - name: dealSellId
+          description: 评估商品出售ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/assess/sell/success:
+    post:
+      tags:
+        - 客户商品-评估模块
+      summary: 修改个人评估商品出售状态为已完成
+      produces:
+        - application/json
+      parameters:
+        - name: sell
+          description: 个人评估商品出售对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealSellPriceInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/list:
+    get:
+      tags:
+        - 客户商品-商品模块
+      summary: 分页查询企业商品列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealWaresTitle
+          description: 出售商品标题
+          in: query
+          type: string
+        - name: releaseAreaId
+          description: 发布区域ID
+          in: query
+          type: integer
+        - name: couBrandId
+          description: 所属品牌ID
+          in: query
+          type: integer
+        - name: couSeriesId
+          description: 所属品牌系列ID
+          in: query
+          type: integer
+        - name: couWaresId
+          description: 所属商品ID
+          in: query
+          type: integer
+        - name: couModelId
+          description: 所属商品型号ID
+          in: query
+          type: integer
+        - name: dealStoreId
+          description: 所属客户企业ID
+          in: query
+          type: integer
+        - name: proAreaId
+          description: 所属区域省级ID
+          in: query
+          type: integer
+        - name: cityAreaId
+          description: 所属区域市级ID
+          in: query
+          type: integer
+        - name: countyAreaId
+          description: 所属区域县/区级ID
+          in: query
+          type: integer
+        - name: onlineStatus
+          description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+          in: query
+          type: integer
+        - name: sellStatus
+          description: 出售状态 0.未出售 1.已出售
+          in: query
+          type: integer
+        - name: startTime
+          description: 提交开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 提交结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回商品评价列表
+          schema:
+            $ref: '#/definitions/DealWaresEntities'
+  /deal/wares/upload/waresImage:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 出售商品图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: phone
+          description: 客户手机号码
+          in: query
+          type: string
+          required: true
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/upload/drivingImage:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 行驶证图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: phone
+          description: 客户手机号码
+          in: query
+          type: string
+          required: true
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/delete/image:
+    get:
+      tags:
+        - 客户商品-商品模块
+      summary: 删除出售商品图/行驶证图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/save:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 新增出售商品
+      produces:
+        - application/json
+      parameters:
+        - name: sell
+          description: 出售商品对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/info/{dealWaresId}:
+    get:
+      tags:
+        - 客户商品-商品模块
+      summary: 根据出售商品ID获取出售商品详情
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 出售商品ID
+          in: path
+          type: String
+          required: true
+      responses:
+        '200':
+          description: 返回出售商品详情
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/DealWaresInfoVo'
+  /deal/wares/update:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 更新出售商品
+      produces:
+        - application/json
+      parameters:
+        - name: sell
+          description: 出售商品对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/reject:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 修改企业商品上线状态为驳回
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 商品审核信息
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/manager:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 修改企业商品上线状态为经理审核
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 商品审核信息
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/onLine:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 修改企业商品上线状态为上架
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 商品审核信息
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/unLine/{dealWaresId}:
+    get:
+      tags:
+        - 客户商品-商品模块
+      summary: 修改企业商品上线状态为下架
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 企业商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/sale/{dealWaresId}:
+    get:
+      tags:
+        - 客户商品-商品模块
+      summary: 修改企业商品出售情况为已出售
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 企业商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/installment/list:
+    get:
+      tags:
+        - 客户商品-分期模块
+      summary: 分页查询咨询分期列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: dealWaresTitle
+          description: 出售商品标题
+          in: query
+          type: string
+        - name: contactName
+          description: 联系人名称
+          in: query
+          type: string
+        - name: contactPhone
+          description: 联系电话
+          in: query
+          type: string
+        - name: dealUserName
+          description: 所属客户名称
+          in: query
+          type: string
+        - name: dealUserId
+          description: 所属客户ID
+          in: query
+          type: integer
+        - name: followStatus
+          description: 跟进状态 0.作废 1.待处理 2.已完成
+          in: query
+          type: integer
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回咨询分期列表
+          schema:
+            $ref: '#/definitions/DealWaresInstallmentEntities'
+  /deal/wares/installment/save:
+    post:
+      tags:
+        - 客户商品-分期模块
+      summary: 新增咨询分期
+      produces:
+        - application/json
+      parameters:
+        - name: sell
+          description: 咨询分期客户对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresInstallmentSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/installment/info/{installmentId}:
+    get:
+      tags:
+        - 客户商品-分期模块
+      summary: 根据咨询分期ID获取咨询分期详情
+      produces:
+        - application/json
+      parameters:
+        - name: installmentId
+          description: 咨询分期ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回出售商品详情
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/DealWaresInstallmentInfoVo'
+  /deal/wares/installment/waste:
+    post:
+      tags:
+        - 客户商品-分期模块
+      summary: 新增修改咨询分期单跟进状态为作废
+      produces:
+        - application/json
+      parameters:
+        - name: finance
+          description: 咨询分期跟进对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealInstallmentFollowInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/installment/success:
+    post:
+      tags:
+        - 客户商品-分期模块
+      summary: 新增修改咨询分期单跟进状态为已跟进
+      produces:
+        - application/json
+      parameters:
+        - name: finance
+          description: 咨询分期跟进对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealInstallmentFollowInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+#定义数据模型
+definitions:
+  R:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      msg:
+        description: 失败原因
+        type: string
+  Login:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      token:
+        description: token
+        type: string
+      expire:
+        description: 过期时长
+        type: integer
+        format: int32
+      msg:
+        description: 失败原因
+        type: string
+  LoginUserVo:
+    type: object
+    properties:
+      phone:
+        description: 用户名
+        type: string
+      password:
+        description: 密码
+        type: string
+
+  SysUserListVo:
+    type: object
+    properties:
+      userId:
+        description: 用户ID
+        type: integer
+        format: int64
+      userName:
+        description: 用户名
+        type: string
+      phone:
+        description: 手机号
+        type: string
+      status:
+        description: 状态  0：禁用   1：正常
+        type: integer
+        format: int32
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      deptName:
+        description: 部门名称
+        type: string
+        format: int64
+      roleList:
+        description: 角色列表
+        type: object
+        properties:
+          roleId:
+            description: 角色ID
+            type: integer
+          roleName:
+            description: 角色名称
+            type: string
+  SysUserEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/SysUserListVo'
+  SysUserInfoVo:
+    type: object
+    properties:
+      userId:
+        description: 用户ID
+        type: integer
+        format: int64
+      userName:
+        description: 用户名
+        type: string
+      phone:
+        description: 手机号
+        type: string
+      passworde:
+        description: 密码
+        type: string
+      confirm:
+        description: 确认密码
+        type: string
+      status:
+        description: 状态  0：禁用   1：正常
+        type: integer
+        format: int32
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      roleIdList:
+        description: 角色ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+  SysUserSaveVo:
+    type: object
+    properties:
+      userName:
+        description: 用户名
+        type: string
+      phone:
+        description: 手机号
+        type: string
+      password:
+        description: 密码
+        type: string
+      confirm:
+        description: 确认密码
+        type: string
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      roleIdList:
+        description: 角色ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+  SysUserUpdateVo:
+    type: object
+    properties:
+      userId:
+        description: 用户ID
+        type: integer
+        format: int64
+      userName:
+        description: 用户名
+        type: string
+      phone:
+        description: 手机号
+        type: string
+      password:
+        description: 密码
+        type: string
+      confirm:
+        description: 确认密码
+        type: string
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      roleIdList:
+        description: 角色ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+  SysUserListInvokingVo:
+    type: object
+    properties:
+      userId:
+        description: 用户ID
+        type: integer
+        format: int64
+      userName:
+        description: 用户名
+        type: string
+  SysDeptTreeVo:
+    type: object
+    properties:
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      deptName:
+        description: 部门名称
+        type: string
+      parentId:
+        description: 上级部门ID
+        type: integer
+        format: int64
+      parentName:
+        description: 上级部门名称
+        type: string
+
+  SysDeptListVo:
+    type: object
+    properties:
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      deptName:
+        description: 部门名称
+        type: string
+      status:
+        description: 状态  0：禁用   1：正常
+        type: integer
+        format: int32
+      createTime:
+        description: 创建时间
+        type: string
+        format: date-time
+  SysDeptEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/SysDeptListVo'
+  SysDeptSaveVo:
+    type: object
+    properties:
+      deptName:
+        description: 部门名称
+        type: string
+      parentId:
+        description: 上级部门ID
+        type: integer
+        format: int64
+  SysDeptInfoVo:
+    type: object
+    properties:
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      deptName:
+        description: 部门名称
+        type: string
+      parentId:
+        description: 上级部门ID
+        type: integer
+        format: int64
+  SysDeptUpdateVo:
+    type: object
+    properties:
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      deptName:
+        description: 部门名称
+        type: string
+      parentId:
+        description: 上级部门ID
+        type: integer
+        format: int64
+  SysRoleListVo:
+    type: object
+    properties:
+      roleId:
+        description: 角色ID
+        type: integer
+        format: int64
+      roleName:
+        description: 角色名称
+        type: string
+      status:
+        description: 状态  0：禁用   1：正常
+        type: integer
+        format: int32
+      remake:
+        description: 备注
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
+        format: date-time
+  SysRoleEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/SysRoleListVo'
+  SysRoleSaveVo:
+    type: object
+    properties:
+      roleName:
+        description: 角色名称
+        type: string
+      remake:
+        description: 备注
+        type: string
+      deptIdList:
+        description: 部门ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+      menuIdList:
+        description: 菜单ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+  SysRoleInfoVo:
+    type: object
+    properties:
+      roleId:
+        description: 角色ID
+        type: integer
+        format: int64
+      roleName:
+        description: 角色名称
+        type: string
+      remake:
+        description: 备注
+        type: string
+      deptIdList:
+        description: 部门ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+      menuIdList:
+        description: 菜单ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+  SysRoleUpdateVo:
+    type: object
+    properties:
+      roleId:
+        description: 角色ID
+        type: integer
+        format: int64
+      roleName:
+        description: 角色名称
+        type: string
+      remake:
+        description: 备注
+        type: string
+      deptIdList:
+        description: 部门ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+      menuIdList:
+        description: 菜单ID列表
+        type: array
+        items:
+          type: integer
+          format: int32
+
+  SysMenuEntity:
+    type: object
+    properties:
+      menuId:
+        description: 菜单ID
+        type: integer
+        format: int64
+      name:
+        description: 菜单名称
+        type: string
+      parentId:
+        description: 父菜单ID，一级菜单为0
+        type: integer
+        format: int64
+      parentName:
+        description: 父菜单名称
+        type: string
+      url:
+        description: 菜单URL
+        type: string
+      perms:
+        description: 授权标识
+        type: string
+      type:
+        description: 类型     0：目录   1：菜单   2：按钮
+        type: integer
+        format: int32
+      icon:
+        description: 菜单图标
+        type: string
+      orderNum:
+        description: 排序
+        type: integer
+        format: int32
+      open:
+        description: 是否展开   true：展开   false：不展开
+        type: boolean
+        format: int32
+  SysMenuEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/SysRoleEntity'
+  SysMenuEntityEdit:
+    type: object
+    properties:
+      menuId:
+        description: 菜单ID
+        type: integer
+        format: int64
+      name:
+        description: 菜单名称
+        type: string
+      parentId:
+        description: 父菜单ID，一级菜单为0
+        type: integer
+        format: int64
+      url:
+        description: 菜单URL
+        type: string
+      perms:
+        description: 授权标识
+        type: string
+      type:
+        description: 类型     0：目录   1：菜单   2：按钮
+        type: integer
+        format: int32
+      icon:
+        description: 菜单图标
+        type: string
+      orderNum:
+        description: 排序
+        type: integer
+        format: int32
+  SysConfigListVo:
+    type: object
+    properties:
+      configId:
+        description: 配置ID
+        type: integer
+        format: int64
+      name:
+        description: 配置名称
+        type: string
+      code:
+        description: 配置编码
+        type: string
+      value:
+        description: 配置值
+        type: string
+      memo:
+        description: 配置显示值
+        type: string
+      status:
+        description: 状态  0：禁用   1：正常
+        type: integer
+        format: int32
+  SysConfigEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/SysConfigListVo'
+  SysConfigSaveVo:
+    type: object
+    properties:
+      name:
+        description: 配置名称
+        type: string
+      code:
+        description: 配置编码
+        type: string
+      value:
+        description: 配置值
+        type: string
+      memo:
+        description: 配置显示值
+        type: string
+  SysConfigInfoVo:
+    type: object
+    properties:
+      configId:
+        description: 配置ID
+        type: integer
+        format: int64
+      name:
+        description: 配置名称
+        type: string
+      code:
+        description: 配置编码
+        type: string
+      value:
+        description: 配置值
+        type: string
+      memo:
+        description: 配置显示值
+        type: string
+  SysConfigUpdateVo:
+    type: object
+    properties:
+      configId:
+        description: 配置ID
+        type: integer
+        format: int64
+      name:
+        description: 配置名称
+        type: string
+      code:
+        description: 配置编码
+        type: string
+      value:
+        description: 配置值
+        type: string
+      memo:
+        description: 配置显示值
+        type: string
+  ConfBannerListVo:
+    type: object
+    properties:
+      bannerId:
+        description: 轮播图ID
+        type: integer
+        format: int64
+      bannerName:
+        description: 轮播图标题
+        type: string
+      status:
+        description: 状态 0.禁用 1.正常
+        type: integer
+        format: int64
+      sort:
+        description: 排序
+        type: integer
+        format: int64
+      bannerWaresList:
+        type: array
+        items:
+          id:
+            description: 主键ID
+            type: integer
+            format: int64
+          bannerId:
+            description: 轮播图ID
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 企业商品ID
+            type: string
+          dealWaresName:
+            description: 企业商品名称
+            type: string
+          couWaresId:
+            description: 所属商品ID
+            type: integer
+            format: int64
+          couWaresName:
+            description: 所属商品名称
+            type: string
+          coverImage:
+            description: 企业商品封面图路径
+            type: string
+          dealAssessId:
+            description: 评估ID
+            type: integer
+            format: int64
+  ConfBannerEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/ConfbannerListVo'
+  ConfBannerSaveVo:
+    type: object
+    properties:
+      bannerName:
+        description: 轮播图标题
+        type: string
+      sort:
+        description: 排序
+        type: integer
+        format: int64
+      bannerWaresList:
+        description: 企业商品集合
+        type: array
+        items:
+          type: string
+  ConfBannerInfoVo:
+    type: object
+    properties:
+      bannerId:
+        description: 轮播图ID
+        type: integer
+        format: int64
+      bannerName:
+        description: 轮播图标题
+        type: string
+      sort:
+        description: 排序
+        type: integer
+        format: int64
+      bannerWaresList:
+        type: array
+        items:
+          id:
+            description: 主键ID
+            type: integer
+            format: int64
+          bannerId:
+            description: 轮播图ID
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 企业商品ID
+            type: string
+          dealWaresTitle:
+            description: 企业商品名称
+            type: string
+          image:
+            description: 企业商品封面图路径
+            type: string
+  ConfBannerUpdateVo:
+    type: object
+    properties:
+      bannerId:
+        description: 轮播图ID
+        type: integer
+        format: int64
+      bannerName:
+        description: 轮播图标题
+        type: string
+      sort:
+        description: 排序
+        type: integer
+        format: int64
+      bannerWaresList:
+        description: 企业商品集合
+        type: array
+        items:
+          type: string
+  CustAreaTreeVo:
+    type: object
+    properties:
+      areaId:
+        description: 区域ID
+        type: integer
+        format: int64
+      areaName:
+        description: 区域名称
+        type: string
+      parentId:
+        description: 上级区域ID
+        type: integer
+        format: int64
+      parentName:
+        description: 上级区域名称
+        type: string
+  CustAreaListVo:
+    type: object
+    properties:
+      areaId:
+        description: 部门ID
+        type: integer
+        format: int64
+      areaName:
+        description: 部门名称
+        type: string
+      parentId:
+        description: 上级区域ID
+        type: integer
+        format: int64
+      parentName:
+        description: 上级区域名称
+        type: string
+      type:
+        description: 区域类型 0.省 1.市 2.县/区
+        type: integer
+        format: int64
+  CustAreaEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/CustAreaListVo'
+  CustAreaInvokingVo:
+    type: object
+    properties:
+      areaId:
+        description: 部门ID
+        type: integer
+        format: int64
+      areaName:
+        description: 部门名称
+        type: string
+  CouWaresListVo:
+    type: object
+    properties:
+      couWaresId:
+        description: 商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 商品名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 所属品牌名称
+        type: string
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 所属品牌系列名称
+        type: string
+      couModelId:
+        description: 所属型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 所属型号名称
+        type: string
+      couWaresPrice:
+        description: 厂商指导价
+        type: string
+      marketYear:
+        description: 年款
+        type: string
+      marketTime:
+        description: 上市时间
+        type: string
+        format: date
+      disMent:
+        description: 排量
+        type: string
+      varBox:
+        description: 变速箱
+        type: string
+      drive:
+        description: 驱动方式
+        type: string
+      consume:
+        description: 油耗量
+        type: string
+  CouWaresEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/CouWaresListVo'
+  CouWaresSaveVo:
+    type: object
+    properties:
+      couWaresName:
+        description: 商品名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couSeriesId:
+        description: 所属系列ID
+        type: integer
+        format: int64
+      couModelId:
+        description: 所属型号ID
+        type: integer
+        format: int64
+      couWaresPrice:
+        description: 厂商指导价
+        type: string
+      marketYear:
+        description: 年款
+        type: string
+      marketTime:
+        description: 上市时间
+        type: string
+        format: date
+      disMent:
+        description: 排量
+        type: string
+      varBox:
+        description: 品牌logo路径
+        type: string
+      drive:
+        description: 品牌首字母
+        type: string
+      consume:
+        description: 状态 0.禁用 1.正常
+        type: string
+  CouWaresInfoVo:
+    type: object
+    properties:
+      couWaresId:
+        description: 商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 商品名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 所属品牌名称
+        type: string
+      couSeriesId:
+        description: 所属系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 所属系列名称
+        type: string
+      couModelId:
+        description: 所属型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 所属型号名称
+        type: string
+      couWaresPrice:
+        description: 厂商指导价
+        type: string
+      marketYear:
+        description: 年款
+        type: string
+      marketTime:
+        description: 上市时间
+        type: string
+        format: date
+      disMent:
+        description: 排量
+        type: string
+      varBox:
+        description: 变速箱
+        type: string
+      drive:
+        description: 驱动方式
+        type: string
+      consume:
+        description: 油耗量
+        type: string
+  CouWaresUpdateVo:
+    type: object
+    properties:
+      couWaresId:
+        description: 商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 商品名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couModelId:
+        description: 所属型号ID
+        type: integer
+        format: int64
+      couWaresPrice:
+        description: 厂商指导价
+        type: string
+      marketYear:
+        description: 年款
+        type: string
+      marketTime:
+        description: 上市时间
+        type: string
+        format: date
+      disMent:
+        description: 排量
+        type: string
+      varBox:
+        description: 变速箱
+        type: string
+      drive:
+        description: 驱动方式
+        type: string
+      consume:
+        description: 油耗量
+        type: string
+  CouWaresInvokingVo:
+    type: object
+    properties:
+      couWaresId:
+        description: 商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 商品名称
+        type: string
+      couWaresPrice:
+        description: 厂商指导价
+        type: string
+  CouWaresBrandListVo:
+    type: object
+    properties:
+      couBrandId:
+        description: 品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 品牌名称
+        type: string
+      image:
+        description: 品牌logo路径
+        type: string
+      firstLetter:
+        description: 品牌首字母
+        type: string
+      status:
+        description: 状态 0.禁用 1.正常
+        type: integer
+        format: int64
+  CouWaresBrandEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/CouWaresBrandListVo'
+  CouWaresBrandSaveVo:
+    type: object
+    properties:
+      couBrandName:
+        description: 品牌名称
+        type: string
+      image:
+        description: 品牌logo路径
+        type: string
+      firstLetter:
+        description: 品牌首字母
+        type: string
+      sort:
+        description: 排序
+        type: integer
+        format: int64
+  CouWaresBrandInfoVo:
+    type: object
+    properties:
+      couBrandId:
+        description: 品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 品牌名称
+        type: string
+      image:
+        description: 品牌logo路径
+        type: string
+      firstLetter:
+        description: 品牌首字母
+        type: string
+      sort:
+        description: 排序
+        type: integer
+        format: int64
+  CouWaresBrandUpdateVo:
+    type: object
+    properties:
+      couBrandId:
+        description: 品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 品牌名称
+        type: string
+      image:
+        description: 品牌logo路径
+        type: string
+      firstLetter:
+        description: 品牌首字母
+        type: string
+      sort:
+        description: 排序
+        type: integer
+        format: int64
+  CouWaresBrandInvokingVo:
+    type: object
+    properties:
+      couBrandId:
+        description: 品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 品牌名称
+        type: string
+  CouWaresSeriesListVo:
+    type: object
+    properties:
+      couSeriesId:
+        description: 品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 品牌系列名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 所属品牌名称
+        type: string
+      status:
+        description: 状态 0.禁用 1.正常
+        type: integer
+        format: int64
+  CouWaresSeriesEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/CouWaresSeriesListVo'
+  CouWaresSeriesSaveVo:
+    type: object
+    properties:
+      couSeriesName:
+        description: 品牌系列名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+  CouWaresSeriesInfoVo:
+    type: object
+    properties:
+      couSeriesId:
+        description: 品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 品牌系列名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+  CouWaresSeriesUpdateVo:
+    type: object
+    properties:
+      couSeriesId:
+        description: 品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 品牌系列名称
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+  CouWaresSeriesInvokingVo:
+    type: object
+    properties:
+      couSeriesId:
+        description: 品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 品牌系列名称
+        type: string
+  CouWaresModelListVo:
+    type: object
+    properties:
+      couModelId:
+        description: 型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 型号名称
+        type: string
+      image:
+        description: 图片路径
+        type: string
+      status:
+        description: 状态 0.禁用 1.正常
+        type: integer
+        format: int64
+  CouWaresModelEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/CouWaresModelListVo'
+  CouWaresModelSaveVo:
+    type: object
+    properties:
+      couModelName:
+        description: 型号名称
+        type: string
+      image:
+        description: 图片路径
+        type: string
+  CouWaresModelInfoVo:
+    type: object
+    properties:
+      couModelId:
+        description: 型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 型号名称
+        type: string
+      image:
+        description: 图片路径
+        type: string
+  CouWaresModelUpdateVo:
+    type: object
+    properties:
+      couModelId:
+        description: 型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 型号名称
+        type: string
+      image:
+        description: 图片路径
+        type: string
+  CouWaresModelInvokingVo:
+    type: object
+    properties:
+      couModelId:
+        description: 型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 型号名称
+        type: string
+  DealUserListVo:
+    type: object
+    properties:
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      phone:
+        description: 客户手机号码
+        type: string
+      status:
+        description: 状态 0.禁用 1.正常
+        type: integer
+        format: int64
+      type:
+        description: 客户类型 0.个人客户 1.企业客户
+        type: integer
+        format: int64
+      depositPrice:
+        description: 保证金总金额
+        type: string
+      creditGrade:
+        description: 信用等级
+        type: integer
+      integral:
+        description: 积分
+        type: integer
+        format: int64
+      dealStoreName:
+        description: 企业名称
+        type: string
+      sysUserId:
+        description: 所属用户ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 所属用户名称
+        type: string
+  DealUserEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealUserListVo'
+  DealUserInfoVo:
+    type: object
+    properties:
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      phone:
+        description: 客户手机号码
+        type: string
+      type:
+        description: 客户类型 0.个人客户 1.企业客户
+        type: integer
+        format: int64
+      depositPrice:
+        description: 保证金总金额
+        type: string
+      creditGrade:
+        description: 信用等级
+        type: integer
+      integral:
+        description: 积分
+        type: integer
+        format: int64
+      dealStoreName:
+        description: 所属公司
+        type: string
+      sysUserId:
+        description: 所属用户ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 所属用户名称
+        type: string
+  DealUserSaveVo:
+    type: object
+    properties:
+      dealUserName:
+        description: 客户名称
+        type: string
+      phone:
+        description: 客户手机号码
+        type: string
+  DealUserUpdateVo:
+    type: object
+    properties:
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+  DealUserInvokingVo:
+    type: object
+    properties:
+      dealUserId:
+        description: 企业客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 企业客户名称
+        type: string
+  DealStoreListVo:
+    type: object
+    properties:
+      dealStoreId:
+        description: 客户企业ID
+        type: integer
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      phone:
+        description: 客户手机号码
+        type: string
+      dealStoreName:
+        description: 所属公司
+        type: string
+      dealUserJob:
+        description: 客户职位
+        type: string
+      sysUserId:
+        description: 所属用户ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 所属用户名称
+        type: string
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealStoreEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealStoreListVo'
+  DealUserStoreListVo:
+    type: object
+    properties:
+      dealStoreId:
+        description: 客户企业ID
+        type: integer
+      dealStoreName:
+        description: 客户企业名称
+        type: string
+      dealUserJob:
+        description: 客户职位
+        type: string
+      sysUserId:
+        description: 所属用户ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 所属用户名称
+        type: string
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealUserStoreEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealUserStoreListVo'
+  DealUserStoreSaveVo:
+    type: object
+    properties:
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealStoreName:
+        description: 客户所属公司名称
+        type: string
+      image:
+        description: 企业门面图路径
+        type: string
+      dealUserJob:
+        description: 客户职位
+        type: string
+      sysUserId:
+        description: 所属用户ID
+        type: integer
+        format: int64
+  DealUserStoreInfoVo:
+    type: object
+    properties:
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      phone:
+        description: 客户手机号码
+        type: string
+      type:
+        description: 客户类型 0.个人客户 1.企业客户
+        type: integer
+        format: int64
+      dealStoreName:
+        description: 所属公司
+        type: string
+      sysUserId:
+        description: 所属用户ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 所属用户名称
+        type: string
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealUserStoreDepositListVo:
+    type: object
+    properties:
+      depositId:
+        description: 保证金单ID
+        type: string
+      depositNo:
+        description: 保证金单编号
+        type: string
+      dealStoreId:
+        description: 客户企业表ID
+        type: integer
+        format: int64
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      depositPrice:
+        description: 保证金金额
+        type: string
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 状态 0.放弃 1.驳回 2.财务审核中 3.经理审核中 4.通过
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+      examineId:
+        description: 审核表ID
+        type: integer
+        format: int64
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineUserName:
+        description: 审核人名称
+        type: string
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealUserStoreDepositEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealUserStoreDepositListVo'
+  DealUserStoreDepositSaveVo:
+    type: object
+    properties:
+      dealStoreId:
+        description: 客户企业表ID
+        type: integer
+        format: int64
+      depositPrice:
+        description: 保证金金额
+        type: string
+      remark:
+        description: 备注
+        type: string
+  DealUserStoreDepositInfoVo:
+    type: object
+    properties:
+      depositId:
+        description: 保证金单ID
+        type: string
+      depositNo:
+        description: 保证金单编号
+        type: string
+      dealStoreId:
+        description: 客户企业表ID
+        type: integer
+        format: int64g
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      depositPrice:
+        description: 保证金金额
+        type: string
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 状态 0.放弃 1.驳回 2.财务审核中 3.经理审核中 4.通过
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+      examine:
+        type: object
+        properties:
+          examineId:
+            description: 审核表ID
+            type: integer
+            format: int64
+          examineUserId:
+            description: 审核人ID
+            type: integer
+            format: int64
+          examineUserName:
+            description: 审核人名称
+            type: string
+          examineRemark:
+            description: 审核理由
+            type: string
+          examineTime:
+            description: 审核时间
+            type: string
+            format: date-time
+  DealUserStoreDepositUpdateVo:
+    type: object
+    properties:
+      depositId:
+        description: 保证金单ID
+        type: string
+      depositPrice:
+        description: 保证金金额
+        type: string
+      remark:
+        description: 备注
+        type: string
+  DealUserStoreDepositInvokingVo:
+    type: object
+    properties:
+      depositId:
+        description: 保证金单ID
+        type: string
+      remark:
+        description: 审核理由
+        type: string
+  DealUserStoreRefundListVo:
+    type: object
+    properties:
+      refundId:
+        description: 退费单ID
+        type: string
+      refundNo:
+        description: 退费单编号
+        type: string
+      dealStoreId:
+        description: 客户企业表ID
+        type: integer
+        format: int64
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      refundPrice:
+        description: 退费金额
+        type: string
+      refundType:
+        description: 退费类型 0.扣费 1.提现
+        type: integer
+        format: int64
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 状态 0.放弃 1.驳回 2.财务审核中 3.经理审核中 4.通过
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+      examineId:
+        description: 审核表ID
+        type: integer
+        format: int64
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineUserName:
+        description: 审核人名称
+        type: string
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealUserStoreRefundEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealUserStoreRefundListVo'
+  DealUserStoreRefundSaveVo:
+    type: object
+    properties:
+      dealStoreId:
+        description: 客户企业表ID
+        type: integer
+        format: int64
+      refundPrice:
+        description: 退费金额
+        type: string
+      remark:
+        description: 备注
+        type: string
+  DealUserStoreRefundInfoVo:
+    type: object
+    properties:
+      refundId:
+        description: 退费单ID
+        type: string
+      refundNo:
+        description: 退费编号
+        type: string
+      dealStoreId:
+        description: 客户企业表ID
+        type: integer
+        format: int64
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      refundPrice:
+        description: 退费金额
+        type: string
+      refundType:
+        description: 退费类型 0.扣费 1.提现
+        type: integer
+        format: int64
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 状态 0.放弃 1.驳回 2.财务审核中 3.经理审核中 4.通过
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+      examine:
+        type: object
+        properties:
+          examineId:
+            description: 审核表ID
+            type: integer
+            format: int64
+          examineUserId:
+            description: 审核人ID
+            type: integer
+            format: int64
+          examineUserName:
+            description: 审核人名称
+            type: string
+          examineRemark:
+            description: 审核理由
+            type: string
+          examineTime:
+            description: 审核时间
+            type: string
+            format: date-time
+  DealUserStoreRefundUpdateVo:
+    type: object
+    properties:
+      refundId:
+        description: 退费单ID
+        type: string
+      refundPrice:
+        description: 退费金额
+        type: string
+      remark:
+        description: 备注
+        type: string
+  DealUserStoreRefundInvokingVo:
+    type: object
+    properties:
+      refundId:
+        description: 退费单ID
+        type: string
+      remark:
+        description: 备注
+        type: string
+  DealUserStoreFinanceListVo:
+    type: object
+    properties:
+      financeId:
+        description: 金融单ID
+        type: string
+      financeNo:
+        description: 金融单编号
+        type: string
+      dealStoreId:
+        description: 所属客户企业ID
+        type: integer
+        format: int64
+      dealUserID:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 所属企业客户名称
+        type: string
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      sysUserId:
+        description: 跟进人ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 跟进人名称
+        type: string
+      financePrice:
+        description: 金融单交易金额
+        type: string
+      status:
+        description: 状态 0.作废 1.处理中 4.已完成
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+  DealUserStoreFinanceEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealUserStoreFinanceListVo'
+  DealUserStoreFinanceSaveVo:
+    type: object
+    properties:
+      dealStoreId:
+        description: 客户企业表ID
+        type: integer
+        format: int64
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+  DealUserStoreFinanceInfoVo:
+    type: object
+    properties:
+      financeId:
+        description: 金融单ID
+        type: string
+      financeNo:
+        description: 金融单编号
+        type: string
+      dealStoreId:
+        description: 所属客户企业ID
+        type: integer
+        format: int64
+      dealUserID:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 所属企业客户名称
+        type: string
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      sysUserId:
+        description: 跟进人ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 跟进人名称
+        type: string
+      financePrice:
+        description: 金融单交易金额
+        type: string
+      status:
+        description: 状态 0.作废 1.处理中 4.已完成
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+      examine:
+        type: object
+        properties:
+          examineId:
+            description: 审核表ID
+            type: integer
+            format: int64
+          examineUserId:
+            description: 审核人ID
+            type: integer
+            format: int64
+          examineUserName:
+            description: 审核人名称
+            type: string
+          examineRemark:
+            description: 审核理由
+            type: string
+          examineTime:
+            description: 审核时间
+            type: string
+            format: date-time
+  DealFinanceFollowInvokingVo:
+    type: object
+    properties:
+      financeId:
+        description: 金融单ID
+        type: string
+      followUserId:
+        description: 平台跟进人ID
+        type: integer
+        format: int64
+  DealFinancePriceInvokingVo:
+    type: object
+    properties:
+      financeId:
+        description: 金融单ID
+        type: string
+      financePrice:
+        description: 金融单金额
+        type: string
+  DealBillExamineInvokingVo:
+    type: object
+    properties:
+      examineId:
+        description: 审核表ID
+        type: string
+      examineUserId:
+        description: 审核人ID
+        type: string
+      examineUserName:
+        description: 审核人名称
+        type: string
+      examineRemark:
+        description: 审核理由
+        type: string
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealAssessListVo:
+    type: object
+    properties:
+      dealAssessId:
+        description: 评估ID
+        type: integer
+        format: int64
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 所属品牌名称
+        type: string
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 所属品牌系列名称
+        type: string
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 所属商品名称
+        type: string
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      proAreaName:
+        description: 省级区域名称
+        type: string
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      cityAreaName:
+        description: 市级区域名称
+        type: string
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      countyAreaName:
+        description: 县/区级区域名称
+        type: string
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      driveImage:
+        type: object
+        properties:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          dealAssessId:
+            description: 评估ID
+            type: integer
+            format: int64
+      waresImages:
+        type: array
+        items:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          dealAssessId:
+            description: 评估ID
+            type: integer
+            format: int64
+      status:
+        description: 状态 0.待审核 1.已审核
+        type: integer
+        format: int64
+      dealAssessPrice:
+        description: 评估价格
+        type: string
+      sellStatus:
+        description: 交易状态 0.未交易 1.交易中 2.已交易
+        type: integer
+        format: int64
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealAssessEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealAssessListVo'
+  DealAssessSaveVo:
+    type: object
+    properties:
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      driveImage:
+        description: 行驶证图
+        type: object
+        properties:
+          image:
+            description: 图片路径
+            type: string
+      waresImages:
+        description: 商品评估图集合
+        type: array
+        items:
+          image:
+            description: 图片路径
+            type: string
+  DealAssessInfoVo:
+    type: object
+    properties:
+      dealAssessId:
+        description: 评估ID
+        type: integer
+        format: int64
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 所属品牌名称
+        type: string
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 所属品牌系列名称
+        type: string
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 所属商品名称
+        type: string
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      proAreaName:
+        description: 省级区域名称
+        type: string
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      cityAreaName:
+        description: 市级区域名称
+        type: string
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      countyAreaName:
+        description: 县/区级区域名称
+        type: string
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      images:
+        description: 图片路径集合
+        type: array
+        items:
+          type: string
+      status:
+        description: 状态 0.待审核 1.已审核
+        type: integer
+        format: int64
+      dealAssessPrice:
+        description: 评估价格
+        type: string
+      sellStatus:
+        description: 交易状态 0.未交易 1.交易中 2.已交易
+        type: integer
+        format: int64
+      driveImage:
+        type: object
+        properties:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          dealAssessId:
+            description: 评估ID
+            type: integer
+            format: int64
+      waresImages:
+        type: array
+        items:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          dealAssessId:
+            description: 评估ID
+            type: integer
+            format: int64
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealAssessUpdateVo:
+    type: object
+    properties:
+      dealAssessId:
+        description: 评估ID
+        type: integer
+        format: int64
+      dealAssessPrice:
+        description: 评估价钱
+        type: string
+  DealAssessSellListVo:
+    type: object
+    properties:
+      dealSellId:
+        description: 个人评估商品出售ID
+        type: integer
+        format: int64
+      dealSellTitle:
+        description: 个人评估商品出售标题
+        type: string
+      dealAssessId:
+        description: 所属评估ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 出售所属商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 出售所属商品名称
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      contactPhone:
+        description: 联系人电话
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      proAreaName:
+        description: 省级区域名称
+        type: string
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      cityAreaName:
+        description: 市级区域名称
+        type: string
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      countyAreaName:
+        description: 县/区级区域名称
+        type: string
+      addr:
+        description: 详细地址
+        type: string
+      sysUserId:
+        description: 跟进人ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 跟进人名称
+        type: string
+      sellPrice:
+        description: 最终出售金额
+        type: string
+      status:
+        description: 出售情况 0.已取消 1.待处理 2.处理中 3.已完成
+        type: integer
+        format: int64
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealAssessSellEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealAssessSellListVo'
+  DealAssessSellSaveVo:
+    type: object
+    properties:
+      dealSellTitle:
+        description: 个人评估商品出售标题
+        type: string
+      dealAssessId:
+        description: 所属评估ID
+        type: integer
+        format: int64
+      contactName:
+        description: 联系人名称
+        type: string
+      contactPhone:
+        description: 联系人电话
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      addr:
+        description: 详细地址
+        type: string
+  DealAssessSellInfoVo:
+    type: object
+    properties:
+      dealSellId:
+        description: 个人评估商品出售ID
+        type: integer
+        format: int64
+      dealSellTitle:
+        description: 个人评估商品出售标题
+        type: string
+      dealAssessId:
+        description: 所属评估ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 出售所属商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 出售所属商品名称
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      contactPhone:
+        description: 联系人电话
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      proAreaName:
+        description: 省级区域名称
+        type: string
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      cityAreaName:
+        description: 市级区域名称
+        type: string
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      countyAreaName:
+        description: 县/区级区域名称
+        type: string
+      addr:
+        description: 详细地址
+        type: string
+      sysUserId:
+        description: 跟进人ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 跟进人名称
+        type: string
+      status:
+        description: 出售情况 0.已取消 1.待处理 2.处理中 3.已完成
+        type: integer
+        format: int64
+      sellPrice:
+        description: 最终出售金额
+        type: string
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
+  DealAssessSellUpdateVo:
+    type: object
+    properties:
+      dealSellId:
+        description: 个人评估商品出售ID
+        type: integer
+        format: int64
+      dealSellTitle:
+        description: 个人评估商品出售标题
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      contactPhone:
+        description: 联系人电话
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      addr:
+        description: 详细地址
+        type: string
+  DealSellFollowInvokingVo:
+    type: object
+    properties:
+      dealSellId:
+        description: 个人评估商品出售ID
+        type: integer
+        format: int64
+      followUserId:
+        description: 平台跟进人ID
+        type: integer
+        format: int64
+  DealSellPriceInvokingVo:
+    type: object
+    properties:
+      dealSellId:
+        description: 个人评估商品出售ID
+        type: integer
+        format: int64
+      sellPrice:
+        description: 最终回收金额
+        type: string
+  DealWaresListVo:
+    type: object
+    properties:
+      dealWaresId:
+        description: 出售商品ID
+        type: string
+      dealWaresTitle:
+        description: 出售商品标题
+        type: string
+      dealWaresNo:
+        description: 出售商品编号
+        type: string
+      releaseAreaId:
+        description: 发布区域ID
+        type: integer
+        format: int64
+      releaseAreaName:
+        description: 发布区域名称
+        type: string
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      waresFrameCode:
+        description: 商品框架号
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 所属品牌名称
+        type: string
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 所属品牌系列名称
+        type: string
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 所属商品名称
+        type: string
+      couModelId:
+        description: 所属商品型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 所属商品型号名称
+        type: string
+      tradePrice:
+        description: 批发价
+        type: string
+      retailPrice:
+        description: 零售价
+        type: string
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      licenseId:
+        description: 牌照ID
+        type: integer
+        format: int64
+      licenseCode:
+        description: 牌照
+        type: string
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      addr:
+        description: 详细地址
+        type: string
+      waresRemark:
+        description: 商品描述
+        type: string
+      transferNum:
+        description: 过户次数
+        type: integer
+        format: int64
+      isTransfer:
+        description: 是否含过户费 0.无 1.是
+        type: integer
+        format: int64
+      isMortgage:
+        description: 是否有抵押 0.无 1.是
+        type: integer
+        format: int64
+      isMaintain:
+        description: 是否有定期4s保养 0.无 1.是
+        type: integer
+        format: int64
+      sellStatus:
+        description: 出售状态 0.未出售 1.已出售
+        type: integer
+        format: int64
+      onlineStatus:
+        description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+        type: integer
+        format: int64
+      coverImage:
+        type: object
+        properties:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          isCover:
+            description: 是否封面图 0.否 1.是
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 所属企业商品ID
+            type: integer
+            format: int64
+      driveImage:
+        type: object
+        properties:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          isCover:
+            description: 是否封面图 0.否 1.是
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 所属企业商品ID
+            type: integer
+            format: int64
+      waresImages:
+        type: array
+        items:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          isCover:
+            description: 是否封面图 0.否 1.是
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 所属企业商品ID
+            type: integer
+            format: int64
+      dealStoreId:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 所属企业客户名称
+        type: string
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+  DealWaresEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealWaresListVo'
+  DealWaresSaveVo:
+    type: object
+    properties:
+      dealWaresTitle:
+        description: 出售商品标题
+        type: string
+      releaseAreaId:
+        description: 发布区域ID
+        type: integer
+        format: int64
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      waresFrameCode:
+        description: 商品框架号
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      couModelId:
+        description: 所属商品型号ID
+        type: integer
+        format: int64
+      tradePrice:
+        description: 批发价
+        type: string
+      retailPrice:
+        description: 零售价
+        type: string
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      licenseId:
+        description: 牌照ID
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      addr:
+        description: 详细地址
+        type: string
+      waresRemark:
+        description: 商品描述
+        type: string
+      transferNum:
+        description: 过户次数
+        type: integer
+        format: int64
+      isTransfer:
+        description: 是否含过户费 0.无 1.是
+        type: integer
+        format: int64
+      isMortgage:
+        description: 是否有抵押 0.无 1.是
+        type: integer
+        format: int64
+      isMaintain:
+        description: 是否有定期4s保养 0.无 1.是
+        type: integer
+        format: int64
+      coverImage:
+        description: 商品封面图
+        type: object
+        properties:
+          image:
+            description: 图片路径
+            type: string
+      driveImage:
+        description: 行驶证图
+        type: object
+        properties:
+          image:
+            description: 图片路径
+            type: string
+      waresImages:
+        description: 商品评估图集合
+        type: array
+        items:
+          image:
+            description: 图片路径
+            type: string
+      dealStoreId:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
+  DealWaresInfoVo:
+    type: object
+    properties:
+      dealWaresId:
+        description: 出售商品ID
+        type: string
+      dealWaresTitle:
+        description: 出售商品标题
+        type: string
+      dealWaresNo:
+        description: 出售商品编号
+        type: string
+      releaseAreaId:
+        description: 发布区域ID
+        type: integer
+        format: int64
+      releaseAreaName:
+        description: 发布区域名称
+        type: string
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      waresFrameCode:
+        description: 商品框架号
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couBrandName:
+        description: 所属品牌名称
+        type: string
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couSeriesName:
+        description: 所属品牌系列名称
+        type: string
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      couWaresName:
+        description: 所属商品名称
+        type: string
+      couModelId:
+        description: 所属商品型号ID
+        type: integer
+        format: int64
+      couModelName:
+        description: 所属商品型号名称
+        type: string
+      tradePrice:
+        description: 批发价
+        type: string
+      retailPrice:
+        description: 零售价
+        type: string
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      licenseId:
+        description: 牌照ID
+        type: integer
+        format: int64
+      licenseCode:
+        description: 牌照
+        type: string
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      addr:
+        description: 详细地址
+        type: string
+      waresRemark:
+        description: 商品描述
+        type: string
+      transferNum:
+        description: 过户次数
+        type: integer
+        format: int64
+      isTransfer:
+        description: 是否含过户费 0.无 1.是
+        type: integer
+        format: int64
+      isMortgage:
+        description: 是否有抵押 0.无 1.是
+        type: integer
+        format: int64
+      isMaintain:
+        description: 是否有定期4s保养 0.无 1.是
+        type: integer
+        format: int64
+      sellStatus:
+        description: 出售状态 0.未出售 1.已出售
+        type: integer
+        format: int64
+      onlineStatus:
+        description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+        type: integer
+        format: int64
+      coverImage:
+        type: object
+        properties:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          isCover:
+            description: 是否封面图 0.否 1.是
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 所属企业商品ID
+            type: integer
+            format: int64
+      driveImage:
+        type: object
+        properties:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          isCover:
+            description: 是否封面图 0.否 1.是
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 所属企业商品ID
+            type: integer
+            format: int64
+      waresImages:
+        type: array
+        items:
+          imageId:
+            description: 图片ID
+            type: integer
+            format: int64
+          image:
+            description: 图片路径
+            type: string
+          imageType:
+            description: 图片类型 0.商品图 1.行驶证图
+            type: integer
+            format: int64
+          isCover:
+            description: 是否封面图 0.否 1.是
+            type: integer
+            format: int64
+          dealWaresId:
+            description: 所属企业商品ID
+            type: integer
+            format: int64
+      dealStoreId:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 所属企业客户名称
+        type: string
+      submitTime:
+        description: 提交时间
+        type: string
+        format: date-time
+  DealWaresUpdateVo:
+    type: object
+    properties:
+      dealWaresId:
+        description: 出售商品ID
+        type: string
+      dealWaresTitle:
+        description: 出售商品标题
+        type: string
+      releaseAreaId:
+        description: 发布区域ID
+        type: integer
+        format: int64
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      waresFrameCode:
+        description: 商品框架号
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      couModelId:
+        description: 所属商品型号ID
+        type: integer
+        format: int64
+      tradePrice:
+        description: 批发价
+        type: string
+      retailPrice:
+        description: 零售价
+        type: string
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      licenseId:
+        description: 牌照ID
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      addr:
+        description: 详细地址
+        type: string
+      waresRemark:
+        description: 商品描述
+        type: string
+      transferNum:
+        description: 过户次数
+        type: integer
+        format: int64
+      isTransfer:
+        description: 是否含过户费 0.无 1.是
+        type: integer
+        format: int64
+      isMortgage:
+        description: 是否有抵押 0.无 1.是
+        type: integer
+        format: int64
+      isMaintain:
+        description: 是否有定期4s保养 0.无 1.是
+        type: integer
+        format: int64
+      coverImage:
+        description: 商品封面图
+        type: object
+        properties:
+          image:
+            description: 图片路径
+            type: string
+      driveImage:
+        description: 行驶证图
+        type: object
+        properties:
+          image:
+            description: 图片路径
+            type: string
+      waresImages:
+        description: 商品图集合
+        type: array
+        items:
+          image:
+            description: 图片路径
+            type: string
+      dealStoreId:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
+  DealWaresInvokingVo:
+    type: object
+    properties:
+      dealWaresId:
+        description: 企业商品ID
+        type: string
+      remark:
+        description: 审核理由
+        type: string
+  DealWaresInstallmentListVo:
+    type: object
+    properties:
+      installmentId:
+        description: 咨询分期ID
+        type: integer
+        format: int64
+      dealUserId:
+        description: 所属客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 所属客户名称
+        type: string
+      dealWaresId:
+        description: 咨询商品ID
+        type: string
+      dealWaresTitle:
+        description: 咨询商品标题
+        type: string
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交咨询时间
+        type: string
+        format: date-time
+      followStatus:
+        description: 跟进状态 0.作废 1.待处理 2.已处理
+        type: integer
+        format: int64
+      sysUserId:
+        description: 跟进人ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 跟进人名称
+        type: string
+      followRemark:
+        description: 跟进备注
+        type: string
+      followTime:
+        description: 跟进时间
+        type: string
+        format: date-time
+  DealWaresInstallmentEntities:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      page:
+        type: object
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+          pageSize:
+            description: 每页记录数
+            type: integer
+            format: int32
+          totalPage:
+            description: 总页数
+            type: integer
+            format: int32
+          currPage:
+            description: 当前页数
+            type: integer
+            format: int32
+          list:
+            type: array
+            items:
+              $ref: '#/definitions/DealWaresInstallmentListVo'
+  DealWaresInstallmentSaveVo:
+    type: object
+    properties:
+      dealUserId:
+        description: 所属客户ID
+        type: integer
+        format: int64
+      dealWaresId:
+        description: 咨询商品ID
+        type: string
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+  DealWaresInstallmentInfoVo:
+    type: object
+    properties:
+      installmentId:
+        description: 咨询分期ID
+        type: integer
+        format: int64
+      dealUserId:
+        description: 所属客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 所属客户名称
+        type: string
+      dealWaresId:
+        description: 咨询商品ID
+        type: string
+      dealWaresTitle:
+        description: 咨询商品标题
+        type: string
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      submitTime:
+        description: 提交咨询时间
+        type: string
+        format: date-time
+      followStatus:
+        description: 跟进状态 0.作废 1.待处理 2.已处理
+        type: integer
+        format: int64
+      sysUserId:
+        description: 跟进人ID
+        type: integer
+        format: int64
+      sysUserName:
+        description: 跟进人名称
+        type: string
+      followRemark:
+        description: 跟进备注
+        type: string
+      followTime:
+        description: 跟进时间
+        type: string
+        format: date-time
+  DealInstallmentFollowInvokingVo:
+    type: object
+    properties:
+      installmentId:
+        description: 咨询分期ID
+        type: integer
+        format: int64
+      followRemake:
+        description: 跟进备注
+        type: string
+
+
+
+
+
+  TotalCount:
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      date:
+        type: integer
+        properties:
+          totalCount:
+            description: 总记录数
+            type: integer
+            format: int32
+  #WebSocket地址
+  WebSocketUrl:
+    type: object
+    properties:
+      url:
+        description: webSocket地址
+        type: String
+
+  MessageCountVo:
+    type: object
+    properties:
+      total:
+        description: 总数量
+        type: integer
+      message:
+        description: 消息数量
+        type: integer
+      notice:
+        description: 通知数量
+        type: integer

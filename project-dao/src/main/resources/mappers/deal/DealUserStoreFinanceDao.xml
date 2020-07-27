@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealUserStoreFinanceDao">
+
+    <!--分页查询金融单列表-->
+    <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealUserStoreFinanceListVo">
+        SELECT
+            deal_user_store_finance.finance_id,
+            deal_user_store_finance.finance_no,
+            deal_user_store_finance.deal_store_id,
+            deal_user.deal_user_id,
+            deal_user.deal_user_name,
+            deal_user_store_finance.contact_name,
+            deal_user_store_finance.contact_phone,
+            deal_user_store_finance.sex,
+            deal_user_store_finance.sys_user_id,
+            deal_user_store_finance.finance_price,
+            deal_user_store_finance.status,
+            deal_user_store_finance.submit_time
+        FROM
+            deal_user_store_finance AS deal_user_store_finance
+            JOIN deal_user_store AS deal_user_store ON deal_user_store_finance.deal_store_id = deal_user_store.deal_store_id
+            JOIN deal_user AS deal_user ON deal_user_store.deal_user_id = deal_user.deal_user_id
+        <where>
+            <if test="contactName != null and contactName.trim() != ''">
+                AND deal_user_store_finance.contact_name LIKE "%"#{contactName}"%"
+            </if>
+            <if test="contactPhone != null and contactPhone.trim() != ''">
+                AND deal_user_store_finance.contact_phone = #{contactPhone}
+            </if>
+            <if test="dealPhone != null and dealPhone.trim() != ''">
+                deal_user.phone = #{dealPhone}
+            </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND deal_user_store_finance.status = #{status}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_user_store_finance.submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY deal_user_store_finance.submit_time DESC
+    </select>
+
+    <!--分页查询金融单列表-->
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealUserStoreFinanceWxListVo">
+        SELECT
+            finance_id,
+            finance_no,
+            sys_user_id,
+            sys_user_name,
+            finance_price,
+            status,
+            submit_time
+        FROM
+            deal_user_store_finance
+        WHERE
+            deal_store_id = #{dealStoreId}
+        ORDER BY submit_time DESC
+    </select>
+
+    <!--获取金融单详情-->
+    <select id="info" resultType="com.project.modules.deal.vo.info.DealUserStoreFinanceInfoVo">
+        SELECT
+            deal_user_store_finance.finance_id,
+            deal_user_store_finance.finance_no,
+            deal_user_store_finance.deal_store_id,
+            deal_user.deal_user_id,
+            deal_user.deal_user_name,
+            deal_user_store_finance.contact_name,
+            deal_user_store_finance.contact_phone,
+            deal_user_store_finance.sex,
+            deal_user_store_finance.sys_user_id,
+            deal_user_store_finance.finance_price,
+            deal_user_store_finance.status,
+            deal_user_store_finance.submit_time
+        FROM
+            deal_user_store_finance AS deal_user_store_finance
+            JOIN deal_user_store AS deal_user_store ON deal_user_store_finance.deal_store_id = deal_user_store.deal_store_id
+            JOIN deal_user AS deal_user ON deal_user_store.deal_user_id = deal_user.deal_user_id
+        WHERE
+            deal_user_store_finance.finance_id = #{financeId}
+    </select>
+</mapper>

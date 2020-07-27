@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealUserStoreDepositDao">
+
+    <!--分页查询保证金单列表-->
+    <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealUserStoreDepositListVo">
+        SELECT
+            deal_user_store_deposit.deposit_id,
+            deal_user_store_deposit.deposit_no,
+            deal_user_store_deposit.deal_store_id,
+            deal_user_store.deal_user_id,
+            deal_user.deal_user_name,
+            deal_user_store_deposit.deposit_price,
+            deal_user_store_deposit.status,
+            deal_user_store_deposit.remark,
+            deal_user_store_deposit.submit_time
+        FROM
+            deal_user_store_deposit AS deal_user_store_deposit
+            JOIN deal_user_store AS deal_user_store ON deal_user_store_deposit.deal_store_id = deal_user_store.deal_store_id
+            JOIN deal_user AS deal_user ON deal_user_store.deal_user_id = deal_user.deal_user_id
+        <where>
+            <if test="dealPhone != null and dealPhone.trim() != ''">
+                deal_user.phone = #{dealPhone}
+            </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND deal_user_store_deposit.status = #{status}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_user_store_deposit.submit_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY deal_user_store_deposit.create_time DESC
+    </select>
+
+    <!--获取保证金单详情-->
+    <select id="info" resultType="com.project.modules.deal.vo.info.DealUserStoreDepositInfoVo">
+        SELECT
+            deal_user_store_deposit.deposit_id,
+            deal_user_store_deposit.deposit_no,
+            deal_user_store_deposit.deal_store_id,
+            deal_user_store.deal_user_id,
+            deal_user.deal_user_name,
+            deal_user_store_deposit.deposit_price,
+            deal_user_store_deposit.remark,
+            deal_user_store_deposit.status,
+            deal_user_store_deposit.submit_Time
+        FROM
+            deal_user_store_deposit AS deal_user_store_deposit
+            JOIN deal_user_store AS deal_user_store ON deal_user_store_deposit.deal_store_id = deal_user_store.deal_store_id
+            JOIN deal_user AS deal_user ON deal_user_store.deal_user_id = deal_user.deal_user_id
+        WHERE
+            deal_user_store_deposit.deposit_id = #{depositId}
+    </select>
+</mapper>

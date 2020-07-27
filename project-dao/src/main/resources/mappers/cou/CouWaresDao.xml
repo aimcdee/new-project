@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.cou.dao.CouWaresDao">
+
+    <!--分页查询商品列表-->
+    <select id="queryPage" resultType="com.project.modules.cou.vo.list.CouWaresListVo">
+        SELECT
+            cou_wares_id,
+            cou_wares_name,
+            cou_brand_id,
+            cou_series_id,
+            cou_model_id,
+            cou_wares_price,
+            market_year,
+            market_time,
+            dis_ment,
+            var_box,
+            drive,
+            consume,
+            status
+        FROM
+            cou_wares
+        <where>
+            <if test="couBrandlId != null and !&quot;&quot;.equals(couBrandlId)">
+                cou_brand_id = #{couBrandlId}
+            </if>
+            <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
+                AND cou_series_id = #{couSeriesId}
+            </if>
+            <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
+                AND cou_model_id = #{couModelId}
+            </if>
+            <if test="couWaresName != null and couWaresName.trim() != ''">
+                AND cou_wares_name LIKE "%"#{couWaresName}"%"
+            </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY market_year DESC
+    </select>
+
+    <!--根据商品ID获取商品详情-->
+    <select id="info" resultType="com.project.modules.cou.vo.info.CouWaresInfoVo">
+        SELECT
+            cou_wares_id,
+            cou_wares_name,
+            cou_brand_id,
+            cou_series_id,
+            cou_model_id,
+            cou_wares_price,
+            market_year,
+            market_time,
+            dis_ment,
+            var_box,
+            drive,
+            consume,
+            status
+        FROM
+            cou_wares
+        WHERE
+            cou_wares_id = #{couWaresId}
+    </select>
+
+    <!--获取所有状态为正常商品的ID和名称和厂商指导价-->
+    <select id="getCouWaresList" resultType="com.project.modules.cou.vo.Invoking.CouWaresInvokingVo">
+        SELECT
+            cou_wares_id,
+            cou_wares_name,
+            cou_wares_price
+        FROM
+            cou_wares
+        WHERE
+            cou_series_id = #{couSeriesId}
+            AND status = #{status}
+    </select>
+</mapper>

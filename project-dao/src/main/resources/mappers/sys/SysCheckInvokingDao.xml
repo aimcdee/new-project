@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.modules.sys.dao.SysCheckInvokingDao">
+
+    <!--根据菜单ID查询菜单是否存在-->
+    <select id="checkMenuIdNotNull" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_menu
+        WHERE
+            menu_id = #{menuId}
+    </select>
+
+    <!--根据部门ID查询部门是否存在-->
+    <select id="checkDeptIdNotNull" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_dept
+        WHERE
+            dept_id = #{deptId}
+    </select>
+
+    <!--校验该角色是否被用户使用-->
+    <select id="checkRoleIdUseForUser" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_user_role
+        WHERE
+            role_id = #{roleId}
+    </select>
+
+    <!--校验该部门是否被用户使用-->
+    <select id="checkDeptIdUseForUser" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_user_dept
+        WHERE
+            dept_id = #{deptId}
+    </select>
+
+    <!--根据系统配置Id和系统配置编码查询系统设置是否存在-->
+    <select id="getSysConfigEntityByInfoIdAndCode" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_config
+        WHERE
+            info_id = #{infoId}
+            AND code = #{code}
+    </select>
+
+</mapper>

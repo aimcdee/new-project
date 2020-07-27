@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.modules.sys.dao.SysDeptDao">
+
+    <!--查看树形部门列表-->
+    <select id="getSysDeptTreeList" resultType="com.project.modules.sys.vo.list.SysDeptTreeVo">
+        SELECT
+            dept_id,
+            dept_name,
+            parent_id
+        FROM
+            sys_dept
+    </select>
+
+    <!--校验部门名称是否存在-->
+    <select id="checkDeptNameRepeat" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_dept
+        <where>
+            dept_name = #{deptName}
+            <if test="deptId != null and !&quot;&quot;.equals(deptId)">
+                AND dept_id != #{deptId}
+            </if>
+        </where>
+    </select>
+
+    <!--分页查询部门列表-->
+    <select id="queryByPage" resultType="com.project.modules.sys.vo.list.SysDeptListVo">
+        SELECT
+            sys_dept.dept_id,
+            sys_dept.dept_name,
+            sys_dept.status,
+            sys_dept.create_time
+        FROM
+            sys_dept AS sys_dept
+        <where>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                sys_dept.status = #{status}
+            </if>
+            <if test="deptId != null and !&quot;&quot;.equals(deptId)">
+                AND sys_dept.dept_id = #{deptId}
+            </if>
+            <if test="deptName != null and deptName.trim() != ''">
+                AND sys_dept.dept_name = #{deptName}
+            </if>
+            ORDER BY sys_dept.dept_id ASC
+        </where>
+    </select>
+
+    <!--根据系统部门ID获取系统部门详情-->
+    <select id="getSysDeptInfoVo" resultType="com.project.modules.sys.vo.info.SysDeptInfoVo">
+        SELECT
+            dept_id,
+            dept_name,
+            parent_id
+        FROM
+            sys_dept
+        WHERE
+            dept_id = #{deptId}
+    </select>
+
+    <!--根据部门ID查询该部门下所有的子部门ID-->
+    <select id="getChildDeptIdList" resultType="java.lang.Long">
+        SELECT
+            dept_id
+        FROM
+            sys_dept
+        WHERE
+            parent_id = #{deptId}
+    </select>
+
+    <!--获取上级部门名称-->
+    <select id="getParentName" resultType="java.lang.String">
+        SELECT
+            dept_name AS parentName
+        FROM
+            sys_dept
+        WHERE
+            dept_id = #{parentName}
+    </select>
+</mapper>

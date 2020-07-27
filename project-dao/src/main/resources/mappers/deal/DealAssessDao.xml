@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.deal.dao.DealAssessDao">
+
+    <!--分页查询商品评估列表-->
+    <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealAssessListVo">
+        SELECT
+            deal_assess_id,
+            cou_brand_id,
+            cou_series_id,
+            cou_wares_id,
+            register_time,
+            pro_area_id,
+            pro_area_name,
+            city_area_id,
+            city_area_name,
+            county_area_id,
+            county_area_name,
+            distance,
+            deal_user_id,
+            status,
+            deal_assess_price,
+            sell_status,
+            examine_user_id,
+            examine_time
+        FROM
+            deal_assess
+        <where>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                status = #{status}
+            </if>
+            <if test="dealUserId != null and !&quot;&quot;.equals(dealUserId)">
+                AND deal_user_id = #{dealUserId}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND create_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!--根据商品评估ID获取商品评估详情-->
+    <select id="info" resultType="com.project.modules.deal.vo.info.DealAssessInfoVo">
+        SELECT
+            deal_assess_id,
+            cou_brand_id,
+            cou_series_id,
+            cou_wares_id,
+            register_time,
+            pro_area_id,
+            pro_area_name,
+            city_area_id,
+            city_area_name,
+            county_area_id,
+            county_area_name,
+            distance,
+            deal_user_id,
+            status,
+            deal_assess_price,
+            sell_status,
+            examine_user_id,
+            examine_time
+        FROM
+            deal_assess
+        WHERE
+            deal_assess_id = #{dealAssessId}
+    </select>
+
+    <!--分页查询微信端个人商品评估列表-->
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealAssessWxListVo">
+        SELECT
+            deal_assess_id,
+            cou_wares_id,
+            status,
+            deal_assess_price,
+            sell_status
+        FROM
+            deal_assess
+        WHERE
+            deal_user_id = #{dealUserId}
+            ORDER BY create_time DESC
+    </select>
+
+    <!--根据商品评估ID获取微信端商品评估详情-->
+    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.DealAssessWxInfoVo">
+        SELECT
+            deal_assess_id,
+            cou_wares_id,
+            status,
+            deal_assess_price,
+            sell_status
+        FROM
+            deal_assess
+        WHERE
+            deal_assess_id = #{dealAssessId}
+    </select>
+</mapper>

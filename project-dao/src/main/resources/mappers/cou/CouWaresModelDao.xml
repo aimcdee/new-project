@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.cou.dao.CouWaresModelDao">
+
+    <!--分页查询商品型号列表-->
+    <select id="queryPage" resultType="com.project.modules.cou.vo.list.CouWaresModelListVo">
+        SELECT
+            cou_model_id,
+            cou_model_name,
+            image,
+            status
+        FROM
+            cou_wares_model
+        <where>
+            <if test="couModelName != null and couModelName.trim() != ''">
+                cou_model_name = #{couModelName}
+            </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!--根据商品型号ID获取商品型号详情-->
+    <select id="info" resultType="com.project.modules.cou.vo.info.CouWaresModelInfoVo">
+        SELECT
+            cou_model_id,
+            cou_model_name,
+            image
+        FROM
+            cou_wares_model
+        WHERE
+            cou_model_id = #{couModelId}
+    </select>
+
+    <!--获取所有状态为正常商品型号的ID和名称-->
+    <select id="getCouModelList" resultType="com.project.modules.cou.vo.Invoking.CouWaresModelInvokingVo">
+        SELECT
+            cou_model_id,
+            cou_model_name
+        FROM
+            cou_wares_model
+        WHERE
+            status = #{status}
+    </select>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.modules.sys.dao.SysUserDao">
+
+    <!--校验手机号码是否已存在-->
+    <select id="checkPhone" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            sys_user
+        <where>
+            <if test="phone != null and phone.trim() != ''">
+                phone = #{phone}
+            </if>
+            <if test="userId != null and !&quot;&quot;.equals(userId)">
+                AND user_id != #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--分页查询用户列-->
+    <select id="queryByPage" resultType="com.project.modules.sys.vo.list.SysUserListVo">
+        SELECT
+            sys_user.user_id,
+            sys_user.user_name,
+            sys_user.phone,
+            sys_user.status,
+            sys_user.login_ip,
+            sys_user.login_time,
+            sys_dept.dept_id,
+            sys_dept.dept_name
+        FROM
+            sys_user AS sys_user
+            LEFT JOIN sys_user_dept AS sys_user_dept ON sys_user.user_id = sys_user_dept.user_id
+            LEFT JOIN sys_dept AS sys_dept ON sys_user_dept.dept_id = sys_dept.dept_id
+        <where>
+            <if test="userName != null and userName.trim() != ''">
+                sys_user.user_name LIKE "%"#{userName}"%"
+            </if>
+            <if test="phone != null and phone.trim() != ''">
+                AND sys_user.phone = #{phone}
+            </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND sys_user.status = #{status}
+            </if>
+            <if test="deptIdList != null and deptIdList.size() &gt; 0">
+                AND sys_dept.dept_id IN
+                <foreach collection="deptIdList" item="deptId" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
+            </if>
+            ORDER BY sys_user.user_id ASC
+        </where>
+    </select>
+
+    <!--根据系统用户ID获取系统用户详情-->
+    <select id="getSysUserInfoVo" resultType="com.project.modules.sys.vo.info.SysUserInfoVo">
+        SELECT
+            sys_user.user_id,
+            sys_user.user_name,
+            sys_user.phone,
+            sys_user.password,
+            sys_user.status,
+            sys_user_dept.dept_id,
+            sys_dept.dept_name
+        FROM
+            sys_user AS sys_user
+            LEFT JOIN sys_user_dept AS sys_user_dept ON sys_user.user_id = sys_user_dept.user_id
+            LEFT JOIN sys_dept AS sys_dept ON sys_user_dept.dept_id = sys_dept.dept_id
+        WHERE
+            sys_user.user_id = #{userId}
+    </select>
+
+    <!-- 查询用户的所有菜单ID -->
+    <select id="queryAllMenuId" resultType="long">
+        SELECT DISTINCT
+            sys_role_menu.menu_id
+        FROM
+            sys_user_role AS sys_user_role
+            LEFT JOIN sys_role_menu AS sys_role_menu ON sys_user_role.role_id = sys_role_menu.role_id
+        WHERE
+            sys_user_role.user_id = #{userId}
+    </select>
+
+    <!-- 查询用户的所有权限 -->
+    <select id="queryAllPerms" resultType="string">
+        SELECT
+            sys_menu.perms
+        FROM
+            sys_user_role AS sys_user_role
+            LEFT JOIN sys_role_menu AS sys_role_menu ON sys_user_role.role_id = sys_role_menu.role_id
+            LEFT JOIN sys_menu AS sys_menu ON sys_role_menu.menu_id = sys_menu.menu_id
+        WHERE
+            sys_user_role.user_id = #{userId}
+    </select>
+
+    <!--根据手机号码查询用户信息-->
+    <select id="queryByPhone" resultType="com.project.modules.sys.entity.SysUserEntity">
+        SELECT
+            user_id,
+            user_name,
+            phone,
+            password,
+            salt,
+            status,
+            login_ip,
+            login_time
+        FROM
+            sys_user
+        WHERE
+            phone = #{phone}
+    </select>
+
+    <!--获取用户ID和用户名称-->
+    <select id="getSysUser" resultType="com.project.modules.sys.vo.list.SysUserListInvokingVo">
+        SELECT
+            user_id,
+            user_name
+        FROM
+            sys_user
+        WHERE
+            user_id NOT IN (#{superAdmin}, #{admin})
+            AND status = #{status}
+    </select>
+</mapper>
