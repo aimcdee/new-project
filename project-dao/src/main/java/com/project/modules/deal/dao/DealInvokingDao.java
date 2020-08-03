@@ -61,7 +61,7 @@ public interface DealInvokingDao {
      * @param status
      * @return
      */
-    Long getDealUserIdByDealAssessId(Long dealAssessId, Integer status);
+    Long getDealUserIdByDealAssessId(@Param("dealAssessId") Long dealAssessId, @Param("status") Integer status);
 
     /**
      * 根据品牌ID获取品牌名称

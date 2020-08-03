@@ -129,16 +129,16 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
      */
     @Override
     public List<CouWaresBrandInvokingVo> getCouBrandList() {
-        List<CouWaresBrandInvokingVo> brandList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.Brand(RedisKeyConstant.COU_WARES_BRAND_LIST)), CouWaresBrandInvokingVo.class);
+        List<CouWaresBrandInvokingVo> brandList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST)), CouWaresBrandInvokingVo.class);
         brandList = CollectionUtils.isNotEmpty(brandList) ? brandList : baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus());
-        redisUtils.set(RedisKeys.CouWares.Brand(RedisKeyConstant.COU_WARES_BRAND_LIST), brandList);
+        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST), brandList);
         return brandList;
     }
 
     //更新redis上的列表信息
     private void updateRedis() {
-        redisUtils.delete(RedisKeys.CouWares.Brand(RedisKeyConstant.COU_WARES_BRAND_LIST));
-        redisUtils.set(RedisKeys.CouWares.Brand(RedisKeyConstant.COU_WARES_BRAND_LIST), baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus()));
+        redisUtils.delete(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST));
+        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST), baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus()));
     }
 
     //设置DealWaresBrandEntity更新对象

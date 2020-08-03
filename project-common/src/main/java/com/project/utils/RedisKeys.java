@@ -47,20 +47,20 @@ public class RedisKeys {
     /**用户登录*/
     public static class SysLogin {
         /**用户前缀*/
-        private static String Auz(String key){
-            return "auz:" + key;
+        private static String Staff(String key){
+            return "staff:" + key;
         }
         /**登录*/
         public static String Login(Long userId) {
-            return Prefix.SysKey(Auz("login:"), userId);
+            return Prefix.SysKey(Staff("login:"), userId);
         }
         /**权限*/
         public static String Perm(Serializable userId) {
-            return Prefix.SysKey(Auz("perm:"), userId);
+            return Prefix.SysKey(Staff("perm:"), userId);
         }
         /**角色*/
-        public static String Role(Serializable userId) {
-            return Prefix.SysKey(Auz("role:"), userId);
+        public static String Part(Serializable userId) {
+            return Prefix.SysKey(Staff("part:"), userId);
         }
     }
 
@@ -99,10 +99,6 @@ public class RedisKeys {
         public static String AreaId(String key) {
             return Prefix.CustKey(key);
         }
-        /**分页*/
-        public static String AreaPage(String key) {
-            return Prefix.CustKey(key);
-        }
         /**集合*/
         public static String AreaList(String key) {
             return Prefix.CustKey(key);
@@ -113,7 +109,7 @@ public class RedisKeys {
      * 轮播图
      */
     public static class ConfBanner {
-        public static String Banner(String key){
+        public static String ConfBanner(String key){
             return Prefix.ConfKey(key);
         }
     }
@@ -121,19 +117,19 @@ public class RedisKeys {
     /**品牌商品*/
     public static class CouWares {
         /**商品*/
-        public static String Wares(String key) {
+        public static String CouWares(String key) {
             return Prefix.CouKey("wares:",key);
         }
         /**商品品牌*/
-        public static String Brand(String key) {
+        public static String CouBrand(String key) {
             return Prefix.CouKey("brand:", key);
         }
         /**品牌系列*/
-        public static String Series(String key) {
+        public static String CouSeries(String key) {
             return Prefix.CouKey("series:", key);
         }
         /**商品型号*/
-        public static String Model(String key) {
+        public static String CouModel(String key) {
             return Prefix.CouKey("model:", key);
         }
     }
@@ -144,11 +140,11 @@ public class RedisKeys {
     public static class Wx {
         /**登录前缀*/
         private static String Login(){
-            return "login:";
+            return "wxLogin:";
         }
         /**用户商品前缀*/
-        private static String Deal(String key){
-            return "deal:" + key;
+        private static String WxDeal(String key){
+            return "wxDeal:" + key;
         }
         /**登录*/
         public static String WxLogin(String key) {

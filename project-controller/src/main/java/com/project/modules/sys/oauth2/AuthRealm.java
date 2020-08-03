@@ -61,14 +61,14 @@ public class AuthRealm extends AuthorizingRealm {
 
         // 用户角色列表
         Set<String> roleSet;
-        String roleJson = redisUtils.get(RedisKeys.SysLogin.Role(userId));
+        String roleJson = redisUtils.get(RedisKeys.SysLogin.Part(userId));
         if (StringUtils.isNotEmpty(roleJson)) {
             roleSet = JsonUtil.fromJson(roleJson, new TypeToken<Set<String>>() {
             }.getType());
         } else {
             roleSet = shiroService.getUserRole(userId);
             //权限缓存600秒
-            redisUtils.set(RedisKeys.SysLogin.Role(userId), roleSet, 600);
+            redisUtils.set(RedisKeys.SysLogin.Part(userId), roleSet, 600);
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.setStringPermissions(permsSet);

@@ -156,26 +156,26 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
      */
     @Override
     public List<ConfBannerInfoVo> normalList(Integer status) {
-        List<ConfBannerInfoVo> getRedisConfBannerInfoVos = JSONArray.parseArray(redisUtils.get(RedisKeys.ConfBanner.Banner(String.valueOf(status))), ConfBannerInfoVo.class);
+        List<ConfBannerInfoVo> getRedisConfBannerInfoVos = JSONArray.parseArray(redisUtils.get(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status))), ConfBannerInfoVo.class);
         List<ConfBannerInfoVo> confBannerInfoVos = CollectionUtils.isNotEmpty(getRedisConfBannerInfoVos) ? getRedisConfBannerInfoVos : new ArrayList<>();
         if (CollectionUtils.isEmpty(confBannerInfoVos)){
             confBannerInfoVos = baseMapper.normalList(status);
             confBannerInfoVos.forEach(confBannerInfoVo -> {
                 confBannerInfoVo.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(confBannerInfoVo.getBannerId()));
             });
-            redisUtils.set(RedisKeys.ConfBanner.Banner(String.valueOf(status)), confBannerInfoVos);
+            redisUtils.set(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status)), confBannerInfoVos);
         }
         return confBannerInfoVos;
     }
 
     //对redis操作
     private void editRedis(Integer status) {
-        redisUtils.delete(RedisKeys.ConfBanner.Banner(String.valueOf(status)));
+        redisUtils.delete(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status)));
         List<ConfBannerInfoVo> confBannerInfoVos = baseMapper.normalList(status);
         confBannerInfoVos.forEach(confBannerInfoVo -> {
             confBannerInfoVo.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(confBannerInfoVo.getBannerId()));
         });
-        redisUtils.set(RedisKeys.ConfBanner.Banner(String.valueOf(status)), confBannerInfoVos);
+        redisUtils.set(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status)), confBannerInfoVos);
     }
 
     //设置更新轮播图对象
