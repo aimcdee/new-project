@@ -2,7 +2,9 @@ package com.project.modules.cust.controller;
 
 import com.project.constant.Constant;
 import com.project.modules.cust.service.CustAreaService;
+import com.project.modules.sys.service.SysConfigService;
 import com.project.utils.R;
+import com.project.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,10 @@ public class CustAreaController {
 
     @Autowired
     private CustAreaService custAreaService;
+    @Autowired
+    private SysConfigService sysConfigService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * 查看树形菜单区域列表
@@ -51,39 +57,6 @@ public class CustAreaController {
         return R.ok(custAreaService.queryPage(params));
     }
 
-//    /**
-//     * 查看省
-//     * @return
-//     */
-//    @ApiOperation(value = "查看省份")
-//    @GetMapping("/province")
-//    @RequiresPermissions("cust:area:list")
-//    public R province(){
-//        return R.ok(custAreaService.getArea(null, Constant.AreaType.PROVINCE.getType()));
-//    }
-//
-//    /**
-//     * 查看市
-//     * @return
-//     */
-//    @ApiOperation(value = "查看市")
-//    @GetMapping("/city/{areaId}")
-//    @RequiresPermissions("cust:area:list")
-//    public R city(@PathVariable("areaId") Long areaId){
-//        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.CITY.getType()));
-//    }
-//
-//    /**
-//     * 查看县/区
-//     * @return
-//     */
-//    @ApiOperation(value = "查看县/区")
-//    @GetMapping("/county/{areaId}")
-//    @RequiresPermissions("cust:area:list")
-//    public R county(@PathVariable("areaId") Long areaId){
-//        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.COUNTY.getType()));
-//    }
-
     /**
      * 查看省
      * @return
@@ -92,28 +65,30 @@ public class CustAreaController {
     @GetMapping("/province")
     @RequiresPermissions("cust:area:list")
     public R province(){
-        return R.ok(custAreaService.getArea(Constant.DEFAUL_TPROVINCE, null, Constant.AreaType.PROVINCE.getType()));
+        return R.ok(custAreaService.getArea(null, Constant.AreaType.PROVINCE.getType()));
     }
 
     /**
      * 查看市
+     * @param areaId
      * @return
      */
     @ApiOperation(value = "查看市")
     @GetMapping("/city/{areaId}")
     @RequiresPermissions("cust:area:list")
     public R city(@PathVariable("areaId") Long areaId){
-        return R.ok(custAreaService.getArea(null, areaId, Constant.AreaType.CITY.getType()));
+        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.CITY.getType()));
     }
 
     /**
      * 查看县/区
+     * @param areaId
      * @return
      */
     @ApiOperation(value = "查看县/区")
     @GetMapping("/county/{areaId}")
     @RequiresPermissions("cust:area:list")
     public R county(@PathVariable("areaId") Long areaId){
-        return R.ok(custAreaService.getArea(null, areaId, Constant.AreaType.COUNTY.getType()));
+        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.COUNTY.getType()));
     }
 }

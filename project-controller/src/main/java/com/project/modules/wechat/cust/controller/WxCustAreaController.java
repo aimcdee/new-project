@@ -2,7 +2,9 @@ package com.project.modules.wechat.cust.controller;
 
 import com.project.constant.Constant;
 import com.project.modules.cust.service.CustAreaService;
+import com.project.modules.sys.service.SysConfigService;
 import com.project.utils.R;
+import com.project.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,10 @@ public class WxCustAreaController {
 
     @Autowired
     private CustAreaService custAreaService;
+    @Autowired
+    private SysConfigService sysConfigService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * 查看省
@@ -34,7 +40,7 @@ public class WxCustAreaController {
     @ApiOperation(value = "查看省份")
     @GetMapping("/province")
     public R province(){
-        return R.ok(custAreaService.getArea(Constant.DEFAUL_TPROVINCE, null, Constant.AreaType.PROVINCE.getType()));
+        return R.ok(custAreaService.getArea(null, Constant.AreaType.PROVINCE.getType()));
     }
 
     /**
@@ -44,7 +50,7 @@ public class WxCustAreaController {
     @ApiOperation(value = "查看市")
     @GetMapping("/city/{areaId}")
     public R city(@PathVariable("areaId") Long areaId){
-        return R.ok(custAreaService.getArea(null, areaId, Constant.AreaType.CITY.getType()));
+        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.CITY.getType()));
     }
 
     /**
@@ -54,6 +60,6 @@ public class WxCustAreaController {
     @ApiOperation(value = "查看县/区")
     @GetMapping("/county/{areaId}")
     public R county(@PathVariable("areaId") Long areaId){
-        return R.ok(custAreaService.getArea(null, areaId, Constant.AreaType.COUNTY.getType()));
+        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.COUNTY.getType()));
     }
 }

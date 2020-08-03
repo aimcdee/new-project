@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
-import com.project.constant.RedisKeyConstant;
+import com.project.constant.RedisListKeyConstant;
 import com.project.modules.cou.dao.CouWaresBrandDao;
 import com.project.modules.cou.entity.CouWaresBrandEntity;
 import com.project.modules.cou.service.CouWaresBrandService;
@@ -129,16 +129,16 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
      */
     @Override
     public List<CouWaresBrandInvokingVo> getCouBrandList() {
-        List<CouWaresBrandInvokingVo> brandList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST)), CouWaresBrandInvokingVo.class);
+        List<CouWaresBrandInvokingVo> brandList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_WARES_BRAND_LIST)), CouWaresBrandInvokingVo.class);
         brandList = CollectionUtils.isNotEmpty(brandList) ? brandList : baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus());
-        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST), brandList);
+        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_WARES_BRAND_LIST), brandList);
         return brandList;
     }
 
     //更新redis上的列表信息
     private void updateRedis() {
-        redisUtils.delete(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST));
-        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisKeyConstant.COU_WARES_BRAND_LIST), baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus()));
+        redisUtils.delete(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_WARES_BRAND_LIST));
+        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_WARES_BRAND_LIST), baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus()));
     }
 
     //设置DealWaresBrandEntity更新对象

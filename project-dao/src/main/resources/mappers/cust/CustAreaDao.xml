@@ -57,10 +57,10 @@
 <!--    &lt;!&ndash;查看区域&ndash;&gt;-->
 <!--    <select id="getCustAreaInvokingVo" resultType="com.project.modules.cust.vo.invoking.CustAreaInvokingVo">-->
 <!--        SELECT-->
-<!--        area_id,-->
-<!--        area_name-->
+<!--            area_id,-->
+<!--            area_name-->
 <!--        FROM-->
-<!--        cust_area-->
+<!--            cust_area-->
 <!--        <where>-->
 <!--            type = #{type}-->
 <!--            <if test="parentId != null and !&quot;&quot;.equals(parentId)">-->
@@ -78,7 +78,7 @@
             cust_area
         <where>
             type = #{type}
-            <if test="areaId != null and !&quot;&quot;.equals(areaId)">
+            <if test="areaId != null and areaId &gt; 0 ">
                 AND area_id = #{areaId}
             </if>
             <if test="parentId != null and !&quot;&quot;.equals(parentId)">

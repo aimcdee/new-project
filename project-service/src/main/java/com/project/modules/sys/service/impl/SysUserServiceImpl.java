@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
-import com.project.constant.RedisKeyConstant;
+import com.project.constant.RedisListKeyConstant;
 import com.project.exception.RRException;
 import com.project.modules.sys.dao.SysUserDao;
 import com.project.modules.sys.entity.SysUserEntity;
@@ -189,9 +189,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      */
     @Override
     public List<SysUserListInvokingVo> getSysUser() {
-        List<SysUserListInvokingVo> sysUserListInvokingVos = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.User(RedisKeyConstant.SYS_USER_LIST)), SysUserListInvokingVo.class);
+        List<SysUserListInvokingVo> sysUserListInvokingVos = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST)), SysUserListInvokingVo.class);
         sysUserListInvokingVos = CollectionUtils.isNotEmpty(sysUserListInvokingVos) ? sysUserListInvokingVos : baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.Status.NORMAL.getStatus());
-        redisUtils.set(RedisKeys.Sys.User(RedisKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
+        redisUtils.set(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
         return sysUserListInvokingVos;
     }
 
@@ -250,10 +250,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     //从redis中获取部门ID集合
     private List<Long> getRedisDeptIdList(Long deptId) {
-        List <Long> deptIdList = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.Dept(RedisKeyConstant.SYS_DEPT_ID_LIST + deptId)), Long.class);
+        List <Long> deptIdList = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.Dept(RedisListKeyConstant.SYS_DEPT_ID_LIST + deptId)), Long.class);
         if (CollectionUtils.isEmpty(deptIdList)){
             deptIdList = getDeptIdList(new ArrayList<>(), deptId);
-            redisUtils.set(RedisKeys.Sys.Dept(RedisKeyConstant.SYS_DEPT_ID_LIST + deptId), deptIdList);
+            redisUtils.set(RedisKeys.Sys.Dept(RedisListKeyConstant.SYS_DEPT_ID_LIST + deptId), deptIdList);
         }
         return deptIdList;
     }
@@ -276,8 +276,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     //更新redis上的用户列表信息
     private void updateRedis() {
-        redisUtils.delete(RedisKeys.Sys.User(RedisKeyConstant.SYS_USER_LIST));
+        redisUtils.delete(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST));
         List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.Status.NORMAL.getStatus());
-        redisUtils.set(RedisKeys.Sys.User(RedisKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
+        redisUtils.set(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
     }
 }

@@ -68,23 +68,23 @@ public class RedisKeys {
     public static class Sys {
         /**系统用户*/
         public static String User(String key) {
-            return Prefix.SysKey("user", key);
+            return Prefix.SysKey("user:", key);
         }
         /**系统菜单*/
         public static String Menu(String key) {
-            return Prefix.SysKey("menu", key);
+            return Prefix.SysKey("menu:", key);
         }
         /**系统参数*/
         public static String Config(String key) {
-            return Prefix.SysKey("config", key);
+            return Prefix.SysKey("config:", key);
         }
         /**系统角色*/
         public static String Role(String key) {
-            return Prefix.SysKey("role", key);
+            return Prefix.SysKey("role:", key);
         }
         /**系统部门*/
         public static String Dept(String key) {
-            return Prefix.SysKey("dept", key);
+            return Prefix.SysKey("dept:", key);
         }
 
     }

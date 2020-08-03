@@ -1,5 +1,6 @@
 package com.project.modules.sys.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +33,8 @@ import java.util.Map;
 @Service
 public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEntity> implements SysConfigService {
 
+    @Autowired
+    private RedisUtils redisUtils;
     @Autowired
     private CheckUtils checkUtils;
     @Autowired
@@ -68,7 +72,12 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         Page<SysConfigListVo> page = new Query<SysConfigListVo>(params).getPage();
-        return new PageUtils(page.setRecords(baseMapper.queryPage(page)));
+        List<SysConfigListVo> sysConfigListVos = baseMapper.queryPage(page);
+        sysConfigListVos.forEach(sysConfigListVo -> {
+            sysConfigListVo.setValue(JsonUtil.toJson(sysConfigListVo.getValue()));
+
+        });
+        return new PageUtils(page.setRecords(sysConfigListVos));
     }
 
     /**
@@ -78,15 +87,15 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
      */
     @Override
     @Transactional
-    public void saveSysConfigSaveVo(SysConfigSaveVo config, Long sysUserId) {
+    public void saveEntity(SysConfigSaveVo config, Long sysUserId) {
         try {
             trimUtils.beanValueTrim(config);
         } catch (Exception e) {
             e.printStackTrace();
         }
         save(getSaveSysConfigEntity(config, sysUserId));
+        redisUtils.set(RedisKeys.Sys.Config(config.getCode()), config.getValue());
     }
-
 
     /**
      * 根据configId获取系统配置信息
@@ -113,6 +122,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
             e.printStackTrace();
         }
         updateById(getUpdateSysConfigEntity(config, userId));
+        updateRedis();
     }
 
     /**
@@ -127,6 +137,26 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
         checkUtils.checkEntityNotNull(sysConfigEntity);
         sysConfigEntity.setStatus(status).setUpdateUserId(userId).setUpdateTime(new Date());
         updateById(sysConfigEntity);
+        updateRedis();
+    }
+
+    /**
+     * 获取配置好的默认省份ID
+     * @param defaulTprovince
+     * @return
+     */
+    @Override
+    public Long getDefaultAreaId(String defaulTprovince) {
+        return Long.parseLong(baseMapper.getDefaultAreaId(defaulTprovince, Constant.Status.NORMAL.getStatus()));
+    }
+
+    //新增redis缓存数据
+    private void updateRedis() {
+        List<SysConfigEntity> sysConfigEntities = list(new QueryWrapper<SysConfigEntity>().eq("status", Constant.Status.NORMAL.getStatus()));
+        sysConfigEntities.forEach(sysConfigEntity -> {
+            redisUtils.delete(RedisKeys.Sys.Config(sysConfigEntity.getCode()));
+            redisUtils.set(RedisKeys.Sys.Config(sysConfigEntity.getCode()), sysConfigEntity.getValue());
+        });
     }
 
     //设置更新的配置信息
@@ -140,7 +170,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
         sysConfigEntity
                 .setName(config.getName())
                 .setCode(config.getCode())
-                .setValue(JsonUtil.toJson(config.getValue()))
+                .setValue(config.getValue())
                 .setMemo(config.getMemo())
                 .setUpdateUserId(userId).setUpdateTime(new Date());
         return sysConfigEntity;
@@ -155,7 +185,8 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
         SysConfigEntity sysConfigEntity = new SysConfigEntity();
         sysConfigEntity
                 .setName(config.getName()).setCode(config.getCode())
-                .setValue(JsonUtil.toJson(config.getValue())).setMemo(config.getMemo())
+                .setValue(config.getValue())
+                .setMemo(config.getMemo())
                 .setStatus(Constant.Status.NORMAL.getStatus())
                 .setCreateUserId(sysUserId).setUpdateUserId(sysUserId);
         System.out.println("状态:" + Constant.Status.NORMAL.getStatus());

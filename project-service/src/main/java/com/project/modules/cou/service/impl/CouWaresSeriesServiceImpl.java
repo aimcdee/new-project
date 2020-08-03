@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
-import com.project.constant.RedisKeyConstant;
+import com.project.constant.RedisListKeyConstant;
 import com.project.modules.cou.dao.CouWaresSeriesDao;
 import com.project.modules.cou.entity.CouWaresSeriesEntity;
 import com.project.modules.cou.service.CouWaresSeriesService;
@@ -130,16 +130,16 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
      */
     @Override
     public List<CouWaresSeriesInvokingVo> getCouSeriesList(Long couBrandId) {
-        List<CouWaresSeriesInvokingVo> seriesList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString())), CouWaresSeriesInvokingVo.class);
+        List<CouWaresSeriesInvokingVo> seriesList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString())), CouWaresSeriesInvokingVo.class);
         seriesList = CollectionUtils.isEmpty(seriesList) ? baseMapper.getCouSeriesList(couBrandId, Constant.Status.NORMAL.getStatus()) : seriesList;
-        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString()), seriesList);
+        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString()), seriesList);
         return seriesList;
     }
 
     //更新redis上的品牌系列列表信息
     private void updateRedis(Long couBrandId) {
-        redisUtils.delete(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString()));
-        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString()), baseMapper.getCouSeriesList(couBrandId, Constant.Status.NORMAL.getStatus()));
+        redisUtils.delete(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString()));
+        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_WARES_SERIES_LIST).append("_").append(couBrandId).toString()), baseMapper.getCouSeriesList(couBrandId, Constant.Status.NORMAL.getStatus()));
     }
 
     //获取CouWaresSeriesEntity更新对象

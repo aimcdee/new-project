@@ -82,7 +82,7 @@ public class SysConfigController {
     @RequiresPermissions("sys:config:save")
     public R save(@RequestBody SysConfigSaveVo config) {
         ValidatorUtils.validateEntity(config);
-        sysConfigService.saveSysConfigSaveVo(config, getSysUserId());
+        sysConfigService.saveEntity(config, getSysUserId());
         return R.ok();
     }
 

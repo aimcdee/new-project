@@ -19,12 +19,10 @@ package com.project.modules.sys.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.project.modules.sys.entity.SysConfigEntity;
 import com.project.modules.sys.vo.info.SysConfigInfoVo;
-import com.project.modules.sys.vo.list.SysConfigListVo;
 import com.project.modules.sys.vo.save.SysConfigSaveVo;
 import com.project.modules.sys.vo.update.SysConfigUpdateVo;
 import com.project.utils.PageUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -61,7 +59,7 @@ public interface SysConfigService extends IService<SysConfigEntity> {
      * @param config
      * @param sysUserId
      */
-    void saveSysConfigSaveVo(SysConfigSaveVo config, Long sysUserId);
+    void saveEntity(SysConfigSaveVo config, Long sysUserId);
 
     /**
      * 根据系统配置ID获取系统配置信息
@@ -84,4 +82,11 @@ public interface SysConfigService extends IService<SysConfigEntity> {
      * @param sysUserId
      */
     void changeStatus(Long configId, Integer status, Long sysUserId);
+
+    /**
+     * 获取配置好的默认省份ID
+     * @param defaulTprovince
+     * @return
+     */
+    Long getDefaultAreaId(String defaulTprovince);
 }

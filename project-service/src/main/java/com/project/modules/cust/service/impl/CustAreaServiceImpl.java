@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
 import com.project.constant.RedisKeyConstant;
+import com.project.constant.RedisListKeyConstant;
 import com.project.modules.cust.dao.CustAreaDao;
 import com.project.modules.cust.entity.CustAreaEntity;
 import com.project.modules.cust.service.CustAreaService;
 import com.project.modules.cust.vo.invoking.CustAreaInvokingVo;
 import com.project.modules.cust.vo.list.CustAreaListVo;
 import com.project.modules.cust.vo.list.CustAreaTreeVo;
+import com.project.modules.sys.service.SysConfigService;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -31,6 +33,8 @@ import java.util.*;
 public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity> implements CustAreaService {
 
     @Autowired
+    private SysConfigService sysConfigService;
+    @Autowired
     private CheckUtils checkUtils;
     @Autowired
     private RedisUtils redisUtils;
@@ -41,14 +45,14 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
      */
     @Override
     public List<CustAreaTreeVo> getTreeList() {
-        List<CustAreaTreeVo> custAreaTreeVos = JSONArray.parseArray(redisUtils.get(RedisKeys.CustArea.AreaTree(RedisKeyConstant.CUST_AREA_TREE_LIST)), CustAreaTreeVo.class);
+        List<CustAreaTreeVo> custAreaTreeVos = JSONArray.parseArray(redisUtils.get(RedisKeys.CustArea.AreaTree(RedisListKeyConstant.CUST_AREA_TREE_LIST)), CustAreaTreeVo.class);
         if (CollectionUtils.isEmpty(custAreaTreeVos)){
             custAreaTreeVos = baseMapper.getCustAreaTreeList();
             checkUtils.checkEntitiesNotNull(custAreaTreeVos);
             custAreaTreeVos.forEach(custAreaTreeVo -> {
                 custAreaTreeVo.setParentName(Optional.ofNullable(baseMapper.getParentNameByParentId(custAreaTreeVo.getParentId())).orElse(Constant.DEFAUL_NAME));
             });
-            redisUtils.set(RedisKeys.CustArea.AreaTree(RedisKeyConstant.CUST_AREA_TREE_LIST), custAreaTreeVos);
+            redisUtils.set(RedisKeys.CustArea.AreaTree(RedisListKeyConstant.CUST_AREA_TREE_LIST), custAreaTreeVos);
         }
         return custAreaTreeVos;
     }
@@ -72,14 +76,23 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
 
     /**
      * 查询区域
-     * @param areaId
      * @param parentId
      * @param type
      * @return
      */
     @Override
-    public List<CustAreaInvokingVo> getArea(Long areaId, Long parentId, Integer type) {
-        String redisKey = getRedisKey(parentId, type);
+    public List<CustAreaInvokingVo> getArea(Long parentId, Integer type) {
+        Long areaId  = null;
+        if (type.equals(Constant.AreaType.PROVINCE.getType())){
+            String value = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE));
+            if (Objects.nonNull(value)){
+                areaId = Long.parseLong(value);
+            } else {
+                areaId = sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
+                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE), areaId);
+            }
+        }
+        String redisKey = getRedisKey(areaId, parentId, type);
         List<CustAreaInvokingVo> custAreaInvokingVos = JSONArray.parseArray(redisUtils.get(RedisKeys.CustArea.AreaList(redisKey)), CustAreaInvokingVo.class);
         if (CollectionUtils.isEmpty(custAreaInvokingVos)){
             custAreaInvokingVos = baseMapper.getCustAreaInvokingVo(areaId, parentId, type);
@@ -88,17 +101,17 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
         return custAreaInvokingVos;
     }
 
-    private String getRedisKey(Long parentId, Integer type) {
+    private String getRedisKey(Long areaId, Long parentId, Integer type) {
         String redisKey = null;
         switch (Constant.AreaType.getTypeValues(type)){
             case PROVINCE:
-                redisKey = RedisKeyConstant.CUST_AREA_PROVINCE_LIST;
+                redisKey = new StringBuilder().append(RedisListKeyConstant.CUST_AREA_PROVINCE_LIST).append("_").append(areaId).toString();
                 break;
             case CITY:
-                redisKey = new StringBuilder().append(RedisKeyConstant.CUST_AREA_CITY_LIST).append("_").append(parentId).toString();
+                redisKey = new StringBuilder().append(RedisListKeyConstant.CUST_AREA_CITY_LIST).append("_").append(parentId).toString();
                 break;
             case COUNTY:
-                redisKey = new StringBuilder().append(RedisKeyConstant.CUST_AREA_COUNTY_LIST).append("_").append(parentId).toString();
+                redisKey = new StringBuilder().append(RedisListKeyConstant.CUST_AREA_COUNTY_LIST).append("_").append(parentId).toString();
                 break;
             default:
                 break;
@@ -110,18 +123,22 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
     private Long getAreaId(Map<String, Object> params) {
         Long areaId = MapUtils.getLong(params, "areaId");
         if (Objects.isNull(areaId)){
-            areaId = Constant.DEFAUL_TPROVINCE;
+            areaId = Long.parseLong(redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE)));
+            if (Objects.isNull(areaId)){
+                areaId = sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
+                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE), areaId);
+            }
         }
         return areaId;
     }
 
     //获取所有省市县/区的区域ID集合
     private List<Long> getRedisAreaIdList(Long areaId){
-        List<Long> redisAreaIdList = JSONArray.parseArray(redisUtils.get(RedisKeys.CustArea.AreaId(new StringBuilder().append(RedisKeyConstant.CUST_AREA_ID_LIST).append("_").append(areaId).toString())), Long.class);
+        List<Long> redisAreaIdList = JSONArray.parseArray(redisUtils.get(RedisKeys.CustArea.AreaId(new StringBuilder().append(RedisListKeyConstant.CUST_AREA_ID_LIST).append("_").append(areaId).toString())), Long.class);
         List <Long> areaIdList = CollectionUtils.isNotEmpty(redisAreaIdList) ? redisAreaIdList : new ArrayList<>();
         if (CollectionUtils.isEmpty(areaIdList)){
             areaIdList = getAreaIdList(areaIdList, areaId);
-            redisUtils.set(RedisKeys.CustArea.AreaId(new StringBuilder().append(RedisKeyConstant.CUST_AREA_ID_LIST).append("_").append(areaId).toString()), areaIdList);
+            redisUtils.set(RedisKeys.CustArea.AreaId(new StringBuilder().append(RedisListKeyConstant.CUST_AREA_ID_LIST).append("_").append(areaId).toString()), areaIdList);
         }
         return areaIdList;
     }

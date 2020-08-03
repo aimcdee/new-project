@@ -25,12 +25,6 @@ public class Constant {
     /**默认部门*/
     public static final Long DEFAUL_TDEPT = -666666L;
 
-    /**默认广东省级ID*/
-    public static final Long DEFAUL_TPROVINCE = 19L;
-
-//    /**默认省级ID*/
-//    public static final Long DEFAUL_TPROVINCE = 0L;
-
     /**默认ID*/
     public static final Long DEFAUL_ID = 0L;
 

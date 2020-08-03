@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
-import com.project.constant.RedisKeyConstant;
+import com.project.constant.RedisListKeyConstant;
 import com.project.modules.cou.dao.CouWaresModelDao;
 import com.project.modules.cou.entity.CouWaresModelEntity;
 import com.project.modules.cou.service.CouWaresModelService;
@@ -127,16 +127,16 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
      */
     @Override
     public List<CouWaresModelInvokingVo> getCouModelList() {
-        List<CouWaresModelInvokingVo> modelList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouModel(RedisKeyConstant.COU_WARES_MODEL_LIST)), CouWaresModelInvokingVo.class);
+        List<CouWaresModelInvokingVo> modelList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_WARES_MODEL_LIST)), CouWaresModelInvokingVo.class);
         modelList = CollectionUtils.isNotEmpty(modelList) ? modelList : baseMapper.getCouModelList(Constant.Status.NORMAL.getStatus());
-        redisUtils.set(RedisKeys.CouWares.CouSeries(RedisKeyConstant.COU_WARES_MODEL_LIST), modelList);
+        redisUtils.set(RedisKeys.CouWares.CouSeries(RedisListKeyConstant.COU_WARES_MODEL_LIST), modelList);
         return modelList;
     }
 
     //更新redis上的列表信息
     private void updateRedis() {
-        redisUtils.delete(RedisKeys.CouWares.CouModel(RedisKeyConstant.COU_WARES_MODEL_LIST));
-        redisUtils.set(RedisKeys.CouWares.CouModel(RedisKeyConstant.COU_WARES_MODEL_LIST), baseMapper.getCouModelList(Constant.Status.NORMAL.getStatus()));
+        redisUtils.delete(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_WARES_MODEL_LIST));
+        redisUtils.set(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_WARES_MODEL_LIST), baseMapper.getCouModelList(Constant.Status.NORMAL.getStatus()));
     }
 
     //获取DealWaresTypeEntity更新对象

@@ -30,20 +30,11 @@ public interface CustAreaService extends IService<CustAreaEntity> {
      */
     PageUtils queryPage(Map<String, Object> params);
 
-//    /**
-//     * 查看区域
-//     * @param parentId
-//     * @param type
-//     * @return
-//     */
-//    List<CustAreaInvokingVo> getArea(Long parentId, Integer type);
-
     /**
      * 查看区域
-     * @param areaId
      * @param parentId
      * @param type
      * @return
      */
-    List<CustAreaInvokingVo> getArea(Long areaId, Long parentId, Integer type);
+    List<CustAreaInvokingVo> getArea(Long parentId, Integer type);
 }

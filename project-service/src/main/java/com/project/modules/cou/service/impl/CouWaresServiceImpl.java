@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
-import com.project.constant.RedisKeyConstant;
+import com.project.constant.RedisListKeyConstant;
 import com.project.modules.cou.dao.CouWaresDao;
 import com.project.modules.cou.entity.CouWaresEntity;
 import com.project.modules.cou.service.CouInvokingService;
@@ -148,16 +148,16 @@ public class CouWaresServiceImpl extends ServiceImpl<CouWaresDao, CouWaresEntity
      */
     @Override
     public List<CouWaresInvokingVo> getCouWaresList(Long couSeriesId) {
-        List<CouWaresInvokingVo> queryWaresList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString())), CouWaresInvokingVo.class);
+        List<CouWaresInvokingVo> queryWaresList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString())), CouWaresInvokingVo.class);
         List<CouWaresInvokingVo>  waresList = CollectionUtils.isNotEmpty(queryWaresList) ? queryWaresList : baseMapper.getCouWaresList(couSeriesId, Constant.Status.NORMAL.getStatus());
-        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()), waresList);
+        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()), waresList);
         return waresList;
     }
 
     //更新redis上的列表信息
     private void updateRedis(Long couSeriesId) {
-        redisUtils.delete(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()));
-        redisUtils.set(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()), baseMapper.getCouWaresList(couSeriesId, Constant.Status.NORMAL.getStatus()));
+        redisUtils.delete(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()));
+        redisUtils.set(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()), baseMapper.getCouWaresList(couSeriesId, Constant.Status.NORMAL.getStatus()));
     }
 
     //获取CouWaresEntity更新对象
