@@ -46,8 +46,6 @@ public class DealUserStoreDepositServiceImpl extends ServiceImpl<DealUserStoreDe
     @Autowired
     private CreateNoAndIDUtils createNoAndIDUtils;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private CheckUtils checkUtils;
     @Autowired
     private TrimUtils trimUtils;
@@ -64,8 +62,8 @@ public class DealUserStoreDepositServiceImpl extends ServiceImpl<DealUserStoreDe
                 page,
                 StringUtils.trim(MapUtils.getString(params, "dealPhone")),
                 MapUtils.getInteger(params, "status"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(dealUserStoreDepositListVos)){
             dealUserStoreDepositListVos.forEach(dealUserStoreDepositListVo -> {
                 DealBillExamineInvokingVo dealBillExamineInvokingVo = dealBillExamineService.getExamineUser(dealUserStoreDepositListVo.getDepositId(), Constant.BillType.DEPOSIT.getType());

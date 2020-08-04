@@ -52,8 +52,6 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     @Autowired
     private CheckUtils checkUtils;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private TrimUtils trimUtils;
 
     /**
@@ -78,8 +76,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "countyAreaId"),
                 MapUtils.getInteger(params, "onlineStatus"),
                 MapUtils.getInteger(params, "sellStatus"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         waresLists.forEach(wares -> {
             DealWaresExamineInvokingVo dealWaresExamineInvokingVo = dealWaresExamineService.getExamineUser(wares.getDealWaresId());
             DealStoreUserInvokingVo storeUser = dealInvokingService.getDealStoreUserInvokingVoByStoreId(wares.getDealStoreId());
@@ -121,8 +119,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "countyAreaId"),
                 MapUtils.getInteger(params, "onlineStatus"),
                 MapUtils.getInteger(params, "sellStatus"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         personaList.forEach(personal -> {
             personal
                     .setDealWaresTitle(new StringBuilder().append(personal.getCouBrandName()).append(" ").append(personal.getDealWaresTitle()).toString())
@@ -151,8 +149,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "countyAreaId"),
                 Constant.WaresOnLineStatus.ONLINE.getStatus(),
                 Constant.WaresSellStatus.UNSALE.getStatus(),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         storeList.forEach(store -> {
             store
                     .setDealWaresTitle(new StringBuilder().append(store.getCouBrandName()).append(" ").append(store.getDealWaresTitle()).toString())
@@ -181,8 +179,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "countyAreaId"),
                 Constant.WaresOnLineStatus.ONLINE.getStatus(),
                 Constant.WaresSellStatus.UNSALE.getStatus(),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         retailList.forEach(retail -> {
             retail
                     .setDealWaresTitle(new StringBuilder().append(retail.getCouBrandName()).append(" ").append(retail.getDealWaresTitle()).toString())

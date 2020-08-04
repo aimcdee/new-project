@@ -42,8 +42,6 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
     @Autowired
     private DealAssessImageService dealAssessImageService;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private DealInvokingService dealInvokingService;
     @Autowired
     private TrimUtils trimUtils;
@@ -62,8 +60,8 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
                 page,
                 MapUtils.getLong(params, "dealUserId"),
                 MapUtils.getInteger(params, "status"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(assessList)){
             assessList.forEach(assess -> {
                 assess

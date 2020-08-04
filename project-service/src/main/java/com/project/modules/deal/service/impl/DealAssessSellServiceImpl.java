@@ -42,8 +42,6 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
     @Autowired
     private DealInvokingService dealInvokingService;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private TrimUtils trimUtils;
     @Autowired
     private CheckUtils checkUtils;
@@ -61,8 +59,8 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
                 StringUtils.trim(MapUtils.getString(params, "contactName")),
                 StringUtils.trim(MapUtils.getString(params, "contactPhone")),
                 MapUtils.getInteger(params, "status"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(dealAssessSellListVos)){
             dealAssessSellListVos.forEach(dealAssessSellListVo -> {
                 dealAssessSellListVo

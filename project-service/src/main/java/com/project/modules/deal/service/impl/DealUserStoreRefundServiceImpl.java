@@ -41,8 +41,6 @@ public class DealUserStoreRefundServiceImpl extends ServiceImpl<DealUserStoreRef
     @Autowired
     private DealInvokingService dealInvokingService;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private DealBillExamineService dealBillExamineService;
     @Autowired
     private CreateNoAndIDUtils createNoAndIDUtils;
@@ -63,8 +61,8 @@ public class DealUserStoreRefundServiceImpl extends ServiceImpl<DealUserStoreRef
                 page,
                 StringUtils.trim(MapUtils.getString(params, "dealPhone")),
                 MapUtils.getInteger(params, "status"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(dealUserStoreRefundListVos)){
             dealUserStoreRefundListVos.forEach(dealUserStoreRefundListVo -> {
                 DealBillExamineInvokingVo dealBillExamineInvokingVo = dealBillExamineService.getExamineUser(dealUserStoreRefundListVo.getRefundId(), Constant.BillType.REFUND.getType());

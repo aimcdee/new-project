@@ -16,6 +16,8 @@
 
 package com.project.utils;
 
+import com.project.exception.RRException;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -23,10 +25,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 日期处理
@@ -417,5 +416,24 @@ public class DateUtils {
         Set s = new HashSet();
         s.add(null);
         System.out.println(s);
+    }
+
+    /**
+     * 设置时间格式
+     *
+     * @param params
+     * @param dateKey
+     * @return
+     */
+    public static Date getDate(Map<String, Object> params, String dateKey) {
+        Date startDateTime;
+        try {
+            String startDateTimeString = MapUtils.getString(params, dateKey);
+            startDateTime = stringToDate(startDateTimeString, DateUtils.DATE_TIME_PATTERN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RRException("日期格式必须是:" + DateUtils.DATE_TIME_PATTERN);
+        }
+        return startDateTime;
     }
 }

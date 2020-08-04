@@ -42,8 +42,6 @@ public class DealUserStoreFinanceServiceImpl extends ServiceImpl<DealUserStoreFi
     @Autowired
     private DealInvokingService dealInvokingService;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private DealBillExamineService dealBillExamineService;
     @Autowired
     private DealUserStoreDepositService dealUserStoreDepositService;
@@ -68,8 +66,8 @@ public class DealUserStoreFinanceServiceImpl extends ServiceImpl<DealUserStoreFi
                 StringUtils.trim(MapUtils.getString(params, "contactPhone")),
                 StringUtils.trim(MapUtils.getString(params, "contactName")),
                 MapUtils.getInteger(params, "status"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(financeList)){
             financeList.forEach(finance ->{
                 finance.setSysUserName(dealInvokingService.getSysUserNameBySysUserId(finance.getSysUserId()));

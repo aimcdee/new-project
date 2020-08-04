@@ -37,8 +37,6 @@ public class DealWaresInstallmentServiceImpl extends ServiceImpl<DealWaresInstal
     @Autowired
     private DealInvokingService dealInvokingService;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private TrimUtils trimUtils;
     @Autowired
     private CheckUtils checkUtils;
@@ -59,8 +57,8 @@ public class DealWaresInstallmentServiceImpl extends ServiceImpl<DealWaresInstal
                 StringUtils.trim(MapUtils.getString(params, "dealWaresTitle")),
                 StringUtils.trim(MapUtils.getString(params, "contactPhone")),
                 MapUtils.getInteger(params, "followStatus"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(installmentList)){
             installmentList.forEach(installment ->{
                 installment.setSysUserName(dealInvokingService.getSysUserNameBySysUserId(installment.getSysUserId()));
@@ -80,8 +78,8 @@ public class DealWaresInstallmentServiceImpl extends ServiceImpl<DealWaresInstal
         List<DealWaresInstallmentWxListVo> installmentWxList = baseMapper.queryWxPage(
                 page,
                 MapUtils.getLong(params, "dealUserId"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(installmentWxList)){
             installmentWxList.forEach(installmentWx ->{
                 installmentWx.setSysUserName(dealInvokingService.getSysUserNameBySysUserId(installmentWx.getSysUserId()));

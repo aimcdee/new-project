@@ -52,8 +52,6 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
     @Autowired
     private DealInvokingService dealInvokingService;
     @Autowired
-    private DDateUtils dDateUtils;
-    @Autowired
     private RedisUtils redisUtils;
     @Autowired
     private CheckUtils checkUtils;
@@ -74,8 +72,8 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
                 StringUtils.trim(MapUtils.getString(params, "phone")),
                 MapUtils.getInteger(params, "type"),
                 MapUtils.getInteger(params, "status"),
-                dDateUtils.getDate(params, "startTime"),
-                dDateUtils.getDate(params, "endTime"));
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         dealUserListVos.forEach(dealUserListVo -> {
             DealUserStoreInvokingVo dealUserStoreInvokingVo = dealUserListVo.getType().equals(Constant.StoreType.ENTERPRISE.getType()) ? getDealUserStoreInvokingVo(dealUserListVo.getDealUserId()) : new DealUserStoreInvokingVo();
             dealUserListVo
