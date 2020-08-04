@@ -31,11 +31,10 @@ feign:
         timeout:
           #如果enabled设置为false，则请求超时交给ribbon控制
           enabled: false
-
-# 服务器地址
+# 图片服务器地址
 file:
   path:
-    ipUrl: http://118.190.26.73/Image/
+    ipUrl: http://39.100.108.10/Image/
     fileUrl: /usr/local/Image/
 
 spring:
@@ -64,8 +63,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://122.51.119.145:8080/eureka/
-#      defaultZone: http://localhost:8080/eureka/
+      defaultZone: http://118.190.26.73:8080/eureka/
     # 缓存清单每隔30秒跟新一次
     registry-fetch-interval-seconds: 10
   instance:
@@ -89,7 +87,7 @@ renren:
   # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
   jwt:
     # 加密秘钥
-    secret: wICxOEA05rlvikbw2rw6[heigrace.com]
+    secret: wICxOEA05rlvikbw2rw6[zjProject.com]
     # token有效时长，7天，单位秒
     expire: 604800
     header: token

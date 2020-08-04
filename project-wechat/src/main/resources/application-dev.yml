@@ -7,12 +7,11 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
+    driverClassName: com.mysql.jdbc.Driver
     druid:
-      url: jdbc:mysql://rm-m5et46hg59keyooq3ko.mysql.rds.aliyuncs.com:3306/car?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=FALSE&serverTimezone=GMT%2b8
-      username: mcdee
-      password: Lyd_13422356022
-      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://rm-8vbp3mp7461zs9xt70o.mysql.zhangbei.rds.aliyuncs.com:3306/car_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=FALSE&serverTimezone=GMT%2b8
+      username: root
+      password: Lyd13422356022
       initial-size: 10
       max-active: 100
       min-idle: 10
@@ -41,7 +40,7 @@ spring:
   #        session-stat-enable: false
   redis:
     database: 5
-    host: r-wz95887bf628b004pd.redis.rds.aliyuncs.com
+    host: r-8vbt53r4r8hzmleq7apd.redis.zhangbei.rds.aliyuncs.com
     port: 6379
     password: Lyd13422356022      # 密码（默认为空）
     timeout: 15000  # 连接超时时长（毫秒）
