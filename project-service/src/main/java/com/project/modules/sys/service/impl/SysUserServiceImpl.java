@@ -184,7 +184,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         if (!oldPassword.equals(sysUserEntity.getPassword())){
             throw new RRException("原密码输入有误,请重新输入");
         }
-        String salt = RandomStringUtils.randomAlphanumeric(20);
+        String salt = getSalt();
         sysUserEntity
                 .setSalt(salt)
                 .setPassword(new Sha256Hash(StringUtils.trim(user.getNewPassword()), salt).toHex());
@@ -201,7 +201,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     public void resetPassword(Long userId, Long sysUserId) {
         SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq("user_id", userId).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(sysUserEntity);
-        String salt = RandomStringUtils.randomAlphanumeric(20);
+        String salt = getSalt();
         sysUserEntity
                 .setSalt(salt)
                 .setPassword(new Sha256Hash(StringUtils.trim(Constant.DEAL_PASSWORD), salt).toHex());
@@ -259,7 +259,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
             if (!user.getConfirm().equals(user.getPassword())){
                 throw new RRException("两次密码输入不匹配,请重新输入");
             }
-            String salt = RandomStringUtils.randomAlphanumeric(20);
+            String salt = getSalt();
             sysUserEntity
                     .setSalt(salt)
                     .setPassword(new Sha256Hash(StringUtils.trim(user.getPassword()), salt).toHex());
@@ -277,7 +277,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     private SysUserEntity getSaveSysUserEntity(SysUserSaveVo user, Long sysUserId) {
         SysUserEntity sysUserEntity = new SysUserEntity();
         //sha256加密
-        String salt = RandomStringUtils.randomAlphanumeric(20);
+        String salt = getSalt();
         sysUserEntity
                 .setUserName(StringUtils.trim(user.getUserName()))
                 .setPhone(StringUtils.trim(user.getPhone()))
@@ -288,6 +288,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);
         return sysUserEntity;
+    }
+
+    //获取salt
+    private String getSalt(){
+        return RandomStringUtils.randomAlphanumeric(20);
     }
 
     //从redis中获取部门ID集合
