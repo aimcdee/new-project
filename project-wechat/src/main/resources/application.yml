@@ -89,7 +89,7 @@ renren:
   # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
   jwt:
     # 加密秘钥
-    secret: wICxOEA05rlvikbw2rw6[heigrace.com]
+    secret: wICxOEA05rlvikbw2rw6[zjProject.com]
     # token有效时长，7天，单位秒SwaggerConfig
     #WebMvcConfg
     expire: 604800
