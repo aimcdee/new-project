@@ -25,6 +25,9 @@ public class Constant {
     /**默认部门*/
     public static final Long DEFAUL_TDEPT = -666666L;
 
+    /**内部调用评估接口*/
+    public static final String DEAL_PASSWORD = "123456";
+
     /**默认ID*/
     public static final Long DEFAUL_ID = 0L;
 

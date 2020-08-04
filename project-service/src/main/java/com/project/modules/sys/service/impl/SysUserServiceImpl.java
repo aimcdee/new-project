@@ -14,6 +14,7 @@ import com.project.modules.sys.vo.info.SysUserInfoVo;
 import com.project.modules.sys.vo.list.SysUserListInvokingVo;
 import com.project.modules.sys.vo.list.SysUserListVo;
 import com.project.modules.sys.vo.save.SysUserSaveVo;
+import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
 import com.project.modules.sys.vo.update.SysUserUpdateVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
@@ -165,6 +166,46 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         //更新系统用户与角色关系
         sysUserRoleService.updateUserRole(user.getUserId(), user.getRoleIdList());
         updateRedis();
+    }
+
+    /**
+     * 修改用户密码
+     * @param user
+     * @param sysUserId
+     */
+    @Override
+    @Transactional
+    public void updatePassword(SysUserUpdatePasswordVo user, Long sysUserId) {
+        //校验非空
+        checkUtils.checkUpdatePasswordNotNull(user);
+        SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq("user_id", user.getUserId()).last("LIMIT 1"));
+        checkUtils.checkEntityNotNull(sysUserEntity);
+        String oldPassword = new Sha256Hash(StringUtils.trim(user.getOldPassword()), sysUserEntity.getSalt()).toHex();
+        if (!oldPassword.equals(sysUserEntity.getPassword())){
+            throw new RRException("原密码输入有误,请重新输入");
+        }
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        sysUserEntity
+                .setSalt(salt)
+                .setPassword(new Sha256Hash(StringUtils.trim(user.getNewPassword()), salt).toHex());
+        updateById(sysUserEntity);
+    }
+
+    /**
+     * 重置用户密码
+     * @param userId
+     * @param sysUserId
+     */
+    @Override
+    @Transactional
+    public void resetPassword(Long userId, Long sysUserId) {
+        SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq("user_id", userId).last("LIMIT 1"));
+        checkUtils.checkEntityNotNull(sysUserEntity);
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        sysUserEntity
+                .setSalt(salt)
+                .setPassword(new Sha256Hash(StringUtils.trim(Constant.DEAL_PASSWORD), salt).toHex());
+        updateById(sysUserEntity);
     }
 
     /**

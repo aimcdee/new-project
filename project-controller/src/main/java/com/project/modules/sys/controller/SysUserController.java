@@ -4,6 +4,7 @@ import com.project.annotation.SysLog;
 import com.project.constant.Constant;
 import com.project.modules.sys.service.SysUserService;
 import com.project.modules.sys.vo.save.SysUserSaveVo;
+import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
 import com.project.modules.sys.vo.update.SysUserUpdateVo;
 import com.project.utils.R;
 import com.project.validator.ValidatorUtils;
@@ -99,6 +100,36 @@ public class SysUserController {
     public R update(@RequestBody SysUserUpdateVo user){
         ValidatorUtils.validateEntity(user);
         sysUserService.updateSysUser(user, getSysUserId());
+        return R.ok();
+    }
+
+    /**
+     * 修改用户密码
+     * @param user
+     * @return
+     */
+    @ApiOperation(value = "修改用户密码")
+    @ApiImplicitParam(paramType = "body", name = "user", value = "用户密码信息对象", required = true, dataType = "SysUserUpdatePasswordVo")
+    @SysLog("修改用户密码")
+    @PostMapping("/updatePassword")
+    @RequiresPermissions("sys:user:update")
+    public R updatePassword(SysUserUpdatePasswordVo user){
+        ValidatorUtils.validateEntity(user);
+        sysUserService.updatePassword(user, getSysUserId());
+        return R.ok();
+    }
+
+    /**
+     * 重置用户密码
+     * @param userId
+     * @return
+     */
+    @ApiOperation(value = "重置用户密码")
+    @SysLog("重置用户密码")
+    @GetMapping("/resetPassword/{userId}")
+    @RequiresPermissions("sys:user:update")
+    public R resetPassword(@PathVariable("userId") Long userId){
+        sysUserService.resetPassword(userId, getSysUserId());
         return R.ok();
     }
 

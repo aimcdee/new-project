@@ -4,6 +4,7 @@ import com.project.constant.Constant;
 import com.project.exception.RRException;
 import com.project.modules.sys.entity.SysUserEntity;
 import com.project.modules.sys.vo.save.SysUserSaveVo;
+import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
 import com.project.modules.sys.vo.update.SysUserUpdateVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -91,6 +92,25 @@ public class CheckUtils {
         }
         if (CollectionUtils.isEmpty(user.getRoleIdList())){
             throw new RRException("请选择角色");
+        }
+    }
+
+    /**
+     * 更新系统用户密码的非空校验
+     * @param user
+     */
+    public void checkUpdatePasswordNotNull(SysUserUpdatePasswordVo user){
+        if (StringUtils.isBlank(user.getOldPassword())){
+            throw new RRException("原密码不能为空");
+        }
+        if (StringUtils.isBlank(user.getNewPassword())){
+            throw new RRException("新密码不能为空");
+        }
+        if (StringUtils.isBlank(user.getConfirm())){
+            throw new RRException("确认密码不能为空");
+        }
+        if (!user.getConfirm().equals(user.getNewPassword())){
+            throw new RRException("新密码与确认不匹配,请重新输入");
         }
     }
 

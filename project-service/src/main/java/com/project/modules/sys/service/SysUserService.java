@@ -5,6 +5,7 @@ import com.project.modules.sys.entity.SysUserEntity;
 import com.project.modules.sys.vo.info.SysUserInfoVo;
 import com.project.modules.sys.vo.list.SysUserListInvokingVo;
 import com.project.modules.sys.vo.save.SysUserSaveVo;
+import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
 import com.project.modules.sys.vo.update.SysUserUpdateVo;
 import com.project.utils.PageUtils;
 
@@ -47,6 +48,20 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @param sysUserId
      */
     void updateSysUser(SysUserUpdateVo user, Long sysUserId);
+
+    /**
+     * 修改用户密码
+     * @param user
+     * @param sysUserId
+     */
+    void updatePassword(SysUserUpdatePasswordVo user, Long sysUserId);
+
+    /**
+     * 重置用户密码
+     * @param userId
+     * @param sysUserId
+     */
+    void resetPassword(Long userId, Long sysUserId);
 
     /**
      * 更新系统用户状态
