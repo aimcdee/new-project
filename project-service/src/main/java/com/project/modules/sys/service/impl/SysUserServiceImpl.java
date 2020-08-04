@@ -96,7 +96,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        System.out.println("状态:" + MapUtils.getInteger(params, "status"));
         Page<SysUserListVo> page = new Query<SysUserListVo>(params).getPage();
         List<SysUserListVo> sysUserListVos  = baseMapper.queryByPage(
                 page, StringUtils.trim(MapUtils.getString(params, "userName")),

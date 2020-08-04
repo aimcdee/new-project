@@ -76,7 +76,6 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(banner);
         checkUtils.checkNotNull(banner);
         //获取新增轮播图对象
         ConfBannerEntity confbannerEntity = getConfbannerSaveEntity(banner, sysUserId);

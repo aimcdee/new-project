@@ -189,8 +189,6 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
                 .setMemo(config.getMemo())
                 .setStatus(Constant.Status.NORMAL.getStatus())
                 .setCreateUserId(sysUserId).setUpdateUserId(sysUserId);
-        System.out.println("状态:" + Constant.Status.NORMAL.getStatus());
-        System.out.println("对象:" + sysConfigEntity.toString());
         return sysConfigEntity;
     }
 }

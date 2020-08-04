@@ -79,7 +79,6 @@ public class CouWaresServiceImpl extends ServiceImpl<CouWaresDao, CouWaresEntity
     @Override
     @Transactional
     public void saveEntity(CouWaresSaveVo wares, Long sysUserId) {
-        System.out.println("对象:" + wares);
         try {
             trimUtils.beanValueTrim(wares);
         } catch (Exception e) {

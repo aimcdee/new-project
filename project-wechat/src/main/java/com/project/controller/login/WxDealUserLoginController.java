@@ -54,7 +54,6 @@ public class WxDealUserLoginController {
         if (StringUtils.trim(form.getSmsCode()) == null) {
             throw new RRException("请输入验证码!");
         }
-        System.out.println("手机号码:" + form.getPhone());
 //        return wxLoginDealUserService.wxLogin(form.getPhone());
         return wxLoginDealUserService.wxLogin("13422356022");
     }
