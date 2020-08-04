@@ -132,6 +132,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
      * @param userId
      */
     @Override
+    @Transactional
     public void changeStatus(Long configId, Integer status, Long userId) {
         SysConfigEntity sysConfigEntity = baseMapper.getSysConfigEntityById(configId);
         checkUtils.checkEntityNotNull(sysConfigEntity);

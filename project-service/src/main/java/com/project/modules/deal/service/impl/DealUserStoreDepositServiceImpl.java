@@ -85,6 +85,7 @@ public class DealUserStoreDepositServiceImpl extends ServiceImpl<DealUserStoreDe
      * @param sysUserId
      */
     @Override
+    @Transactional
     public void saveEntity(DealUserStoreDepositSaveVo deposit, Long sysUserId) {
         //新增前操作
         saveBefore(deposit);

@@ -13,7 +13,6 @@ import com.project.modules.sys.service.SysUserService;
 import com.project.utils.MapUtils;
 import com.project.utils.PageUtils;
 import com.project.utils.Query;
-import com.project.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +38,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     private SysUserService sysUserService;
     @Autowired
     private SysRoleMenuService sysRoleMenuService;
-    @Autowired
-    private RedisUtils redisUtils;
 
     /**
      * 分页查询菜单列表
@@ -149,6 +146,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
      * @param menuId
      */
     @Override
+    @Transactional
     public void delete(long menuId) {
         //删除菜单
         removeById(menuId);

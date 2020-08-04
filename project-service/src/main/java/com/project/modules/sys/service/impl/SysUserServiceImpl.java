@@ -115,6 +115,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      * @param sysUserId
      */
     @Override
+    @Transactional
     public void saveSysUser(SysUserSaveVo user, Long sysUserId) {
         try {
             trimUtils.beanValueTrim(user);
@@ -152,6 +153,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      * @param sysUserId
      */
     @Override
+    @Transactional
     public void updateSysUser(SysUserUpdateVo user, Long sysUserId) {
         try {
             trimUtils.beanValueTrim(user);

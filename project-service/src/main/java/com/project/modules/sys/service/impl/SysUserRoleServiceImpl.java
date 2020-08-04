@@ -8,6 +8,7 @@ import com.project.modules.sys.entity.SysUserRoleEntity;
 import com.project.modules.sys.service.SysUserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
      * @param roleIdList
      */
     @Override
+    @Transactional
     public void saveUserRole(Long userId, List<Long> roleIdList) {
         SysUserRoleEntity sysUserRoleEntity = new SysUserRoleEntity();
         roleIdList.forEach(roleId ->{
@@ -54,6 +56,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
      * @param roleIdList
      */
     @Override
+    @Transactional
     public void updateUserRole(Long userId, List<Long> roleIdList) {
         if (!Constant.SUPER_ADMIN.equals(userId) && !Constant.SUPER_ADMIN_STRING.equals(userId)){
             remove(new QueryWrapper<SysUserRoleEntity>().eq("user_id", userId));

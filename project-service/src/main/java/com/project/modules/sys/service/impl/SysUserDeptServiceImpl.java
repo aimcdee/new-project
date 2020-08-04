@@ -8,6 +8,7 @@ import com.project.modules.sys.entity.SysUserDeptEntity;
 import com.project.modules.sys.service.SysUserDeptService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -26,6 +27,7 @@ public class SysUserDeptServiceImpl extends ServiceImpl<SysUserDeptDao, SysUserD
      * @param deptId
      */
     @Override
+    @Transactional
     public void saveUserDept(Long userId, Long deptId) {
         SysUserDeptEntity sysUserDeptEntity = new SysUserDeptEntity();
         sysUserDeptEntity.setUserId(userId).setDeptId(deptId);
@@ -38,6 +40,7 @@ public class SysUserDeptServiceImpl extends ServiceImpl<SysUserDeptDao, SysUserD
      * @param deptId
      */
     @Override
+    @Transactional
     public void updateUserDept(Long userId, Long deptId) {
         if (!Constant.SUPER_ADMIN.equals(userId) && !!Constant.SUPER_ADMIN_STRING.equals(userId)){
             SysUserDeptEntity sysUserDeptEntity = getOne(new QueryWrapper<SysUserDeptEntity>().eq("user_id", userId).last("LIMIT 1"));

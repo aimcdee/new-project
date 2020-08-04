@@ -23,6 +23,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -97,6 +98,7 @@ public class DealUserStoreRefundServiceImpl extends ServiceImpl<DealUserStoreRef
      * @param sysUserId
      */
     @Override
+    @Transactional
     public void saveEntity(DealUserStoreRefundSaveVo refund, Integer type, Long sysUserId) {
         //新增前操作
         saveBefore(refund);
@@ -136,6 +138,7 @@ public class DealUserStoreRefundServiceImpl extends ServiceImpl<DealUserStoreRef
      * @param sysUserId
      */
     @Override
+    @Transactional
     public void updateEntity(DealUserStoreRefundUpdateVo refund, Long sysUserId) {
         //更新前操作
         updateBefore(refund);
@@ -151,6 +154,7 @@ public class DealUserStoreRefundServiceImpl extends ServiceImpl<DealUserStoreRef
      * @param sysUserName
      */
     @Override
+    @Transactional
     public void changeStatus(String refundId, String remark, Integer status, Long sysUserId, String sysUserName) {
         DealUserStoreRefundEntity dealUserStoreRefundEntity = getOne(new QueryWrapper<DealUserStoreRefundEntity>().eq("refund_id", refundId).last("LIMIT 1"));
         //更新状态前操作
