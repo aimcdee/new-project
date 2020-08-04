@@ -283,6 +283,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
                 .setPhone(StringUtils.trim(user.getPhone()))
                 .setSalt(salt)
                 .setPassword(new Sha256Hash(StringUtils.trim(user.getPassword()), salt).toHex())
+//                .setPassword(new Sha256Hash(StringUtils.trim(Constant.DEAL_PASSWORD), salt).toHex())
                 .setStatus(Constant.Status.NORMAL.getStatus())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);
