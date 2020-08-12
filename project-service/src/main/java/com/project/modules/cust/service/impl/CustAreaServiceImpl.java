@@ -85,10 +85,8 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
         Long areaId  = null;
         if (type.equals(Constant.AreaType.PROVINCE.getType())){
             String value = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE));
-            if (StringUtils.isNotBlank(value)){
-                areaId = Long.parseLong(value);
-            } else {
-                areaId = sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
+            areaId = StringUtils.isNotBlank(value) ? Long.parseLong(value) : sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
+            if (StringUtils.isBlank(value)){
                 redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE), areaId);
             }
         }
@@ -124,10 +122,8 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
         Long areaId = MapUtils.getLong(params, "areaId");
         if (ObjectUtils.isEmpty(areaId)){
             String redisMsg = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE));
+            areaId = StringUtils.isNotBlank(redisMsg)? Long.parseLong(redisMsg) : sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
             if (StringUtils.isNotBlank(redisMsg)){
-                areaId = Long.parseLong(redisMsg);
-            } else {
-                areaId = sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
                 redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE), areaId);
             }
         }
