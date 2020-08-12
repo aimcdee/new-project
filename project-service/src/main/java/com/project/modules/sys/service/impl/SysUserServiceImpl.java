@@ -218,7 +218,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     @Transactional
     public void changeStatus(Long userId, Integer status, Long sysUserId) {
-        SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq(Objects.nonNull(userId), "user_id", userId).last("LIMIT 1"));
+//        SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq(Objects.nonNull(userId), "user_id", userId).last("LIMIT 1"));
+        SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq(ObjectUtils.isNotBlank(userId), "user_id", userId).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(sysUserEntity);
         sysUserEntity.setStatus(status).setUpdateUserId(sysUserId).setUpdateTime(new Date());
         updateById(sysUserEntity);
@@ -253,7 +254,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         checkUtils.checkUpdateUserNotNull(user);
         SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq("user_id", user.getUserId()).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(sysUserEntity);
-        if (Objects.nonNull(user.getPassword())){
+        if (StringUtils.isNotBlank(user.getPassword())){
             if (StringUtils.isBlank(user.getConfirm())){
                 throw new RRException("请输入确认密码");
             }
@@ -308,7 +309,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     //获取该系统部门及所有的子部门
     private List<Long> getDeptIdList(List<Long> deptIdList, Long deptId) {
-        if (Objects.isNull(deptId) || deptId == 0){
+//        if (Objects.isNull(deptId) || deptId == 0){
+        if (ObjectUtils.isBlank(deptId)){
             deptId = Constant.HEADQUARTERS;
         }
         deptIdList.add(deptId);

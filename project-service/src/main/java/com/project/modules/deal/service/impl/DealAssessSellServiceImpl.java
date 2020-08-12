@@ -27,7 +27,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 评估商品出售Service
@@ -204,7 +203,8 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
     private DealAssessSellEntity getDealAssessSellSaveEntity(DealAssessSellSaveVo sell) {
         //获取需要出示的商品ID
         Long couWaresId = dealInvokingService.getAssessWares(sell.getDealAssessId(), Constant.AssessSellStatus.INREVIEW.getStatus());
-        if (Objects.isNull(couWaresId)){
+//        if (Objects.isNull(couWaresId)){
+        if (ObjectUtils.isBlank(couWaresId)){
             throw new RRException("该商品正在出售中或已出售");
         }
         DealAssessSellEntity dealAssessSellEntity = new DealAssessSellEntity();

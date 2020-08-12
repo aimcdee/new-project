@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 系统菜单Service
@@ -50,7 +49,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
         List<SysMenuEntity> sysMenuEntities = baseMapper.queryPage(page);
         sysMenuEntities.forEach(sysMenuEntity -> {
             String parentName = baseMapper.getParentName(sysMenuEntity.getParentId());
-            if (Objects.isNull(parentName)){
+            if (StringUtils.isBlank(parentName)){
                 parentName = Constant.DEFAUL_SYSTEM_NAME;
             }
             sysMenuEntity.setParentName(parentName);
@@ -110,7 +109,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
         List<SysMenuEntity> sysMenuEntities = baseMapper.queryNotButtonList();
         sysMenuEntities.forEach(sysMenuEntity -> {
             String parentName = baseMapper.getParentName(sysMenuEntity.getParentId());
-            if (Objects.isNull(parentName)){
+            if (StringUtils.isBlank(parentName)){
                 parentName = Constant.DEFAUL_SYSTEM_NAME;
             }
             sysMenuEntity.setParentName(parentName);
@@ -163,7 +162,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     public SysMenuEntity getSysMenuEntity(Long menuId) {
         SysMenuEntity sysMenuEntity = getOne(new QueryWrapper<SysMenuEntity>().eq("menu_id", menuId).last("LIMIT 1"));
         String parentName = baseMapper.getParentName(sysMenuEntity.getParentId());
-        if (Objects.isNull(parentName)){
+        if (StringUtils.isBlank(parentName)){
             parentName = Constant.DEFAUL_SYSTEM_NAME;
         }
         sysMenuEntity.setParentName(parentName);

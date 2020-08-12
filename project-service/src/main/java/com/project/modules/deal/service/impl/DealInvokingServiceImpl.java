@@ -10,17 +10,13 @@ import com.project.modules.deal.service.DealInvokingService;
 import com.project.modules.deal.vo.invoking.DealStoreUserInvokingVo;
 import com.project.modules.deal.vo.invoking.DealUserStoreCheckInvokingVo;
 import com.project.modules.deal.vo.login.DealUserLoginVo;
-import com.project.utils.CheckUtils;
-import com.project.utils.JsonUtil;
-import com.project.utils.RedisKeys;
-import com.project.utils.RedisUtils;
+import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * 成交模块中间调用Service
@@ -233,7 +229,8 @@ public class DealInvokingServiceImpl implements DealInvokingService {
     @Transactional
     public void changeUserStore(Long dealStoreId) {
         Long dealUserId = dealInvokingDao.getDealUserIdByStoreId(dealStoreId);
-        if (Objects.isNull(dealUserId) || dealUserId == 0){
+//        if (Objects.isNull(dealUserId) || dealUserId == 0){
+        if (ObjectUtils.isBlank(dealUserId)){
             throw new RRException("操作失败,该客户不存在");
         }
         //修改客户类型成个人

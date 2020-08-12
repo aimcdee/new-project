@@ -85,7 +85,7 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
         Long areaId  = null;
         if (type.equals(Constant.AreaType.PROVINCE.getType())){
             String value = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE));
-            if (Objects.nonNull(value)){
+            if (StringUtils.isNotBlank(value)){
                 areaId = Long.parseLong(value);
             } else {
                 areaId = sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
@@ -122,9 +122,11 @@ public class CustAreaServiceImpl extends ServiceImpl<CustAreaDao, CustAreaEntity
     //获取区域的默认ID
     private Long getAreaId(Map<String, Object> params) {
         Long areaId = MapUtils.getLong(params, "areaId");
-        if (Objects.isNull(areaId)){
-            areaId = Long.parseLong(redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE)));
-            if (Objects.isNull(areaId)){
+        if (ObjectUtils.isEmpty(areaId)){
+            String redisMsg = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE));
+            if (StringUtils.isNotBlank(redisMsg)){
+                areaId = Long.parseLong(redisMsg);
+            } else {
                 areaId = sysConfigService.getDefaultAreaId(RedisKeyConstant.DEFAUL_TPROVINCE);
                 redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_TPROVINCE), areaId);
             }

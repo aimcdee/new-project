@@ -25,7 +25,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * 日期处理
@@ -412,12 +414,6 @@ public class DateUtils {
         return ds;
     }
 
-    public static void main(String[] args) {
-        Set s = new HashSet();
-        s.add(null);
-        System.out.println(s);
-    }
-
     /**
      * 设置时间格式
      *
@@ -435,5 +431,9 @@ public class DateUtils {
             throw new RRException("日期格式必须是:" + DateUtils.DATE_TIME_PATTERN);
         }
         return startDateTime;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

@@ -15,10 +15,7 @@ import com.project.modules.sys.vo.list.SysDeptListVo;
 import com.project.modules.sys.vo.list.SysDeptTreeVo;
 import com.project.modules.sys.vo.save.SysDeptSaveVo;
 import com.project.modules.sys.vo.update.SysDeptUpdateVo;
-import com.project.utils.CheckUtils;
-import com.project.utils.PageUtils;
-import com.project.utils.Query;
-import com.project.utils.TrimUtils;
+import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -146,7 +143,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
     @Override
     @Transactional
     public void changeStatus(Long deptId, Integer status, Long sysUserId) {
-        SysDeptEntity sysDeptEntity = getOne(new QueryWrapper<SysDeptEntity>().eq(Objects.nonNull(deptId),"dept_id", deptId).last("LIMIT 1"));
+//        SysDeptEntity sysDeptEntity = getOne(new QueryWrapper<SysDeptEntity>().eq(Objects.nonNull(deptId),"dept_id", deptId).last("LIMIT 1"));
+        SysDeptEntity sysDeptEntity = getOne(new QueryWrapper<SysDeptEntity>().eq(ObjectUtils.isNotBlank(deptId),"dept_id", deptId).last("LIMIT 1"));
         //校验对象是否存在
         checkUtils.checkEntityNotNull(sysDeptEntity);
         sysDeptEntity.setStatus(status).setUpdateUserId(sysUserId).setUpdateTime(new Date());
@@ -184,7 +182,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
         checkNameRepeat(dept.getDeptName(), dept.getDeptId());
         //非空校验
         checkUtils.checkDeptNotNull(dept.getDeptName(), dept.getParentId());
-        SysDeptEntity sysDeptEntity = getOne(new QueryWrapper<SysDeptEntity>().eq(Objects.nonNull(dept.getDeptId()),"dept_id", dept.getDeptId()).last("LIMIT 1"));
+//        SysDeptEntity sysDeptEntity = getOne(new QueryWrapper<SysDeptEntity>().eq(Objects.nonNull(dept.getDeptId()),"dept_id", dept.getDeptId()).last("LIMIT 1"));
+        SysDeptEntity sysDeptEntity = getOne(new QueryWrapper<SysDeptEntity>().eq(ObjectUtils.isNotBlank(dept.getDeptId()),"dept_id", dept.getDeptId()).last("LIMIT 1"));
         //校验对象是否存在
         checkUtils.checkEntityNotNull(sysDeptEntity);
         sysDeptEntity.setDeptName(dept.getDeptName()).setParentId(dept.getParentId()).setUpdateUserId(sysUserId).setUpdateTime(new Date());
