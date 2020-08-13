@@ -84,9 +84,9 @@ public interface SysConfigService extends IService<SysConfigEntity> {
     void changeStatus(Long configId, Integer status, Long sysUserId);
 
     /**
-     * 获取配置好的默认省份ID
-     * @param defaulTprovince
+     * 获取配置好的默认Value
+     * @param code
      * @return
      */
-    Long getDefaultAreaId(String defaulTprovince);
+    Long getDefaultValue(String code);
 }

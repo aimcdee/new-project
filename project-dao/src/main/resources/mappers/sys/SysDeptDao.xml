@@ -37,14 +37,17 @@
         FROM
             sys_dept AS sys_dept
         <where>
+            <if test="deptName != null and deptName.trim() != ''">
+                AND sys_dept.dept_name = #{deptName}
+            </if>
             <if test="status != null and !&quot;&quot;.equals(status)">
                 sys_dept.status = #{status}
             </if>
-            <if test="deptId != null and !&quot;&quot;.equals(deptId)">
-                AND sys_dept.dept_id = #{deptId}
-            </if>
-            <if test="deptName != null and deptName.trim() != ''">
-                AND sys_dept.dept_name = #{deptName}
+            <if test="deptIdList != null and deptIdList.size() &gt; 0">
+                AND sys_dept.dept_id IN
+                <foreach collection="deptIdList" item="deptId" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
             </if>
             ORDER BY sys_dept.dept_id ASC
         </where>

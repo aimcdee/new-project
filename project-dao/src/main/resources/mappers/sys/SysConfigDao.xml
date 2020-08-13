@@ -74,8 +74,8 @@
             sys_config.config_id = #{configId}
     </select>
 
-    <!--获取配置好的默认省份ID-->
-    <select id="getDefaultAreaId" resultType="java.lang.String">
+    <!--获取配置好的默认value-->
+    <select id="getDefaultValue" resultType="java.lang.String">
         SELECT
             sys_config.value
         FROM

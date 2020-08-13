@@ -39,14 +39,14 @@ public interface SysDeptDao extends BaseMapper<SysDeptEntity> {
      * 分页查询部门列表
      * @param page
      * @param deptName
-     * @param deptId
+     * @param deptIdList
      * @param status
      * @return
      */
     List<SysDeptListVo> queryByPage(
             Page<SysDeptListVo> page,
             @Param("deptName") String deptName,
-            @Param("deptId") Long deptId,
+            @Param("deptIdList") List<Long> deptIdList,
             @Param("status") Integer status);
 
     /**

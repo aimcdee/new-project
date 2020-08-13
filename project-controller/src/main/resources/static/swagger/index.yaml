@@ -629,7 +629,6 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
   /sys/menu/nav:
     get:
       tags:
@@ -4355,7 +4354,6 @@ definitions:
         items:
           type: integer
           format: int32
-
   SysMenuEntity:
     type: object
     properties:

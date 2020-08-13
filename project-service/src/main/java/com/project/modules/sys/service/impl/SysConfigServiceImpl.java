@@ -147,8 +147,8 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
      * @return
      */
     @Override
-    public Long getDefaultAreaId(String defaulTprovince) {
-        return Long.parseLong(baseMapper.getDefaultAreaId(defaulTprovince, Constant.Status.NORMAL.getStatus()));
+    public Long getDefaultValue(String defaulTprovince) {
+        return Long.parseLong(baseMapper.getDefaultValue(defaulTprovince, Constant.Status.NORMAL.getStatus()));
     }
 
     //新增redis缓存数据

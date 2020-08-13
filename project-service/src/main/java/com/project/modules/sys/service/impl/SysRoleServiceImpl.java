@@ -182,6 +182,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
         return baseMapper.getRoleListByUserId(userId);
     }
 
+
     //获取并设置SysRoleEntity更新对象
     private SysRoleEntity getUpdateSysRoleEntity(SysRoleUpdateVo role, Long sysUserId) {
         checkUtils.checkRoleNotNull(role.getRoleName(), role.getDeptIdList(), role.getMenuIdList());

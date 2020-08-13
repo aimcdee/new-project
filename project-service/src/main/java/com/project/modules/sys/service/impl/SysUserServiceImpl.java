@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
+import com.project.constant.RedisKeyConstant;
 import com.project.constant.RedisListKeyConstant;
 import com.project.exception.RRException;
 import com.project.modules.sys.dao.SysUserDao;
@@ -27,7 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 系统用户Service
@@ -47,6 +51,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     private SysUserDeptService sysUserDeptService;
     @Autowired
     private SysUserRoleService sysUserRoleService;
+    @Autowired
+    private SysConfigService sysConfigService;
     @Autowired
     private CheckUtils checkUtils;
     @Autowired
@@ -309,9 +315,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     //获取该系统部门及所有的子部门
     private List<Long> getDeptIdList(List<Long> deptIdList, Long deptId) {
-//        if (Objects.isNull(deptId) || deptId == 0){
-        if (ObjectUtils.isBlank(deptId)){
-            deptId = Constant.HEADQUARTERS;
+        if (ObjectUtils.isEmpty(deptId)){
+            String redisMsg = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT));
+            deptId = StringUtils.isNotBlank(redisMsg) ? Long.parseLong(redisMsg) : sysConfigService.getDefaultValue(RedisKeyConstant.DEFAUL_DEPT);
+            if (StringUtils.isBlank(redisMsg)){
+                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), deptId);
+            }
         }
         deptIdList.add(deptId);
         //获取该部门的子部门

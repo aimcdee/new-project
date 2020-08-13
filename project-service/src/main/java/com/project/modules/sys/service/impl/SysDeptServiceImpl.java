@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
+import com.project.constant.RedisKeyConstant;
 import com.project.exception.RRException;
 import com.project.modules.sys.dao.SysDeptDao;
 import com.project.modules.sys.entity.SysDeptEntity;
 import com.project.modules.sys.service.SysCheckInvokingService;
+import com.project.modules.sys.service.SysConfigService;
 import com.project.modules.sys.service.SysDeptService;
 import com.project.modules.sys.service.SysRoleDeptService;
 import com.project.modules.sys.vo.info.SysDeptInfoVo;
@@ -42,9 +44,13 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
     @Autowired
     private SysCheckInvokingService sysCheckInvokingService;
     @Autowired
+    private SysConfigService sysConfigService;
+    @Autowired
     private CheckUtils checkUtils;
     @Autowired
     private TrimUtils trimUtils;
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * 查看树形部门列表
@@ -56,7 +62,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
         List<SysDeptTreeVo> sysDeptTreeVoList = baseMapper.getSysDeptTreeList();
         if (CollectionUtils.isNotEmpty(sysDeptTreeVoList)) {
             sysDeptTreeVoList.stream().forEach(sysDeptTreeVo -> {
-                sysDeptTreeVo.setParentName(Optional.ofNullable(getOne(new QueryWrapper<SysDeptEntity>().eq("dept_id", sysDeptTreeVo.getParentId()).last("LIMIT 1")))
+                sysDeptTreeVo.setParentName(Optional.ofNullable(
+                        getOne(new QueryWrapper<SysDeptEntity>().eq("dept_id", sysDeptTreeVo.getParentId()).last("LIMIT 1")))
                         .map(SysDeptEntity::getDeptName)
                         .orElse(null));
             });
@@ -85,8 +92,30 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
     public PageUtils queryPage(Map<String, Object> params) {
         Page<SysDeptListVo> page = new Query<SysDeptListVo>(params).getPage();
         List<SysDeptListVo> sysUserListVos = baseMapper.queryByPage(
-                page, StringUtils.trim(MapUtils.getString(params, "deptName")), MapUtils.getLong(params, "deptId"), MapUtils.getInteger(params, "status"));
+                page, StringUtils.trim(MapUtils.getString(params, "deptName")),
+                getDeptIdList(new ArrayList<>(), MapUtils.getLong(params, "deptId")),
+                MapUtils.getInteger(params, "status"));
         return new PageUtils(page.setRecords(sysUserListVos));
+    }
+
+    //获取该系统部门及所有的子部门
+    private List<Long> getDeptIdList(List<Long> deptIdList, Long deptId) {
+        if (ObjectUtils.isEmpty(deptId)){
+            String redisMsg = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT));
+            deptId = StringUtils.isNotBlank(redisMsg) ? Long.parseLong(redisMsg) : sysConfigService.getDefaultValue(RedisKeyConstant.DEFAUL_DEPT);
+            if (StringUtils.isBlank(redisMsg)){
+                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), deptId);
+            }
+        }
+        deptIdList.add(deptId);
+        //获取该部门的子部门
+        List<Long> childDeptIdList = getChildDeptIdList(deptId);
+        if (CollectionUtils.isNotEmpty(childDeptIdList)) {
+            childDeptIdList.forEach(childDeptId -> {
+                getDeptIdList(deptIdList, childDeptId);
+            });
+        }
+        return deptIdList;
     }
 
     /**

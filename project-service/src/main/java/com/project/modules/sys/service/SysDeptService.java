@@ -38,7 +38,6 @@ public interface SysDeptService extends IService<SysDeptEntity> {
     /**
      * 分页查询部门列表
      * @param params
-     * @param status
      * @return
      */
     PageUtils queryPage(Map<String, Object> params);

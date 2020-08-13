@@ -73,10 +73,10 @@ public interface SysConfigDao extends BaseMapper<SysConfigEntity> {
     SysConfigEntity getSysConfigEntityById(@Param("configId") Long configId);
 
     /**
-     * 获取配置好的默认省份ID
+     * 获取配置好的默认value
      * @param code
      * @param status
      * @return
      */
-    String getDefaultAreaId(@Param("code") String code, @Param("status") Integer status);
+    String getDefaultValue(@Param("code") String code, @Param("status") Integer status);
 }
