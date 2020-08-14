@@ -41,6 +41,11 @@
             sys_config.status
         FROM
             sys_config AS sys_config
+        <where>
+            <if test="name != null and !&quot;&quot;.equals(name)">
+                sys_config.name = #{name}
+            </if>
+        </where>
             ORDER BY sys_config.create_time ASC
     </select>
 

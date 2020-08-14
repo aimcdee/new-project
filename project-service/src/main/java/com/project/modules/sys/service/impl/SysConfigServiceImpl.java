@@ -14,6 +14,7 @@ import com.project.modules.sys.vo.save.SysConfigSaveVo;
 import com.project.modules.sys.vo.update.SysConfigUpdateVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         Page<SysConfigListVo> page = new Query<SysConfigListVo>(params).getPage();
-        List<SysConfigListVo> sysConfigListVos = baseMapper.queryPage(page);
+        List<SysConfigListVo> sysConfigListVos = baseMapper.queryPage(page, MapUtils.getString(params, "name"));
         sysConfigListVos.forEach(sysConfigListVo -> {
             sysConfigListVo.setValue(JsonUtil.toJson(sysConfigListVo.getValue()));
 

@@ -56,7 +56,7 @@ public interface SysConfigDao extends BaseMapper<SysConfigEntity> {
      * @param page
      * @return
      */
-    List<SysConfigListVo> queryPage(Page<SysConfigListVo> page);
+    List<SysConfigListVo> queryPage(Page<SysConfigListVo> page, @Param("name") String name);
 
     /**
      * 根据configId获取系统配置信息

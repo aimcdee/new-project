@@ -883,8 +883,8 @@ paths:
           description: 排序方式，如：asc、desc
           in: query
           type: string
-        - name: key
-          description: 参数名
+        - name: name
+          description: 配置名称
           in: query
           type: string
       responses:
