@@ -1,8 +1,11 @@
 package com.project.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.project.constant.Constant;
 import com.project.exception.RRException;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.AlgorithmParameters;
 import java.security.Security;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 描述:
@@ -27,34 +31,48 @@ public class WeChatLoginUtils {
     private static Logger log = LoggerFactory.getLogger(WeChatLoginUtils.class);
 
     /**
-     * 获取微信手机号码
-     *
-     * @param encryptedData
-     * @param iv
-     * @param jsCode
-     * @return 手机号码
+     * 获取微信授权登录手机号码
+     * @param params
+     * @return
      */
-    public String getProjectPhone(final String encryptedData, final String iv, final String jsCode) {
-        return getPhone(encryptedData, iv, jsCode, WeChatKeyEnum.project);
+    public String getLoginPhone(Map<String, Object> params) {
+        //包括敏感数据在内的完整用户信息的加密数据
+        String encryptedData = MapUtils.getString(params, "encryptedData");
+        //加密算法的初始向量
+        String iv = MapUtils.getString(params, "iv");
+        //调用接口获取登录凭证（code）
+        String code = MapUtils.getString(params, "code");
+        log.info("登录加密敏感数据:{}", encryptedData);
+        log.info("iv码:{}", iv);
+        log.info("code码:{}", code);
+        // 非空校验
+        if (StringUtils.isBlank(encryptedData) || StringUtils.isBlank(iv) || StringUtils.isBlank(code)) {
+            throw new RRException("参数encryptedData、iv、code不能为空！");
+        }
+
+        //解密获取微信授权登录的手机号码
+        String phone = getPhone(encryptedData, iv, code, Constant.WeChatKeyEnum.WECHATKEY);
+
+        log.info("手机号码:{}", phone);
+        if (StringUtils.isBlank(phone)){
+            throw new RRException("获取手机号码失败");
+        }
+        return phone;
     }
 
     /**
      * 获取微信手机号码
-     *
      * @param encryptedData
      * @param iv
-     * @param jsCode
+     * @param code
      * @return 手机号码
      */
-    private String getPhone(final String encryptedData, final String iv, final String jsCode, WeChatKeyEnum weChatKeyEnum) {
-        String session_key = getSessionKey(jsCode, weChatKeyEnum);
-        String purePhoneNumber = getPurePhoneNumber(encryptedData, session_key, iv);
-        return purePhoneNumber;
+    private String getPhone(final String encryptedData, final String iv, final String code, Constant.WeChatKeyEnum weChatKeyEnum) {
+        return getPurePhoneNumber(encryptedData, getSessionKey(code, weChatKeyEnum), iv);
     }
 
     /**
      * 解析手机号码
-     *
      * @param encryptedData
      * @param sessionkey
      * @param iv
@@ -104,60 +122,37 @@ public class WeChatLoginUtils {
 
     /**
      * 获取微信session_key
-     *
-     * @param jsCode
+     * @param code
      * @param weChatKeyEnum
      * @return
      */
-    private String getSessionKey(final String jsCode, final WeChatKeyEnum weChatKeyEnum) {
-        String url = getUrl(jsCode, weChatKeyEnum);
-        log.info("weixin getSessionKey url:{}", url);
+    private String getSessionKey(final String code, final Constant.WeChatKeyEnum weChatKeyEnum) {
+        String url = getUrl(code, weChatKeyEnum);
+        log.info("URL路径:{}", url);
         String response = HttpClientUtil.doGet(url);
-        log.info("weixin getSessionKey response:{}", response);
+        log.info("SessionKey值:{}", response);
         JSONObject jsonObject = JSONObject.parseObject(response);
         //请求成功
         if (!jsonObject.containsKey("errcode")) {
-//            String openid = jsonObject.getString("openid");
             String session_key = jsonObject.getString("session_key");
             return session_key;
         } else {
-            log.error("weixin getSessionKey error!url:{},respone:{}", url, response);
+            log.error("微信错误URL路径:{}", url);
+            log.error("异常response:{}", response);
             throw new RRException("微信登录异常!");
         }
     }
 
     /**
      * 微信登录地址
-     *
      * @param jsCode
      * @param weChatKeyEnum
      * @return
      */
-    private String getUrl(String jsCode, WeChatKeyEnum weChatKeyEnum) {
-        return "https://api.weixin.qq.com/sns/jscode2session?appid=" + weChatKeyEnum.getAppId() +
-            "&secret=" + weChatKeyEnum.getAppSecret() +
-            "&js_code=" + jsCode + "&grant_type=authorization_code";
+    private String getUrl(String jsCode, Constant.WeChatKeyEnum weChatKeyEnum) {
+        String url = new StringBuilder("https://api.weixin.qq.com/sns/jscode2session?appid=")
+                .append(weChatKeyEnum.getAppId()).append("&secret=").append(weChatKeyEnum.getAppSecret())
+                .append("&js_code=").append(jsCode).append("&grant_type=authorization_code").toString();
+        return url;
     }
-
-    enum WeChatKeyEnum {
-        project("wxa9b239bd2967585f", "6dc8c23b61171c38f4b661b59ad56fbf"),
-        ;
-
-        private String appId;
-        private String appSecret;
-
-        public String getAppId() {
-            return appId;
-        }
-
-        public String getAppSecret() {
-            return appSecret;
-        }
-
-        WeChatKeyEnum(String appId, String appSecret) {
-            this.appId = appId;
-            this.appSecret = appSecret;
-        }
-    }
-
 }

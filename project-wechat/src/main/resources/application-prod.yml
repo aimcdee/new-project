@@ -40,7 +40,7 @@ spring:
   #        session-stat-enable: false
   redis:
     database: 5
-    host: r-8vbt53r4r8hzmleq7apd.redis.zhangbei.rds.aliyuncs.com
+    host: r-wz95887bf628b004pd.redis.rds.aliyuncs.com
     port: 6379
     password: Lyd13422356022      # 密码（默认为空）
     timeout: 15000  # 连接超时时长（毫秒）

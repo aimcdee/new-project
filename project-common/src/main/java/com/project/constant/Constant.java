@@ -640,4 +640,35 @@ public class Constant {
             this.text = text;
         }
     }
+
+    /**
+     * 微信小程序appId和appSecret
+     */
+    public enum WeChatKeyEnum {
+        WECHATKEY("wx0a09f6863407a03b", "b04e185ef5ebec1fc28509a246972ce0");
+
+        WeChatKeyEnum(String appId, String appSecret) {
+            this.appId = appId;
+            this.appSecret = appSecret;
+        }
+
+        private String appId;
+        private String appSecret;
+
+        public String getAppId() {
+            return appId;
+        }
+
+        public void setAppId(String appId) {
+            this.appId = appId;
+        }
+
+        public String getAppSecret() {
+            return appSecret;
+        }
+
+        public void setAppSecret(String appSecret) {
+            this.appSecret = appSecret;
+        }
+    }
 }

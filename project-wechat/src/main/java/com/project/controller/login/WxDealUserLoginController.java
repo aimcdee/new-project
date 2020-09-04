@@ -7,7 +7,6 @@ import com.project.utils.WeChatLoginUtils;
 import com.project.vo.login.SmsUserLoginVo;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,20 +65,8 @@ public class WxDealUserLoginController {
      */
     @PostMapping("/wxLogin")
     public R wxLogin(@RequestBody Map<String, Object> params) {
-        //包括敏感数据在内的完整用户信息的加密数据
-        String encryptedData = MapUtils.getString(params, "encryptedData");
-        //加密算法的初始向量
-        String iv = MapUtils.getString(params, "iv");
-        //调用接口获取登录凭证（code）
-        String jscode = MapUtils.getString(params, "jscode");
-        log.info("weChatlogin params encryptedData:{},iv:{},jscode:{}", encryptedData, iv, jscode);
-        // 非空校验
-        if (StringUtils.isBlank(encryptedData) || StringUtils.isBlank(iv) || StringUtils.isBlank(jscode)) {
-            throw new RRException("参数encryptedData、iv、jscode不能为空！");
-        }
-        //解密获取微信授权登录的手机号码
-        String phone = weChatLoginUtils.getProjectPhone(encryptedData, iv, jscode);
-        return wxLoginDealUserService.wxLogin(phone);
+        //解密获取微信授权登录的手机号码,并登录系统
+        return wxLoginDealUserService.wxLogin(weChatLoginUtils.getLoginPhone(params));
     }
 
     /**

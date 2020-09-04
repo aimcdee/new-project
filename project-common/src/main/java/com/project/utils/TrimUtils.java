@@ -11,21 +11,23 @@ import java.lang.reflect.Method;
 @Component
 public class TrimUtils {
 
+    private final static String STRINGTYPE = "java.lang.String";
+
     /**
      * 去掉bean中所有属性为字符串的前后空格
      * @param bean
      * @throws Exception
      */
     public void beanValueTrim(Object bean) throws Exception {
-        if(bean!=null){
+        if(bean != null){
             //获取所有的字段包括public,private,protected,private
             Field[] fields = bean.getClass().getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {
-                Field f = fields[i];
-                if (f.getType().getName().equals("java.lang.String")) {
-                    String key = f.getName();//获取字段名
+                Field field = fields[i];
+                if (field.getType().getName().equals(STRINGTYPE)) {
+                    String key = field.getName();//获取字段名
                     Object value = getFieldValue(bean, key);
-                    if (value == null)
+                    if (null == value)
                         continue;
                     setFieldValue(bean, key, value.toString().trim());
                 }
