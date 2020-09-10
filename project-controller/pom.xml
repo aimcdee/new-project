@@ -23,7 +23,7 @@
         <aliyun.oss.version>2.8.3</aliyun.oss.version>
         <qcloud.cos.version>4.4</qcloud.cos.version>
         <swagger.version>2.9.2</swagger.version>
-        <hutool.version>4.1.1</hutool.version>
+        <hutool.version>4.1.12</hutool.version>
         <easyexcel.version>1.0.2</easyexcel.version>
         <service-path>/work/hgls-admin</service-path>
         <pack-name>${project.artifactId}-${project.version}.jar</pack-name>
