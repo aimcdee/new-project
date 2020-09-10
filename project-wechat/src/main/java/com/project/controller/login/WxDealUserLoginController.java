@@ -1,9 +1,8 @@
 package com.project.controller.login;
 
 import com.project.exception.RRException;
-import com.project.modules.deal.service.DealUserLoginService;
+import com.project.service.login.WxLoginDealUserService;
 import com.project.utils.R;
-import com.project.utils.StatusCode;
 import com.project.utils.WeChatLoginUtils;
 import com.project.vo.login.SmsUserLoginVo;
 import io.swagger.annotations.Api;
@@ -32,13 +31,11 @@ import static com.project.common.utils.ShiroUtils.getDealUserId;
 @Api(tags = "微信端登录接口", description = "WxLoginController")
 public class WxDealUserLoginController {
 
-//    @Autowired
-//    private WxLoginDealUserService wxLoginDealUserService;
+    @Autowired
+    private WxLoginDealUserService wxLoginDealUserService;
 
     @Autowired
     private WeChatLoginUtils weChatLoginUtils;
-    @Autowired
-    private DealUserLoginService dealUserLoginService;
 
     /**
      * 短信验证码登录
@@ -57,8 +54,7 @@ public class WxDealUserLoginController {
             throw new RRException("请输入验证码!");
         }
 //        return wxLoginDealUserService.wxLogin(form.getPhone());
-//        return wxLoginDealUserService.wxLogin("18079244223");
-        return R.ok(dealUserLoginService.wxDealUserlogin("18079244223"));
+        return wxLoginDealUserService.wxLogin("18079244223");
     }
 
     /**
@@ -70,9 +66,7 @@ public class WxDealUserLoginController {
     @PostMapping("/wxLogin")
     public R wxLogin(@RequestBody Map<String, Object> params) {
         //解密获取微信授权登录的手机号码,并登录系统
-        return R.ok(dealUserLoginService.wxDealUserlogin(weChatLoginUtils.getLoginPhone(params)));
-        //解密获取微信授权登录的手机号码,并登录系统
-//        return wxLoginDealUserService.wxLogin(weChatLoginUtils.getLoginPhone(params));
+        return wxLoginDealUserService.wxLogin(weChatLoginUtils.getLoginPhone(params));
     }
 
     /**
@@ -80,9 +74,7 @@ public class WxDealUserLoginController {
      */
     @PostMapping("/logout")
     public R logout() {
-        dealUserLoginService.logout(getDealUserId());
-        return R.ok(StatusCode.LOGIN_OUT);
-//        return wxLoginDealUserService.logout(getDealUserId());
+        return wxLoginDealUserService.logout(getDealUserId());
     }
 
 }

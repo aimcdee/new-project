@@ -1,8 +1,8 @@
 package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
-import com.project.modules.deal.service.DealUserService;
 import com.project.modules.deal.vo.update.DealUserUpdateVo;
+import com.project.service.deal.WxDealUserService;
 import com.project.utils.R;
 import com.project.validator.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -26,10 +26,8 @@ import static com.project.common.utils.ShiroUtils.getDealUserId;
 @Api(tags = "微信端客户端口", description = "WxDealUserController")
 public class WxDealUserController {
 
-//    @Autowired
-//    private WxDealUserService wxDealUserService;
     @Autowired
-    private DealUserService dealUserService;
+    private WxDealUserService wxDealUserService;
 
     /**
      * 客户获取自己的详细信息
@@ -38,8 +36,7 @@ public class WxDealUserController {
     @ApiOperation(value = "客户获取自己的详细信息")
     @GetMapping("/info")
     public R info() {
-        return R.ok(dealUserService.info(getDealUserId()));
-//        return wxDealUserService.getDealUserInfoVo(getDealUserId());
+        return wxDealUserService.getDealUserInfoVo(getDealUserId());
     }
 
     /**
@@ -54,10 +51,6 @@ public class WxDealUserController {
     public R update(@RequestBody DealUserUpdateVo user){
         ValidatorUtils.validateEntity(user);
         user.setDealUserId(getDealUserId());
-        dealUserService.updateEntity(user);
-        return R.ok();
-//        ValidatorUtils.validateEntity(user);
-//        user.setDealUserId(getDealUserId());
-//        return wxDealUserService.updateDealUser(user);
+        return wxDealUserService.updateDealUser(user);
     }
 }

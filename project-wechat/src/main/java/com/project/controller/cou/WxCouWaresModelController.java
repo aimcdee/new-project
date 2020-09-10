@@ -1,11 +1,10 @@
 package com.project.controller.cou;
 
-import com.project.modules.cou.service.CouWaresModelService;
+import com.project.service.cou.WxCouWaresModelService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WxCouWaresModelController {
 
 //    @Autowired
-//    private WxCouWaresModelService wxCouWaresModelService;
-
-    @Autowired
-    private CouWaresModelService couWaresModelService;
+    private WxCouWaresModelService wxCouWaresModelService;
 
     /**
      * 获取所有状态为正常商品型号对象
@@ -35,7 +31,6 @@ public class WxCouWaresModelController {
     @ApiOperation(value = "获取所有状态为正常商品型号对象")
     @GetMapping("/getCouModelList")
     public R getCouModelList(){
-        return R.ok(couWaresModelService.getCouModelList());
-//        return wxCouWaresModelService.getCouModelList();
+        return wxCouWaresModelService.getCouModelList();
     }
 }
