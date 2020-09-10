@@ -60,8 +60,9 @@ public class DealUserStoreFinanceServiceImpl extends ServiceImpl<DealUserStoreFi
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         Page<DealUserStoreFinanceListVo> page = new Query<DealUserStoreFinanceListVo>(params).getPage();
+        Long dealStoreId = dataIsEmpty(MapUtils.getLong(params, "dealUserId")) ? null : dealInvokingService.getDealStoreId(MapUtils.getLong(params, "dealUserId"), Constant.Examine.SUCCESS.getExamine());
         List<DealUserStoreFinanceListVo> financeList = baseMapper.queryPage(
-                page,
+                page, dealStoreId,
                 StringUtils.trim(MapUtils.getString(params, "dealPhone")),
                 StringUtils.trim(MapUtils.getString(params, "contactPhone")),
                 StringUtils.trim(MapUtils.getString(params, "contactName")),
@@ -167,5 +168,10 @@ public class DealUserStoreFinanceServiceImpl extends ServiceImpl<DealUserStoreFi
                 .setFinancePrice(new BigDecimal(0))
                 .setStatus(Constant.FinanceStatus.INREVIEW.getStatus());
         return dealUserStoreFinanceEntity;
+    }
+
+    //判断是否为空
+    private Boolean dataIsEmpty(Object object) {
+        return (object == null || "".equals(object));
     }
 }

@@ -24,6 +24,7 @@ public interface DealUserStoreFinanceDao extends BaseMapper<DealUserStoreFinance
     /**
      * 分页查询金融单列表
      * @param page
+     * @param dealUserId
      * @param dealPhone
      * @param contactPhone
      * @param contactName
@@ -34,6 +35,7 @@ public interface DealUserStoreFinanceDao extends BaseMapper<DealUserStoreFinance
      */
     List<DealUserStoreFinanceListVo> queryPage(
             Page<DealUserStoreFinanceListVo> page,
+            @Param("dealStoreId") Long dealStoreId,
             @Param("dealPhone") String dealPhone,
             @Param("contactPhone") String contactPhone,
             @Param("contactName") String contactName,

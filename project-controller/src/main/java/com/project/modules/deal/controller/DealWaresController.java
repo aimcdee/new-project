@@ -149,6 +149,7 @@ public class DealWaresController {
     @ApiOperation(value = "修改企业商品上线状态为驳回")
     @SysLog("修改企业商品上线状态为驳回")
     @PostMapping("/reject")
+    @RequiresPermissions("deal:wares:update")
     public R reject(@RequestBody DealWaresInvokingVo wares){
         ValidatorUtils.validateEntity(wares);
         dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresOnLineStatus.REJECT.getStatus(), getSysUserId());
@@ -164,6 +165,7 @@ public class DealWaresController {
     @ApiOperation(value = "修改企业商品上线状态为经理审核")
     @SysLog("修改企业商品上线状态为经理审核")
     @PostMapping("/manager")
+    @RequiresPermissions("deal:wares:update")
     public R manager(@RequestBody DealWaresInvokingVo wares){
         dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresOnLineStatus.MANAGER.getStatus(), getSysUserId());
         return R.ok();
@@ -178,6 +180,7 @@ public class DealWaresController {
     @ApiOperation(value = "修改企业商品上线状态为上架")
     @SysLog("修改企业商品上线状态为上架")
     @PostMapping("/onLine")
+    @RequiresPermissions("deal:wares:update")
     public R onLine(@RequestBody DealWaresInvokingVo wares){
         dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresOnLineStatus.ONLINE.getStatus(), getSysUserId());
         return R.ok();
@@ -191,6 +194,7 @@ public class DealWaresController {
     @ApiOperation(value = "修改企业商品上线状态为下架")
     @SysLog("修改企业商品上线状态为下架")
     @GetMapping("/unLine/{dealWaresId}")
+    @RequiresPermissions("deal:wares:update")
     public R unLine(@PathVariable("dealWaresId") String dealWaresId){
         dealWaresService.changeOnLineStatus(dealWaresId, null, Constant.WaresOnLineStatus.UNLINE.getStatus(), getSysUserId());
         return R.ok();
@@ -204,6 +208,7 @@ public class DealWaresController {
     @ApiOperation(value = "修改企业商品出售情况为已出售")
     @SysLog("修改企业商品出售情况为已出售")
     @GetMapping("/sale/{dealWaresId}")
+    @RequiresPermissions("deal:wares:update")
     public R sale(@PathVariable("dealWaresId") String dealWaresId){
         dealWaresService.changeSellStatus(dealWaresId, Constant.WaresSellStatus.SALE.getStatus());
         return R.ok();
@@ -216,6 +221,7 @@ public class DealWaresController {
      */
     @ApiOperation(value = "获取商品的审核记录")
     @GetMapping("/getExamineList/{dealWaresId}")
+    @RequiresPermissions("deal:wares:info")
     public R getExamineList(@PathVariable("dealWaresId") String dealWaresId){
         return R.ok(dealWaresExamineService.getExamineList(dealWaresId));
     }

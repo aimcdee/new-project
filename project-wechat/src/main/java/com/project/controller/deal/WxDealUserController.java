@@ -1,9 +1,8 @@
 package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
-import com.project.constant.Constant;
+import com.project.modules.deal.service.DealUserService;
 import com.project.modules.deal.vo.update.DealUserUpdateVo;
-import com.project.service.deal.WxDealUserService;
 import com.project.utils.R;
 import com.project.validator.ValidatorUtils;
 import io.swagger.annotations.Api;
@@ -13,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static com.project.common.utils.ShiroUtils.*;
+import static com.project.common.utils.ShiroUtils.getDealUserId;
 
 /**
  * 微信端客户端口
@@ -27,8 +26,10 @@ import static com.project.common.utils.ShiroUtils.*;
 @Api(tags = "微信端客户端口", description = "WxDealUserController")
 public class WxDealUserController {
 
+//    @Autowired
+//    private WxDealUserService wxDealUserService;
     @Autowired
-    private WxDealUserService wxDealUserService;
+    private DealUserService dealUserService;
 
     /**
      * 客户获取自己的详细信息
@@ -37,7 +38,8 @@ public class WxDealUserController {
     @ApiOperation(value = "客户获取自己的详细信息")
     @GetMapping("/info")
     public R info() {
-        return wxDealUserService.getDealUserInfoVo(getDealUserId());
+        return R.ok(dealUserService.info(getDealUserId()));
+//        return wxDealUserService.getDealUserInfoVo(getDealUserId());
     }
 
     /**
@@ -52,20 +54,10 @@ public class WxDealUserController {
     public R update(@RequestBody DealUserUpdateVo user){
         ValidatorUtils.validateEntity(user);
         user.setDealUserId(getDealUserId());
-        return wxDealUserService.updateDealUser(user);
+        dealUserService.updateEntity(user);
+        return R.ok();
+//        ValidatorUtils.validateEntity(user);
+//        user.setDealUserId(getDealUserId());
+//        return wxDealUserService.updateDealUser(user);
     }
-
-    /**
-     * 客户提现
-     * @return
-     */
-    @ApiOperation(value = "客户提现")
-    @GetMapping("/cashOut")
-    public R cashOut() {
-        if (isEnterprise()){
-            return wxDealUserService.cashOut(getDealStoreId());
-        }
-        return R.ok(Constant.DEFAUL_INDIVIDUAL);
-    }
-
 }

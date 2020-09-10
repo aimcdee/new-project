@@ -1,6 +1,7 @@
 package com.project.controller.conf;
 
-import com.project.service.conf.WxConfbannerService;
+import com.project.constant.Constant;
+import com.project.modules.conf.service.ConfBannerService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,8 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "微信端轮播图端口", description = "WxConfBannerController")
 public class WxConfBannerController {
 
+//    @Autowired
+//    private WxConfbannerService wxConfbannerService;
+
     @Autowired
-    private WxConfbannerService wxConfbannerService;
+    private ConfBannerService confBannerService;
 
     /**
      * 查询可显示的轮播图集合
@@ -32,6 +36,7 @@ public class WxConfBannerController {
     @ApiOperation(value = "查询可显示的轮播图集合")
     @GetMapping("/list")
     public R list() {
-        return wxConfbannerService.list();
+        return R.ok(confBannerService.normalList(Constant.Status.NORMAL.getStatus()));
+//        return R.ok(confBannerService.list());
     }
 }

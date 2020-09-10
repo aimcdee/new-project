@@ -2,9 +2,9 @@ package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
+import com.project.modules.deal.service.DealWaresService;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
-import com.project.service.deal.WxDealWaresService;
 import com.project.service.upload.WxUploadService;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
@@ -35,53 +35,35 @@ public class WxDealWaresController {
 
     @Autowired
     private WxUploadService wxUploadService;
+//    @Autowired
+//    private WxDealWaresService wxDealWaresService;
+
     @Autowired
-    private WxDealWaresService wxDealWaresService;
+    private DealWaresService dealWaresService;
 
     /**
-     * 企业客户分页查询自己上传的企业商品列表
+     * 个人中心-企业-商品模块-分页查询自己企业商品列表
      * @param params
      * @return
      */
-    @ApiOperation(value = "企业客户分页查询自己上传的企业商品列表")
+    @ApiOperation(value = "个人中心-商品模块-企业-分页查询自己企业商品列表")
     @GetMapping("/personalList")
     public R personalList(@RequestParam Map<String, Object> params){
         if (isEnterprise()){
             params.put("dealStoreId", getDealStoreId());
-            return wxDealWaresService.queryPersonalPage(params);
+            return R.ok(dealWaresService.queryPersonalPage(params));
+//            return wxDealWaresService.queryPersonalPage(params);
         }
         return R.ok();
     }
 
     /**
-     * 企业端分页显示商品列表
-     * @param params
-     * @return
-     */
-    @ApiOperation(value = "企业端分页显示商品列表")
-    @GetMapping("/storeList")
-    public R storeList(@RequestParam Map<String, Object> params){
-        return wxDealWaresService.queryStorePage(params);
-    }
-
-    /**
-     * 零售端分页显示商品列表
-     * @param params
-     * @return
-     */
-    @ApiOperation(value = "零售端分页显示商品列表")
-    @GetMapping("/retailList")
-    public R retailList(@RequestParam Map<String, Object> params){
-        return wxDealWaresService.queryRetailPage(params);
-    }
-
-    /**
-     * 企业商品图上传
+     * 个人中心-企业-商品模块-新增商品-企业商品图上传
      * @param file
      * @return
      */
-    @ApiOperation(value = "企业商品图上传")
-    @SysLog("企业商品图上传")
+    @ApiOperation(value = "个人中心-企业-商品模块-新增商品-企业商品图上传")
+    @SysLog("个人中心-企业-商品模块-新增商品-企业商品图上传")
     @PostMapping("/upload/waresImage")
     public R waresImage(@RequestParam("file") MultipartFile file){
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
@@ -91,12 +73,12 @@ public class WxDealWaresController {
     }
 
     /**
-     * 行驶证图上传
+     * 个人中心-企业-商品模块-新增商品-行驶证图上传
      * @param file
      * @return
      */
-    @ApiOperation(value = "行驶证图上传")
-    @SysLog("行驶证图上传")
+    @ApiOperation(value = "个人中心-企业-商品模块-新增商品-行驶证图上传")
+    @SysLog("个人中心-企业-商品模块-新增商品-行驶证图上传")
     @PostMapping("/upload/drivingImage")
     public R drivingIdImage(@RequestParam("file") MultipartFile file){
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
@@ -106,12 +88,12 @@ public class WxDealWaresController {
     }
 
     /**
-     * 删除图片
+     * 个人中心-企业-商品模块-新增商品-删除图片
      * @param url
      * @return
      */
-    @ApiOperation(value = "删除图片")
-    @SysLog("删除图片")
+    @ApiOperation(value = "个人中心-企业-商品模块-新增商品-删除图片")
+    @SysLog("个人中心-企业-商品模块-新增商品-删除图片")
     @GetMapping("/delete/image")
     public R deleteImage(@RequestParam("url") String url){
         wxUploadService.deleteImage(url);
@@ -119,68 +101,119 @@ public class WxDealWaresController {
     }
 
     /**
-     * 企业客户新增商品信息
+     * 个人中心-企业-商品模块-新增商品-新增商品信息
      * @param wares
      * @return
      */
-    @ApiOperation(value = "企业客户新增商品信息")
+    @ApiOperation(value = "个人中心-企业-商品模块-新增商品-新增商品信息")
     @ApiImplicitParam(paramType = "body", name = "wares", value = "商品信息对象", required = true, dataType = "DealWaresSaveVo")
-    @SysLog("企业客户新增金融单")
+    @SysLog("个人中心-企业-商品模块-新增商品-新增金融单")
     @PostMapping("/save")
     public R save(@RequestBody DealWaresSaveVo wares){
-        ValidatorUtils.validateEntity(wares);
+//        ValidatorUtils.validateEntity(wares);
         if (isEnterprise()){
-            return wxDealWaresService.saveEntity(wares);
+            ValidatorUtils.validateEntity(wares);
+            dealWaresService.saveEntity(wares);
+            return R.ok();
+//            return wxDealWaresService.saveEntity(wares);
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
     }
 
     /**
-     * 企业客户获取企业客户个人商品的详情
+     * 个人中心-企业-商品模块-获取自己商品的详情
      * @param dealWaresId
      * @return
      */
-    @ApiOperation(value = "企业客户获取企业客户个人商品的详情")
+    @ApiOperation(value = "企业客户获取自己商品的详情")
     @GetMapping("/personal/{dealWaresId}")
     public R personal(@PathVariable("dealWaresId") String dealWaresId){
-        return wxDealWaresService.info(dealWaresId);
+        return R.ok(dealWaresService.info(dealWaresId));
+//        return wxDealWaresService.info(dealWaresId);
     }
 
     /**
-     * 企业客户获取企业端商品的详情
-     * @param dealWaresId
-     * @return
-     */
-    @ApiOperation(value = "企业客户获取企业端商品的详情")
-    @GetMapping("/store/{dealWaresId}")
-    public R store(@PathVariable("dealWaresId") String dealWaresId){
-        return wxDealWaresService.store(dealWaresId);
-    }
-
-    /**
-     * 客户获取零售端商品的详情
-     * @param dealWaresId
-     * @return
-     */
-    @ApiOperation(value = "客户获取零售端商品的详情")
-    @GetMapping("/retail/{dealWaresId}")
-    public R retail(@PathVariable("dealWaresId") String dealWaresId){
-        return wxDealWaresService.retail(dealWaresId);
-    }
-
-    /**
-     * 企业客户修改个人商品信息
+     * 个人中心-企业-商品模块-修改商品-修改商品信息
      * @param wares
      * @return
      */
+    @ApiOperation(value = "个人中心-企业-商品模块-修改商品-修改商品信息")
     @ApiImplicitParam(paramType = "body", name = "wares", value = "商品信息对象", required = true, dataType = "DealWaresUpdateVo")
-    @SysLog("企业客户修改个人商品信息")
+    @SysLog("个人中心-企业-商品模块-修改商品-修改商品信息")
     @PostMapping("/update")
     public R update (@RequestBody DealWaresUpdateVo wares){
-        ValidatorUtils.validateEntity(wares);
+//        ValidatorUtils.validateEntity(wares);
         if (isEnterprise()){
-            return wxDealWaresService.updateEntity(wares);
+            ValidatorUtils.validateEntity(wares);
+            dealWaresService.updateEntity(wares);
+            return R.ok();
+//            return wxDealWaresService.updateEntity(wares);
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
+    }
+
+    /**
+     * 个人中心-企业-商品模块-修改企业商品出售情况为已出售
+     * @param dealWaresId
+     * @return
+     */
+    @ApiOperation(value = "修改企业商品出售情况为已出售")
+    @SysLog("修改企业商品出售情况为已出售")
+    @GetMapping("/sale/{dealWaresId}")
+    public R sale(@PathVariable("dealWaresId") String dealWaresId){
+        if (isEnterprise()){
+            dealWaresService.changeSellStatus(dealWaresId, Constant.WaresSellStatus.SALE.getStatus());
+            return R.ok();
+        }
+        return R.ok(Constant.DEFAUL_INDIVIDUAL);
+//        return R.ok(wxDealWaresService.changeSellStatus(dealWaresId));
+    }
+
+    /**
+     * 企业端-分页显示商品列表
+     * @param params
+     * @return
+     */
+    @ApiOperation(value = "企业端-分页显示商品列表")
+    @GetMapping("/storeList")
+    public R storeList(@RequestParam Map<String, Object> params){
+        return R.ok(dealWaresService.queryStorePage(params));
+//        return wxDealWaresService.queryStorePage(params);
+    }
+
+    /**
+     * 企业端-获取商品的详情
+     * @param dealWaresId
+     * @return
+     */
+    @ApiOperation(value = "企业端-获取商品的详情")
+    @GetMapping("/store/{dealWaresId}")
+    public R store(@PathVariable("dealWaresId") String dealWaresId){
+        return R.ok(dealWaresService.store(dealWaresId));
+//        return wxDealWaresService.store(dealWaresId);
+    }
+
+    /**
+     * 零售端-分页显示商品列表
+     * @param params
+     * @return
+     */
+    @ApiOperation(value = "零售端分页显示商品列表")
+    @GetMapping("/retailList")
+    public R retailList(@RequestParam Map<String, Object> params){
+        return R.ok(dealWaresService.queryRetailPage(params));
+//        return wxDealWaresService.queryRetailPage(params);
+    }
+
+    /**
+     * 零售端-获取商品的详情
+     * @param dealWaresId
+     * @return
+     */
+    @ApiOperation(value = "零售端-获取商品的详情")
+    @GetMapping("/retail/{dealWaresId}")
+    public R retail(@PathVariable("dealWaresId") String dealWaresId){
+        return R.ok(dealWaresService.retail(dealWaresId));
+//        return wxDealWaresService.retail(dealWaresId);
     }
 }

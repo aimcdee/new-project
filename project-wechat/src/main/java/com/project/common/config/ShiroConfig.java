@@ -59,6 +59,17 @@ public class ShiroConfig {
         filterMap.put("/druid/**", "anon");
         filterMap.put("/wechat/smsLogin", "anon");
         filterMap.put("/wechat/wxLogin", "anon");
+        filterMap.put("/wechat/deal/wares/retailList", "anon");
+
+        filterMap.put("/wechat/conf/**", "anon");
+        filterMap.put("/wechat/cust/**", "anon");
+        filterMap.put("/wechat/cou/**", "anon");
+        filterMap.put("/wechat/deal/wares/retailList", "anon");
+
+
+
+
+
         filterMap.put("/swagger/**", "anon");
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");

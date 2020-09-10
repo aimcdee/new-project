@@ -2,9 +2,7 @@ package com.project.modules.wechat.cust.controller;
 
 import com.project.constant.Constant;
 import com.project.modules.cust.service.CustAreaService;
-import com.project.modules.sys.service.SysConfigService;
 import com.project.utils.R;
-import com.project.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +26,6 @@ public class WxCustAreaController {
 
     @Autowired
     private CustAreaService custAreaService;
-    @Autowired
-    private SysConfigService sysConfigService;
-    @Autowired
-    private RedisUtils redisUtils;
 
     /**
      * 查看省

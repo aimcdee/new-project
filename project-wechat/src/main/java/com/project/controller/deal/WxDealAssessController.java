@@ -2,8 +2,8 @@ package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
+import com.project.modules.deal.service.DealAssessService;
 import com.project.modules.deal.vo.save.DealAssessSaveVo;
-import com.project.service.deal.WxDealAssessService;
 import com.project.service.upload.WxUploadService;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
@@ -35,8 +35,10 @@ public class WxDealAssessController {
 
     @Autowired
     private WxUploadService wxUploadService;
+//    @Autowired
+//    private WxDealAssessService wxDealAssessService;
     @Autowired
-    private WxDealAssessService wxDealAssessService;
+    private DealAssessService dealAssessService;
 
     /**
      * 分页查询个人商品评估列表
@@ -46,7 +48,8 @@ public class WxDealAssessController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         params.put("dealUserId", getDealUserId());
-        return wxDealAssessService.list(params);
+        return R.ok(dealAssessService.queryWxPage(params));
+//        return wxDealAssessService.list(params);
     }
 
     /**
@@ -103,8 +106,11 @@ public class WxDealAssessController {
     @PostMapping("/save")
     public R save(@RequestBody DealAssessSaveVo assess){
         ValidatorUtils.validateEntity(assess);
-        assess.setDealUserId(getDealUserId());
-        return wxDealAssessService.saveEntity(assess);
+        dealAssessService.saveEntity(assess);
+        return R.ok();
+//        ValidatorUtils.validateEntity(assess);
+//        assess.setDealUserId(getDealUserId());
+//        return wxDealAssessService.saveEntity(assess);
     }
 
     /**
@@ -115,6 +121,7 @@ public class WxDealAssessController {
     @ApiOperation(value = "根据商品评估ID获取商品评估详情")
     @GetMapping("/info/{dealAssessId}")
     public R info(@PathVariable("dealAssessId") Long dealAssessId) {
-        return wxDealAssessService.info(dealAssessId);
+        return R.ok(dealAssessService.infoWx(dealAssessId));
+//        return wxDealAssessService.info(dealAssessId);
     }
 }

@@ -1,6 +1,6 @@
 package com.project.controller.cou;
 
-import com.project.service.cou.WxCouWaresBrandService;
+import com.project.modules.cou.service.CouWaresBrandService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "微信端系统商品品牌接口", description = "WxCouWaresBrandController")
 public class WxCouWaresBrandController {
 
+//    @Autowired
+//    private WxCouWaresBrandService wxCouWaresBrandService;
     @Autowired
-    private WxCouWaresBrandService wxCouWaresBrandService;
+    private CouWaresBrandService couWaresBrandService;
 
     /**
      * 获取所有状态为正常商品品牌对象
@@ -32,6 +34,7 @@ public class WxCouWaresBrandController {
     @ApiOperation(value = "获取所有状态为正常商品品牌对象")
     @GetMapping("/getCouBrandList")
     public R getCouBrandList(){
-        return wxCouWaresBrandService.getCouBrandList();
+        return R.ok(couWaresBrandService.getCouBrandList());
+//        return wxCouWaresBrandService.getCouBrandList();
     }
 }

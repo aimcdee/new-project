@@ -77,7 +77,7 @@ paths:
   /wechat/conf/banner/list:
     get:
       tags:
-        - 轮播图管理
+        - 系统-轮播图模块
       summary: 查询状态为正常的轮播图集合
       produces:
         - application/json
@@ -97,7 +97,7 @@ paths:
   /wechat/cust/area/province:
     get:
       tags:
-        - 系统区域管理
+        - 系统-区域模块
       summary: 查看省份
       produces:
         - application/json
@@ -117,7 +117,7 @@ paths:
   /wechat/cust/area/city/{areaId}:
     get:
       tags:
-        - 系统区域管理
+        - 系统-区域模块
       summary: 查看市区
       produces:
         - application/json
@@ -143,7 +143,7 @@ paths:
   /wechat/cust/area/county/{areaId}:
     get:
       tags:
-        - 系统区域管理
+        - 系统-区域模块
       summary: 查看县/区
       produces:
         - application/json
@@ -169,13 +169,13 @@ paths:
   /wechat/cou/wares/brand/getCouBrandList:
     get:
       tags:
-        - 系统品牌管理
-      summary: 获取所有商品品牌对象
+        - 系统-品牌模块
+      summary: 品牌-获取品牌对象列表
       produces:
         - application/json
       responses:
         '200':
-          description: 返回商品品牌信息
+          description: 返回品牌信息
           schema:
             type: object
             properties:
@@ -188,8 +188,8 @@ paths:
   /wechat/cou/wares/series/getCouSeriesList/{couBrandId}:
     get:
       tags:
-        - 系统品牌管理
-      summary: 获取所有商品品牌对象
+        - 系统-品牌模块
+      summary: 系列-根据品牌ID获取该品牌所有系列对象列表
       produces:
         - application/json
       parameters:
@@ -200,7 +200,7 @@ paths:
           required: true
       responses:
         '200':
-          description: 返回品牌系列信息
+          description: 返回系列信息
           schema:
             type: object
             properties:
@@ -213,13 +213,13 @@ paths:
   /wechat/cou/wares/getCouWaresList/{couSeriesId}:
     get:
       tags:
-        - 系统品牌管理
-      summary: 根据品牌系列ID获取所有商品对象
+        - 系统-品牌模块
+      summary: 商品-根据系列ID获取该系列所有商品对象列表
       produces:
         - application/json
       parameters:
         - name: couSeriesId
-          description: 品牌系列ID
+          description: 系列ID
           in: path
           type: integer
           required: true
@@ -238,13 +238,13 @@ paths:
   /wechat/cou/wares/model/getCouModelList:
     get:
       tags:
-        - 系统品牌管理
-      summary: 获取所有商品型号对象
+        - 系统-品牌模块
+      summary: 获取所有型号对象列表
       produces:
         - application/json
       responses:
         '200':
-          description: 返回商品型号信息
+          description: 返回型号信息
           schema:
             type: object
             properties:
@@ -257,8 +257,8 @@ paths:
   /wechat/deal/user/info:
     get:
       tags:
-        - 客户管理
-      summary: 获取个人信息
+        - 个人中心-个人/企业-个人信息
+      summary: 个人信息-获取个人信息
       produces:
         - application/json
       responses:
@@ -277,8 +277,8 @@ paths:
   /wechat/deal/user/update:
     post:
       tags:
-        - 客户管理
-      summary: 修改个人信息
+        - 个人中心-个人/企业-个人信息
+      summary: 个人信息-修改个人信息
       produces:
         - application/json
       parameters:
@@ -293,23 +293,11 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-  /wechat/deal/user/cashOut:
-    get:
-      tags:
-        - 客户管理
-      summary: 客户提现
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/R'
   /wechat/deal/user/store/recordList:
     get:
       tags:
-        - 客户管理
-      summary: 客户查看申请企业验证的申请记录列表
+        - 个人中心-个人/企业-企业信息
+      summary: 企业信息-客户查看个人申请企业验证的记录列表
       produces:
         - application/json
       parameters:
@@ -339,8 +327,8 @@ paths:
   /wechat/deal/user/store/uploadStore:
     post:
       tags:
-        - 客户管理
-      summary: 上传客户企业门面图
+        - 个人中心-个人/企业-企业信息
+      summary: 企业信息-上传客户企业门面图
       consumes:
         - multipart/form-data
       produces:
@@ -359,8 +347,8 @@ paths:
   /wechat/deal/user/store/delete/image:
     get:
       tags:
-        - 客户管理
-      summary: 删除客户企业门面图
+        - 个人中心-个人/企业-企业信息
+      summary: 企业信息-删除客户企业门面图
       consumes:
         - multipart/form-data
       produces:
@@ -379,8 +367,8 @@ paths:
   /wechat/deal/user/store/save:
     post:
       tags:
-        - 客户管理
-      summary: 申请企业认证
+        - 个人中心-个人/企业-企业信息
+      summary: 企业信息-新增申请企业认证
       produces:
         - application/json
       parameters:
@@ -395,105 +383,12 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-  /wechat/deal/user/store/finance/save:
-    post:
-      tags:
-        - 客户管理
-      summary: 企业客户新增金融单
-      produces:
-        - application/json
-      parameters:
-        - name: finance
-          description: 金融单对象
-          in: body
-          schema:
-            $ref: '#/definitions/DealUserStoreFinanceSaveVo'
-          required: true
-      responses:
-        '200':
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/user/store/refund/list:
-    get:
-      tags:
-        - 客户管理
-      summary: 企业客户分页查看提现和扣费记录
-      produces:
-        - application/json
-      parameters:
-        - name: page
-          description: 页码
-          in: query
-          type: integer
-          required: true
-        - name: limit
-          description: 每页条数
-          in: query
-          type: integer
-          required: true
-        - name: sidx
-          description: 排序字段
-          in: query
-          type: string
-        - name: order
-          description: 排序方式，如：asc、desc
-          in: query
-          type: string
-      responses:
-        '200':
-          description: 返回退费单列表
-          schema:
-            $ref: '#/definitions/DealUserStoreRefundEntities'
-  /wechat/deal/user/store/refund/info/{refundId}:
-    get:
-      tags:
-        - 客户管理
-      summary: 企业客户获取提现或扣费记录详情
-      produces:
-        - application/json
-      parameters:
-        - name: refundId
-          description: 退费单ID
-          in: path
-          type: string
-          required: true
-      responses:
-        '200':
-          description: 返回退费单信息
-          schema:
-            type: object
-            properties:
-              code:
-                description: 状态码 0：成功  非0：失败
-                type: integer
-                format: int32
-              config:
-                description: 返回参数信息
-                $ref: '#/definitions/DealUserStoreRefundWxInfoVo'
-  /wechat/deal/user/store/refund/cancel/{refundId}:
-    get:
-      tags:
-        - 客户管理
-      summary: 企业客服放弃提现
-      produces:
-        - application/json
-      parameters:
-        - name: refundId
-          description: 退费单ID
-          in: path
-          type: string
-          required: true
-      responses:
-        '200':
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/R'
+
   /wechat/deal/assess/list:
     get:
       tags:
-        - 评估商品管理
-      summary: 分页查询商品评估列表
+        - 个人中心-个人/企业-评估模块
+      summary: 评估模块-分页查询个人商品评估列表
       produces:
         - application/json
       parameters:
@@ -520,91 +415,12 @@ paths:
           description: 返回商品评价列表
           schema:
             $ref: '#/definitions/DealAssessEntities'
-  /wechat/deal/assess/waresImage:
-    post:
-      tags:
-        - 评估商品管理
-      summary: 评估商品图上传
-      consumes:
-        - multipart/form-data
-      produces:
-        - application/json
-      parameters:
-        - name: file
-          description: 图片
-          in: formData
-          type: file
-          required: true
-      responses:
-        '200':
-          description: 返回上传后服务器处理的信息,请弹窗提醒
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/assess/drivingImage:
-    post:
-      tags:
-        - 评估商品管理
-      summary: 行驶证图上传
-      consumes:
-        - multipart/form-data
-      produces:
-        - application/json
-      parameters:
 
-        - name: file
-          description: 图片
-          in: formData
-          type: file
-          required: true
-      responses:
-        '200':
-          description: 返回上传后服务器处理的信息,请弹窗提醒
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/assess/delete/image:
-    get:
-      tags:
-        - 评估商品管理
-      summary: 删除商品评估图
-      consumes:
-        - multipart/form-data
-      produces:
-        - application/json
-      parameters:
-        - name: url
-          description: 图片链接
-          in: query
-          type: string
-          required: true
-      responses:
-        '200':
-          description: 返回上传后服务器处理的信息,请弹窗提醒
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/assess/save:
-    post:
-      tags:
-        - 评估商品管理
-      summary: 新增商品评估信息
-      produces:
-        - application/json
-      parameters:
-        - name: waresType
-          description: 商品评估对象
-          in: body
-          schema:
-            $ref: '#/definitions/DealAssessSaveVo'
-          required: true
-      responses:
-        '200':
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/R'
   /wechat/deal/assess/info/{dealAssessId}:
     get:
       tags:
-        - 评估商品管理
-      summary: 获取商品评估信息
+        - 个人中心-个人/企业-评估模块
+      summary: 评估模块-获取商品评估信息
       produces:
         - application/json
       parameters:
@@ -629,8 +445,8 @@ paths:
   /wechat/deal/assess/sell/list:
     get:
       tags:
-        - 评估商品管理
-      summary: 分页查询个人评估商品出售列表
+        - 个人中心-个人/企业-评估模块-个人商品出售
+      summary: 个人商品出售-分页查询个人评估商品出售列表
       produces:
         - application/json
       parameters:
@@ -660,8 +476,8 @@ paths:
   /wechat/deal/assess/sell/save:
     post:
       tags:
-        - 评估商品管理
-      summary: 新增个人评估商品出售
+        - 个人中心-个人/企业-评估模块-个人商品出售
+      summary: 个人商品出售-新增个人评估商品出售
       produces:
         - application/json
       parameters:
@@ -679,8 +495,8 @@ paths:
   /wechat/deal/assess/sell/info/{dealSellId}:
     get:
       tags:
-        - 评估商品管理
-      summary: 根据个人评估商品出售ID获取个人评估商品出售详情
+        - 个人中心-个人/企业-评估模块-个人商品出售
+      summary: 个人商品出售-根据个人商品出售ID获取个人商品出售详情
       produces:
         - application/json
       parameters:
@@ -705,8 +521,8 @@ paths:
   /wechat/deal/assess/sell/update:
     post:
       tags:
-        - 评估商品管理
-      summary: 修改个人评估商品出售信息
+        - 个人中心-个人/企业-评估模块-个人商品出售
+      summary: 个人商品出售-修改个人商品出售信息
       produces:
         - application/json
       parameters:
@@ -722,12 +538,161 @@ paths:
           schema:
             $ref: '#/definitions/R'
 
+  /wechat/deal/wares/installment/list:
+    get:
+      tags:
+        - 个人中心-个人/企业--分期模块
+      summary: 分期模块-分页查询分期咨询过的商品列表
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
+      responses:
+        '200':
+          description: 返回商品评价列表
+          schema:
+            $ref: '#/definitions/DealWaresInstallmentEntities'
+
+  /wechat/deal/user/store/finance/save:
+    post:
+      tags:
+        - 个人中心-企业专属-金融模块
+      summary: 金融单-企业客户新增金融单
+      produces:
+        - application/json
+      parameters:
+        - name: finance
+          description: 金融单对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreFinanceSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+  /wechat/deal/user/store/refund/cashOut:
+    get:
+      tags:
+        - 个人中心-企业专属-金融模块
+      summary: 提现单-新增客户提现
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/user/store/refund/list:
+    get:
+      tags:
+        - 个人中心-企业专属-金融模块
+      summary: 提现单-企业客户分页查看自己提现和扣费记录
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          description: 页码
+          in: query
+          type: integer
+          required: true
+        - name: limit
+          description: 每页条数
+          in: query
+          type: integer
+          required: true
+        - name: sidx
+          description: 排序字段
+          in: query
+          type: string
+        - name: order
+          description: 排序方式，如：asc、desc
+          in: query
+          type: string
+      responses:
+        '200':
+          description: 返回退费单列表
+          schema:
+            $ref: '#/definitions/DealUserStoreRefundEntities'
+  /wechat/deal/user/store/refund/info/{refundId}:
+    get:
+      tags:
+        - 个人中心-企业专属-金融模块
+      summary: 提现-企业客户查看提现或扣费记录详情
+      produces:
+        - application/json
+      parameters:
+        - name: refundId
+          description: 退费单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回退费单信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回参数信息
+                $ref: '#/definitions/DealUserStoreRefundWxInfoVo'
+  /wechat/deal/user/store/refund/cancel/{refundId}:
+    get:
+      tags:
+        - 个人中心-企业专属-金融模块
+      summary: 提现单-企业客服放弃提现
+      produces:
+        - application/json
+      parameters:
+        - name: refundId
+          description: 退费单ID
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
 
   /wechat/deal/wares/personalList:
     get:
       tags:
-        - 商品管理
-      summary: 企业客户分页查询自己上传的企业商品列表
+        - 个人中心-企业专属-商品模块
+      summary: 商品列表-企业客户分页查询自己商品列表
       produces:
         - application/json
       parameters:
@@ -800,11 +765,237 @@ paths:
           description: 返回商品评价列表
           schema:
             $ref: '#/definitions/DealWaresWxPersonalEntities'
+  /wechat/deal/wares/waresImage:
+    post:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 新增商品-企业商品图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/wares/drivingImage:
+    post:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 新增商品-行驶证图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/wares/delete/image:
+    get:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 新增商品-删除图片
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/wares/save:
+    post:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 新增商品-新增商品信息
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 出售商品对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/wares/personal/{dealWaresId}:
+    get:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 商品详情-获取自己的商品详情
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 出售商品ID
+          in: path
+          type: String
+          required: true
+      responses:
+        '200':
+          description: 返回出售商品详情
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/DealWaresInfoVo'
+  /wechat/deal/wares/update:
+    post:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 商品信息修改-修改商品信息
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 出售商品对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresUpdateVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/wares/sale/{dealWaresId}:
+    get:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 商品状态修改-修改商品出售状态为已出售
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 企业商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+  /wechat/deal/assess/waresImage:
+    post:
+      tags:
+        - 评估商品模块
+      summary: 评估商品图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/assess/drivingImage:
+    post:
+      tags:
+        - 评估商品模块
+      summary: 行驶证图上传
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+
+        - name: file
+          description: 图片
+          in: formData
+          type: file
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/assess/delete/image:
+    get:
+      tags:
+        - 评估商品模块
+      summary: 删除商品评估图
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          description: 图片链接
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 返回上传后服务器处理的信息,请弹窗提醒
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/assess/save:
+    post:
+      tags:
+        - 评估商品模块
+      summary: 新增商品评估信息
+      produces:
+        - application/json
+      parameters:
+        - name: waresType
+          description: 商品评估对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealAssessSaveVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+
+
   /wechat/deal/wares/storeList:
     get:
       tags:
-        - 商品管理
-      summary: 企业端分页查询商品列表
+        - 商品管理-企业商品-企业端
+      summary: 企业端-分页查询商品列表
       produces:
         - application/json
       parameters:
@@ -877,11 +1068,38 @@ paths:
           description: 返回商品评价列表
           schema:
             $ref: '#/definitions/DealWaresWxStoreEntities'
+  /wechat/deal/wares/store/{dealWaresId}:
+    get:
+      tags:
+        - 商品管理-企业商品-企业端
+      summary: 企业端-获取商品的详情
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 商品出售ID
+          in: path
+          type: String
+          required: true
+      responses:
+        '200':
+          description: 返回出售商品详情
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回信息
+                $ref: '#/definitions/DealWaresWxStoreInfoVo'
+
   /wechat/deal/wares/retailList:
     get:
       tags:
-        - 商品管理
-      summary: 零售端分页查询商品列表
+        - 商品管理-企业商品-零售端
+      summary: 零售端-分页查询商品列表
       produces:
         - application/json
       parameters:
@@ -954,144 +1172,11 @@ paths:
           description: 返回商品评价列表
           schema:
             $ref: '#/definitions/DealWaresWxRetailEntities'
-  /wechat/deal/wares/waresImage:
-    post:
-      tags:
-        - 商品管理
-      summary: 企业商品图上传
-      consumes:
-        - multipart/form-data
-      produces:
-        - application/json
-      parameters:
-        - name: file
-          description: 图片
-          in: formData
-          type: file
-          required: true
-      responses:
-        '200':
-          description: 返回上传后服务器处理的信息,请弹窗提醒
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/wares/drivingImage:
-    post:
-      tags:
-        - 商品管理
-      summary: 行驶证图上传
-      consumes:
-        - multipart/form-data
-      produces:
-        - application/json
-      parameters:
-
-        - name: file
-          description: 图片
-          in: formData
-          type: file
-          required: true
-      responses:
-        '200':
-          description: 返回上传后服务器处理的信息,请弹窗提醒
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/wares/delete/image:
-    get:
-      tags:
-        - 商品管理
-      summary: 删除图片
-      consumes:
-        - multipart/form-data
-      produces:
-        - application/json
-      parameters:
-        - name: url
-          description: 图片链接
-          in: query
-          type: string
-          required: true
-      responses:
-        '200':
-          description: 返回上传后服务器处理的信息,请弹窗提醒
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/wares/save:
-    post:
-      tags:
-        - 商品管理
-      summary: 企业客户新增商品信息
-      produces:
-        - application/json
-      parameters:
-        - name: sell
-          description: 出售商品对象
-          in: body
-          schema:
-            $ref: '#/definitions/DealWaresSaveVo'
-          required: true
-      responses:
-        '200':
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/R'
-  /wechat/deal/wares/personal/{dealWaresId}:
-    get:
-      tags:
-        - 商品管理
-      summary: 企业客户获取企业客户个人商品的详情
-      produces:
-        - application/json
-      parameters:
-        - name: dealWaresId
-          description: 商品出售ID
-          in: path
-          type: String
-          required: true
-      responses:
-        '200':
-          description: 返回出售商品详情
-          schema:
-            type: object
-            properties:
-              code:
-                description: 状态码 0：成功  非0：失败
-                type: integer
-                format: int32
-              config:
-                description: 返回信息
-                $ref: '#/definitions/DealWaresInfoVo'
-  /wechat/deal/wares/store/{dealWaresId}:
-    get:
-      tags:
-        - 商品管理
-      summary: 企业客户获取企业端商品的详情
-      produces:
-        - application/json
-      parameters:
-        - name: dealWaresId
-          description: 商品出售ID
-          in: path
-          type: String
-          required: true
-      responses:
-        '200':
-          description: 返回出售商品详情
-          schema:
-            type: object
-            properties:
-              code:
-                description: 状态码 0：成功  非0：失败
-                type: integer
-                format: int32
-              config:
-                description: 返回信息
-                $ref: '#/definitions/DealWaresWxStoreInfoVo'
-
   /wechat/deal/wares/retail/{dealWaresId}:
     get:
       tags:
-        - 商品管理
-      summary: 客户获取零售端商品的详情
+        - 商品管理-企业商品-零售端
+      summary: 零售端-获取商品的详情
       produces:
         - application/json
       parameters:
@@ -1113,52 +1198,12 @@ paths:
               config:
                 description: 返回信息
                 $ref: '#/definitions/DealWaresWxRetailInfoVo'
-  /wechat/deal/wares/installment/list:
-    get:
-      tags:
-        - 商品管理
-      summary: 分页查询咨询分期客户列表
-      produces:
-        - application/json
-      parameters:
-        - name: page
-          description: 页码
-          in: query
-          type: integer
-          required: true
-        - name: limit
-          description: 每页条数
-          in: query
-          type: integer
-          required: true
-        - name: sidx
-          description: 排序字段
-          in: query
-          type: string
-        - name: order
-          description: 排序方式，如：asc、desc
-          in: query
-          type: string
-        - name: startTime
-          description: 开始日期
-          in: query
-          type: string
-          format: 'date-time'
-        - name: endTime
-          description: 结束日期
-          in: query
-          type: string
-          format: 'date-time'
-      responses:
-        '200':
-          description: 返回商品评价列表
-          schema:
-            $ref: '#/definitions/DealWaresInstallmentEntities'
+
   /wechat/deal/wares/installment/save:
     post:
       tags:
-        - 商品管理
-      summary: 新增咨询分期
+        - 商品管理-企业商品-个人/企业-分期模块
+      summary: 分期模块-新增咨询分期
       produces:
         - application/json
       parameters:
@@ -2173,7 +2218,7 @@ definitions:
         type: integer
         format: int64
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couWaresId:
@@ -2181,7 +2226,7 @@ definitions:
         type: integer
         format: int64
       couModelId:
-        description: 所属商品型号ID
+        description: 所属型号ID
         type: integer
         format: int64
       tradePrice:
@@ -2261,6 +2306,7 @@ definitions:
         description: 所属企业客户ID
         type: integer
         format: int64
+
 
   DealWaresInfoVo:
     type: object
@@ -2462,6 +2508,128 @@ definitions:
         description: 提交时间
         type: string
         format: date-time
+
+
+  DealWaresUpdateVo:
+    type: object
+    properties:
+      dealWaresId:
+        description: 出售商品ID
+        type: string
+      dealWaresTitle:
+        description: 出售商品标题
+        type: string
+      releaseAreaId:
+        description: 发布区域ID
+        type: integer
+        format: int64
+      contactPhone:
+        description: 联系电话
+        type: string
+      contactName:
+        description: 联系人名称
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      waresFrameCode:
+        description: 商品框架号
+        type: string
+      couBrandId:
+        description: 所属品牌ID
+        type: integer
+        format: int64
+      couSeriesId:
+        description: 所属品牌系列ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
+      couModelId:
+        description: 所属商品型号ID
+        type: integer
+        format: int64
+      tradePrice:
+        description: 批发价
+        type: string
+      retailPrice:
+        description: 零售价
+        type: string
+      registerTime:
+        description: 上牌时间
+        type: string
+        format: date-time
+      distance:
+        description: 行驶里程
+        type: integer
+        format: int64
+      licenseId:
+        description: 牌照ID
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      addr:
+        description: 详细地址
+        type: string
+      waresRemark:
+        description: 商品描述
+        type: string
+      transferNum:
+        description: 过户次数
+        type: integer
+        format: int64
+      isTransfer:
+        description: 是否含过户费 0.无 1.是
+        type: integer
+        format: int64
+      isMortgage:
+        description: 是否有抵押 0.无 1.是
+        type: integer
+        format: int64
+      isMaintain:
+        description: 是否有定期4s保养 0.无 1.是
+        type: integer
+        format: int64
+      coverImage:
+        description: 商品封面图
+        type: object
+        properties:
+          image:
+            description: 图片路径
+            type: string
+      driveImage:
+        description: 行驶证图
+        type: object
+        properties:
+          image:
+            description: 图片路径
+            type: string
+      waresImages:
+        description: 商品评估图集合
+        type: array
+        items:
+          image:
+            description: 图片路径
+            type: string
+      dealStoreId:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
+
 
   DealWaresWxStoreInfoVo:
     type: object

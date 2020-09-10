@@ -41,13 +41,13 @@ public class WxDealUserStoreController {
     }
 
     /**
-     * 客户申请成为企业用户
+     * 客户申请企业验证
      * @param store
      * @return
      */
-    @ApiOperation(value = "客户申请成为企业用户")
+    @ApiOperation(value = "客户申请企业验证")
     @ApiImplicitParam(paramType = "body", name = "store", value = "客户申请对象", required = true, dataType = "DealUserStoreSaveVo")
-    @SysLog("客户申请成为企业用户")
+    @SysLog("客户申请企业验证")
     @PostMapping("/saveStore")
     public R saveStore(@RequestBody DealUserStoreSaveVo store){
         dealUserStoreService.saveEntity(store);

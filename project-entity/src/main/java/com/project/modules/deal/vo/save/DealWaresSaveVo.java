@@ -45,16 +45,16 @@ public class DealWaresSaveVo implements Serializable {
     @ApiModelProperty(value = "所属品牌ID")
     private Long couBrandId;
 
-    /**所属品牌系列ID*/
-    @ApiModelProperty(value = "所属品牌系列ID")
+    /**所属系列ID*/
+    @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
 
     /**所属商品ID*/
     @ApiModelProperty(value = "所属商品ID")
     private Long couWaresId;
 
-    /**所属商品型号ID*/
-    @ApiModelProperty(value = "所属商品型号ID")
+    /**所属型号ID*/
+    @ApiModelProperty(value = "所属型号ID")
     private Long couModelId;
 
     /**批发价*/

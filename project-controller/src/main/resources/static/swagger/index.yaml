@@ -1,4 +1,4 @@
-swagger: '2.0'
+DealWaresSaveVoswagger: '2.0'
 info:
   description: new-project管理后台API
   version: 1.0.0

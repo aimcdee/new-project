@@ -39,11 +39,11 @@ public class WxDealUserStoreRefundController {
     }
 
     /**
-     * 企业客户获取提现或扣费详情
+     * 企业客户获取提现或扣费记录详情
      * @param refundId
      * @return
      */
-    @ApiOperation(value = "企业客户获取提现或扣费详情")
+    @ApiOperation(value = "企业客户获取提现或扣费记录详情")
     @GetMapping("/info/{refundId}")
     public R info(@PathVariable("refundId") String refundId){
         return R.ok(dealUserStoreRefundService.infoWx(refundId));

@@ -49,7 +49,7 @@ public class DealUserLoginServiceImpl implements DealUserLoginService {
     @Transactional
     public String wxDealUserlogin(String phone) {
         checkUtils.checkPhone(phone);
-        DealUserEntity dealUserEntity = dealUserService.getOne(new QueryWrapper<DealUserEntity>().eq("phone", phone).last("LIMIT 1"));
+        DealUserEntity dealUserEntity = dealUserService.getOne(new QueryWrapper<DealUserEntity>().eq("phone", phone).eq("status", Constant.Status.NORMAL.getStatus()).last("LIMIT 1"));
         //如果该客户是第一次登录,则新增客户并返回token
         if (Objects.isNull(dealUserEntity)){
             DealUserSaveVo dealUserSaveVo = new DealUserSaveVo();
