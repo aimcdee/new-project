@@ -1,6 +1,7 @@
 package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
+import com.project.modules.deal.service.DealAssessSellService;
 import com.project.modules.deal.vo.save.DealAssessSellSaveVo;
 import com.project.modules.deal.vo.update.DealAssessSellUpdateVo;
 import com.project.service.deal.WxDealAssessSellService;
@@ -26,11 +27,13 @@ import static com.project.common.utils.ShiroUtils.getDealUserId;
 @Slf4j
 @RestController
 @RequestMapping("/wechat/deal/assess/sell")
-@Api(tags = "微信端商品评估端口", description = "WxDealAssessSellController")
-public class WxDealAssessSellController {
+@Api(tags = "微信端商品评估端口", description = "WechatDealAssessSellController")
+public class WechatDealAssessSellController {
 
     @Autowired
     private WxDealAssessSellService wxDealAssessSellService;
+    @Autowired
+    private DealAssessSellService dealAssessSellService;
 
     /**
      * 分页查询商品评估列表
@@ -41,7 +44,8 @@ public class WxDealAssessSellController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("dealUserId", getDealUserId());
-        return wxDealAssessSellService.queryPage(params);
+        return R.ok(dealAssessSellService.queryWxPage(params));
+//        return wxDealAssessSellService.queryPage(params);
     }
 
     /**
@@ -55,7 +59,9 @@ public class WxDealAssessSellController {
     @PostMapping("/save")
     public R save(@RequestBody DealAssessSellSaveVo sell){
         ValidatorUtils.validateEntity(sell);
-        return wxDealAssessSellService.saveEntity(sell);
+        dealAssessSellService.saveEntity(sell);
+        return R.ok();
+//        return wxDealAssessSellService.saveEntity(sell);
     }
 
     /**
@@ -66,7 +72,8 @@ public class WxDealAssessSellController {
     @ApiOperation(value = "根据个人评估商品出售ID获取个人评估商品出售详情")
     @GetMapping("/info/{dealSellId}")
     public R info(@PathVariable("dealSellId") Long dealSellId) {
-        return wxDealAssessSellService.info(dealSellId);
+        return R.ok(dealAssessSellService.infoWx(dealSellId));
+//        return wxDealAssessSellService.info(dealSellId);
     }
 
     /**
@@ -80,6 +87,8 @@ public class WxDealAssessSellController {
     @PostMapping("/update")
     public R update(@RequestBody DealAssessSellUpdateVo sell){
         ValidatorUtils.validateEntity(sell);
-        return wxDealAssessSellService.updateEntity(sell);
+        dealAssessSellService.updateEntity(sell);
+        return R.ok();
+//        return wxDealAssessSellService.updateEntity(sell);
     }
 }

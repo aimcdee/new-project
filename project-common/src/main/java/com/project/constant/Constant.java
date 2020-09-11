@@ -59,46 +59,46 @@ public class Constant {
     public static final Long INTEGRAL = 100L;
 
     /**内部调用轮播图接口*/
-    public static final String CONF_BANNER_PATH = "/wechat/conf/banner";
+    public static final String CONF_BANNER_PATH = "/wx/conf/banner";
 
     /**内部调用区域接口*/
-    public static final String CUST_AREA_PATH = "/wechat/cust/area";
+    public static final String CUST_AREA_PATH = "/wx/cust/area";
 
     /**内部调用系统商品接口*/
-    public static final String COU_WARES_PATH = "/wechat/cou/wares";
+    public static final String COU_WARES_PATH = "/wx/cou/wares";
 
     /**内部调用系统商品品牌接口*/
-    public static final String COU_BRAND_PATH = "/wechat/cou/wares/brand";
+    public static final String COU_BRAND_PATH = "/wx/cou/wares/brand";
 
     /**内部调用系统品牌系列接口*/
-    public static final String COU_SERIES_PATH = "/wechat/cou/wares/series";
+    public static final String COU_SERIES_PATH = "/wx/cou/wares/series";
 
     /**内部调用系统商品类型接口*/
-    public static final String COU_MODEL_PATH = "/wechat/cou/wares/model";
+    public static final String COU_MODEL_PATH = "/wx/cou/wares/model";
 
     /**内部调用客户接口*/
-    public static final String DEAL_USER_PATH = "/wechat/deal/user";
+    public static final String DEAL_USER_PATH = "/wx/deal/user";
 
     /**内部调用客户企业接口*/
-    public static final String DEAL_USER_STORE_PATH = "/wechat/deal/user/store";
+    public static final String DEAL_USER_STORE_PATH = "/wx/deal/user/store";
 
     /**内部调用客户企业退费单接口*/
-    public static final String DEAL_USER_STORE_REFUND_PATH = "/wechat/deal/user/store/refund";
+    public static final String DEAL_USER_STORE_REFUND_PATH = "/wx/deal/user/store/refund";
 
     /**内部调用客户企业金融单接口*/
-    public static final String DEAL_USER_STORE_FINANCE_PATH = "/wechat/deal/user/store/finance";
+    public static final String DEAL_USER_STORE_FINANCE_PATH = "/wx/deal/user/store/finance";
 
     /**内部调用评估接口*/
-    public static final String DEAL_ASSESS_PATH = "/wechat/deal/assess";
+    public static final String DEAL_ASSESS_PATH = "/wx/deal/assess";
 
     /**内部调用评估商品出售接口*/
-    public static final String DEAL_ASSESS_SELL_PATH = "/wechat/deal/assess/sell";
+    public static final String DEAL_ASSESS_SELL_PATH = "/wx/deal/assess/sell";
 
     /**内部调用出售商品接口*/
-    public static final String DEAL_WARES_PATH = "/wechat/deal/wares";
+    public static final String DEAL_WARES_PATH = "/wx/deal/wares";
 
     /**内部调用出售咨询商品分期接口*/
-    public static final String DEAL_WARES_INSTALLMENT_PATH = "/wechat/deal/wares/installment";
+    public static final String DEAL_WARES_INSTALLMENT_PATH = "/xw/deal/wares/installment";
 
     /**客户上传图片路径*/
     public static final String DEAL_LINUX_IMAGE_PATH = "/usr/local/Image/dealFile/";

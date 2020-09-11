@@ -1,6 +1,7 @@
 package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
+import com.project.modules.deal.service.DealWaresInstallmentService;
 import com.project.modules.deal.vo.save.DealWaresInstallmentSaveVo;
 import com.project.service.deal.WxDealWaresInstallmentService;
 import com.project.utils.R;
@@ -25,11 +26,13 @@ import static com.project.common.utils.ShiroUtils.getDealUserId;
 @Slf4j
 @RestController
 @RequestMapping("/wechat/deal/wares/installment")
-@Api(tags = "微信端咨询商品分期接口", description = "WxDealWaresInstallmentController")
-public class WxDealWaresInstallmentController {
+@Api(tags = "微信端咨询商品分期接口", description = "WechatDealWaresInstallmentController")
+public class WechatDealWaresInstallmentController {
 
     @Autowired
     private WxDealWaresInstallmentService wxDealWaresInstallmentService;
+    @Autowired
+    private DealWaresInstallmentService dealWaresInstallmentService;
 
     /**
      * 客户分页查询个人咨询分期记录列表
@@ -40,7 +43,8 @@ public class WxDealWaresInstallmentController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("dealUserId", getDealUserId());
-        return wxDealWaresInstallmentService.queryPage(params);
+        return R.ok(dealWaresInstallmentService.queryWxPage(params));
+//        return wxDealWaresInstallmentService.queryPage(params);
     }
 
     /**
@@ -54,6 +58,8 @@ public class WxDealWaresInstallmentController {
     @PostMapping("/save")
     public R save(@RequestBody DealWaresInstallmentSaveVo installment){
         ValidatorUtils.validateEntity(installment);
-        return wxDealWaresInstallmentService.saveEntity(installment);
+        dealWaresInstallmentService.saveEntity(installment);
+        return R.ok();
+//        return wxDealWaresInstallmentService.saveEntity(installment);
     }
 }

@@ -5,6 +5,7 @@ import com.project.constant.Constant;
 import com.project.modules.deal.service.DealUserStoreService;
 import com.project.modules.deal.vo.save.DealUserStoreSaveVo;
 import com.project.utils.R;
+import com.project.validator.ValidatorUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -50,6 +51,7 @@ public class WxDealUserStoreController {
     @SysLog("客户申请企业验证")
     @PostMapping("/saveStore")
     public R saveStore(@RequestBody DealUserStoreSaveVo store){
+        ValidatorUtils.validateEntity(store);
         dealUserStoreService.saveEntity(store);
         return R.ok();
     }

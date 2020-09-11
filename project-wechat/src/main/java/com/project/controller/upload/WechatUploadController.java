@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/wechat/upload")
 @Api(tags = "前端页面文件上传", description = "WxUploadController")
-public class WxUploadController {
+public class WechatUploadController {
 
     @Autowired
     private WxUploadService wxUploadService;

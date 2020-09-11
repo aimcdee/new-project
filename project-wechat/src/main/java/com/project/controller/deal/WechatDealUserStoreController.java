@@ -2,6 +2,7 @@ package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
+import com.project.modules.deal.service.DealUserStoreService;
 import com.project.modules.deal.vo.save.DealUserStoreSaveVo;
 import com.project.service.deal.WxDealUserStoreService;
 import com.project.service.upload.WxUploadService;
@@ -30,13 +31,15 @@ import static com.project.common.utils.ShiroUtils.getDealUserId;
 @Slf4j
 @RestController
 @RequestMapping("/wechat/deal/user/store")
-@Api(tags = "微信端客户企业接口", description = "WxDealUserStoreController")
-public class WxDealUserStoreController {
+@Api(tags = "微信端客户企业接口", description = "WechatDealUserStoreController")
+public class WechatDealUserStoreController {
 
     @Autowired
     private WxUploadService wxUploadService;
     @Autowired
     private WxDealUserStoreService wxDealUserStoreService;
+    @Autowired
+    private DealUserStoreService dealUserStoreService;
 
     /**
      * 客户查看申请企业验证的申请记录
@@ -46,7 +49,8 @@ public class WxDealUserStoreController {
     @GetMapping("/recordList")
     public R recordList(@RequestParam Map<String, Object> params) {
         params.put("dealUserId", getDealUserId());
-        return wxDealUserStoreService.recordList(params);
+        return R.ok(dealUserStoreService.queryPage(params));
+//        return wxDealUserStoreService.recordList(params);
     }
 
     /**
@@ -86,6 +90,8 @@ public class WxDealUserStoreController {
     public R save(@RequestBody DealUserStoreSaveVo store){
         ValidatorUtils.validateEntity(store);
         store.setDealUserId(getDealUserId());
-        return wxDealUserStoreService.saveEntity(store);
+        dealUserStoreService.saveEntity(store);
+        return R.ok();
+//        return wxDealUserStoreService.saveEntity(store);
     }
 }

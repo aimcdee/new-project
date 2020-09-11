@@ -1,5 +1,7 @@
 package com.project.controller.conf;
 
+import com.project.constant.Constant;
+import com.project.modules.conf.service.ConfBannerService;
 import com.project.service.conf.WxConfbannerService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
@@ -19,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/wechat/conf/banner")
-@Api(tags = "微信端轮播图端口", description = "WxConfBannerController")
-public class WxConfBannerController {
+@Api(tags = "微信端轮播图端口", description = "WechatConfBannerController")
+public class WechatConfBannerController {
 
     @Autowired
     private WxConfbannerService wxConfbannerService;
+    @Autowired
+    private ConfBannerService confBannerService;
 
     /**
      * 查询可显示的轮播图集合
@@ -32,6 +36,7 @@ public class WxConfBannerController {
     @ApiOperation(value = "查询可显示的轮播图集合")
     @GetMapping("/list")
     public R list() {
-        return R.ok(wxConfbannerService.list());
+        return R.ok(confBannerService.normalList(Constant.Status.NORMAL.getStatus()));
+//        return R.ok(wxConfbannerService.list());
     }
 }

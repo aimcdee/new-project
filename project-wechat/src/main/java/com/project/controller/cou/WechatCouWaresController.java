@@ -1,5 +1,6 @@
 package com.project.controller.cou;
 
+import com.project.modules.cou.service.CouWaresService;
 import com.project.service.cou.WxCouWaresService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/wechat/cou/wares")
-@Api(tags = "微信端系统商品接口", description = "WxCouWaresController")
-public class WxCouWaresController {
+@Api(tags = "微信端系统商品接口", description = "WechatCouWaresController")
+public class WechatCouWaresController {
 
     @Autowired
     private WxCouWaresService wxCouWaresService;
+    @Autowired
+    private CouWaresService couWaresService;
 
 
     /**
@@ -35,6 +38,7 @@ public class WxCouWaresController {
     @ApiOperation(value = "获取所有状态为正常商品对象")
     @GetMapping("/getCouWaresList/{couSeriesId}")
     public R getCouWaresList(@PathVariable("couSeriesId") Long couSeriesId){
-        return wxCouWaresService.getCouWaresList(couSeriesId);
+        return R.ok(couWaresService.getCouWaresList(couSeriesId));
+//        return wxCouWaresService.getCouWaresList(couSeriesId);
     }
 }

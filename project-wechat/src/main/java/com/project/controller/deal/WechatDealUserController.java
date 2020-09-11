@@ -1,6 +1,7 @@
 package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
+import com.project.modules.deal.service.DealUserService;
 import com.project.modules.deal.vo.update.DealUserUpdateVo;
 import com.project.service.deal.WxDealUserService;
 import com.project.utils.R;
@@ -23,11 +24,13 @@ import static com.project.common.utils.ShiroUtils.getDealUserId;
 @Slf4j
 @RestController
 @RequestMapping("/wechat/deal/user")
-@Api(tags = "微信端客户端口", description = "WxDealUserController")
-public class WxDealUserController {
+@Api(tags = "微信端客户端口", description = "WechatDealUserController")
+public class WechatDealUserController {
 
     @Autowired
     private WxDealUserService wxDealUserService;
+    @Autowired
+    private DealUserService dealUserService;
 
     /**
      * 客户获取自己的详细信息
@@ -36,7 +39,8 @@ public class WxDealUserController {
     @ApiOperation(value = "客户获取自己的详细信息")
     @GetMapping("/info")
     public R info() {
-        return wxDealUserService.getDealUserInfoVo(getDealUserId());
+        return R.ok(dealUserService.info(getDealUserId()));
+//        return wxDealUserService.getDealUserInfoVo(getDealUserId());
     }
 
     /**
@@ -51,6 +55,8 @@ public class WxDealUserController {
     public R update(@RequestBody DealUserUpdateVo user){
         ValidatorUtils.validateEntity(user);
         user.setDealUserId(getDealUserId());
-        return wxDealUserService.updateDealUser(user);
+        dealUserService.updateEntity(user);
+        return R.ok();
+//        return wxDealUserService.updateDealUser(user);
     }
 }

@@ -2,6 +2,7 @@ package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
+import com.project.modules.deal.service.DealAssessService;
 import com.project.modules.deal.vo.save.DealAssessSaveVo;
 import com.project.service.deal.WxDealAssessService;
 import com.project.service.upload.WxUploadService;
@@ -30,13 +31,15 @@ import static com.project.common.utils.ShiroUtils.getDealUserId;
 @Slf4j
 @RestController
 @RequestMapping("/wechat/deal/assess")
-@Api(tags = "微信端商品评估端口", description = "WxDealAssessController")
-public class WxDealAssessController {
+@Api(tags = "微信端商品评估端口", description = "WechatDealAssessController")
+public class WechatDealAssessController {
 
     @Autowired
     private WxUploadService wxUploadService;
     @Autowired
     private WxDealAssessService wxDealAssessService;
+    @Autowired
+    private DealAssessService dealAssessService;
 
     /**
      * 分页查询个人商品评估列表
@@ -46,7 +49,8 @@ public class WxDealAssessController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         params.put("dealUserId", getDealUserId());
-        return wxDealAssessService.list(params);
+        return R.ok(dealAssessService.queryWxPage(params));
+//        return wxDealAssessService.list(params);
     }
 
     /**
@@ -104,7 +108,9 @@ public class WxDealAssessController {
     public R save(@RequestBody DealAssessSaveVo assess){
         ValidatorUtils.validateEntity(assess);
         assess.setDealUserId(getDealUserId());
-        return wxDealAssessService.saveEntity(assess);
+        dealAssessService.saveEntity(assess);
+        return R.ok();
+//        return wxDealAssessService.saveEntity(assess);
     }
 
     /**
@@ -115,6 +121,7 @@ public class WxDealAssessController {
     @ApiOperation(value = "根据商品评估ID获取商品评估详情")
     @GetMapping("/info/{dealAssessId}")
     public R info(@PathVariable("dealAssessId") Long dealAssessId) {
-        return wxDealAssessService.info(dealAssessId);
+//        return wxDealAssessService.info(dealAssessId);
+        return R.ok(dealAssessService.infoWx(dealAssessId));
     }
 }
