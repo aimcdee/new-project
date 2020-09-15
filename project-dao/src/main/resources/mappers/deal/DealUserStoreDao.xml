@@ -47,6 +47,7 @@
             deal_store_id,
             deal_store_name,
             deal_user_job,
+            image,
             sys_user_id,
             sys_user_name,
             examine,

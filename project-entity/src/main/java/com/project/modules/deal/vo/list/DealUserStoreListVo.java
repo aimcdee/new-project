@@ -30,6 +30,10 @@ public class DealUserStoreListVo implements Serializable {
     @ApiModelProperty(value = "客户职位")
     private String dealUserJob;
 
+    /**商家门面图URL*/
+    @ApiModelProperty(value = "企业门面图URL")
+    private String image;
+
     /**审核状态 0.审核失败 1.审核中 2.审核通过*/
     @ApiModelProperty(value = "审核状态 0.审核失败 1.审核中 2.审核通过")
     private Integer examine;
