@@ -16,6 +16,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.project.utils.ShiroUtils.getSysUserId;
@@ -169,5 +171,18 @@ public class SysUserController {
     @GetMapping("/getSysUser")
     public R getSysUser(){
         return R.ok(sysUserService.getSysUser());
+    }
+
+    /**
+     * 获取所有业务员
+     * @return
+     */
+    @ApiOperation(value = "获取所有业务员")
+    @GetMapping("/getSaleUser")
+    public R getSaleUser(){
+        List<Long> roleIdList = new ArrayList<>();
+        roleIdList.add(Constant.RoleId.SALE_MANAGER.getRoleId());
+        roleIdList.add(Constant.RoleId.SALE.getRoleId());
+        return R.ok(sysUserService.getSaleUser(roleIdList));
     }
 }

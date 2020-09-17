@@ -122,11 +122,11 @@ public class DealUserStoreController {
      * @return
      */
     @ApiOperation(value = "审核客户企业验证为成功")
-    @GetMapping("/success/{storeId}")
+    @PostMapping("/success/{storeId}")
     @SysLog("审核客户企业验证为成功")
     @RequiresPermissions("deal:user:store:update")
-    public R success(@PathVariable("storeId") Long storeId){
-        dealUserStoreService.changeExamine(storeId, Constant.Examine.SUCCESS.getExamine(), getSysUserId());
+    public R success(@PathVariable("storeId") Long storeId, @RequestBody Long belongUserId){
+        dealUserStoreService.changeExamine(storeId, Constant.Examine.SUCCESS.getExamine(), getSysUserId(), belongUserId);
         return R.ok();
     }
 
@@ -139,7 +139,7 @@ public class DealUserStoreController {
     @SysLog("审核客户企业验证为失败")
     @RequiresPermissions("deal:user:store:update")
     public R fail(@PathVariable("storeId") Long storeId){
-        dealUserStoreService.changeExamine(storeId, Constant.Examine.FAIL.getExamine(), getSysUserId());
+        dealUserStoreService.changeExamine(storeId, Constant.Examine.FAIL.getExamine(), getSysUserId(), null);
         return R.ok();
     }
 
@@ -152,7 +152,7 @@ public class DealUserStoreController {
     @SysLog("审核客户企业验证为作废")
     @RequiresPermissions("deal:user:store:update")
     public R waste(@PathVariable("storeId") Long storeId){
-        dealUserStoreService.changeExamine(storeId, Constant.Examine.WASTE.getExamine(), getSysUserId());
+        dealUserStoreService.changeExamine(storeId, Constant.Examine.WASTE.getExamine(), getSysUserId(), null);
         return R.ok();
     }
 

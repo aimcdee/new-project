@@ -32,8 +32,4 @@ public class DealUserStoreSaveVo implements Serializable {
     /**客户职位*/
     @ApiModelProperty(value = "客户职位")
     private String dealUserJob;
-
-    /**归属人ID*/
-    @ApiModelProperty(value = "归属人ID")
-    private Long sysUserId;
 }

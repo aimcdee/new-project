@@ -47,7 +47,7 @@ eureka:
     # 缓存清单每隔30秒跟新一次
     registry-fetch-interval-seconds: 10
   instance:
-    hostname: project-wechat
+    hostname: project-controller
     # 实例使用ip进行访问
     prefer-ip-address: true
     # 实例显示id

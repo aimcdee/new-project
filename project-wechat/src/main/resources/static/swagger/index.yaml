@@ -324,7 +324,7 @@ paths:
           description: 返回客户列表
           schema:
             $ref: '#/definitions/DealUserStoreEntities'
-  /wechat/deal/user/store/uploadStore:
+  /wechat/deal/user/store/upload:
     post:
       tags:
         - 个人中心-个人/企业-企业信息

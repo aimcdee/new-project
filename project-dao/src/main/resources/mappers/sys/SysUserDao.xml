@@ -123,4 +123,19 @@
             user_id NOT IN (#{superAdmin}, #{admin})
             AND status = #{status}
     </select>
+
+    <select id="getSaleUser" resultType="com.project.modules.sys.vo.list.SysUserListInvokingVo">
+        SELECT
+            sys_user.user_id,
+            sys_user.user_name
+        FROM
+            sys_user AS sys_user
+            JOIN sys_user_role AS sys_user_role ON sys_user.user_id = sys_user_role.user_id
+        WHERE
+            sys_user_role.role_id IN
+            <foreach collection="roleIdList" item="roleId" open="(" separator="," close=")">
+                #{roleId}
+            </foreach>
+            AND sys_user.status = #{status}
+    </select>
 </mapper>

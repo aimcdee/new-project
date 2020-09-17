@@ -60,7 +60,7 @@ public class WechatDealUserStoreController {
      */
     @ApiOperation(value = "门面图上传")
     @SysLog("门面图上传")
-    @PostMapping("/store")
+    @PostMapping("/upload")
     public R store(@RequestParam("file") MultipartFile file){
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(), Constant.DEAL_LINUX_IMAGE_PATH, Constant.UploadImage.STORE.getText(), null));
     }

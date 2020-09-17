@@ -59,8 +59,7 @@ public class WechatDealUserLoginController {
             throw new RRException("请输入验证码!");
         }
 //        return wxLoginDealUserService.wxLogin(form.getPhone());
-//        return wxLoginDealUserService.wxLogin("18079244223");
-        return R.ok(dealUserLoginService.wxDealUserlogin("18079244223"));
+        return R.ok(dealUserLoginService.wxDealUserlogin(form.getPhone()));
     }
 
     /**

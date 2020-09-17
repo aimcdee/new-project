@@ -130,21 +130,25 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
      * @param dealStoreId
      * @param examine
      * @param sysUserId
+     * @param belongUserId
      */
     @Override
     @Transactional
-    public void changeExamine(Long dealStoreId, Integer examine, Long sysUserId) {
+    public void changeExamine(Long dealStoreId, Integer examine, Long sysUserId, Long belongUserId) {
         DealUserStoreEntity dealUserStoreEntity = getOne(new QueryWrapper<DealUserStoreEntity>().eq("deal_store_id", dealStoreId).last("LIMIT 1"));
         //如果企业验证审核为失败,当前单据的审核单据不为待审核时
         if (examine.equals(Constant.Examine.FAIL.getExamine()) && !dealUserStoreEntity.getExamine().equals(Constant.Examine.INREVIEW.getExamine())) {
             throw new RRException("操作失败,请确认审核状态是否为待审核");
         }
         dealUserStoreEntity.setExamine(examine).setExamineUserId(sysUserId).setExamineTime(new Date());
-        //如果企业验证审核通过或者审核作废时
+        //如果企业验证审核成功或者审核作废时
         if (examine.equals(Constant.Examine.SUCCESS.getExamine()) || examine.equals(Constant.Examine.WASTE.getExamine())) {
             if (examine.equals(Constant.Examine.SUCCESS.getExamine())) {
                 //将用户除了该条记录以外的所有状态为成功的申请记录全都改为作废
                 baseMapper.updateDealUserStoreExamine(dealUserStoreEntity.getDealUserId(), Constant.Examine.SUCCESS.getExamine(), dealUserStoreEntity.getDealStoreId(), Constant.Examine.WASTE.getExamine());
+                dealUserStoreEntity
+                        .setSysUserId(belongUserId)
+                        .setSysUserName(dealInvokingService.getSysUserNameBySysUserId(belongUserId));
             }
             //修改客户类型
             changeUserType(dealUserStoreEntity);
@@ -176,8 +180,6 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
                 .setDealUserJob(userStore.getDealUserJob())
                 .setDepositPrice(new BigDecimal(0))
                 .setCreditGrade(Constant.CREDITGRADE)
-                .setSysUserId(userStore.getSysUserId())
-                .setSysUserName(dealInvokingService.getSysUserNameBySysUserId(userStore.getSysUserId()))
                 .setImage(userStore.getImage())
                 .setExamine(Constant.Examine.INREVIEW.getExamine());
         return dealUserStoreEntity;

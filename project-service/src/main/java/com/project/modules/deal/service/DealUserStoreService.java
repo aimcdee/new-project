@@ -35,8 +35,9 @@ public interface DealUserStoreService extends IService<DealUserStoreEntity> {
      * @param dealStoreId
      * @param examine
      * @param sysUserId
+     * @param belongUserId
      */
-    void changeExamine(Long dealStoreId, Integer examine, Long sysUserId);
+    void changeExamine(Long dealStoreId, Integer examine, Long sysUserId, Long belongUserId);
 
     /**
      * 分页查询企业验证记录

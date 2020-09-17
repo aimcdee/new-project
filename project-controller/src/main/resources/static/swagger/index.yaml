@@ -1,8 +1,8 @@
-DealWaresSaveVoswagger: '2.0'
+swagger: '2.0'
 info:
   description: new-project管理后台API
   version: 1.0.0
-  title: 新项目管理后台
+  title: 新项目后台端
 
 basePath: /
 
@@ -239,7 +239,25 @@ paths:
                 format: int32
               user:
                 $ref: '#/definitions/SysUserListInvokingVo'
-
+  /sys/user/getSaleUser:
+    get:
+      tags:
+        - 用户管理
+      summary: 获取所有业务员
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回用户信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/SysUserListInvokingVo'
   /sys/dept/treeList:
     get:
       tags:
@@ -447,7 +465,6 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
   /sys/role/check:
     get:
       tags:
@@ -992,7 +1009,6 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
   /cust/area/treeList:
     get:
       tags:
@@ -2400,7 +2416,7 @@ paths:
     get:
       tags:
         - 客户商品-客户模块
-      summary: 查看客户企业验证详情
+      summary: 查看客户企业认证详情
       produces:
         - application/json
       parameters:
@@ -2426,7 +2442,7 @@ paths:
     get:
       tags:
         - 客户商品-客户模块
-      summary: 审核客户企业验证为失败
+      summary: 审核客户企业认证为失败
       produces:
         - application/json
       parameters:
@@ -2441,16 +2457,21 @@ paths:
           schema:
             $ref: '#/definitions/R'
   /deal/user/store/success/{dealStoreId}:
-    get:
+    post:
       tags:
         - 客户商品-客户模块
-      summary: 审核客户企业验证为成功
+      summary: 审核客户企业认证为成功
       produces:
         - application/json
       parameters:
         - name: dealStoreId
           description: 客户企业ID
           in: path
+          type: integer
+          required: true
+        - name: belongUserId
+          description: 归属业务员ID
+          in: query
           type: integer
           required: true
       responses:
@@ -2462,7 +2483,7 @@ paths:
     get:
       tags:
         - 客户商品-客户模块
-      summary: 审核客户企业验证为作废
+      summary: 审核客户企业认证为作废
       produces:
         - application/json
       parameters:
@@ -3926,7 +3947,6 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
 #定义数据模型
 definitions:
   R:
@@ -5324,6 +5344,9 @@ definitions:
       couModelName:
         description: 型号名称
         type: string
+
+
+
   DealUserListVo:
     type: object
     properties:
@@ -5601,10 +5624,6 @@ definitions:
       dealUserJob:
         description: 客户职位
         type: string
-      sysUserId:
-        description: 所属用户ID
-        type: integer
-        format: int64
   DealUserStoreInfoVo:
     type: object
     properties:
@@ -7629,42 +7648,3 @@ definitions:
       followRemake:
         description: 跟进备注
         type: string
-
-
-
-
-
-  TotalCount:
-    type: object
-    properties:
-      code:
-        description: 状态码 0：成功  非0：失败
-        type: integer
-        format: int32
-      date:
-        type: integer
-        properties:
-          totalCount:
-            description: 总记录数
-            type: integer
-            format: int32
-  #WebSocket地址
-  WebSocketUrl:
-    type: object
-    properties:
-      url:
-        description: webSocket地址
-        type: String
-
-  MessageCountVo:
-    type: object
-    properties:
-      total:
-        description: 总数量
-        type: integer
-      message:
-        description: 消息数量
-        type: integer
-      notice:
-        description: 通知数量
-        type: integer

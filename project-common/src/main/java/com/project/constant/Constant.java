@@ -171,6 +171,32 @@ public class Constant {
         }
     }
 
+    public enum RoleId{
+        SALE_MANAGER(5L, "销售经理"), SALE(11L, "销售专员");
+        private Long roleId;
+        private String roleName;
+        RoleId (Long roleId, String roleName){
+            this.roleId = roleId;
+            this.roleName = roleName;
+        }
+
+        public Long getRoleId() {
+            return roleId;
+        }
+
+        public void setRoleId(Long roleId) {
+            this.roleId = roleId;
+        }
+
+        public String getRoleName() {
+            return roleName;
+        }
+
+        public void setRoleName(String roleName) {
+            this.roleName = roleName;
+        }
+    }
+
     /**
      * 通用状态
      *   0.禁用   1.正常

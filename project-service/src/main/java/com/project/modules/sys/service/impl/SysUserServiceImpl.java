@@ -245,6 +245,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     }
 
     /**
+     * 获取所有销售业务员
+     * @param roleIdList
+     * @return
+     */
+    @Override
+    public List<SysUserListInvokingVo> getSaleUser(List<Long> roleIdList) {
+        List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSaleUser(roleIdList, Constant.Status.NORMAL.getStatus());
+        return sysUserListInvokingVos;
+    }
+
+    /**
      * 查询用户的所有菜单ID
      * @param userId
      * @return

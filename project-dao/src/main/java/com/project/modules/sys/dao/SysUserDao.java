@@ -80,4 +80,12 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
      * @return
      */
     List<SysUserListInvokingVo> getSysUser(@Param("superAdmin") Long superAdmin, @Param("admin") Long admin, @Param("status") Integer status);
+
+    /**
+     * 根据角色ID获取用户ID和用户名称
+     * @param roleIdList
+     * @param status
+     * @return
+     */
+    List<SysUserListInvokingVo> getSaleUser(@Param("roleIdList") List<Long> roleIdList, @Param("status") Integer status);
 }

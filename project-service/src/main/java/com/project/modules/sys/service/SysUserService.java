@@ -103,4 +103,11 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @return
      */
     List<SysUserListInvokingVo> getSysUser();
+
+    /**
+     * 获取所有销售业务员
+     * @param roleIdList
+     * @return
+     */
+    List<SysUserListInvokingVo> getSaleUser(List<Long> roleIdList);
 }
