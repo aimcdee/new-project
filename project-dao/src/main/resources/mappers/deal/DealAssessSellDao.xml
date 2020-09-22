@@ -11,6 +11,7 @@
             deal_assess_sell.cou_wares_id,
             deal_assess_sell.contact_phone,
             deal_assess_sell.contact_name,
+            deal_assess_sell.sex,
             deal_assess_sell.pro_area_id,
             deal_assess_sell.pro_area_name,
             deal_assess_sell.city_area_id,

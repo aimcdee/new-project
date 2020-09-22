@@ -21,15 +21,15 @@ public class DealAssessSellListVo implements Serializable {
 
     /**评估商品出售ID*/
     @ApiModelProperty(value = "评估商品出售ID")
-    private Long dealWellId;
+    private Long dealSellId;
 
     /**评估商品出售标题*/
     @ApiModelProperty(value = "评估商品出售标题")
-    private String dealWellTitle;
+    private String dealSellTitle;
 
     /**所属评估ID*/
     @ApiModelProperty(value = "所属评估ID")
-    private Long dealWssessId;
+    private Long dealAssessId;
 
     /**商品ID*/
     @ApiModelProperty(value = "商品ID")
@@ -38,6 +38,10 @@ public class DealAssessSellListVo implements Serializable {
     /**商品名称*/
     @ApiModelProperty(value = "商品名称")
     private String couWaresName;
+
+    /**性别*/
+    @ApiModelProperty(value = "性别")
+    private Integer sex;
 
     /**联系人名称*/
     @ApiModelProperty(value = "联系人名称")

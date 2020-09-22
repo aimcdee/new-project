@@ -4,6 +4,7 @@ import com.project.annotation.SysLog;
 import com.project.constant.Constant;
 import com.project.modules.Image.service.ImageService;
 import com.project.modules.deal.service.DealUserStoreService;
+import com.project.modules.deal.vo.invoking.DealUserStoreAuditInvokingVo;
 import com.project.modules.deal.vo.save.DealUserStoreSaveVo;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
@@ -118,15 +119,15 @@ public class DealUserStoreController {
     }
 
     /**
-     * 审核客户企业验证为成功
+     * 审核客户企业认证为成功
      * @return
      */
     @ApiOperation(value = "审核客户企业验证为成功")
-    @PostMapping("/success/{storeId}")
+    @PostMapping("/success")
     @SysLog("审核客户企业验证为成功")
     @RequiresPermissions("deal:user:store:update")
-    public R success(@PathVariable("storeId") Long storeId, @RequestBody Long belongUserId){
-        dealUserStoreService.changeExamine(storeId, Constant.Examine.SUCCESS.getExamine(), getSysUserId(), belongUserId);
+    public R success(@RequestBody DealUserStoreAuditInvokingVo storeAudit){
+        dealUserStoreService.changeExamine(storeAudit.getStoreId(), Constant.Examine.SUCCESS.getExamine(), getSysUserId(), storeAudit.getBelongUserId());
         return R.ok();
     }
 

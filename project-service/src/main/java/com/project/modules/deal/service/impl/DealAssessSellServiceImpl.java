@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 评估商品出售Service
@@ -148,8 +149,33 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
             e.printStackTrace();
         }
         //校验更新对象属性非空
-        checkUtils.checkNotNull(sell);
+        checkEditBefore(sell);
         updateById(getDealAssessSellUpdateEntity(sell));
+    }
+
+    /**
+     * 校验更新对象属性非空
+     * @param sell
+     */
+    private void checkEditBefore(DealAssessSellUpdateVo sell){
+        if (Objects.isNull(sell.getDealSellId())){
+            throw new RRException("请选择需要出售的评估商品");
+        }
+        if (StringUtils.isBlank(sell.getDealSellTitle())){
+            throw new RRException("请填写商品出售标题");
+        }
+        if (StringUtils.isBlank(sell.getContactName())){
+            throw new RRException("请填写联系人名称");
+        }
+        if (StringUtils.isBlank(sell.getContactPhone())){
+            throw new RRException("请填写联系人电话");
+        }
+        if (Objects.isNull(sell.getProAreaId())){
+            throw new RRException("请选择所在区域");
+        }
+        if (StringUtils.isBlank(sell.getAddr())){
+            throw new RRException("请填写详细地址");
+        }
     }
 
     /**
@@ -183,12 +209,13 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
 
     //获取DealAssessSellEntity更新对象
     private DealAssessSellEntity getDealAssessSellUpdateEntity(DealAssessSellUpdateVo sell) {
-        DealAssessSellEntity dealAssessSellEntity = getOne(new QueryWrapper<DealAssessSellEntity>().eq("sell_id", sell).eq("status", Constant.DropInStatus.INREVIEW.getStatus()).last("LIMIT 1"));
+        DealAssessSellEntity dealAssessSellEntity = getOne(new QueryWrapper<DealAssessSellEntity>().eq("deal_sell_id", sell.getDealSellId()).eq("status", Constant.DropInStatus.INREVIEW.getStatus()).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(dealAssessSellEntity);
         dealAssessSellEntity
                 .setDealSellTitle(sell.getDealSellTitle())
                 .setContactName(sell.getContactName())
                 .setContactPhone(sell.getContactPhone())
+                .setSex(sell.getSex())
                 .setProAreaId(sell.getProAreaId())
                 .setProAreaName(dealInvokingService.getAreaNameById(sell.getProAreaId()))
                 .setCityAreaId(sell.getCityAreaId())
@@ -203,7 +230,6 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
     private DealAssessSellEntity getDealAssessSellSaveEntity(DealAssessSellSaveVo sell) {
         //获取需要出示的商品ID
         Long couWaresId = dealInvokingService.getAssessWares(sell.getDealAssessId(), Constant.AssessSellStatus.INREVIEW.getStatus());
-//        if (Objects.isNull(couWaresId)){
         if (ObjectUtils.isBlank(couWaresId)){
             throw new RRException("该商品正在出售中或已出售");
         }
@@ -214,6 +240,7 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
                 .setCouWaresId(couWaresId)
                 .setContactName(sell.getContactName())
                 .setContactPhone(sell.getContactPhone())
+                .setSex(sell.getSex())
                 .setProAreaId(sell.getProAreaId())
                 .setProAreaName(dealInvokingService.getAreaNameById(sell.getProAreaId()))
                 .setCityAreaId(sell.getCityAreaId())

@@ -33,6 +33,10 @@ public class DealAssessSellUpdateVo implements Serializable {
     @ApiModelProperty(value = "联系人电话")
     private String contactPhone;
 
+    /**联系人电话*/
+    @ApiModelProperty(value = "性别")
+    private Integer sex;
+
     /**省级地区ID*/
     @ApiModelProperty(value = "省级地区ID")
     private Long proAreaId;

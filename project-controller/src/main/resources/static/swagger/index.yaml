@@ -2456,7 +2456,7 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-  /deal/user/store/success/{dealStoreId}:
+  /deal/user/store/success:
     post:
       tags:
         - 客户商品-客户模块
@@ -2464,15 +2464,11 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: dealStoreId
-          description: 客户企业ID
-          in: path
-          type: integer
-          required: true
-        - name: belongUserId
-          description: 归属业务员ID
-          in: query
-          type: integer
+        - name: storeAudit
+          description: 客户企业认证对象
+          in: body
+          schema:
+            $ref: '#/definitions/DealUserStoreAuditInvokingVo'
           required: true
       responses:
         '200':
@@ -5659,6 +5655,17 @@ definitions:
         description: 审核时间
         type: string
         format: date-time
+  DealUserStoreAuditInvokingVo:
+    type: object
+    properties:
+      storeId:
+        description: 企业认证ID
+        type: integer
+        format: int64
+      belongUserId:
+        description: 业务归属人ID
+        type: integer
+        format: int64
   DealUserStoreDepositListVo:
     type: object
     properties:

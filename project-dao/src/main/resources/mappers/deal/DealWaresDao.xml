@@ -284,6 +284,8 @@
             deal_wares.contact_name,
             deal_wares.sex,
             deal_wares.cou_brand_id,
+            deal_wares.cou_series_id,
+            deal_wares.cou_wares_id,
             deal_wares.trade_price,
             deal_wares.register_time,
             deal_wares.distance,

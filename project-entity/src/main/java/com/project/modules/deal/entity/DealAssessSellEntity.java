@@ -47,6 +47,10 @@ public class DealAssessSellEntity implements Serializable {
     @ApiModelProperty(value = "联系人电话")
     private String contactPhone;
 
+    /**性别*/
+    @ApiModelProperty(value = "性别")
+    private Integer sex;
+
     /**省级地区ID*/
     @ApiModelProperty(value = "省级地区ID")
     private Long proAreaId;
@@ -78,10 +82,6 @@ public class DealAssessSellEntity implements Serializable {
     /**跟进人ID*/
     @ApiModelProperty(value = "跟进人ID")
     private Long sysUserId;
-
-    /**跟进人名称*/
-    @ApiModelProperty(value = "跟进人名称")
-    private String sysUserName;
 
     /**最终出售金额*/
     @ApiModelProperty(value = "最终出售金额")

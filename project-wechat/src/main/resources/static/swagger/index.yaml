@@ -785,7 +785,7 @@ paths:
           description: 返回上传后服务器处理的信息,请弹窗提醒
           schema:
             $ref: '#/definitions/R'
-  /wechat/deal/wares/drivingImage:
+  /wechat/deal/wares/uoload/drivingImage:
     post:
       tags:
         - 个人中心-企业专属-商品模块
@@ -1094,7 +1094,6 @@ paths:
               config:
                 description: 返回信息
                 $ref: '#/definitions/DealWaresWxStoreInfoVo'
-
   /wechat/deal/wares/retailList:
     get:
       tags:
@@ -2007,7 +2006,6 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/DealWaresWxPersonalListVo'
-
   DealWaresWxStoreListVo:
     type: object
     properties:
@@ -2097,7 +2095,6 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/DealWaresWxStoreListVo'
-
   DealWaresWxRetailListVo:
     type: object
     properties:
@@ -2114,6 +2111,14 @@ definitions:
       couBrandName:
         description: 所属品牌名称
         type: string
+      couSeriesId:
+        description: 所属系列ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
       tradePrice:
         description: 批发价
         type: string
@@ -2187,9 +2192,6 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/DealWaresWxRetailListVo'
-
-
-
   DealWaresSaveVo:
     type: object
     properties:
@@ -2760,7 +2762,6 @@ definitions:
         description: 信用等级
         type: integer
         format: int64
-
   DealWaresWxRetailInfoVo:
     type: object
     properties:
@@ -2790,6 +2791,14 @@ definitions:
       couBrandName:
         description: 所属品牌名称
         type: string
+      couSeriesId:
+        description: 所属系列ID
+        type: integer
+        format: int64
+      couWaresId:
+        description: 所属商品ID
+        type: integer
+        format: int64
       retailPrice:
         description: 零售价
         type: string
