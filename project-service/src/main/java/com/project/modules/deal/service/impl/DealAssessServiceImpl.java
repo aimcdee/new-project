@@ -109,8 +109,8 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(assess);
+        //校验新增对象属性非空
+        checkUtils.checkAsswssSaveNotNull(assess);
         DealAssessEntity dealAssessEntity = getDealWaresAssessSaveEntity(assess);
         save(dealAssessEntity);
         //保存行驶证图

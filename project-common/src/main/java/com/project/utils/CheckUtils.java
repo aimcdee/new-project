@@ -2,6 +2,7 @@ package com.project.utils;
 
 import com.project.constant.Constant;
 import com.project.exception.RRException;
+import com.project.modules.deal.vo.save.DealAssessSaveVo;
 import com.project.modules.sys.entity.SysUserEntity;
 import com.project.modules.sys.vo.save.SysUserSaveVo;
 import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
@@ -547,6 +548,37 @@ public class CheckUtils {
     private void changeInstallmentStatus(Integer oldStatus) {
         if (!oldStatus.equals(Constant.InstallmentStatus.CHECKPENDING.getStatus())){
             throw new RRException("操作失败,请确认金融单当前状态");
+        }
+    }
+
+    /**
+     * 校验新增对象属性非空
+     * @param assess
+     */
+    public void checkAsswssSaveNotNull(DealAssessSaveVo assess) {
+        if (Objects.isNull(assess.getCouBrandId()) || assess.getCouBrandId() == 0){
+            throw new RRException("所属品牌不能为空");
+        }
+        if (Objects.isNull(assess.getCouSeriesId()) || assess.getCouSeriesId() == 0){
+            throw new RRException("所属系列不能为空");
+        }
+        if (Objects.isNull(assess.getCouWaresId()) || assess.getCouWaresId() == 0){
+            throw new RRException("所属商品不能为空");
+        }
+        if (Objects.isNull(assess.getRegisterTime())){
+            throw new RRException("上牌时间不能为空");
+        }
+        if (Objects.isNull(assess.getProAreaId()) || assess.getProAreaId() == 0){
+            throw new RRException("请选择所在省份");
+        }
+        if (Objects.isNull(assess.getDistance())){
+            throw new RRException("请填写行驶里程");
+        }
+        if (Objects.isNull(assess.getDriveImage())){
+            throw new RRException("请上传行驶证图片");
+        }
+        if (CollectionUtils.isEmpty(assess.getWaresImages())){
+            throw new RRException("请上传商品图片");
         }
     }
 }

@@ -765,7 +765,7 @@ paths:
           description: 返回商品评价列表
           schema:
             $ref: '#/definitions/DealWaresWxPersonalEntities'
-  /wechat/deal/wares/waresImage:
+  /wechat/deal/wares/upload/waresImage:
     post:
       tags:
         - 个人中心-企业专属-商品模块
@@ -785,7 +785,7 @@ paths:
           description: 返回上传后服务器处理的信息,请弹窗提醒
           schema:
             $ref: '#/definitions/R'
-  /wechat/deal/wares/uoload/drivingImage:
+  /wechat/deal/wares/upload/drivingImage:
     post:
       tags:
         - 个人中心-企业专属-商品模块
@@ -908,8 +908,7 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
-  /wechat/deal/assess/waresImage:
+  /wechat/deal/assess/upload/waresImage:
     post:
       tags:
         - 评估商品模块
@@ -929,7 +928,7 @@ paths:
           description: 返回上传后服务器处理的信息,请弹窗提醒
           schema:
             $ref: '#/definitions/R'
-  /wechat/deal/assess/drivingImage:
+  /wechat/deal/assess/upload/drivingImage:
     post:
       tags:
         - 评估商品模块
@@ -989,8 +988,6 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
-
   /wechat/deal/wares/storeList:
     get:
       tags:
