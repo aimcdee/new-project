@@ -7,6 +7,7 @@ import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
 import com.project.service.deal.WxDealWaresService;
 import com.project.service.upload.WxUploadService;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import com.project.validator.ValidatorUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.common.utils.ShiroUtils.*;
@@ -69,6 +71,7 @@ public class WechatDealWaresController {
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.DEAL.getText(),
+                DateUtils.dateTime(new Date()),
                 Constant.UploadImage.WARES.getText()));
     }
 
@@ -84,6 +87,7 @@ public class WechatDealWaresController {
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.DEAL.getText(),
+                DateUtils.dateTime(new Date()),
                 Constant.UploadImage.DRIVINGID.getText()));
     }
 

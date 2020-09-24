@@ -8,6 +8,7 @@ import com.project.modules.deal.service.DealWaresService;
 import com.project.modules.deal.vo.invoking.DealWaresInvokingVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import com.project.validator.ValidatorUtils;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.utils.ShiroUtils.getSysUserId;
@@ -67,6 +69,7 @@ public class DealWaresController {
         return R.ok(imageService.uploadImage(file, phone,
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.DEAL.getText(),
+                DateUtils.dateTime(new Date()),
                 Constant.UploadImage.WARES.getText()));
     }
 
@@ -82,6 +85,7 @@ public class DealWaresController {
         return R.ok(imageService.uploadImage(file, phone,
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.DEAL.getText(),
+                DateUtils.dateTime(new Date()),
                 Constant.UploadImage.DRIVINGID.getText()));
     }
 

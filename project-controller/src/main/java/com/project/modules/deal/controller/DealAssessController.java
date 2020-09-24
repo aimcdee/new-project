@@ -6,6 +6,7 @@ import com.project.modules.Image.service.ImageService;
 import com.project.modules.deal.service.DealAssessService;
 import com.project.modules.deal.vo.save.DealAssessSaveVo;
 import com.project.modules.deal.vo.update.DealAssessUpdateVo;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import com.project.validator.ValidatorUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.utils.ShiroUtils.getSysUserId;
@@ -52,22 +54,23 @@ public class DealAssessController {
     }
 
     /**
-     * 评估商品图上传
+     * 评估-商品图上传
      * @param file
      * @return
      */
-    @ApiOperation(value = "评估商品图上传")
-    @SysLog("评估商品图上传")
+    @ApiOperation(value = "评估-商品图上传")
+    @SysLog("评估-商品图上传")
     @PostMapping("/upload/waresImage")
     public R waresImage(@RequestParam("file") MultipartFile file, @RequestParam("phone") String phone){
         return R.ok(imageService.uploadImage(file, phone,
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.ASSESS.getText(),
+                DateUtils.dateTime(new Date()),
                 Constant.UploadImage.WARES.getText()));
     }
 
     /**
-     * 行驶证图上传
+     * 评估-行驶证图上传
      * @param file
      * @return
      */
@@ -78,6 +81,7 @@ public class DealAssessController {
         return R.ok(imageService.uploadImage(file, phone,
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.ASSESS.getText(),
+                DateUtils.dateTime(new Date()),
                 Constant.UploadImage.DRIVINGID.getText()));
     }
 

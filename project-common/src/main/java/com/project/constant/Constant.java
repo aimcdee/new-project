@@ -628,19 +628,19 @@ public class Constant {
 
     /**
      * 图片文件夹后缀路径或上传的图片类型
-     * 0.企业门面 1.商品 2.评估 3.商品证件 4.轮播 5.商品品牌 6.商品型号
+     * 0.轮播图路径 1.评估路径 2.企业路径 3.销售路径 4.品牌图 5.商品图 6.型号图 7.行驶证图 8.门面图
      */
     public enum UploadImage {
 
-        WARES(0, "/wares/"),
-        DRIVINGID(1, "/drive/"),
+        BANNER(0, "/banner/"),
+        ASSESS(1, "/assess/"),
         STORE(2, "/store/"),
-        ASSESS(3, "/assess/"),
-        DEAL(4, "/deal/"),
-        BANNER(6, "/banner/"),
-        WARESBRAND(6, "/wares/brand/"),
-        WARESMODEL(7, "/wares/model/");
-
+        DEAL(3, "/deal/"),
+        BRAND(4, "/brand/"),
+        WARES(5, "/wares/"),
+        MODEL(6, "/model/"),
+        DRIVINGID(7, "/drive/"),
+        FAÇADE(8, "/façade/");
 
         private Integer type;
         private String text;

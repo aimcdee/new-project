@@ -242,19 +242,19 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
 
     //已客户的手机号码新增客户的文件夹
     private void mkdirFolder(String phone) {
-        //客户企业门面目录文件夹
-        File fileStore = new File(new StringBuilder().append(Constant.DEAL_LINUX_IMAGE_PATH).append(phone).append("/store").toString());
-        //客户商品目录文件夹
-        File fileWares = new File(new StringBuilder().append(Constant.DEAL_LINUX_IMAGE_PATH).append(phone).append("/wares").toString());
-        //客户评估价钱商品目录文件夹
-        File fileAssess = new File(new StringBuilder().append(Constant.DEAL_LINUX_IMAGE_PATH).append(phone).append("/assess").toString());
+        //客户企业文件夹
+        File fileStore = new File(new StringBuilder().append(Constant.DEAL_LINUX_IMAGE_PATH).append(phone).append(Constant.UploadImage.STORE.getText()).toString());
+        //客户销售文件夹
+        File fileDeal = new File(new StringBuilder().append(Constant.DEAL_LINUX_IMAGE_PATH).append(phone).append(Constant.UploadImage.DEAL.getText()).toString());
+        //客户评估文件夹
+        File fileAssess = new File(new StringBuilder().append(Constant.DEAL_LINUX_IMAGE_PATH).append(phone).append(Constant.UploadImage.ASSESS.getText()).toString());
         if(!fileStore.exists()) {//如果客户的企业门面目录文件夹
             //创建目录
             fileStore.mkdirs();
         }
-        if(!fileWares.exists()) {//如果客户的商品目录文件夹不存在
+        if(!fileDeal.exists()) {//如果客户的商品目录文件夹不存在
             //创建目录
-            fileWares.mkdirs();
+            fileDeal.mkdirs();
         }
         if(!fileAssess.exists()) {//如果客户评估价钱商品目录文件夹
             //创建目录

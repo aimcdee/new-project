@@ -6,6 +6,7 @@ import com.project.modules.deal.service.DealAssessService;
 import com.project.modules.deal.vo.save.DealAssessSaveVo;
 import com.project.service.deal.WxDealAssessService;
 import com.project.service.upload.WxUploadService;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import com.project.validator.ValidatorUtils;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.common.utils.ShiroUtils.getDealPhone;
@@ -54,33 +56,35 @@ public class WechatDealAssessController {
     }
 
     /**
-     * 评估商品图上传
+     * 评估-商品图上传
      * @param file
      * @return
      */
-    @ApiOperation(value = "评估商品图上传")
-    @SysLog("评估商品图上传")
+    @ApiOperation(value = "评估-商品图上传")
+    @SysLog("评估-商品图上传")
     @PostMapping("/upload/waresImage")
     public R waresImage(@RequestParam("file") MultipartFile file){
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.ASSESS.getText(),
-                Constant.UploadImage.WARES.getText()));
+                Constant.UploadImage.WARES.getText(),
+                DateUtils.dateTime(new Date())));
     }
 
     /**
-     * 行驶证图上传
+     * 评估-行驶证图上传
      * @param file
      * @return
      */
-    @ApiOperation(value = "行驶证图上传")
-    @SysLog("行驶证图上传")
+    @ApiOperation(value = "评估-行驶证图上传")
+    @SysLog("评估-行驶证图上传")
     @PostMapping("/upload/drivingImage")
     public R drivingIdImage(@RequestParam("file") MultipartFile file){
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.ASSESS.getText(),
-                Constant.UploadImage.DRIVINGID.getText()));
+                Constant.UploadImage.DRIVINGID.getText(),
+                DateUtils.dateTime(new Date())));
     }
 
     /**

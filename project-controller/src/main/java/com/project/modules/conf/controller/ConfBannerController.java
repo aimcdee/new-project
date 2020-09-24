@@ -6,6 +6,7 @@ import com.project.modules.Image.service.ImageService;
 import com.project.modules.conf.service.ConfBannerService;
 import com.project.modules.conf.vo.save.ConfBannerSaveVo;
 import com.project.modules.conf.vo.update.ConfBannerUpdateVo;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import com.project.validator.ValidatorUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.utils.ShiroUtils.getSysUserId;
@@ -60,7 +62,11 @@ public class ConfBannerController {
     @SysLog("轮播图上传")
     @PostMapping("/upload/image")
     public R uploadImage(@RequestParam("file") MultipartFile file){
-        return R.ok(imageService.uploadImage(file, null, Constant.COU_LINUX_IMAGE_PATH, Constant.UploadImage.BANNER.getText(), null));
+        return R.ok(imageService.uploadImage(file, null,
+                Constant.COU_LINUX_IMAGE_PATH,
+                Constant.UploadImage.BANNER.getText(),
+                DateUtils.dateTime(new Date()),
+                null));
     }
 
     /**

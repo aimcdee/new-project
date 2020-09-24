@@ -6,6 +6,7 @@ import com.project.modules.Image.service.ImageService;
 import com.project.modules.deal.service.DealUserStoreService;
 import com.project.modules.deal.vo.invoking.DealUserStoreAuditInvokingVo;
 import com.project.modules.deal.vo.save.DealUserStoreSaveVo;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.utils.ShiroUtils.getSysUserId;
@@ -51,19 +53,20 @@ public class DealUserStoreController {
     }
 
     /**
-     * 上传客户企业门面图
+     * 客户上传企业门面图
      * @param file
      * @param phone
      * @return
      */
-    @ApiOperation(value = "上传客户企业门面图")
-    @SysLog("上传客户企业门面图")
+    @ApiOperation(value = "客户上传企业门面图")
+    @SysLog("客户上传企业门面图")
     @PostMapping("/upload/image")
     public R store(@RequestParam("file") MultipartFile file, @RequestParam("phone") String phone){
         return R.ok(imageService.uploadImage(file, phone,
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.STORE.getText(),
-                null));
+                Constant.UploadImage.FAÇADE.getText(),
+                DateUtils.dateTime(new Date())));
     }
 
     /**

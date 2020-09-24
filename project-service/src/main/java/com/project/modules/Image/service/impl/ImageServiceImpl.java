@@ -3,7 +3,6 @@ package com.project.modules.Image.service.impl;
 import com.project.modules.Image.service.ImageService;
 import com.project.modules.image.vo.ImageVo;
 import com.project.utils.CheckUtils;
-import com.project.utils.DateUtils;
 import com.project.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * 后台图片上传Service
@@ -37,19 +35,20 @@ public class ImageServiceImpl implements ImageService {
 
     /**
      * 后台图片上传
-     * @param file
-     * @param phone
-     * @param urlPath
-     * @param imagePath
-     * @param lastPath
+     * @param file             上传的文件
+     * @param phone            上传文件用户的手机号
+     * @param ServerPath       服务器图片文件存储通用路径
+     * @param filePrefixPath   图片文件存储路径前缀
+     * @param fileSuffixPath   图片文件存储路径后缀
+     * @param lastPath         图片文件存储最后路径
      * @return
      */
     @Override
     @Transactional
-    public ImageVo uploadImage(MultipartFile file, String phone, String urlPath, String imagePath, String lastPath) {
+    public ImageVo uploadImage(MultipartFile file, String phone, String ServerPath, String filePrefixPath, String fileSuffixPath, String lastPath) {
         checkUtils.checkPrictureNotNull(file);
-        //保存图片的路径（这是存在我项目中的目录）
-        String filePath = getFilePath(urlPath, imagePath, phone, lastPath);
+        //保存图片的路径（这是存在项目中的目录）
+        String filePath = getFilePath(ServerPath, filePrefixPath, fileSuffixPath, phone, lastPath);
         //获取封装上传文件位置的全路径
         File targetFile = getTargetFile(file, filePath);
         //把本地文件上传到封装上传文件位置的全路径
@@ -89,14 +88,17 @@ public class ImageServiceImpl implements ImageService {
     }
 
     //判断是否存在该文件夹,如果不存在测新增文件夹,并返回文件夹路径
-    private String getFilePath(String urlPath, String imagePath, String phone, String lastPath) {
-        StringBuilder pathName = new StringBuilder().append(urlPath);
+    private String getFilePath(String ServerPath, String filePrefixPath, String fileSuffixPath, String phone, String lastPath) {
+        String pathName = new StringBuilder().append(ServerPath).toString();
         if (StringUtils.isNotBlank(phone)){
-            pathName = pathName.append(phone);
+            pathName = new StringBuilder().append(pathName).append(phone).toString();
         }
-        pathName = pathName.append(imagePath).append(DateUtils.dateTime(new Date()));
+        pathName = new StringBuilder().append(pathName).append(filePrefixPath).toString();
+        if (StringUtils.isNotBlank(fileSuffixPath)){
+            pathName = new StringBuilder().append(pathName).append(fileSuffixPath).toString();
+        }
         if (StringUtils.isNotBlank(lastPath)){
-            pathName = pathName.append(lastPath);
+            pathName = new StringBuilder().append(pathName).append(lastPath).toString();
         }
         File file = new File(pathName.toString());
         if(!file.exists()) {//如果文件夹不存在

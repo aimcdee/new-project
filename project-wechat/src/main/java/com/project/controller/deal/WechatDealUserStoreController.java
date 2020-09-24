@@ -6,6 +6,7 @@ import com.project.modules.deal.service.DealUserStoreService;
 import com.project.modules.deal.vo.save.DealUserStoreSaveVo;
 import com.project.service.deal.WxDealUserStoreService;
 import com.project.service.upload.WxUploadService;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import com.project.validator.ValidatorUtils;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.common.utils.ShiroUtils.getDealPhone;
@@ -54,15 +56,19 @@ public class WechatDealUserStoreController {
     }
 
     /**
-     * 门面图上传
+     * 客户上传企业门面图
      * @param file
      * @return
      */
-    @ApiOperation(value = "门面图上传")
-    @SysLog("门面图上传")
+    @ApiOperation(value = "客户上传企业门面图")
+    @SysLog("客户上传企业门面图")
     @PostMapping("/upload")
     public R store(@RequestParam("file") MultipartFile file){
-        return R.ok(wxUploadService.uploadImage(file, getDealPhone(), Constant.DEAL_LINUX_IMAGE_PATH, Constant.UploadImage.STORE.getText(), null));
+        return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
+                Constant.DEAL_LINUX_IMAGE_PATH,
+                Constant.UploadImage.STORE.getText(),
+                Constant.UploadImage.FAÇADE.getText(),
+                DateUtils.dateTime(new Date())));
     }
 
     /**

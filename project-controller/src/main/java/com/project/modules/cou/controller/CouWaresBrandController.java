@@ -6,6 +6,7 @@ import com.project.modules.Image.service.ImageService;
 import com.project.modules.cou.service.CouWaresBrandService;
 import com.project.modules.cou.vo.save.CouWaresBrandSaveVo;
 import com.project.modules.cou.vo.update.CouWaresBrandUpdateVo;
+import com.project.utils.DateUtils;
 import com.project.utils.R;
 import com.project.utils.StatusCode;
 import com.project.validator.ValidatorUtils;
@@ -18,12 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.project.utils.ShiroUtils.getSysUserId;
 
 /**
- * 商品品牌Controller
+ * 品牌Controller
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -40,11 +42,11 @@ public class CouWaresBrandController {
     private ImageService imageService;
 
     /**
-     * 分页查询商品品牌列表
+     * 分页查询品牌列表
      * @param params
      * @return
      */
-    @ApiOperation(value = "分页查询商品品牌列表")
+    @ApiOperation(value = "分页查询品牌列表")
     @GetMapping("/list")
     @RequiresPermissions("cou:wares:brand:list")
     public R list(@RequestParam Map<String, Object> params){
@@ -52,24 +54,28 @@ public class CouWaresBrandController {
     }
 
     /**
-     * 商品品牌图上传
+     * 品牌图上传
      * @param file
      * @return
      */
-    @ApiOperation(value = "商品品牌图上传")
-    @SysLog("商品品牌图上传")
+    @ApiOperation(value = "品牌图上传")
+    @SysLog("品牌图上传")
     @PostMapping("/upload/image")
     public R uploadImage(@RequestParam("file") MultipartFile file){
-        return R.ok(imageService.uploadImage(file, null, Constant.COU_LINUX_IMAGE_PATH, Constant.UploadImage.WARES.getText(), null));
+        return R.ok(imageService.uploadImage(file, null,
+                Constant.COU_LINUX_IMAGE_PATH,
+                Constant.UploadImage.BRAND.getText(),
+                DateUtils.dateTime(new Date()),
+                null));
     }
 
     /**
-     * 删除商品品牌图
+     * 删除品牌图
      * @param url
      * @return
      */
-    @ApiOperation(value = "删除商品品牌图")
-    @SysLog("删除商品品牌图")
+    @ApiOperation(value = "删除品牌图")
+    @SysLog("删除品牌图")
     @GetMapping("/delete/image")
     public R deleteImage(@RequestParam("url") String url){
         imageService.deleteImage(url);
@@ -77,13 +83,13 @@ public class CouWaresBrandController {
     }
 
     /**
-     * 新增商品品牌
+     * 新增品牌
      * @param brand
      * @return
      */
-    @ApiOperation(value = "新增商品品牌")
-    @ApiImplicitParam(paramType = "body", name = "brand", value = "商品品牌信息对象", required = true, dataType = "CouWaresBrandSaveVo")
-    @SysLog("新增商品品牌")
+    @ApiOperation(value = "新增品牌")
+    @ApiImplicitParam(paramType = "body", name = "brand", value = "品牌信息对象", required = true, dataType = "CouWaresBrandSaveVo")
+    @SysLog("新增品牌")
     @PostMapping("/save")
     @RequiresPermissions("cou:wares:brand:save")
     public R save(@RequestBody CouWaresBrandSaveVo brand){
@@ -93,11 +99,11 @@ public class CouWaresBrandController {
     }
 
     /**
-     * 根据商品品牌ID获取商品品牌详情
+     * 根据品牌ID获取品牌详情
      * @param couBrandId
      * @return
      */
-    @ApiOperation(value = "根据商品品牌ID获取商品品牌详情")
+    @ApiOperation(value = "根据品牌ID获取品牌详情")
     @GetMapping("/info/{couBrandId}")
     @RequiresPermissions("cou:wares:brand:info")
     public R info(@PathVariable("couBrandId") Long couBrandId) {
@@ -105,13 +111,13 @@ public class CouWaresBrandController {
     }
 
     /**
-     * 更新商品品牌
+     * 更新品牌
      * @param brand
      * @return
      */
-    @ApiOperation(value = "更新商品品牌")
-    @ApiImplicitParam(paramType = "body", name = "brand", value = "商品品牌信息对象", required = true, dataType = "CouWaresBrandUpdateVo")
-    @SysLog("更新商品品牌")
+    @ApiOperation(value = "更新品牌")
+    @ApiImplicitParam(paramType = "body", name = "brand", value = "品牌信息对象", required = true, dataType = "CouWaresBrandUpdateVo")
+    @SysLog("更新品牌")
     @PostMapping("/update")
     @RequiresPermissions("cou:wares:brand:update")
     public R update(@RequestBody CouWaresBrandUpdateVo brand){
@@ -121,12 +127,12 @@ public class CouWaresBrandController {
     }
 
     /**
-     * 修改商品品牌的状态为启用
+     * 修改品牌的状态为启用
      * @param couBrandId
      * @return
      */
-    @ApiOperation(value = "修改商品品牌的状态为启用")
-    @SysLog("修改商品品牌的状态为启用")
+    @ApiOperation(value = "修改品牌的状态为启用")
+    @SysLog("修改品牌的状态为启用")
     @GetMapping("/normal/{couBrandId}")
     @RequiresPermissions("cou:wares:brand:update")
     public R normal(@PathVariable("couBrandId") Long couBrandId){
@@ -135,12 +141,12 @@ public class CouWaresBrandController {
     }
 
     /**
-     * 修改商品品牌的状态为禁用
+     * 修改品牌的状态为禁用
      * @param couBrandId
      * @return
      */
-    @ApiOperation(value = "修改商品品牌的状态为禁用")
-    @SysLog("修改商品品牌的状态为禁用")
+    @ApiOperation(value = "修改品牌的状态为禁用")
+    @SysLog("修改品牌的状态为禁用")
     @GetMapping("/disable/{couBrandId}")
     @RequiresPermissions("cou:wares:brand:update")
     public R disable(@PathVariable("couBrandId") Long couBrandId){
@@ -149,10 +155,10 @@ public class CouWaresBrandController {
     }
 
     /**
-     * 获取所有状态为正常商品品牌对象
+     * 获取所有状态为正常品牌对象
      * @return
      */
-    @ApiOperation(value = "获取所有状态为正常商品品牌对象")
+    @ApiOperation(value = "获取所有状态为正常品牌对象")
     @GetMapping("/getCouBrandList")
     public R getCouBrandList(){
         return R.ok(couWaresBrandService.getCouBrandList());
