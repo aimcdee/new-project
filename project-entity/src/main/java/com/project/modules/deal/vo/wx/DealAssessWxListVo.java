@@ -24,13 +24,9 @@ public class DealAssessWxListVo implements Serializable {
     @ApiModelProperty(value = "评估ID")
     private Long dealAssessId;
 
-    /**所属商品ID*/
-    @ApiModelProperty(value = "商品ID")
-    private Long couWaresId;
-
-    /**所属商品名称*/
-    @ApiModelProperty(value = "商品名称")
-    private String couWaresName;
+    /**评估商品名称*/
+    @ApiModelProperty(value = "评估商品名称")
+    private String assessWaresTitle;
 
     /**商品评估图集合*/
     @ApiModelProperty(value = "商品评估图集合")

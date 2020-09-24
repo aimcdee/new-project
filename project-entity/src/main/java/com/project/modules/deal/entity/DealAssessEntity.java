@@ -35,9 +35,9 @@ public class DealAssessEntity implements Serializable {
     @ApiModelProperty(value = "品牌系列ID")
     private Long couSeriesId;
 
-    /**商品ID*/
-    @ApiModelProperty(value = "商品ID")
-    private Long couWaresId;
+    /**评估商品名称*/
+    @ApiModelProperty(value = "评估商品名称")
+    private String assessWaresTitle;
 
     /**上牌时间*/
     @ApiModelProperty(value = "上牌时间")

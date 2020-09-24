@@ -6,9 +6,9 @@
     <select id="queryPage" resultType="com.project.modules.deal.vo.list.DealAssessListVo">
         SELECT
             deal_assess_id,
+            assess_wares_title,
             cou_brand_id,
             cou_series_id,
-            cou_wares_id,
             register_time,
             pro_area_id,
             pro_area_name,
@@ -45,7 +45,7 @@
             deal_assess_id,
             cou_brand_id,
             cou_series_id,
-            cou_wares_id,
+            assess_wares_title,
             register_time,
             pro_area_id,
             pro_area_name,
@@ -70,7 +70,7 @@
     <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealAssessWxListVo">
         SELECT
             deal_assess_id,
-            cou_wares_id,
+            assess_wares_title,
             status,
             deal_assess_price,
             sell_status
@@ -85,7 +85,7 @@
     <select id="infoWx" resultType="com.project.modules.deal.vo.wx.DealAssessWxInfoVo">
         SELECT
             deal_assess_id,
-            cou_wares_id,
+            assess_wares_title,
             status,
             deal_assess_price,
             sell_status

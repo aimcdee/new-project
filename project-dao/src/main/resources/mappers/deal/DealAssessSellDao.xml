@@ -8,7 +8,7 @@
             deal_assess_sell.deal_sell_id,
             deal_assess_sell.deal_sell_title,
             deal_assess_sell.deal_assess_id,
-            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.assess_wares_title,
             deal_assess_sell.contact_phone,
             deal_assess_sell.contact_name,
             deal_assess_sell.sex,
@@ -49,7 +49,7 @@
             deal_assess_sell.deal_sell_id,
             deal_assess_sell.deal_sell_title,
             deal_assess_sell.deal_assess_id,
-            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.assess_wares_title,
             deal_assess_sell.contact_phone,
             deal_assess_sell.contact_name,
             deal_assess_sell.pro_area_id,
@@ -75,7 +75,7 @@
         SELECT
             deal_assess_sell.deal_sell_id,
             deal_assess_sell.deal_sell_title,
-            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.assess_wares_title,
             deal_assess_sell.sys_user_id,
             deal_assess_sell.sell_price,
             deal_assess_sell.status
@@ -92,7 +92,7 @@
         SELECT
             deal_assess_sell.deal_sell_id,
             deal_assess_sell.deal_sell_title,
-            deal_assess_sell.cou_wares_id,
+            deal_assess_sell.assess_wares_title,
             deal_assess_sell.sys_user_id,
             deal_assess_sell.sell_price,
             deal_assess_sell.status

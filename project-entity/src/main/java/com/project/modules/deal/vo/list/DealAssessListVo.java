@@ -25,6 +25,10 @@ public class DealAssessListVo implements Serializable {
     @ApiModelProperty(value = "评估ID")
     private Long dealAssessId;
 
+    /**评估商品名称*/
+    @ApiModelProperty(value = "评估商品名称")
+    private Long assessWaresTitle;
+
     /**品牌ID*/
     @ApiModelProperty(value = "品牌ID")
     private Long couBrandId;
@@ -40,14 +44,6 @@ public class DealAssessListVo implements Serializable {
     /**品牌系列名称*/
     @ApiModelProperty(value = "品牌系列名称")
     private String couSeriesName;
-
-    /**商品ID*/
-    @ApiModelProperty(value = "商品ID")
-    private Long couWaresId;
-
-    /**商品名称*/
-    @ApiModelProperty(value = "商品名称")
-    private String couWaresName;
 
     /**上牌时间*/
     @ApiModelProperty(value = "上牌时间")

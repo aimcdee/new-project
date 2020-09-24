@@ -223,6 +223,17 @@
         </where>
     </select>
 
+    <!--根据评估ID和出售状态获取评估名称-->
+    <select id="getAssessWaresTitle" resultType="java.lang.String">
+        SELECT
+            assess_wares_title
+        FROM
+            deal_assess
+        WHERE
+            deal_assess_id = #{dealAssessId}
+            AND sell_status = #{sellStatus}
+    </select>
+
     <!--修改用户的客户类型-->
     <update id="updateDealUserType">
         UPDATE

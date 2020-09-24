@@ -3521,10 +3521,6 @@ paths:
           description: 所属品牌系列ID
           in: query
           type: integer
-        - name: couWaresId
-          description: 所属商品ID
-          in: query
-          type: integer
         - name: couModelId
           description: 所属商品型号ID
           in: query
@@ -4609,13 +4605,6 @@ definitions:
             type: string
           dealWaresName:
             description: 企业商品名称
-            type: string
-          couWaresId:
-            description: 所属商品ID
-            type: integer
-            format: int64
-          couWaresName:
-            description: 所属商品名称
             type: string
           coverImage:
             description: 企业商品封面图路径
@@ -6219,6 +6208,9 @@ definitions:
         description: 评估ID
         type: integer
         format: int64
+      asessWaresTitle:
+        description: 评估商品名称
+        type: String
       couBrandId:
         description: 所属品牌ID
         type: integer
@@ -6232,13 +6224,6 @@ definitions:
         format: int64
       couSeriesName:
         description: 所属品牌系列名称
-        type: string
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 所属商品名称
         type: string
       registerTime:
         description: 上牌时间
@@ -6369,9 +6354,9 @@ definitions:
         description: 所属品牌系列ID
         type: integer
         format: int64
-      couWaresId:
-        description: 所属商品ID
-        type: integer
+      asessWaresTitle:
+        description: 评估商品名称
+        type: String
         format: int64
       registerTime:
         description: 上牌时间
@@ -6418,6 +6403,9 @@ definitions:
         description: 评估ID
         type: integer
         format: int64
+      asessWaresTitle:
+        description: 评估商品名称
+        type: String
       couBrandId:
         description: 所属品牌ID
         type: integer
@@ -6431,13 +6419,6 @@ definitions:
         format: int64
       couSeriesName:
         description: 所属品牌系列名称
-        type: string
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 所属商品名称
         type: string
       registerTime:
         description: 上牌时间
@@ -6556,13 +6537,9 @@ definitions:
         description: 所属评估ID
         type: integer
         format: int64
-      couWaresId:
-        description: 出售所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 出售所属商品名称
-        type: string
+      asessWaresTitle:
+        description: 评估商品名称
+        type: String
       contactName:
         description: 联系人名称
         type: string
@@ -6698,13 +6675,9 @@ definitions:
         description: 所属评估ID
         type: integer
         format: int64
-      couWaresId:
-        description: 出售所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 出售所属商品名称
-        type: string
+      asessWaresTitle:
+        description: 评估商品名称
+        type: String
       contactName:
         description: 联系人名称
         type: string
@@ -6862,13 +6835,6 @@ definitions:
         format: int64
       couSeriesName:
         description: 所属品牌系列名称
-        type: string
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 所属商品名称
         type: string
       couModelId:
         description: 所属商品型号ID
@@ -7078,10 +7044,6 @@ definitions:
         description: 所属品牌系列ID
         type: integer
         format: int64
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
       couModelId:
         description: 所属商品型号ID
         type: integer
@@ -7208,13 +7170,6 @@ definitions:
         format: int64
       couSeriesName:
         description: 所属品牌系列名称
-        type: string
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 所属商品名称
         type: string
       couModelId:
         description: 所属商品型号ID
@@ -7395,10 +7350,6 @@ definitions:
         format: int64
       couSeriesId:
         description: 所属品牌系列ID
-        type: integer
-        format: int64
-      couWaresId:
-        description: 所属商品ID
         type: integer
         format: int64
       couModelId:

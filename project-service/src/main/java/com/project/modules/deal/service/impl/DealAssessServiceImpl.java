@@ -67,7 +67,6 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
                 assess
                         .setCouBrandName(dealInvokingService.getCouBrandNameById(assess.getCouBrandId()))
                         .setCouSeriesName(dealInvokingService.getCouSeriesNameById(assess.getCouSeriesId()))
-                        .setCouWaresName(dealInvokingService.getCouWaresNameById(assess.getCouWaresId()))
                         //设置行驶证图对象
                         .setDriveImage(dealAssessImageService.getDriveImage(assess.getDealAssessId(), Constant.ImageType.DRIVE.getType()))
                         //设置评估商品图片路径
@@ -89,7 +88,6 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
         if (CollectionUtils.isNotEmpty(assessWxList)){
             assessWxList.forEach(assessWx -> {
                 assessWx
-                        .setCouWaresName(dealInvokingService.getCouWaresNameById(assessWx.getCouWaresId()))
                         //设置评估商品图片路径
                         .setWaresImages(dealAssessImageService.getWaresImages(assessWx.getDealAssessId(), Constant.ImageType.WARES.getType()));
             });
@@ -133,7 +131,6 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
             assessInfo
                     .setCouBrandName(dealInvokingService.getCouBrandNameById(assessInfo.getCouBrandId()))
                     .setCouSeriesName(dealInvokingService.getCouSeriesNameById(assessInfo.getCouSeriesId()))
-                    .setCouWaresName(dealInvokingService.getCouWaresNameById(assessInfo.getCouWaresId()))
                     //设置行驶证图对象
                     .setDriveImage(dealAssessImageService.getDriveImage(dealAssessId, Constant.ImageType.DRIVE.getType()))
                     //设置评估商品图集合对象
@@ -152,7 +149,6 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
         DealAssessWxInfoVo assessWxInfo = baseMapper.infoWx(dealAssessId);
         if (Objects.nonNull(assessWxInfo)){
             assessWxInfo
-                    .setCouWaresName(dealInvokingService.getCouWaresNameById(assessWxInfo.getCouWaresId()))
                     //设置评估商品图集合对象
                     .setWaresImages(dealAssessImageService.getWaresImages(dealAssessId, Constant.ImageType.WARES.getType()));
         }
@@ -200,21 +196,17 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
 
     //设置DealWaresAssessEntity新增对象
     private DealAssessEntity getDealWaresAssessSaveEntity(DealAssessSaveVo assess) {
-        DealAssessEntity dealAssessEntity = new DealAssessEntity();
+        DealAssessEntity dealAssessEntity = null;
+        try {
+            dealAssessEntity = (DealAssessEntity) JavaBeanUtils.mapToJavaBean(DealAssessEntity.class, JavaBeanUtils.javaBeanToMap(assess));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dealAssessEntity
-                .setCouBrandId(assess.getCouBrandId())
-                .setCouSeriesId(assess.getCouSeriesId())
-                .setCouWaresId(assess.getCouWaresId())
-                .setRegisterTime(assess.getRegisterTime())
-                .setProAreaId(assess.getProAreaId())
                 .setProAreaName(dealInvokingService.getAreaNameById(assess.getProAreaId()))
-                .setCityAreaId(assess.getCityAreaId())
                 .setCityAreaName(dealInvokingService.getAreaNameById(assess.getCityAreaId()))
-                .setCountyAreaId(assess.getCountyAreaId())
                 .setCountyAreaName(dealInvokingService.getAreaNameById(assess.getCountyAreaId()))
-                .setDistance(assess.getDistance())
                 .setDealAssessPrice(new BigDecimal(0))
-                .setDealUserId(assess.getDealUserId())
                 .setStatus(Constant.AssessStatus.CHECKPENDING.getStatus())
                 .setSellStatus(Constant.AssessSellStatus.INREVIEW.getStatus());
         return dealAssessEntity;

@@ -21,6 +21,10 @@ import java.util.List;
 public class DealWaresSaveVo implements Serializable {
     private static final long serialVersionUID = 5477710073750686747L;
 
+    /**商品名称*/
+    @ApiModelProperty(value = "商品名称")
+    private String dealWaresTitle;
+
     /**发布区域ID*/
     @ApiModelProperty(value = "发布区域ID")
     private Long releaseAreaId;
@@ -48,10 +52,6 @@ public class DealWaresSaveVo implements Serializable {
     /**所属系列ID*/
     @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
-
-    /**所属商品ID*/
-    @ApiModelProperty(value = "所属商品ID")
-    private Long couWaresId;
 
     /**所属型号ID*/
     @ApiModelProperty(value = "所属型号ID")

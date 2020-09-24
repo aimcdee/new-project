@@ -64,7 +64,6 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
         if (CollectionUtils.isNotEmpty(dealAssessSellListVos)){
             dealAssessSellListVos.forEach(dealAssessSellListVo -> {
                 dealAssessSellListVo
-                        .setCouWaresName(dealInvokingService.getCouWaresNameById(dealAssessSellListVo.getCouWaresId()))
                         .setSysUserName(dealInvokingService.getSysUserNameBySysUserId(dealAssessSellListVo.getSysUserId()));
             });
         }
@@ -83,7 +82,6 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
         if (CollectionUtils.isNotEmpty(dealAssessSellListVos)){
             dealAssessSellListVos.forEach(dealAssessSellListVo -> {
                 dealAssessSellListVo
-                        .setCouWaresName(dealInvokingService.getCouWaresNameById(dealAssessSellListVo.getCouWaresId()))
                         .setSysUserName(dealInvokingService.getSysUserNameBySysUserId(dealAssessSellListVo.getSysUserId()));
             });
         }
@@ -103,7 +101,7 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
             e.printStackTrace();
         }
         //校验更新对象属性非空
-        checkUtils.checkNotNull(sell);
+        checkUtils.checkSaveSellNotNull(sell);
         save(getDealAssessSellSaveEntity(sell));
         dealInvokingService.updateAssessSellStstus(sell.getDealAssessId(), Constant.AssessSellStatus.PROCESSING.getStatus());
     }
@@ -117,7 +115,6 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
     public DealAssessSellInfoVo info(Long dealSellId) {
         DealAssessSellInfoVo dealAssessSellInfoVo = baseMapper.info(dealSellId);
         dealAssessSellInfoVo
-                .setCouWaresName(dealInvokingService.getCouWaresNameById(dealAssessSellInfoVo.getCouWaresId()))
                 .setSysUserName(dealInvokingService.getSysUserNameBySysUserId(dealAssessSellInfoVo.getSysUserId()));
         return dealAssessSellInfoVo;
     }
@@ -131,7 +128,6 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
     public DealAssessSellWxInfoVo infoWx(Long dealSellId) {
         DealAssessSellWxInfoVo dealAssessSellWxInfoVo = baseMapper.infoWx(dealSellId);
         dealAssessSellWxInfoVo
-                .setCouWaresName(dealInvokingService.getCouWaresNameById(dealAssessSellWxInfoVo.getCouWaresId()))
                 .setSysUserName(dealInvokingService.getSysUserNameBySysUserId(dealAssessSellWxInfoVo.getSysUserId()));
         return dealAssessSellWxInfoVo;
     }
@@ -228,16 +224,12 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
 
     //获取DealAssessSellEntity新增对象
     private DealAssessSellEntity getDealAssessSellSaveEntity(DealAssessSellSaveVo sell) {
-        //获取需要出示的商品ID
-        Long couWaresId = dealInvokingService.getAssessWares(sell.getDealAssessId(), Constant.AssessSellStatus.INREVIEW.getStatus());
-        if (ObjectUtils.isBlank(couWaresId)){
-            throw new RRException("该商品正在出售中或已出售");
-        }
+        String assessWaresTitle = dealInvokingService.getAssessWaresTitle(sell.getDealAssessId(), Constant.WaresSellStatus.UNSALE.getStatus());
         DealAssessSellEntity dealAssessSellEntity = new DealAssessSellEntity();
         dealAssessSellEntity
                 .setDealSellTitle(sell.getDealSellTitle())
                 .setDealAssessId(sell.getDealAssessId())
-                .setCouWaresId(couWaresId)
+                .setAssessWaresTitle(assessWaresTitle)
                 .setContactName(sell.getContactName())
                 .setContactPhone(sell.getContactPhone())
                 .setSex(sell.getSex())
@@ -250,8 +242,7 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
                 .setAddr(sell.getAddr())
                 .setSellPrice(new BigDecimal(0))
                 .setDealUserId(dealInvokingService.getDealUserIdByDealAssessId(sell.getDealAssessId(), Constant.AssessSellStatus.INREVIEW.getStatus()))
-                .setStatus(Constant.DropInStatus.INREVIEW.getStatus())
-                .setCreateTime(new Date());
+                .setStatus(Constant.DropInStatus.INREVIEW.getStatus());
         return dealAssessSellEntity;
     }
 }

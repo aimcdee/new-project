@@ -204,4 +204,12 @@ public interface DealInvokingDao {
      * @return
      */
     Long getDealStoreId(@Param("dealUserId") Long dealUserId, @Param("examine") Integer examine);
+
+    /**
+     * 根据评估ID和出售状态获取评估名称
+     * @param dealAssessId
+     * @param sellStatus
+     * @return
+     */
+    String getAssessWaresTitle(@Param("dealAssessId") Long dealAssessId, @Param("sellStatus") Integer sellStatus);
 }

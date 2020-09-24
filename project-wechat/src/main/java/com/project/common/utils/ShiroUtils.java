@@ -54,7 +54,7 @@ public class ShiroUtils {
         if (isLogin()) {
             return getDealUserLoginVo().getType().equals(Constant.StoreType.ENTERPRISE.getType());
         }
-        return null;
+        return false;
     }
 
     public static void setSessionAttribute(Object key, Object value) {

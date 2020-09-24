@@ -16,7 +16,6 @@
             deal_wares.wares_frame_code,
             deal_wares.cou_brand_id,
             deal_wares.cou_series_id,
-            deal_wares.cou_wares_id,
             deal_wares.cou_model_id,
             deal_wares.trade_price,
             deal_wares.retail_price,
@@ -56,9 +55,6 @@
             <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
                 AND deal_wares.cou_series_id = #{couSeriesId}
             </if>
-            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
-                AND deal_wares.cou_wares_id = #{couWaresId}
-            </if>
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND deal_wares.cou_model_id = #{couModelId}
             </if>
@@ -94,6 +90,7 @@
             deal_wares_title,
             deal_wares_no,
             cou_brand_id,
+            cou_series_id,
             register_time,
             distance,
             sell_status,
@@ -102,14 +99,14 @@
         FROM
             deal_wares
         <where>
+            <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
+                deal_wares_title LIKE "%"#{dealWaresTitle}"%"
+            </if>
             <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
                 cou_brand_id = #{couBrandId}
             </if>
             <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
                 AND cou_series_id = #{couSeriesId}
-            </if>
-            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
-                AND cou_wares_id = #{couWaresId}
             </if>
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND cou_model_id = #{couModelId}
@@ -146,6 +143,7 @@
             deal_wares.deal_wares_title,
             deal_wares.deal_wares_no,
             deal_wares.cou_brand_id,
+            deal_wares.cou_series_id,
             deal_wares.trade_price,
             deal_wares.register_time,
             deal_wares.distance,
@@ -157,14 +155,14 @@
             JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
         <where>
             deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
+            <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
+                deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
+            </if>
             <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
                 AND deal_wares.cou_brand_id = #{couBrandId}
             </if>
             <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
                 AND deal_wares.cou_series_id = #{couSeriesId}
-            </if>
-            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
-                AND deal_wares.cou_wares_id = #{couWaresId}
             </if>
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND deal_wares.cou_model_id = #{couModelId}
@@ -192,6 +190,7 @@
             deal_wares.deal_wares_title,
             deal_wares.deal_wares_no,
             deal_wares.cou_brand_id,
+            deal_wares.cou_series_id,
             deal_wares.retail_price,
             deal_wares.register_time,
             deal_wares.distance,
@@ -203,14 +202,14 @@
             JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
         <where>
             deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
+            <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
+                deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
+            </if>
             <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
                 AND deal_wares.cou_brand_id = #{couBrandId}
             </if>
             <if test="couSeriesId != null and !&quot;&quot;.equals(couSeriesId)">
                 AND deal_wares.cou_series_id = #{couSeriesId}
-            </if>
-            <if test="couWaresId != null and !&quot;&quot;.equals(couWaresId)">
-                AND deal_wares.cou_wares_id = #{couWaresId}
             </if>
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND deal_wares.cou_model_id = #{couModelId}
@@ -245,7 +244,6 @@
             wares_frame_code,
             cou_brand_id,
             cou_series_id,
-            cou_wares_id,
             cou_model_id,
             trade_price,
             retail_price,
@@ -285,7 +283,6 @@
             deal_wares.sex,
             deal_wares.cou_brand_id,
             deal_wares.cou_series_id,
-            deal_wares.cou_wares_id,
             deal_wares.trade_price,
             deal_wares.register_time,
             deal_wares.distance,

@@ -194,4 +194,12 @@ public interface DealInvokingService {
      * @return
      */
     Long getDealStoreId(Long dealUserId, Integer examine);
+
+    /**
+     * 根据评估ID和出售状态获取评估名称
+     * @param dealAssessId
+     * @param sellStatus
+     * @return
+     */
+    String getAssessWaresTitle(Long dealAssessId, Integer sellStatus);
 }

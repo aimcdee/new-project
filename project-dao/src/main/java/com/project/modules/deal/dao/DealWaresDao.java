@@ -28,9 +28,11 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      * @param releaseAreaId
      * @param couBrandId
      * @param couSeriesId
-     * @param couWaresId
      * @param couModelId
      * @param dealStoreId
+     * @param proAreaId
+     * @param cityAreaId
+     * @param countyAreaId
      * @param onlineStatus
      * @param sellStatus
      * @param startTime
@@ -43,7 +45,6 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("releaseAreaId") Long releaseAreaId,
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
-            @Param("couWaresId") Long couWaresId,
             @Param("couModelId") Long couModelId,
             @Param("dealStoreId") Long dealStoreId,
             @Param("proAreaId") Long proAreaId,
@@ -57,9 +58,9 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
     /**
      * 企业客户分页查询自己上传的企业商品列表
      * @param page
+     * @param dealWaresTitle
      * @param couBrandId
      * @param couSeriesId
-     * @param couWaresId
      * @param couModelId
      * @param dealStoreId
      * @param proAreaId
@@ -73,9 +74,9 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      */
     List<DealWaresWxPersonalListVo> queryPersonalPage(
             Page<DealWaresWxPersonalListVo> page,
+            @Param("dealWaresTitle") String dealWaresTitle,
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
-            @Param("couWaresId") Long couWaresId,
             @Param("couModelId") Long couModelId,
             @Param("dealStoreId") Long dealStoreId,
             @Param("proAreaId") Long proAreaId,
@@ -89,19 +90,24 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
     /**
      * 企业端分页查询商品列表
      * @param page
+     * @param dealWaresTitle
      * @param couBrandId
      * @param couSeriesId
-     * @param couWaresId
      * @param couModelId
+     * @param proAreaId
+     * @param cityAreaId
+     * @param countyAreaId
      * @param onlineStatus
      * @param sellStatus
+     * @param startTime
+     * @param endTime
      * @return
      */
     List<DealWaresWxStoreListVo> queryStorePage(
             Page<DealWaresWxStoreListVo> page,
+            @Param("dealWaresTitle") String dealWaresTitle,
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
-            @Param("couWaresId") Long couWaresId,
             @Param("couModelId") Long couModelId,
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
@@ -114,19 +120,24 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
     /**
      * 零售端分页查询商品列表
      * @param page
+     * @param dealWaresTitle
      * @param couBrandId
      * @param couSeriesId
-     * @param couWaresId
      * @param couModelId
+     * @param proAreaId
+     * @param cityAreaId
+     * @param countyAreaId
      * @param onlineStatus
      * @param sellStatus
+     * @param startTime
+     * @param endTime
      * @return
      */
     List<DealWaresWxRetailListVo> queryRetailPage(
             Page<DealWaresWxRetailListVo> page,
+            @Param("dealWaresTitle") String dealWaresTitle,
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
-            @Param("couWaresId") Long couWaresId,
             @Param("couModelId") Long couModelId,
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,

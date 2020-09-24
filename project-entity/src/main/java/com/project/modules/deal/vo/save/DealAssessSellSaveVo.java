@@ -19,11 +19,11 @@ public class DealAssessSellSaveVo implements Serializable {
 
     /**评估商品出售标题*/
     @ApiModelProperty(value = "评估商品出售标题")
-    private String DealSellTitle;
+    private String dealSellTitle;
 
     /**所属评估ID*/
     @ApiModelProperty(value = "所属评估ID")
-    private Long DealAssessId;
+    private Long dealAssessId;
 
     /**联系人名称*/
     @ApiModelProperty(value = "联系人名称")

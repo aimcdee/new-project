@@ -302,6 +302,17 @@ public class DealInvokingServiceImpl implements DealInvokingService {
     }
 
     /**
+     * 根据评估ID和出售状态获取评估名称
+     * @param dealAssessId
+     * @param sellStatus
+     * @return
+     */
+    @Override
+    public String getAssessWaresTitle(Long dealAssessId, Integer sellStatus) {
+        return dealInvokingDao.getAssessWaresTitle(dealAssessId, sellStatus);
+    }
+
+    /**
      * 修改企业客户表的保证金总金额和信用等级
      * @param storeId
      * @param depositPrice

@@ -20,17 +20,17 @@ import java.util.List;
 public class DealAssessSaveVo implements Serializable {
     private static final long serialVersionUID = -4806863139761682525L;
 
-    /**商品品牌ID*/
-    @ApiModelProperty(value = "商品品牌ID")
+    /**所属品牌ID*/
+    @ApiModelProperty(value = "所属品牌ID")
     private Long couBrandId;
 
-    /**商品品牌系列ID*/
-    @ApiModelProperty(value = "商品品牌系列ID")
+    /**所属系列ID*/
+    @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
 
-    /**商品ID*/
-    @ApiModelProperty(value = "商品ID")
-    private Long couWaresId;
+    /**评估商品名称*/
+    @ApiModelProperty(value = "评估商品名称")
+    private String assessWaresTitle;
 
     /**上牌时间*/
     @ApiModelProperty(value = "上牌时间")

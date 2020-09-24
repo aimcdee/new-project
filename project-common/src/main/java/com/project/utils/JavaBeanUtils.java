@@ -6,10 +6,14 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Map与JavaBean相互转换工具类
+ *
+ * @author liangyuding
+ * @date 2020-09-24
+ */
 @Component
 public class JavaBeanUtils {
-
-    private final static String STRINGTYPE = "java.lang.String";
 
     /**
      * 对象转Map的方法

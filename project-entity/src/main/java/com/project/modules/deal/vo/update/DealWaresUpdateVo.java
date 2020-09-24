@@ -25,6 +25,10 @@ public class DealWaresUpdateVo implements Serializable {
     @ApiModelProperty(value = "出售商品ID")
     private String dealWaresId;
 
+    /**出售商品名称*/
+    @ApiModelProperty(value = "出售商品名称")
+    private String dealWaresTitle;
+
     /**发布区域ID*/
     @ApiModelProperty(value = "发布区域ID")
     private Long releaseAreaId;
@@ -50,16 +54,16 @@ public class DealWaresUpdateVo implements Serializable {
     private Long couBrandId;
 
     /**所属品牌系列ID*/
-    @ApiModelProperty(value = "所属品牌系列ID")
+    @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
-
-    /**所属商品ID*/
-    @ApiModelProperty(value = "所属商品ID")
-    private Long couWaresId;
 
     /**所属商品型号ID*/
     @ApiModelProperty(value = "所属商品型号ID")
     private Long couModelId;
+
+    /**年款*/
+    @ApiModelProperty(value = "年款")
+    private String marketYear;
 
     /**批发价*/
     @ApiModelProperty(value = "批发价")

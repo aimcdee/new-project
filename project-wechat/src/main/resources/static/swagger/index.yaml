@@ -733,16 +733,16 @@ paths:
           description: 排序方式，如：asc、desc
           in: query
           type: string
+        - name: dealWaresTitle
+          description: 商品名称
+          in: query
+          type: string
         - name: couBrandId
           description: 所属品牌ID
           in: query
           type: integer
         - name: couSeriesId
           description: 所属品牌系列ID
-          in: query
-          type: integer
-        - name: couWaresId
-          description: 所属商品ID
           in: query
           type: integer
         - name: couModelId
@@ -1033,16 +1033,16 @@ paths:
           description: 排序方式，如：asc、desc
           in: query
           type: string
+        - name: dealWaresTitle
+          description: 商品名称
+          in: query
+          type: string
         - name: couBrandId
           description: 所属品牌ID
           in: query
           type: integer
         - name: couSeriesId
           description: 所属品牌系列ID
-          in: query
-          type: integer
-        - name: couWaresId
-          description: 所属商品ID
           in: query
           type: integer
         - name: couModelId
@@ -1136,16 +1136,16 @@ paths:
           description: 排序方式，如：asc、desc
           in: query
           type: string
+        - name: dealWaresTitle
+          description: 商品名称
+          in: query
+          type: string
         - name: couBrandId
           description: 所属品牌ID
           in: query
           type: integer
         - name: couSeriesId
           description: 所属品牌系列ID
-          in: query
-          type: integer
-        - name: couWaresId
-          description: 所属商品ID
           in: query
           type: integer
         - name: couModelId
@@ -1307,13 +1307,6 @@ definitions:
             type: string
           dealWaresName:
             description: 企业商品名称
-            type: string
-          couWaresId:
-            description: 所属商品ID
-            type: integer
-            format: int64
-          couWaresName:
-            description: 所属商品名称
             type: string
           coverImage:
             description: 企业商品封面图路径
@@ -1606,12 +1599,8 @@ definitions:
         description: 评估ID
         type: integer
         format: int64
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 所属商品名称
+      assessWaresTitle:
+        description: 评估商品名称
         type: string
       waresImages:
         type: array
@@ -1683,10 +1672,9 @@ definitions:
         description: 所属品牌系列ID
         type: integer
         format: int64
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
+      assessWaresTitle:
+        description: 评估商品名称
+        type: string
       registerTime:
         description: 上牌时间
         type: string
@@ -1728,12 +1716,8 @@ definitions:
         description: 评估ID
         type: integer
         format: int64
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 所属商品名称
+      assessWaresTitle:
+        description: 评估商品名称
         type: string
       images:
         description: 图片路径集合
@@ -1770,6 +1754,7 @@ definitions:
             type: integer
             format: int64
 
+
   DealAssessSellWxListVo:
     type: object
     properties:
@@ -1780,12 +1765,8 @@ definitions:
       dealSellTitle:
         description: 个人评估商品出售标题
         type: string
-      couWaresId:
-        description: 出售所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 出售所属商品名称
+      assessWaresTitle:
+        description: 所属评估商品名称
         type: string
       sysUserId:
         description: 跟进人ID
@@ -1876,12 +1857,8 @@ definitions:
       dealSellTitle:
         description: 个人评估商品出售标题
         type: string
-      couWaresId:
-        description: 出售所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 出售所属商品名称
+      assessWaresTitle:
+        description: 评估商品名称
         type: string
       sysUserId:
         description: 跟进人ID
@@ -2131,10 +2108,6 @@ definitions:
         description: 所属系列ID
         type: integer
         format: int64
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
       tradePrice:
         description: 批发价
         type: string
@@ -2237,10 +2210,6 @@ definitions:
         format: int64
       couSeriesId:
         description: 所属系列ID
-        type: integer
-        format: int64
-      couWaresId:
-        description: 所属商品ID
         type: integer
         format: int64
       couModelId:
@@ -2366,18 +2335,11 @@ definitions:
         description: 所属品牌名称
         type: string
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 所属品牌系列名称
-        type: string
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
-      couWaresName:
-        description: 所属商品名称
+        description: 所属系列名称
         type: string
       couModelId:
         description: 所属商品型号ID
@@ -2562,10 +2524,6 @@ definitions:
         description: 所属品牌系列ID
         type: integer
         format: int64
-      couWaresId:
-        description: 所属商品ID
-        type: integer
-        format: int64
       couModelId:
         description: 所属商品型号ID
         type: integer
@@ -2647,7 +2605,6 @@ definitions:
         description: 所属企业客户ID
         type: integer
         format: int64
-
 
   DealWaresWxStoreInfoVo:
     type: object
@@ -2809,10 +2766,6 @@ definitions:
         type: string
       couSeriesId:
         description: 所属系列ID
-        type: integer
-        format: int64
-      couWaresId:
-        description: 所属商品ID
         type: integer
         format: int64
       retailPrice:
