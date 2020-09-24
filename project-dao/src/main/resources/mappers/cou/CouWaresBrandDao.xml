@@ -21,7 +21,7 @@
                 AND cou_wares_brand.status = #{status}
             </if>
         </where>
-        ORDER BY cou_wares_brand.first_letter
+        ORDER BY cou_wares_brand.first_letter ASC
     </select>
 
     <!--根据商品品牌ID获取商品品牌详情-->
@@ -36,6 +36,18 @@
             cou_wares_brand AS cou_wares_brand
         WHERE
             cou_wares_brand.cou_brand_id = #{couBrandId}
+    </select>
+
+    <!--获取所有状态为正常商品品牌的ID和名称-->
+    <select id="getHotCouBrandList" resultType="com.project.modules.cou.vo.Invoking.CouWaresBrandInvokingVo">
+        SELECT
+            cou_brand_id,
+            cou_brand_name
+        FROM
+            cou_wares_brand
+        WHERE
+            status = #{status}
+            ORDER BY sort DESC, cou_brand_id ASC LIMIT 10
     </select>
 
     <!--获取所有状态为正常商品品牌的ID和名称-->

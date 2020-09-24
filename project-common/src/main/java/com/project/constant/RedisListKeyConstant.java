@@ -26,10 +26,12 @@ public interface RedisListKeyConstant {
     String CUST_AREA_COUNTY_LIST = "CUST_AREA_COUNTY_LIST";
     /**商品列表*/
     String COU_WARES_LIST = "COU_WARES_LIST";
+    /**热门品牌列表*/
+    String COU_HOT_BRAND_LIST = "COU_HOT_BRAND_LIST";
     /**品牌列表*/
-    String COU_WARES_BRAND_LIST = "COU_WARES_BRAND_LIST";
-    /**品牌系列列表*/
-    String COU_WARES_SERIES_LIST = "COU_WARES_SERIES_LIST";
+    String COU_BRAND_LIST = "COU_BRAND_LIST";
+    /**系列列表*/
+    String COU_SERIES_LIST = "COU_SERIES_LIST";
     /**型号列表*/
-    String COU_WARES_MODEL_LIST = "COU_WARES_MODEL_LIST";
+    String COU_MODEL_LIST = "COU_MODEL_LIST";
 }

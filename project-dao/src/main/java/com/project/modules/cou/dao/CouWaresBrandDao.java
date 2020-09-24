@@ -40,6 +40,13 @@ public interface CouWaresBrandDao extends BaseMapper<CouWaresBrandEntity> {
     CouWaresBrandInfoVo info(@Param("couBrandId") Long couBrandId);
 
     /**
+     * 获取热门品牌对象列表
+     * @param status
+     * @return
+     */
+    List<CouWaresBrandInvokingVo> getHotCouBrandList(@Param("status") Integer status);
+
+    /**
      * 获取所有状态为正常商品品牌的ID和名称
      * @param status
      * @return

@@ -166,6 +166,25 @@ paths:
               config:
                 description: 返回县/区信息
                 $ref: '#/definitions/CustAreaInvokingVo'
+  /wechat/cou/wares/brand/getHotCouBrandList:
+    get:
+      tags:
+        - 系统-品牌模块
+      summary: 品牌-获取热门品牌对象列表
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回品牌信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              user:
+                $ref: '#/definitions/CouWaresModelInvokingVo'
   /wechat/cou/wares/brand/getCouBrandList:
     get:
       tags:

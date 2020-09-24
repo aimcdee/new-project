@@ -59,5 +59,11 @@ public interface CouWaresBrandService extends IService<CouWaresBrandEntity> {
      * 获取所有状态为正常商品品牌的ID和名称
      * @return
      */
+    List<CouWaresBrandInvokingVo> getHotCouBrandList();
+
+    /**
+     * 获取所有状态为正常商品品牌的ID和名称
+     * @return
+     */
     List<CouWaresBrandInvokingVo> getCouBrandList();
 }
