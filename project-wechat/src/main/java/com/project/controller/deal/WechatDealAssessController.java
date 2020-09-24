@@ -67,8 +67,8 @@ public class WechatDealAssessController {
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.ASSESS.getText(),
-                Constant.UploadImage.WARES.getText(),
-                DateUtils.dateTime(new Date())));
+                DateUtils.dateTime(new Date()),
+                Constant.UploadImage.WARES.getText()));
     }
 
     /**
@@ -83,8 +83,8 @@ public class WechatDealAssessController {
         return R.ok(wxUploadService.uploadImage(file, getDealPhone(),
                 Constant.DEAL_LINUX_IMAGE_PATH,
                 Constant.UploadImage.ASSESS.getText(),
-                Constant.UploadImage.DRIVINGID.getText(),
-                DateUtils.dateTime(new Date())));
+                DateUtils.dateTime(new Date()),
+                Constant.UploadImage.DRIVINGID.getText()));
     }
 
     /**
