@@ -29,6 +29,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      * @param couBrandId
      * @param couSeriesId
      * @param couModelId
+     * @param marketYear
      * @param dealStoreId
      * @param proAreaId
      * @param cityAreaId
@@ -46,6 +47,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
             @Param("couModelId") Long couModelId,
+            @Param("marketYear") Integer marketYear,
             @Param("dealStoreId") Long dealStoreId,
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
@@ -78,6 +80,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
             @Param("couModelId") Long couModelId,
+            @Param("marketYear") Integer marketYear,
             @Param("dealStoreId") Long dealStoreId,
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
@@ -109,6 +112,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
             @Param("couModelId") Long couModelId,
+            @Param("marketYear") Integer marketYear,
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
             @Param("countyAreaId") Long countyAreaId,
@@ -139,6 +143,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
             @Param("couModelId") Long couModelId,
+            @Param("marketYear") Integer marketYear,
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
             @Param("countyAreaId") Long countyAreaId,

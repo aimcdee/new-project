@@ -313,6 +313,17 @@ public class DealInvokingServiceImpl implements DealInvokingService {
     }
 
     /**
+     * 根据企业ID和商品ID查询是否存在该条商品
+     * @param dealStoreId
+     * @param dealWareId
+     * @return
+     */
+    @Override
+    public Integer checkWaresStore(Long dealStoreId, String dealWareId) {
+        return dealInvokingDao.checkWaresStore(dealStoreId, dealWareId);
+    }
+
+    /**
      * 修改企业客户表的保证金总金额和信用等级
      * @param storeId
      * @param depositPrice

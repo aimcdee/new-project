@@ -215,8 +215,6 @@ public class DealUserStoreRefundServiceImpl extends ServiceImpl<DealUserStoreRef
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(refund);
         //校验金额
         checkUtils.checkPrice(refund.getRefundPrice());
     }

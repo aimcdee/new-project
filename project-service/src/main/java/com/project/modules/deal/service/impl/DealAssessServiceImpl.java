@@ -107,8 +107,6 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验新增对象属性非空
-        checkUtils.checkAsswssSaveNotNull(assess);
         DealAssessEntity dealAssessEntity = getDealWaresAssessSaveEntity(assess);
         save(dealAssessEntity);
         //保存行驶证图
@@ -196,7 +194,7 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
 
     //设置DealWaresAssessEntity新增对象
     private DealAssessEntity getDealWaresAssessSaveEntity(DealAssessSaveVo assess) {
-        DealAssessEntity dealAssessEntity = null;
+        DealAssessEntity dealAssessEntity = new DealAssessEntity();
         try {
             dealAssessEntity = (DealAssessEntity) JavaBeanUtils.mapToJavaBean(DealAssessEntity.class, JavaBeanUtils.javaBeanToMap(assess));
         } catch (Exception e) {

@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -22,22 +24,27 @@ public class DealAssessSaveVo implements Serializable {
 
     /**所属品牌ID*/
     @ApiModelProperty(value = "所属品牌ID")
+    @NotNull(message = "请选择所属品牌")
     private Long couBrandId;
 
     /**所属系列ID*/
     @ApiModelProperty(value = "所属系列ID")
+    @NotNull(message = "请选择所属系列")
     private Long couSeriesId;
 
     /**评估商品名称*/
     @ApiModelProperty(value = "评估商品名称")
+    @NotBlank(message = "请输入评估商品名称")
     private String assessWaresTitle;
 
     /**上牌时间*/
     @ApiModelProperty(value = "上牌时间")
+    @NotNull(message = "请输入上牌时间")
     private Date registerTime;
 
     /**省级地区ID*/
     @ApiModelProperty(value = "省级地区ID")
+    @NotNull(message = "请选择所在区域省份")
     private Long proAreaId;
 
     /**市级地区ID*/
@@ -50,17 +57,21 @@ public class DealAssessSaveVo implements Serializable {
 
     /**行驶里程*/
     @ApiModelProperty(value = "行驶里程")
+    @NotBlank(message = "请输入行驶里程")
     private Long distance;
 
     /**客户ID*/
     @ApiModelProperty(value = "客户ID")
+    @NotNull(message = "请选择所属客户")
     private Long dealUserId;
 
     /**行驶证图对象*/
     @ApiModelProperty(value = "行驶证图对象")
+    @NotNull(message = "请上传行驶证图")
     private DealImageInvokingVo driveImage;
 
-    /**商品评估图集合*/
-    @ApiModelProperty(value = "商品评估图集合")
+    /**评估商品图集合*/
+    @ApiModelProperty(value = "评估商品图集合")
+    @NotNull(message = "请上传需要评估的商品图")
     private List<DealImageInvokingVo> waresImages;
 }

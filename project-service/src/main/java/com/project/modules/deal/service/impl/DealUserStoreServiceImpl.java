@@ -14,10 +14,7 @@ import com.project.modules.deal.vo.invoking.DealUserStoreInvokingVo;
 import com.project.modules.deal.vo.list.DealStoreListVo;
 import com.project.modules.deal.vo.list.DealUserStoreListVo;
 import com.project.modules.deal.vo.save.DealUserStoreSaveVo;
-import com.project.utils.CheckUtils;
-import com.project.utils.PageUtils;
-import com.project.utils.Query;
-import com.project.utils.TrimUtils;
+import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -60,8 +57,6 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(userStore);
         save(getSaveDealUserStoreEntity(userStore));
     }
 
@@ -174,13 +169,14 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
             throw new RRException("已有提交申请验证还未审核,请勿重复提交");
         }
         DealUserStoreEntity dealUserStoreEntity = new DealUserStoreEntity();
+        try {
+            dealUserStoreEntity = (DealUserStoreEntity) JavaBeanUtils.mapToJavaBean(DealUserStoreEntity.class, JavaBeanUtils.javaBeanToMap(userStore));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dealUserStoreEntity
-                .setDealUserId(userStore.getDealUserId())
-                .setDealStoreName(userStore.getDealStoreName())
-                .setDealUserJob(userStore.getDealUserJob())
                 .setDepositPrice(new BigDecimal(0))
                 .setCreditGrade(Constant.CREDITGRADE)
-                .setImage(userStore.getImage())
                 .setExamine(Constant.Examine.INREVIEW.getExamine());
         return dealUserStoreEntity;
     }

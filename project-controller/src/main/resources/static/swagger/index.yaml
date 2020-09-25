@@ -1472,12 +1472,12 @@ paths:
     get:
       tags:
         - 品牌管理-商品模块
-      summary: 获取根据品牌系列ID所有商品对象
+      summary: 获取根据系列ID所有商品对象
       produces:
         - application/json
       parameters:
         - name: couSeriesId
-          description: 品牌系列ID
+          description: 系列ID
           in: path
           type: integer
           required: true
@@ -1695,7 +1695,7 @@ paths:
     get:
       tags:
         - 品牌管理-系列模块
-      summary: 分页查询品牌系列列表
+      summary: 分页查询系列列表
       produces:
         - application/json
       parameters:
@@ -1722,7 +1722,7 @@ paths:
           in: query
           type: integer
         - name: couSeriesName
-          description: 品牌系列名称
+          description: 系列名称
           in: query
           type: string
         - name: status
@@ -1731,19 +1731,19 @@ paths:
           type: integer
       responses:
         '200':
-          description: 返回品牌系列列表
+          description: 返回系列列表
           schema:
             $ref: '#/definitions/CouWaresBrandSeriesEntities'
   /cou/wares/series/save:
     post:
       tags:
         - 品牌管理-系列模块
-      summary: 新增品牌系列信息
+      summary: 新增系列信息
       produces:
         - application/json
       parameters:
         - name: series
-          description: 品牌系列对象
+          description: 系列对象
           in: body
           schema:
             $ref: '#/definitions/CouWaresSeriesSaveVo'
@@ -1757,18 +1757,18 @@ paths:
     get:
       tags:
         - 品牌管理-系列模块
-      summary: 获取品牌系列信息
+      summary: 获取系列信息
       produces:
         - application/json
       parameters:
         - name: couSeriesId
-          description: 品牌系列ID
+          description: 系列ID
           in: path
           type: integer
           required: true
       responses:
         '200':
-          description: 返回品牌系列信息
+          description: 返回系列信息
           schema:
             type: object
             properties:
@@ -1783,12 +1783,12 @@ paths:
     post:
       tags:
         - 品牌管理-系列模块
-      summary: 修改品牌系列信息
+      summary: 修改系列信息
       produces:
         - application/json
       parameters:
         - name: series
-          description: 品牌系列对象
+          description: 系列对象
           in: body
           schema:
             $ref: '#/definitions/CouWaresSeriesUpdateVo'
@@ -1802,12 +1802,12 @@ paths:
     get:
       tags:
         - 品牌管理-系列模块
-      summary: 修改品牌系列状态为启用
+      summary: 修改系列状态为启用
       produces:
         - application/json
       parameters:
         - name: couSeriesId
-          description: 品牌系列ID
+          description: 系列ID
           in: path
           type: integer
           required: true
@@ -1820,12 +1820,12 @@ paths:
     get:
       tags:
         - 品牌管理-系列模块
-      summary: 修改品牌系列状态为禁用
+      summary: 修改系列状态为禁用
       produces:
         - application/json
       parameters:
         - name: couSeriesId
-          description: 品牌系列ID
+          description: 系列ID
           in: path
           type: integer
           required: true
@@ -1838,7 +1838,7 @@ paths:
     get:
       tags:
         - 品牌管理-系列模块
-      summary: 根据品牌ID获取所有品牌系列对象
+      summary: 根据品牌ID获取所有系列对象
       produces:
         - application/json
       parameters:
@@ -1849,7 +1849,7 @@ paths:
           required: true
       responses:
         '200':
-          description: 返回品牌系列信息
+          description: 返回系列信息
           schema:
             type: object
             properties:
@@ -3518,7 +3518,7 @@ paths:
           in: query
           type: integer
         - name: couSeriesId
-          description: 所属品牌系列ID
+          description: 所属系列ID
           in: query
           type: integer
         - name: couModelId
@@ -4807,11 +4807,11 @@ definitions:
         description: 所属品牌名称
         type: string
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 所属品牌系列名称
+        description: 所属系列名称
         type: string
       couModelId:
         description: 所属型号ID
@@ -4980,7 +4980,7 @@ definitions:
         type: integer
         format: int64
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couModelId:
@@ -5142,11 +5142,11 @@ definitions:
     type: object
     properties:
       couSeriesId:
-        description: 品牌系列ID
+        description: 系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 品牌系列名称
+        description: 系列名称
         type: string
       couBrandId:
         description: 所属品牌ID
@@ -5193,7 +5193,7 @@ definitions:
     type: object
     properties:
       couSeriesName:
-        description: 品牌系列名称
+        description: 系列名称
         type: string
       couBrandId:
         description: 所属品牌ID
@@ -5203,11 +5203,11 @@ definitions:
     type: object
     properties:
       couSeriesId:
-        description: 品牌系列ID
+        description: 系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 品牌系列名称
+        description: 系列名称
         type: string
       couBrandId:
         description: 所属品牌ID
@@ -5217,11 +5217,11 @@ definitions:
     type: object
     properties:
       couSeriesId:
-        description: 品牌系列ID
+        description: 系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 品牌系列名称
+        description: 系列名称
         type: string
       couBrandId:
         description: 所属品牌ID
@@ -5231,11 +5231,11 @@ definitions:
     type: object
     properties:
       couSeriesId:
-        description: 品牌系列ID
+        description: 系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 品牌系列名称
+        description: 系列名称
         type: string
   CouWaresModelListVo:
     type: object
@@ -6219,11 +6219,11 @@ definitions:
         description: 所属品牌名称
         type: string
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 所属品牌系列名称
+        description: 所属系列名称
         type: string
       registerTime:
         description: 上牌时间
@@ -6351,7 +6351,7 @@ definitions:
         type: integer
         format: int64
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       asessWaresTitle:
@@ -6414,11 +6414,11 @@ definitions:
         description: 所属品牌名称
         type: string
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 所属品牌系列名称
+        description: 所属系列名称
         type: string
       registerTime:
         description: 上牌时间
@@ -6830,11 +6830,11 @@ definitions:
         description: 所属品牌名称
         type: string
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 所属品牌系列名称
+        description: 所属系列名称
         type: string
       couModelId:
         description: 所属商品型号ID
@@ -6857,12 +6857,8 @@ definitions:
         description: 行驶里程
         type: integer
         format: int64
-      licenseId:
-        description: 牌照ID
-        type: integer
-        format: int64
       licenseCode:
-        description: 牌照
+        description: 牌照编码
         type: string
       proAreaId:
         description: 省级区域ID
@@ -7041,7 +7037,7 @@ definitions:
         type: integer
         format: int64
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couModelId:
@@ -7062,10 +7058,9 @@ definitions:
         description: 行驶里程
         type: integer
         format: int64
-      licenseId:
-        description: 牌照ID
-        type: integer
-        format: int64
+      licenseCode:
+        description: 牌照编码
+        type: string
       proAreaId:
         description: 省级区域ID
         type: integer
@@ -7165,11 +7160,11 @@ definitions:
         description: 所属品牌名称
         type: string
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 所属品牌系列名称
+        description: 所属系列名称
         type: string
       couModelId:
         description: 所属商品型号ID
@@ -7192,12 +7187,8 @@ definitions:
         description: 行驶里程
         type: integer
         format: int64
-      licenseId:
-        description: 牌照ID
-        type: integer
-        format: int64
       licenseCode:
-        description: 牌照
+        description: 牌照编码
         type: string
       proAreaId:
         description: 省级区域ID
@@ -7349,7 +7340,7 @@ definitions:
         type: integer
         format: int64
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couModelId:
@@ -7370,10 +7361,9 @@ definitions:
         description: 行驶里程
         type: integer
         format: int64
-      licenseId:
-        description: 牌照ID
-        type: integer
-        format: int64
+      licenseCode:
+        description: 牌照编码
+        type: string
       proAreaId:
         description: 省级区域ID
         type: integer

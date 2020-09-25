@@ -100,20 +100,19 @@ public class DealWaresInstallmentServiceImpl extends ServiceImpl<DealWaresInstal
         } catch (Exception e) {
             e.printStackTrace();
         }
-        checkUtils.checkNotNull(installment);
         save(getDealWaresInstallmentSaveEntity(installment));
     }
 
     //获取DealWaresInstallmentEntity新增对象
     private DealWaresInstallmentEntity getDealWaresInstallmentSaveEntity(DealWaresInstallmentSaveVo installment) {
         DealWaresInstallmentEntity dealWaresInstallmentEntity = new DealWaresInstallmentEntity();
+        try {
+            dealWaresInstallmentEntity = (DealWaresInstallmentEntity) JavaBeanUtils.mapToJavaBean(DealWaresInstallmentEntity.class, JavaBeanUtils.javaBeanToMap(installment));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dealWaresInstallmentEntity
-                .setDealUserId(installment.getDealUserId())
-                .setDealWaresId(installment.getDealWaresId())
                 .setDealWaresTitle(dealInvokingService.getDealWaresTitleById(installment.getDealWaresId()))
-                .setContactName(installment.getContactName())
-                .setContactPhone(installment.getContactPhone())
-                .setSex(installment.getSex())
                 .setFollowStatus(Constant.InstallmentStatus.CHECKPENDING.getStatus());
         return dealWaresInstallmentEntity;
     }

@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.regex.Pattern;
+
+import static com.project.utils.ObjectUtils.isEmpty;
 
 /**
  * 给Bean里面对象去前后空格
@@ -97,5 +100,17 @@ public class TrimUtils {
         classArr[0]="java.lang.String".getClass();
         Method method=javaBean.getClass().getMethod(methodName,classArr);
         method.invoke(javaBean,value);
+    }
+
+    /**
+     * 删除所有br
+     * @param charSequence 字符序列
+     * @return 删除html标签后的字符序列
+     */
+    public static String deleteNotBrHtml(CharSequence charSequence){
+        if(isEmpty(charSequence)){
+            return "";
+        }
+        return Pattern.compile("<br([^>]*)>").matcher(charSequence).replaceAll("").replaceAll("</br>","");
     }
 }

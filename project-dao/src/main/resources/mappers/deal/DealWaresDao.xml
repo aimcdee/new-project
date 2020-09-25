@@ -17,11 +17,11 @@
             deal_wares.cou_brand_id,
             deal_wares.cou_series_id,
             deal_wares.cou_model_id,
+            deal_wares.market_year,
             deal_wares.trade_price,
             deal_wares.retail_price,
             deal_wares.register_time,
             deal_wares.distance,
-            deal_wares.license_id,
             deal_wares.license_code,
             deal_wares.pro_area_id,
             deal_wares.pro_area_name,
@@ -58,6 +58,9 @@
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND deal_wares.cou_model_id = #{couModelId}
             </if>
+            <if test="marketYear != null and !&quot;&quot;.equals(marketYear)">
+                AND deal_wares.market_year = #{marketYear}
+            </if>
             <if test="dealStoreId != null and !&quot;&quot;.equals(dealStoreId)">
                 AND deal_wares.deal_store_id = #{dealStoreId}
             </if>
@@ -91,6 +94,8 @@
             deal_wares_no,
             cou_brand_id,
             cou_series_id,
+            cou_model_id,
+            market_year,
             register_time,
             distance,
             sell_status,
@@ -110,6 +115,9 @@
             </if>
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND cou_model_id = #{couModelId}
+            </if>
+            <if test="marketYear != null and !&quot;&quot;.equals(marketYear)">
+                AND market_year = #{marketYear}
             </if>
             <if test="dealStoreId != null and !&quot;&quot;.equals(dealStoreId)">
                 AND deal_store_id = #{dealStoreId}
@@ -144,6 +152,8 @@
             deal_wares.deal_wares_no,
             deal_wares.cou_brand_id,
             deal_wares.cou_series_id,
+            deal_wares.cou_model_id,
+            deal_wares.market_year,
             deal_wares.trade_price,
             deal_wares.register_time,
             deal_wares.distance,
@@ -166,6 +176,9 @@
             </if>
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND deal_wares.cou_model_id = #{couModelId}
+            </if>
+            <if test="marketYear != null and !&quot;&quot;.equals(marketYear)">
+                AND deal_wares.market_year = #{marketYear}
             </if>
             <if test="proAreaId != null and !&quot;&quot;.equals(proAreaId)">
                 AND deal_wares.pro_area_id = #{proAreaId}
@@ -191,6 +204,8 @@
             deal_wares.deal_wares_no,
             deal_wares.cou_brand_id,
             deal_wares.cou_series_id,
+            deal_wares.cou_model_id,
+            deal_wares.market_year,
             deal_wares.retail_price,
             deal_wares.register_time,
             deal_wares.distance,
@@ -213,6 +228,9 @@
             </if>
             <if test="couModelId != null and !&quot;&quot;.equals(couModelId)">
                 AND deal_wares.cou_model_id = #{couModelId}
+            </if>
+            <if test="marketYear != null and !&quot;&quot;.equals(marketYear)">
+                AND deal_wares.market_year = #{marketYear}
             </if>
             <if test="proAreaId != null and !&quot;&quot;.equals(proAreaId)">
                 AND deal_wares.pro_area_id = #{proAreaId}
@@ -245,11 +263,11 @@
             cou_brand_id,
             cou_series_id,
             cou_model_id,
+            market_year,
             trade_price,
             retail_price,
             register_time,
             distance,
-            license_id,
             license_code,
             pro_area_id,
             pro_area_name,
@@ -283,6 +301,8 @@
             deal_wares.sex,
             deal_wares.cou_brand_id,
             deal_wares.cou_series_id,
+            deal_wares.cou_model_id,
+            deal_wares.market_year,
             deal_wares.trade_price,
             deal_wares.register_time,
             deal_wares.distance,
@@ -317,6 +337,9 @@
             deal_wares.contact_name,
             deal_wares.sex,
             deal_wares.cou_brand_id,
+            deal_wares.cou_series_id,
+            deal_wares.cou_model_id,
+            deal_wares.market_year,
             deal_wares.retail_price,
             deal_wares.register_time,
             deal_wares.distance,

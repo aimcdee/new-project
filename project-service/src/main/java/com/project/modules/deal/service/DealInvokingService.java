@@ -202,4 +202,12 @@ public interface DealInvokingService {
      * @return
      */
     String getAssessWaresTitle(Long dealAssessId, Integer sellStatus);
+
+    /**
+     * 根据企业ID和商品ID查询是否存在该条商品
+     * @param dealStoreId
+     * @param dealWareId
+     * @return
+     */
+    Integer checkWaresStore(Long dealStoreId, String dealWareId);
 }

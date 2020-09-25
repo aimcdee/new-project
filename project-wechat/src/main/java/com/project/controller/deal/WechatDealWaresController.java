@@ -114,10 +114,9 @@ public class WechatDealWaresController {
     @SysLog("个人中心-企业-商品模块-新增商品-新增金融单")
     @PostMapping("/save")
     public R save(@RequestBody DealWaresSaveVo wares){
-        log.info("商品名称{}", wares.getDealWaresTitle());
-        log.info("是否车商{}" , isEnterprise());
         if (isEnterprise()){
             ValidatorUtils.validateEntity(wares);
+            wares.setDealStoreId(getDealStoreId());
             dealWaresService.saveEntity(wares);
             return R.ok();
 //            return wxDealWaresService.saveEntity(wares);
@@ -149,6 +148,7 @@ public class WechatDealWaresController {
     public R update (@RequestBody DealWaresUpdateVo wares){
         if (isEnterprise()){
             ValidatorUtils.validateEntity(wares);
+            wares.setDealStoreId(getDealStoreId());
             dealWaresService.updateEntity(wares);
             return R.ok();
 //            return wxDealWaresService.updateEntity(wares);

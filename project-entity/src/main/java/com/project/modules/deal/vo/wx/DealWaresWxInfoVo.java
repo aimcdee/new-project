@@ -81,6 +81,10 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "所属商品型号名称")
     private String couModelName;
 
+    /**年款*/
+    @ApiModelProperty(value = "年款")
+    private Integer marketYear;
+
     /**批发价*/
     @ApiModelProperty(value = "批发价")
     private BigDecimal tradePrice;
@@ -97,12 +101,8 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "行驶里程")
     private Long distance;
 
-    /**牌照ID*/
-    @ApiModelProperty(value = "牌照ID")
-    private Long licenseId;
-
-    /**牌照码*/
-    @ApiModelProperty(value = "牌照码")
+    /**牌照编码*/
+    @ApiModelProperty(value = "牌照编码")
     private String licenseCode;
 
     /**省级区域ID*/

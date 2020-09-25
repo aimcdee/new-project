@@ -103,8 +103,6 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(user);
         DealUserEntity dealUserEntity = getSaveDealUserEntity(user);
         //新增客户
         save(dealUserEntity);
@@ -155,8 +153,6 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(user);
         //获取DealUserEntity更新对象
         DealUserEntity dealUserEntity = getUpdateDealUserEntity(user);
         updateById(dealUserEntity);

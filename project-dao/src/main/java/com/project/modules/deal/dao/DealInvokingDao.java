@@ -212,4 +212,12 @@ public interface DealInvokingDao {
      * @return
      */
     String getAssessWaresTitle(@Param("dealAssessId") Long dealAssessId, @Param("sellStatus") Integer sellStatus);
+
+    /**
+     * 根据企业ID和商品ID查询是否存在该条商品
+     * @param dealStoreId
+     * @param dealWareId
+     * @return
+     */
+    Integer checkWaresStore(@Param("dealStoreId") Long dealStoreId, @Param("dealWareId") String dealWareId);
 }

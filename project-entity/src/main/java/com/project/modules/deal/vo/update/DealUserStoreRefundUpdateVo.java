@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -20,14 +22,17 @@ public class DealUserStoreRefundUpdateVo implements Serializable {
 
     /**退费单ID*/
     @ApiModelProperty(value = "退费单ID")
+    @NotBlank(message = "请选择申请的退费单")
     private String refundId;
 
     /**退费单金额*/
     @ApiModelProperty(value = "退费单金额")
+    @NotNull(message = "请输入退费金额")
     private BigDecimal refundPrice;
 
     /**备注*/
     @ApiModelProperty(value = "备注")
+    @NotBlank(message = "请输入备注")
     private String remark;
 
 

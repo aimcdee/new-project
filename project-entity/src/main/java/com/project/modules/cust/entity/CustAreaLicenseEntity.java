@@ -25,11 +25,15 @@ public class CustAreaLicenseEntity implements Serializable {
     @ApiModelProperty(value = "所在区域牌号表ID")
     private Long licenseId;
 
+    /**所属省份*/
+    @ApiModelProperty(value = "所属省份")
+    private Long provinceId;
+
+    /**所属市级ID*/
+    @ApiModelProperty(value = "所属市级ID")
+    private Long cityId;
+
     /**所在区域牌号*/
     @ApiModelProperty(value = "所在区域牌号")
     private String licenseCode;
-
-    /**所属区域ID*/
-    @ApiModelProperty(value = "所属区域ID")
-    private Long areaId;
 }

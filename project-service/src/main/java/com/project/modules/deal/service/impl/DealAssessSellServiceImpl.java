@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
-import com.project.exception.RRException;
 import com.project.modules.deal.dao.DealAssessSellDao;
 import com.project.modules.deal.entity.DealAssessSellEntity;
 import com.project.modules.deal.service.DealAssessSellService;
@@ -27,7 +26,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 评估商品出售Service
@@ -100,8 +98,6 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkSaveSellNotNull(sell);
         save(getDealAssessSellSaveEntity(sell));
         dealInvokingService.updateAssessSellStstus(sell.getDealAssessId(), Constant.AssessSellStatus.PROCESSING.getStatus());
     }
@@ -144,34 +140,7 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkEditBefore(sell);
         updateById(getDealAssessSellUpdateEntity(sell));
-    }
-
-    /**
-     * 校验更新对象属性非空
-     * @param sell
-     */
-    private void checkEditBefore(DealAssessSellUpdateVo sell){
-        if (Objects.isNull(sell.getDealSellId())){
-            throw new RRException("请选择需要出售的评估商品");
-        }
-        if (StringUtils.isBlank(sell.getDealSellTitle())){
-            throw new RRException("请填写商品出售标题");
-        }
-        if (StringUtils.isBlank(sell.getContactName())){
-            throw new RRException("请填写联系人名称");
-        }
-        if (StringUtils.isBlank(sell.getContactPhone())){
-            throw new RRException("请填写联系人电话");
-        }
-        if (Objects.isNull(sell.getProAreaId())){
-            throw new RRException("请选择所在区域");
-        }
-        if (StringUtils.isBlank(sell.getAddr())){
-            throw new RRException("请填写详细地址");
-        }
     }
 
     /**
@@ -207,18 +176,15 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
     private DealAssessSellEntity getDealAssessSellUpdateEntity(DealAssessSellUpdateVo sell) {
         DealAssessSellEntity dealAssessSellEntity = getOne(new QueryWrapper<DealAssessSellEntity>().eq("deal_sell_id", sell.getDealSellId()).eq("status", Constant.DropInStatus.INREVIEW.getStatus()).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(dealAssessSellEntity);
+        try {
+            dealAssessSellEntity = (DealAssessSellEntity) JavaBeanUtils.mapToJavaBean(DealAssessSellEntity.class, JavaBeanUtils.javaBeanToMap(sell));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dealAssessSellEntity
-                .setDealSellTitle(sell.getDealSellTitle())
-                .setContactName(sell.getContactName())
-                .setContactPhone(sell.getContactPhone())
-                .setSex(sell.getSex())
-                .setProAreaId(sell.getProAreaId())
                 .setProAreaName(dealInvokingService.getAreaNameById(sell.getProAreaId()))
-                .setCityAreaId(sell.getCityAreaId())
                 .setCityAreaName(dealInvokingService.getAreaNameById(sell.getCityAreaId()))
-                .setCountyAreaId(sell.getCountyAreaId())
-                .setCountyAreaName(dealInvokingService.getAreaNameById(sell.getCountyAreaId()))
-                .setAddr(sell.getAddr());
+                .setCountyAreaName(dealInvokingService.getAreaNameById(sell.getCountyAreaId()));
         return dealAssessSellEntity;
     }
 
@@ -226,20 +192,16 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
     private DealAssessSellEntity getDealAssessSellSaveEntity(DealAssessSellSaveVo sell) {
         String assessWaresTitle = dealInvokingService.getAssessWaresTitle(sell.getDealAssessId(), Constant.WaresSellStatus.UNSALE.getStatus());
         DealAssessSellEntity dealAssessSellEntity = new DealAssessSellEntity();
+        try {
+            dealAssessSellEntity = (DealAssessSellEntity) JavaBeanUtils.mapToJavaBean(DealAssessSellEntity.class, JavaBeanUtils.javaBeanToMap(sell));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dealAssessSellEntity
-                .setDealSellTitle(sell.getDealSellTitle())
-                .setDealAssessId(sell.getDealAssessId())
                 .setAssessWaresTitle(assessWaresTitle)
-                .setContactName(sell.getContactName())
-                .setContactPhone(sell.getContactPhone())
-                .setSex(sell.getSex())
-                .setProAreaId(sell.getProAreaId())
                 .setProAreaName(dealInvokingService.getAreaNameById(sell.getProAreaId()))
-                .setCityAreaId(sell.getCityAreaId())
                 .setCityAreaName(dealInvokingService.getAreaNameById(sell.getCityAreaId()))
-                .setCountyAreaId(sell.getCountyAreaId())
                 .setCountyAreaName(dealInvokingService.getAreaNameById(sell.getCountyAreaId()))
-                .setAddr(sell.getAddr())
                 .setSellPrice(new BigDecimal(0))
                 .setDealUserId(dealInvokingService.getDealUserIdByDealAssessId(sell.getDealAssessId(), Constant.AssessSellStatus.INREVIEW.getStatus()))
                 .setStatus(Constant.DropInStatus.INREVIEW.getStatus());

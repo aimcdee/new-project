@@ -74,7 +74,7 @@ public class DealWaresEntity implements Serializable {
 
     /**年款*/
     @ApiModelProperty(value = "年款")
-    private String marketYear;
+    private Integer marketYear;
 
     /**批发价*/
     @ApiModelProperty(value = "批发价")
@@ -92,12 +92,8 @@ public class DealWaresEntity implements Serializable {
     @ApiModelProperty(value = "行驶里程")
     private Long distance;
 
-    /**牌照ID*/
-    @ApiModelProperty(value = "牌照ID")
-    private Long licenseId;
-
-    /**牌照码*/
-    @ApiModelProperty(value = "牌照码")
+    /**牌照编码*/
+    @ApiModelProperty(value = "牌照编码")
     private String licenseCode;
 
     /**省级区域ID*/

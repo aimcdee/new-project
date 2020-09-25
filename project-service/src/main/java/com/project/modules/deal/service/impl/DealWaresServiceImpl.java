@@ -68,6 +68,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "couBrandId"),
                 MapUtils.getLong(params, "couSeriesId"),
                 MapUtils.getLong(params, "couModelId"),
+                MapUtils.getInteger(params, "marketYear"),
                 MapUtils.getLong(params, "dealStoreId"),
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
@@ -112,6 +113,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "couBrandId"),
                 MapUtils.getLong(params, "couSeriesId"),
                 MapUtils.getLong(params, "couModelId"),
+                MapUtils.getInteger(params, "marketYear"),
                 MapUtils.getLong(params, "dealStoreId"),
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
@@ -125,7 +127,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             String couSeriesName = dealInvokingService.getCouSeriesNameById(personal.getCouSeriesId());
             personal
                     .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(personal.getDealWaresTitle()).toString())
-                    .setCouBrandName(dealInvokingService.getCouBrandNameById(personal.getCouBrandId()))
+                    .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
+                    .setCouModelName(dealInvokingService.getCouModelNameById(personal.getCouModelId()))
                     .setCoverImage(dealWaresImageService.getImage(personal.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()));
         });
         return new PageUtils(page.setRecords(personaList));
@@ -145,6 +148,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "couBrandId"),
                 MapUtils.getLong(params, "couSeriesId"),
                 MapUtils.getLong(params, "couModelId"),
+                MapUtils.getInteger(params, "marketYear"),
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
                 MapUtils.getLong(params, "countyAreaId"),
@@ -157,8 +161,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             String couSeriesName = dealInvokingService.getCouSeriesNameById(store.getCouSeriesId());
             store
                     .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(store.getDealWaresTitle()).toString())
-                    .setDealWaresTitle(new StringBuilder().append(store.getCouBrandName()).append(" ").append(store.getDealWaresTitle()).toString())
-                    .setCouBrandName(dealInvokingService.getCouBrandNameById(store.getCouBrandId()))
+                    .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
+                    .setCouModelName(dealInvokingService.getCouModelNameById(store.getCouModelId()))
                     .setCoverImage(dealWaresImageService.getImage(store.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()));
         });
         return new PageUtils(page.setRecords(storeList));
@@ -178,6 +182,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "couBrandId"),
                 MapUtils.getLong(params, "couSeriesId"),
                 MapUtils.getLong(params, "couModelId"),
+                MapUtils.getInteger(params, "marketYear"),
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
                 MapUtils.getLong(params, "countyAreaId"),
@@ -210,7 +215,6 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         } catch (Exception e) {
             e.printStackTrace();
         }
-        checkUtils.checkSaveDealWareNotNull(wares);
         DealWaresEntity dealWaresEntity = getDealWaresSaveEntity(wares);
         save(dealWaresEntity);
         //保存行驶证图
@@ -256,7 +260,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         String couSeriesName = dealInvokingService.getCouSeriesNameById(storeInfo.getCouSeriesId());
         storeInfo
                 .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(storeInfo.getDealWaresTitle()).toString())
-                .setCouBrandName(dealInvokingService.getCouBrandNameById(storeInfo.getCouBrandId()))
+                .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
+                .setCouModelName(dealInvokingService.getCouModelNameById(storeInfo.getCouModelId()))
                 .setCoverImage(dealWaresImageService.getImage(storeInfo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()))
                 .setWaresImages(dealWaresImageService.getImageList(storeInfo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.NO.getType()));
         return storeInfo;
@@ -274,7 +279,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         String couSeriesName = dealInvokingService.getCouSeriesNameById(retailInfo.getCouSeriesId());
         retailInfo
                 .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(retailInfo.getDealWaresTitle()).toString())
-                .setCouBrandName(dealInvokingService.getCouBrandNameById(retailInfo.getCouBrandId()))
+                .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
+                .setCouModelName(dealInvokingService.getCouModelNameById(retailInfo.getCouModelId()))
                 .setCoverImage(dealWaresImageService.getImage(retailInfo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()))
                 .setWaresImages(dealWaresImageService.getImageList(retailInfo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.NO.getType()));
         return retailInfo;
@@ -287,13 +293,12 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     @Override
     @Transactional
     public void updateEntity(DealWaresUpdateVo wares) {
-        checkStoreStatus(wares.getDealStoreId());
+        checkUpdateBefore(wares.getDealStoreId(), wares.getDealWaresId());
         try {
             trimUtils.beanValueTrim(wares);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        checkUtils.checkNotNull(wares);
         DealWaresEntity dealWaresEntity = getDealWaresUpdateEntity(wares);
         updateById(dealWaresEntity);
         dealWaresImageService.deleteEntity(dealWaresEntity.getDealWaresId());
@@ -361,90 +366,58 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     private DealWaresEntity getDealWaresUpdateEntity(DealWaresUpdateVo wares) {
         DealWaresEntity dealWaresEntity = getOne(new QueryWrapper<DealWaresEntity>().eq("deal_wares_id", wares.getDealWaresId()).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(dealWaresEntity);
+        try {
+            dealWaresEntity = (DealWaresEntity) JavaBeanUtils.mapToJavaBean(DealWaresEntity.class, JavaBeanUtils.javaBeanToMap(wares));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dealWaresEntity
-                .setDealWaresTitle(wares.getDealWaresTitle())
-                .setReleaseAreaId(wares.getReleaseAreaId())
                 .setReleaseAreaName(dealInvokingService.getAreaNameById(wares.getReleaseAreaId()))
-                .setContactPhone(wares.getContactPhone())
-                .setContactName(wares.getContactName())
-                .setSex(wares.getSex())
-                .setWaresFrameCode(wares.getWaresFrameCode())
-                .setCouBrandId(wares.getCouBrandId())
-                .setCouSeriesId(wares.getCouSeriesId())
-                .setCouModelId(wares.getCouModelId())
-                .setTradePrice(wares.getTradePrice())
-                .setRetailPrice(wares.getRetailPrice())
-                .setRegisterTime(wares.getRegisterTime())
-                .setDistance(wares.getDistance())
-                .setLicenseId(wares.getLicenseId())
-                .setLicenseCode(dealInvokingService.getLicenseCodeById(wares.getLicenseId()))
-                .setProAreaId(wares.getProAreaId())
                 .setProAreaName(dealInvokingService.getAreaNameById(wares.getProAreaId()))
-                .setCityAreaId(wares.getCityAreaId())
                 .setCityAreaName(dealInvokingService.getAreaNameById(wares.getCityAreaId()))
-                .setCountyAreaId(wares.getCountyAreaId())
                 .setCountyAreaName(dealInvokingService.getAreaNameById(wares.getCountyAreaId()))
-                .setAddr(wares.getAddr())
-                .setWaresRemark(wares.getWaresRemark())
-                .setTransferNum(wares.getTransferNum())
-                .setIsMaintain(wares.getIsMaintain())
-                .setIsMortgage(wares.getIsMortgage())
-                .setIsTransfer(wares.getIsTransfer())
                 .setSellStatus(Constant.WaresSellStatus.UNSALE.getStatus())
                 .setOnlineStatus(Constant.WaresOnLineStatus.SALE.getStatus())
                 .setSubmitTime(new Date())
-                .setUpdateTime(new Date())
-                .setDealStoreId(wares.getDealStoreId());
+                .setUpdateTime(new Date());
         return dealWaresEntity;
     }
 
     //获取DealWaresEntity新增对象
     private DealWaresEntity getDealWaresSaveEntity(DealWaresSaveVo wares) {
         DealWaresEntity dealWaresEntity = new DealWaresEntity();
+        try {
+            dealWaresEntity = (DealWaresEntity) JavaBeanUtils.mapToJavaBean(DealWaresEntity.class, JavaBeanUtils.javaBeanToMap(wares));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dealWaresEntity
                 .setDealWaresId(createNoAndIDUtils.getDealWaresId())
-                .setDealWaresTitle(wares.getDealWaresTitle())
                 .setDealWaresNo(createNoAndIDUtils.getDealWaresCode())
-                .setReleaseAreaId(wares.getReleaseAreaId())
                 .setReleaseAreaName(dealInvokingService.getAreaNameById(wares.getReleaseAreaId()))
-                .setContactPhone(wares.getContactPhone())
-                .setContactName(wares.getContactName())
-                .setSex(wares.getSex())
-                .setWaresFrameCode(wares.getWaresFrameCode())
-                .setCouBrandId(wares.getCouBrandId())
-                .setCouSeriesId(wares.getCouSeriesId())
-                .setCouModelId(wares.getCouModelId())
-                .setTradePrice(wares.getTradePrice())
-                .setRetailPrice(wares.getRetailPrice())
-                .setRegisterTime(wares.getRegisterTime())
-                .setDistance(wares.getDistance())
-                .setLicenseId(wares.getLicenseId())
-                .setLicenseCode(dealInvokingService.getLicenseCodeById(wares.getLicenseId()))
-                .setProAreaId(wares.getProAreaId())
                 .setProAreaName(dealInvokingService.getAreaNameById(wares.getProAreaId()))
-                .setCityAreaId(wares.getCityAreaId())
                 .setCityAreaName(dealInvokingService.getAreaNameById(wares.getCityAreaId()))
-                .setCountyAreaId(wares.getCountyAreaId())
                 .setCountyAreaName(dealInvokingService.getAreaNameById(wares.getCountyAreaId()))
-                .setAddr(wares.getAddr())
-                .setWaresRemark(wares.getWaresRemark())
-                .setTransferNum(wares.getTransferNum())
-                .setIsMaintain(wares.getIsMaintain())
-                .setIsMortgage(wares.getIsMortgage())
-                .setIsTransfer(wares.getIsTransfer())
                 .setSellStatus(Constant.WaresSellStatus.UNSALE.getStatus())
-                .setOnlineStatus(Constant.WaresOnLineStatus.SALE.getStatus())
-                .setDealStoreId(wares.getDealStoreId());
+                .setOnlineStatus(Constant.WaresOnLineStatus.SALE.getStatus());
         return dealWaresEntity;
     }
 
-    //校验客户是否是企业客户或该企业认证单是否已通过审核
+    //新增前校验客户是否是企业客户
     private void checkStoreStatus(Long storeId) {
         if (dealInvokingService.checkUserStore(storeId, Constant.StoreType.ENTERPRISE.getType()) <= 0){
             throw new RRException("新增商品失败,该名客户不是企业用户");
         }
-        if (dealInvokingService.checkStoreStatus(storeId, Constant.Examine.SUCCESS.getExamine()) <= 0){
-            throw new RRException("新增商品失败,该名客户此条企业认证信息还未通过");
+    }
+
+    //更新前校验客户是否是企业客户和该商品是否属于该客户
+    private void checkUpdateBefore(Long storeId, String dealWareId) {
+        if (dealInvokingService.checkUserStore(storeId, Constant.StoreType.ENTERPRISE.getType()) <= 0){
+            throw new RRException("更新商品失败,该名客户不是企业用户");
+        }
+
+        if (dealInvokingService.checkWaresStore(storeId, dealWareId) <= 0){
+            throw new RRException("更新商品失败,该条商品不属于该企业客户");
         }
     }
 }

@@ -174,8 +174,6 @@ public class DealUserStoreDepositServiceImpl extends ServiceImpl<DealUserStoreDe
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(deposit);
         //校验金额
         checkUtils.checkPrice(deposit.getDepositPrice());
     }

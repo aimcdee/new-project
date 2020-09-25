@@ -129,7 +129,7 @@ public class WeChatLoginUtils {
     private String getSessionKey(final String code, final Constant.WeChatKeyEnum weChatKeyEnum) {
         String url = getUrl(code, weChatKeyEnum);
         log.info("URL路径:{}", url);
-        String response = HttpClientUtil.doGet(url);
+        String response = HttpClientUtils.doGet(url);
         log.info("SessionKey值:{}", response);
         JSONObject jsonObject = JSONObject.parseObject(response);
         //请求成功

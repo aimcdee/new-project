@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 商品所在地区牌号表ListVo
+ * 牌号ListVo
  *
  * @author liangyuding
  * @date 2020-06-03
@@ -24,12 +24,4 @@ public class CustAreaLicenseListVo implements Serializable {
     /**所在区域牌号*/
     @ApiModelProperty(value = "所在区域牌号")
     private String licenseCode;
-
-    /**所属区域ID*/
-    @ApiModelProperty(value = "所属区域ID")
-    private Long areaId;
-
-    /**所属区域名称*/
-    @ApiModelProperty(value = "所属区域名称")
-    private String areaName;
 }

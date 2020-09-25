@@ -234,6 +234,17 @@
             AND sell_status = #{sellStatus}
     </select>
 
+    <!--根据企业ID和商品ID查询是否存在该条商品-->
+    <select id="checkWaresStore" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            deal_wares
+        WHERE
+            deal_wares_id = #{dealWareId}
+            AND deal_store_id = #{dealStoreId}
+    </select>
+
     <!--修改用户的客户类型-->
     <update id="updateDealUserType">
         UPDATE

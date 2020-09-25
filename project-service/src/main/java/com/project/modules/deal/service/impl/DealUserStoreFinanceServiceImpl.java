@@ -106,7 +106,6 @@ public class DealUserStoreFinanceServiceImpl extends ServiceImpl<DealUserStoreFi
         } catch (Exception e) {
             e.printStackTrace();
         }
-        checkUtils.checkNotNull(finance);
         save(getDealUserStoreFinanceSaveEntity(finance));
     }
 

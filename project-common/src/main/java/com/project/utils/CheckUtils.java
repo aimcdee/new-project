@@ -2,9 +2,6 @@ package com.project.utils;
 
 import com.project.constant.Constant;
 import com.project.exception.RRException;
-import com.project.modules.deal.vo.save.DealAssessSaveVo;
-import com.project.modules.deal.vo.save.DealAssessSellSaveVo;
-import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.sys.entity.SysUserEntity;
 import com.project.modules.sys.vo.save.SysUserSaveVo;
 import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
@@ -60,7 +57,7 @@ public class CheckUtils {
     public <T> void checkNotNull(T object) {
         try {
             for (Field field : object.getClass().getDeclaredFields()) {
-                field.setAccessible(true);//AccessibleTest类中的成员变量为private,故必须进行此操作
+                field.setAccessible(true);//类中的成员变量为private,故必须进行此操作
                 if (field.get(object) == null && StringUtils.isBlank(field.get(object).toString())){
                     throw new RRException("操作失败,有必填字段不能为空");
                 }
@@ -550,134 +547,6 @@ public class CheckUtils {
     private void changeInstallmentStatus(Integer oldStatus) {
         if (!oldStatus.equals(Constant.InstallmentStatus.CHECKPENDING.getStatus())){
             throw new RRException("操作失败,请确认金融单当前状态");
-        }
-    }
-
-    /**
-     * 校验新增对象属性非空
-     * @param assess
-     */
-    public void checkAsswssSaveNotNull(DealAssessSaveVo assess) {
-        if (Objects.isNull(assess.getCouBrandId()) || assess.getCouBrandId() == 0){
-            throw new RRException("所属品牌不能为空");
-        }
-        if (Objects.isNull(assess.getCouSeriesId()) || assess.getCouSeriesId() == 0){
-            throw new RRException("所属系列不能为空");
-        }
-        if (StringUtils.isBlank(assess.getAssessWaresTitle())){
-            throw new RRException("评估商品名称不能为空");
-        }
-        if (Objects.isNull(assess.getRegisterTime())){
-            throw new RRException("上牌时间不能为空");
-        }
-        if (Objects.isNull(assess.getProAreaId()) || assess.getProAreaId() == 0){
-            throw new RRException("请选择所在省份");
-        }
-        if (Objects.isNull(assess.getDistance())){
-            throw new RRException("请填写行驶里程");
-        }
-        if (Objects.isNull(assess.getDriveImage())){
-            throw new RRException("请上传行驶证图片");
-        }
-        if (CollectionUtils.isEmpty(assess.getWaresImages())){
-            throw new RRException("请上传商品图片");
-        }
-    }
-
-    public void checkSaveSellNotNull(DealAssessSellSaveVo sell) {
-
-        if (StringUtils.isBlank(sell.getDealSellTitle())){
-            throw new RRException("评估商品出售标题不能为空");
-        }
-        if (Objects.isNull(sell.getDealAssessId()) || sell.getDealAssessId() == 0){
-            throw new RRException("所属评估ID不能为空");
-        }
-        if (StringUtils.isBlank(sell.getContactName())){
-            throw new RRException("联系人名称不能为空");
-        }
-        if (StringUtils.isBlank(sell.getContactPhone())){
-            throw new RRException("联系人电话不能为空");
-        }
-        if (Objects.isNull(sell.getProAreaId()) || sell.getProAreaId() == 0){
-            throw new RRException("请选择所在的省份");
-        }
-        if (StringUtils.isBlank(sell.getAddr())){
-            throw new RRException("详细地址不能为空");
-        }
-    }
-
-    public void checkSaveDealWareNotNull(DealWaresSaveVo wares) {
-        if (Objects.isNull(wares.getReleaseAreaId()) || wares.getReleaseAreaId() == 0){
-            throw new RRException("请选择发布区域");
-        }
-        if (StringUtils.isBlank(wares.getDealWaresTitle())){
-            throw new RRException("商品名称不能为空");
-        }
-        if (StringUtils.isBlank(wares.getContactPhone())){
-            throw new RRException("联系电话不能为空");
-        }
-        if (StringUtils.isBlank(wares.getContactName())){
-            throw new RRException("联系人名称不能为空");
-        }
-        if (Objects.isNull(wares.getSex())){
-            throw new RRException("性别不能为空");
-        }
-        if (StringUtils.isBlank(wares.getWaresFrameCode())){
-            throw new RRException("商品框架号不能为空");
-        }
-        if (Objects.isNull(wares.getCouBrandId()) || wares.getCouBrandId() == 0){
-            throw new RRException("所属品牌不能为空");
-        }
-        if (Objects.isNull(wares.getCouSeriesId()) || wares.getCouSeriesId() == 0){
-            throw new RRException("所属系列不能为空");
-        }
-        if (Objects.isNull(wares.getCouModelId()) || wares.getCouModelId() == 0){
-            throw new RRException("所属型号不能为空");
-        }
-        if (StringUtils.isBlank(String.valueOf(wares.getTradePrice()))){
-            throw new RRException("批发价不能为空");
-        }
-        if (StringUtils.isBlank(String.valueOf(wares.getRetailPrice()))){
-            throw new RRException("零售价不能为空");
-        }
-        if (Objects.isNull(wares.getRegisterTime())){
-            throw new RRException("上牌时间不能为空");
-        }
-        if (Objects.isNull(wares.getDistance())){
-            throw new RRException("行驶里程不能为空");
-        }
-        if (Objects.isNull(wares.getLicenseId()) || wares.getLicenseId() == 0){
-            throw new RRException("牌照不能为空");
-        }
-        if (Objects.isNull(wares.getProAreaId()) || wares.getProAreaId() == 0){
-            throw new RRException("所在省份不能为空");
-        }
-        if (StringUtils.isBlank(wares.getAddr())){
-            throw new RRException("详细地址不能为空");
-        }
-        if (Objects.isNull(wares.getTransferNum())){
-            throw new RRException("过户次数不能为空");
-        }
-        if (Objects.isNull(wares.getIsTransfer())){
-            throw new RRException("是否包含过户费不能为空");
-        }
-        if (Objects.isNull(wares.getIsMortgage())){
-            throw new RRException("是否有抵押不能为空");
-        }
-        if (Objects.isNull(wares.getIsMaintain())){
-            throw new RRException("是否有定期4s保养不能为空");
-        }
-        if (Objects.isNull(wares.getCoverImage())){
-            throw new RRException("商品封面图不能为空");
-        }
-        if (CollectionUtils.isEmpty(wares.getWaresImages())){
-            throw new RRException("商品图集合不能为空");
-        }
-        if (Objects.isNull(wares.getDriveImage())){
-            throw new RRException("行驶证图不能为空");
-        }
-        if (Objects.isNull(wares.getDealStoreId()) ||  wares.getDealStoreId() == 0){
-            throw new RRException("所属企业客户不能为空");
         }
     }
 }

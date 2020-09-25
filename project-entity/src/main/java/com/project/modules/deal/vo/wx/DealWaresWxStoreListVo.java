@@ -44,6 +44,18 @@ public class DealWaresWxStoreListVo implements Serializable {
     @ApiModelProperty(value = "所属品牌系列名称")
     private String couSeriesName;
 
+    /**所属商品型号ID*/
+    @ApiModelProperty(value = "所属商品型号ID")
+    private Long couModelId;
+
+    /**所属商品型号名称*/
+    @ApiModelProperty(value = "所属商品型号名称")
+    private String couModelName;
+
+    /**年款*/
+    @ApiModelProperty(value = "年款")
+    private Integer marketYear;
+
     /**批发价*/
     @ApiModelProperty(value = "批发价")
     private BigDecimal tradePrice;

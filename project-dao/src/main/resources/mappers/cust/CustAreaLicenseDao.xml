@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.modules.cust.dao.CustAreaLicenseDao">
+
+    <!--根据所属省份ID和所属市级ID查询所有牌照-->
+    <select id="getList" resultType="com.project.modules.cust.vo.list.CustAreaLicenseListVo">
+        SELECT
+            license_id,
+            license_code
+        FROM
+            cust_area_license
+        <where>
+            <if test="provinceId != null and !&quot;&quot;.equals(provinceId)">
+                province_id = #{provinceId}
+            </if>
+            <if test="cityId != null and provinceId != null and !&quot;&quot;.equals(provinceId) and !&quot;&quot;.equals(cityId)">
+                AND city_id = #{cityId}
+            </if>
+        </where>
+    </select>
+</mapper>

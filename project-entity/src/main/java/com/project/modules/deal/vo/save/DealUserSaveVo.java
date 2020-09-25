@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -19,10 +20,12 @@ public class DealUserSaveVo implements Serializable {
 
     /**客户名称*/
     @ApiModelProperty(value = "客户名称")
+    @NotBlank(message = "客户名称不能为空")
     private String dealUserName;
 
     /**客户手机号码*/
     @ApiModelProperty(value = "客户手机号码")
+    @NotBlank(message = "客户手机号码不能为空")
     private String phone;
 
 }

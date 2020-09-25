@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -20,9 +21,11 @@ public class DealAssessUpdateVo implements Serializable {
 
     /**评估ID*/
     @ApiModelProperty(value = "评估ID")
+    @NotNull(message = "请选择评估商品")
     private Long dealAssessId;
 
     /**评估价钱*/
     @ApiModelProperty(value = "评估价钱")
+    @NotNull(message = "请输入评估价钱")
     private BigDecimal dealAssessPrice;
 }
