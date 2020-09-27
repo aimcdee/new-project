@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.deal.entity.DealWaresEntity;
 import com.project.modules.deal.vo.info.DealWaresInfoVo;
 import com.project.modules.deal.vo.list.DealWaresListVo;
-import com.project.modules.deal.vo.wx.*;
+import com.project.modules.deal.vo.wx.info.DealWaresWxRetailInfoVo;
+import com.project.modules.deal.vo.wx.info.DealWaresWxStoreInfoVo;
+import com.project.modules.deal.vo.wx.list.DealWaresWxPersonalListVo;
+import com.project.modules.deal.vo.wx.list.DealWaresWxRetailListVo;
+import com.project.modules.deal.vo.wx.list.DealWaresWxStoreListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -67,7 +67,7 @@
     </select>
 
     <!--分页查询微信端个人商品评估列表-->
-    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealAssessWxListVo">
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.list.DealAssessWxListVo">
         SELECT
             deal_assess_id,
             assess_wares_title,
@@ -82,7 +82,7 @@
     </select>
 
     <!--根据商品评估ID获取微信端商品评估详情-->
-    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.DealAssessWxInfoVo">
+    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.info.DealAssessWxInfoVo">
         SELECT
             deal_assess_id,
             assess_wares_title,

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,7 +21,6 @@ public class DealWaresInstallmentSaveVo implements Serializable {
 
     /**所属客户ID*/
     @ApiModelProperty(value = "所属客户ID")
-    @NotBlank(message = "所属客户ID不能为空")
     private Long dealUserId;
 
     /**咨询商品ID*/
@@ -40,7 +40,7 @@ public class DealWaresInstallmentSaveVo implements Serializable {
 
     /**性别 0.先生 1.小姐*/
     @ApiModelProperty(value = "性别 0.先生 1.小姐")
-    @NotBlank(message = "请选择性别")
+    @NotNull(message = "请选择性别")
     private Integer sex;
 
 }

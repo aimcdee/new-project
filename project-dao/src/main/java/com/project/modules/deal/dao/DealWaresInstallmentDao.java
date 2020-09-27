@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.deal.entity.DealWaresInstallmentEntity;
 import com.project.modules.deal.vo.info.DealWaresInstallmentInfoVo;
 import com.project.modules.deal.vo.list.DealWaresInstallmentListVo;
-import com.project.modules.deal.vo.wx.DealWaresInstallmentWxListVo;
+import com.project.modules.deal.vo.wx.list.DealWaresInstallmentWxListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

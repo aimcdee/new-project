@@ -5,7 +5,7 @@ import com.project.modules.deal.entity.DealAssessEntity;
 import com.project.modules.deal.vo.info.DealAssessInfoVo;
 import com.project.modules.deal.vo.save.DealAssessSaveVo;
 import com.project.modules.deal.vo.update.DealAssessUpdateVo;
-import com.project.modules.deal.vo.wx.DealAssessWxInfoVo;
+import com.project.modules.deal.vo.wx.info.DealAssessWxInfoVo;
 import com.project.utils.PageUtils;
 
 import java.util.Map;

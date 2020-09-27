@@ -32,7 +32,7 @@ public class DealUserStoreRefundUpdateVo implements Serializable {
 
     /**备注*/
     @ApiModelProperty(value = "备注")
-    @NotBlank(message = "请输入备注")
+    @NotBlank(message = "请输入退费单备注")
     private String remark;
 
 

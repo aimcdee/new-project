@@ -5,7 +5,7 @@ import com.project.modules.deal.entity.DealUserStoreRefundEntity;
 import com.project.modules.deal.vo.info.DealUserStoreRefundInfoVo;
 import com.project.modules.deal.vo.save.DealUserStoreRefundSaveVo;
 import com.project.modules.deal.vo.update.DealUserStoreRefundUpdateVo;
-import com.project.modules.deal.vo.wx.DealUserStoreRefundWxInfoVo;
+import com.project.modules.deal.vo.wx.info.DealUserStoreRefundWxInfoVo;
 import com.project.utils.PageUtils;
 
 import java.util.Map;
@@ -48,7 +48,7 @@ public interface DealUserStoreRefundService extends IService<DealUserStoreRefund
     DealUserStoreRefundInfoVo info(String refundId);
 
     /**
-     * 企业客户获取退费单详情
+     *
      * @param refundId
      * @return
      */

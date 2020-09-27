@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.deal.entity.DealAssessSellEntity;
 import com.project.modules.deal.vo.info.DealAssessSellInfoVo;
 import com.project.modules.deal.vo.list.DealAssessSellListVo;
-import com.project.modules.deal.vo.wx.DealAssessSellWxInfoVo;
-import com.project.modules.deal.vo.wx.DealAssessSellWxListVo;
+import com.project.modules.deal.vo.wx.info.DealAssessSellWxInfoVo;
+import com.project.modules.deal.vo.wx.list.DealAssessSellWxListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

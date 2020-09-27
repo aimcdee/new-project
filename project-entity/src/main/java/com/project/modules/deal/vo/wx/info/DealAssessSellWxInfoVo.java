@@ -1,4 +1,4 @@
-package com.project.modules.deal.vo.wx;
+package com.project.modules.deal.vo.wx.info;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

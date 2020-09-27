@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
+import com.project.exception.RRException;
 import com.project.modules.deal.dao.DealUserStoreFinanceDao;
 import com.project.modules.deal.entity.DealUserStoreFinanceEntity;
 import com.project.modules.deal.service.DealBillExamineService;
@@ -14,7 +15,7 @@ import com.project.modules.deal.vo.info.DealUserStoreFinanceInfoVo;
 import com.project.modules.deal.vo.list.DealUserStoreFinanceListVo;
 import com.project.modules.deal.vo.save.DealUserStoreDepositSaveVo;
 import com.project.modules.deal.vo.save.DealUserStoreFinanceSaveVo;
-import com.project.modules.deal.vo.wx.DealUserStoreFinanceWxListVo;
+import com.project.modules.deal.vo.wx.list.DealUserStoreFinanceWxListVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -24,10 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 企业用户金融单Service
@@ -105,6 +103,9 @@ public class DealUserStoreFinanceServiceImpl extends ServiceImpl<DealUserStoreFi
             trimUtils.beanValueTrim(finance);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (Objects.isNull(finance.getDealStoreId())){
+            throw new RRException("请选择所属企业");
         }
         save(getDealUserStoreFinanceSaveEntity(finance));
     }

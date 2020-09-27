@@ -5,8 +5,8 @@ import com.project.modules.deal.entity.DealWaresEntity;
 import com.project.modules.deal.vo.info.DealWaresInfoVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
-import com.project.modules.deal.vo.wx.DealWaresWxRetailInfoVo;
-import com.project.modules.deal.vo.wx.DealWaresWxStoreInfoVo;
+import com.project.modules.deal.vo.wx.info.DealWaresWxRetailInfoVo;
+import com.project.modules.deal.vo.wx.info.DealWaresWxStoreInfoVo;
 import com.project.utils.PageUtils;
 
 import java.util.Map;

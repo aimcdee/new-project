@@ -21,7 +21,6 @@ public class DealUserStoreFinanceSaveVo implements Serializable {
 
     /**客户企业ID*/
     @ApiModelProperty(value = "客户企业ID")
-    @NotNull(message = "客户企业ID不能为空")
     private Long dealStoreId;
 
     /**联系电话*/

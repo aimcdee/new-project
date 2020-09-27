@@ -45,7 +45,7 @@
     </select>
 
     <!--分页查询咨询分期客户列表-->
-    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealWaresInstallmentWxListVo">
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.list.DealWaresInstallmentWxListVo">
         SELECT
         installment_id,
         deal_wares_id,

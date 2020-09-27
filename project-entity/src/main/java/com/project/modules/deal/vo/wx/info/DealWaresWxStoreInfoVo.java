@@ -1,4 +1,4 @@
-package com.project.modules.deal.vo.wx;
+package com.project.modules.deal.vo.wx.info;
 
 import com.project.modules.deal.entity.DealWaresImageEntity;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,15 +11,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 企业商品InfoVo
+ * 企业端商品InfoVo
  *
  * @author liangyuding
  * @date 2020-06-01
  */
 @Data
 @Accessors(chain = true)
-public class DealWaresWxInfoVo implements Serializable {
-    private static final long serialVersionUID = -5823485999266823891L;
+public class DealWaresWxStoreInfoVo implements Serializable {
+    private static final long serialVersionUID = 841552384413918206L;
 
     /**出售商品ID*/
     @ApiModelProperty(value = "出售商品ID")
@@ -28,18 +28,6 @@ public class DealWaresWxInfoVo implements Serializable {
     /**出售商品标题*/
     @ApiModelProperty(value = "出售商品标题")
     private String dealWaresTitle;
-
-    /**出售商品编号*/
-    @ApiModelProperty(value = "出售商品编号")
-    private String dealWaresNo;
-
-    /**发布区域ID*/
-    @ApiModelProperty(value = "发布区域ID")
-    private Long releaseAreaId;
-
-    /**发布区域名称*/
-    @ApiModelProperty(value = "发布区域名称")
-    private String releaseAreaName;
 
     /**联系电话*/
     @ApiModelProperty(value = "联系电话")
@@ -53,10 +41,6 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "性别 0.男 1.女")
     private Integer sex;
 
-    /**商品框架号*/
-    @ApiModelProperty(value = "商品框架号")
-    private String waresFrameCode;
-
     /**所属品牌ID*/
     @ApiModelProperty(value = "所属品牌ID")
     private Long couBrandId;
@@ -65,8 +49,8 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "所属品牌名称")
     private String couBrandName;
 
-    /**所属品牌系列ID*/
-    @ApiModelProperty(value = "所属品牌系列ID")
+    /**所属系列ID*/
+    @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
 
     /**所属品牌系列名称*/
@@ -89,10 +73,6 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "批发价")
     private BigDecimal tradePrice;
 
-    /**零售价*/
-    @ApiModelProperty(value = "零售价")
-    private BigDecimal retailPrice;
-
     /**上牌时间*/
     @ApiModelProperty(value = "上牌时间")
     private Date registerTime;
@@ -100,10 +80,6 @@ public class DealWaresWxInfoVo implements Serializable {
     /**行驶里程*/
     @ApiModelProperty(value = "行驶里程")
     private Long distance;
-
-    /**牌照编码*/
-    @ApiModelProperty(value = "牌照编码")
-    private String licenseCode;
 
     /**省级区域ID*/
     @ApiModelProperty(value = "省级区域ID")
@@ -153,14 +129,6 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "是否有定期4s保养 0.无 1.是")
     private Integer isMaintain;
 
-    /**出售状态 0.未出售 1.已出售*/
-    @ApiModelProperty(value = "出售状态 0.未出售 1.已出售")
-    private Integer sellStatus;
-
-    /**上线状态 0.审核失败 1.待审核 2.上架 3.下架*/
-    @ApiModelProperty(value = "上线状态 0.审核失败 1.待审核 2.上架 3.下架")
-    private Integer onlineStatus;
-
     /**商品封面图*/
     @ApiModelProperty(value = "商品封面图")
     private DealWaresImageEntity coverImage;
@@ -169,19 +137,15 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "商品图集合")
     private List<DealWaresImageEntity> waresImages;
 
-    /**行驶证图对象*/
-    @ApiModelProperty(value = "行驶证图对象")
-    private DealWaresImageEntity driveImage;
-
-    /**所属客户企业ID*/
-    @ApiModelProperty(value = "所属企业客户ID")
-    private Long dealStoreId;
-
-    /**所属企业客户名称*/
-    @ApiModelProperty(value = "所属企业客户名称")
-    private String dealUserName;
-
     /**提交时间*/
     @ApiModelProperty(value = "提交时间")
     private Date submitTime;
+
+    /**企业名称*/
+    @ApiModelProperty(value = "企业名称")
+    private String dealStoreName;
+
+    /**信用等级*/
+    @ApiModelProperty(value = "信用等级")
+    private Integer creditGrade;
 }

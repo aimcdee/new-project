@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
+import com.project.exception.RRException;
 import com.project.modules.deal.dao.DealWaresInstallmentDao;
 import com.project.modules.deal.entity.DealWaresInstallmentEntity;
 import com.project.modules.deal.service.DealInvokingService;
@@ -11,7 +12,7 @@ import com.project.modules.deal.service.DealWaresInstallmentService;
 import com.project.modules.deal.vo.info.DealWaresInstallmentInfoVo;
 import com.project.modules.deal.vo.list.DealWaresInstallmentListVo;
 import com.project.modules.deal.vo.save.DealWaresInstallmentSaveVo;
-import com.project.modules.deal.vo.wx.DealWaresInstallmentWxListVo;
+import com.project.modules.deal.vo.wx.list.DealWaresInstallmentWxListVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 咨询分期客户管理表Service
@@ -99,6 +101,10 @@ public class DealWaresInstallmentServiceImpl extends ServiceImpl<DealWaresInstal
             trimUtils.beanValueTrim(installment);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RRException("操作失败,去空失败");
+        }
+        if (Objects.isNull(installment.getDealUserId())){
+            throw new RRException("操作失败,请选择正在执行的所属客户");
         }
         save(getDealWaresInstallmentSaveEntity(installment));
     }
@@ -110,6 +116,7 @@ public class DealWaresInstallmentServiceImpl extends ServiceImpl<DealWaresInstal
             dealWaresInstallmentEntity = (DealWaresInstallmentEntity) JavaBeanUtils.mapToJavaBean(DealWaresInstallmentEntity.class, JavaBeanUtils.javaBeanToMap(installment));
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RRException("操作失败,类转换失败");
         }
         dealWaresInstallmentEntity
                 .setDealWaresTitle(dealInvokingService.getDealWaresTitleById(installment.getDealWaresId()))

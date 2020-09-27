@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.deal.entity.DealUserStoreRefundEntity;
 import com.project.modules.deal.vo.info.DealUserStoreRefundInfoVo;
 import com.project.modules.deal.vo.list.DealUserStoreRefundListVo;
-import com.project.modules.deal.vo.wx.DealUserStoreRefundWxInfoVo;
-import com.project.modules.deal.vo.wx.DealUserStoreRefundWxListVo;
+import com.project.modules.deal.vo.wx.info.DealUserStoreRefundWxInfoVo;
+import com.project.modules.deal.vo.wx.list.DealUserStoreRefundWxListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
+import com.project.exception.RRException;
 import com.project.modules.deal.dao.DealAssessDao;
 import com.project.modules.deal.entity.DealAssessEntity;
 import com.project.modules.deal.service.DealAssessImageService;
@@ -13,8 +14,8 @@ import com.project.modules.deal.vo.info.DealAssessInfoVo;
 import com.project.modules.deal.vo.list.DealAssessListVo;
 import com.project.modules.deal.vo.save.DealAssessSaveVo;
 import com.project.modules.deal.vo.update.DealAssessUpdateVo;
-import com.project.modules.deal.vo.wx.DealAssessWxInfoVo;
-import com.project.modules.deal.vo.wx.DealAssessWxListVo;
+import com.project.modules.deal.vo.wx.info.DealAssessWxInfoVo;
+import com.project.modules.deal.vo.wx.list.DealAssessWxListVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -107,6 +108,9 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (Objects.isNull(assess.getDealUserId())){
+            throw new RRException("请选择所属客户");
+        }
         DealAssessEntity dealAssessEntity = getDealWaresAssessSaveEntity(assess);
         save(dealAssessEntity);
         //保存行驶证图
@@ -193,20 +197,26 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
     }
 
     //设置DealWaresAssessEntity新增对象
-    private DealAssessEntity getDealWaresAssessSaveEntity(DealAssessSaveVo assess) {
-        DealAssessEntity dealAssessEntity = new DealAssessEntity();
-        try {
-            dealAssessEntity = (DealAssessEntity) JavaBeanUtils.mapToJavaBean(DealAssessEntity.class, JavaBeanUtils.javaBeanToMap(assess));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private DealAssessEntity getDealWaresAssessSaveEntity(Object data) {
+        DealAssessEntity dealAssessEntity = getTransformationJavaBean(data);
         dealAssessEntity
-                .setProAreaName(dealInvokingService.getAreaNameById(assess.getProAreaId()))
-                .setCityAreaName(dealInvokingService.getAreaNameById(assess.getCityAreaId()))
-                .setCountyAreaName(dealInvokingService.getAreaNameById(assess.getCountyAreaId()))
+                .setProAreaName(dealInvokingService.getAreaNameById(dealAssessEntity.getProAreaId()))
+                .setCityAreaName(dealInvokingService.getAreaNameById(dealAssessEntity.getCityAreaId()))
+                .setCountyAreaName(dealInvokingService.getAreaNameById(dealAssessEntity.getCountyAreaId()))
                 .setDealAssessPrice(new BigDecimal(0))
                 .setStatus(Constant.AssessStatus.CHECKPENDING.getStatus())
                 .setSellStatus(Constant.AssessSellStatus.INREVIEW.getStatus());
+        return dealAssessEntity;
+    }
+
+    //装换对象
+    private DealAssessEntity getTransformationJavaBean(Object data){
+        DealAssessEntity dealAssessEntity = new DealAssessEntity();
+        try {
+            dealAssessEntity = (DealAssessEntity) JavaBeanUtils.mapToJavaBean(DealAssessEntity.class, JavaBeanUtils.javaBeanToMap(data));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return dealAssessEntity;
     }
 

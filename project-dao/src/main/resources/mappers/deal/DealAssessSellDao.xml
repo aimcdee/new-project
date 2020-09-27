@@ -71,7 +71,7 @@
     </select>
 
     <!--分页查询个人评估商品出售列表-->
-    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealAssessSellWxListVo">
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.list.DealAssessSellWxListVo">
         SELECT
             deal_assess_sell.deal_sell_id,
             deal_assess_sell.deal_sell_title,
@@ -88,7 +88,7 @@
     </select>
 
     <!--根据评估商品出售ID获取个人评估商品出售详情-->
-    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.DealAssessSellWxInfoVo">
+    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.info.DealAssessSellWxInfoVo">
         SELECT
             deal_assess_sell.deal_sell_id,
             deal_assess_sell.deal_sell_title,

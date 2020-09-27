@@ -17,7 +17,11 @@ import com.project.modules.deal.vo.invoking.DealWaresExamineInvokingVo;
 import com.project.modules.deal.vo.list.DealWaresListVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
-import com.project.modules.deal.vo.wx.*;
+import com.project.modules.deal.vo.wx.info.DealWaresWxRetailInfoVo;
+import com.project.modules.deal.vo.wx.info.DealWaresWxStoreInfoVo;
+import com.project.modules.deal.vo.wx.list.DealWaresWxPersonalListVo;
+import com.project.modules.deal.vo.wx.list.DealWaresWxRetailListVo;
+import com.project.modules.deal.vo.wx.list.DealWaresWxStoreListVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
@@ -25,10 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 企业客户商品Service
@@ -214,6 +215,10 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             trimUtils.beanValueTrim(wares);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RRException("操作失败,类元素去空失败");
+        }
+        if (Objects.isNull(wares.getDealStoreId())){
+            throw new RRException("操作失败,请选择所属客户");
         }
         DealWaresEntity dealWaresEntity = getDealWaresSaveEntity(wares);
         save(dealWaresEntity);
@@ -298,6 +303,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             trimUtils.beanValueTrim(wares);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RRException("操作失败,类元素去空失败");
         }
         DealWaresEntity dealWaresEntity = getDealWaresUpdateEntity(wares);
         updateById(dealWaresEntity);
@@ -370,6 +376,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             dealWaresEntity = (DealWaresEntity) JavaBeanUtils.mapToJavaBean(DealWaresEntity.class, JavaBeanUtils.javaBeanToMap(wares));
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RRException("操作失败,类转换失败");
         }
         dealWaresEntity
                 .setReleaseAreaName(dealInvokingService.getAreaNameById(wares.getReleaseAreaId()))
@@ -390,6 +397,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             dealWaresEntity = (DealWaresEntity) JavaBeanUtils.mapToJavaBean(DealWaresEntity.class, JavaBeanUtils.javaBeanToMap(wares));
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RRException("操作失败,类转换失败");
         }
         dealWaresEntity
                 .setDealWaresId(createNoAndIDUtils.getDealWaresId())

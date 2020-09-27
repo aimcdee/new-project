@@ -57,12 +57,11 @@ public class DealAssessSaveVo implements Serializable {
 
     /**行驶里程*/
     @ApiModelProperty(value = "行驶里程")
-    @NotBlank(message = "请输入行驶里程")
+    @NotNull(message = "请输入行驶里程")
     private Long distance;
 
     /**客户ID*/
     @ApiModelProperty(value = "客户ID")
-    @NotNull(message = "请选择所属客户")
     private Long dealUserId;
 
     /**行驶证图对象*/

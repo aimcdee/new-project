@@ -1,4 +1,4 @@
-package com.project.modules.deal.vo.wx;
+package com.project.modules.deal.vo.wx.list;
 
 import com.project.modules.deal.entity.DealWaresImageEntity;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,18 +6,19 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 企业客户商品ListVo
+ * 企业端商品ListVo
  *
  * @author liangyuding
  * @date 2020-06-11
  */
 @Data
 @Accessors(chain = true)
-public class DealWaresWxPersonalListVo implements Serializable {
-    private static final long serialVersionUID = 1690386195828042440L;
+public class DealWaresWxStoreListVo implements Serializable {
+    private static final long serialVersionUID = 6056734119618931921L;
 
     /**出售商品ID*/
     @ApiModelProperty(value = "出售商品ID")
@@ -55,17 +56,13 @@ public class DealWaresWxPersonalListVo implements Serializable {
     @ApiModelProperty(value = "年款")
     private Integer marketYear;
 
+    /**批发价*/
+    @ApiModelProperty(value = "批发价")
+    private BigDecimal tradePrice;
+
     /**上牌时间*/
     @ApiModelProperty(value = "上牌时间")
     private Date registerTime;
-
-    /**行驶里程*/
-    @ApiModelProperty(value = "行驶里程")
-    private Long distance;
-
-    /**出售状态 0.未出售 1.已出售*/
-    @ApiModelProperty(value = "出售状态 0.未出售 1.已出售")
-    private Integer sellStatus;
 
     /**上线状态 0.审核失败 1.待审核 2.上架 3.下架*/
     @ApiModelProperty(value = "上线状态 0.审核失败 1.待审核 2.上架 3.下架")
@@ -78,4 +75,12 @@ public class DealWaresWxPersonalListVo implements Serializable {
     /**提交时间*/
     @ApiModelProperty(value = "提交时间")
     private Date submitTime;
+
+    /**企业名称*/
+    @ApiModelProperty(value = "企业名称")
+    private String dealStoreName;
+
+    /**信用等级*/
+    @ApiModelProperty(value = "信用等级")
+    private Integer creditGrade;
 }

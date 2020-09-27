@@ -1,4 +1,4 @@
-package com.project.modules.deal.vo.wx;
+package com.project.modules.deal.vo.wx.list;
 
 import com.project.modules.deal.entity.DealAssessImageEntity;
 import io.swagger.annotations.ApiModelProperty;

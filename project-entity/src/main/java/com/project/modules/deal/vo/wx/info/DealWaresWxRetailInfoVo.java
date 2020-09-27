@@ -1,4 +1,4 @@
-package com.project.modules.deal.vo.wx;
+package com.project.modules.deal.vo.wx.info;
 
 import com.project.modules.deal.entity.DealWaresImageEntity;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,15 +11,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 企业端商品InfoVo
+ * 零售端商品InfoVo
  *
  * @author liangyuding
- * @date 2020-06-01
+ * @date 2020-06-11
  */
 @Data
 @Accessors(chain = true)
-public class DealWaresWxStoreInfoVo implements Serializable {
-    private static final long serialVersionUID = 841552384413918206L;
+public class DealWaresWxRetailInfoVo implements Serializable {
+    private static final long serialVersionUID = 2758228121166890735L;
 
     /**出售商品ID*/
     @ApiModelProperty(value = "出售商品ID")
@@ -49,7 +49,7 @@ public class DealWaresWxStoreInfoVo implements Serializable {
     @ApiModelProperty(value = "所属品牌名称")
     private String couBrandName;
 
-    /**所属系列ID*/
+    /**所属品牌系列ID*/
     @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
 
@@ -69,9 +69,9 @@ public class DealWaresWxStoreInfoVo implements Serializable {
     @ApiModelProperty(value = "年款")
     private Integer marketYear;
 
-    /**批发价*/
-    @ApiModelProperty(value = "批发价")
-    private BigDecimal tradePrice;
+    /**零售价*/
+    @ApiModelProperty(value = "零售价")
+    private BigDecimal retailPrice;
 
     /**上牌时间*/
     @ApiModelProperty(value = "上牌时间")

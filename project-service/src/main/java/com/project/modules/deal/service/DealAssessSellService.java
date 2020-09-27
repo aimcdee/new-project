@@ -5,7 +5,7 @@ import com.project.modules.deal.entity.DealAssessSellEntity;
 import com.project.modules.deal.vo.info.DealAssessSellInfoVo;
 import com.project.modules.deal.vo.save.DealAssessSellSaveVo;
 import com.project.modules.deal.vo.update.DealAssessSellUpdateVo;
-import com.project.modules.deal.vo.wx.DealAssessSellWxInfoVo;
+import com.project.modules.deal.vo.wx.info.DealAssessSellWxInfoVo;
 import com.project.utils.PageUtils;
 
 import java.math.BigDecimal;

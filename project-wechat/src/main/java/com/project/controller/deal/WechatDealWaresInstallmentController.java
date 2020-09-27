@@ -58,6 +58,7 @@ public class WechatDealWaresInstallmentController {
     @PostMapping("/save")
     public R save(@RequestBody DealWaresInstallmentSaveVo installment){
         ValidatorUtils.validateEntity(installment);
+        installment.setDealUserId(getDealUserId());
         dealWaresInstallmentService.saveEntity(installment);
         return R.ok();
 //        return wxDealWaresInstallmentService.saveEntity(installment);

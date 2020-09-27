@@ -45,7 +45,7 @@
     </select>
 
     <!--分页查询金融单列表-->
-    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealUserStoreFinanceWxListVo">
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.list.DealUserStoreFinanceWxListVo">
         SELECT
             finance_id,
             finance_no,

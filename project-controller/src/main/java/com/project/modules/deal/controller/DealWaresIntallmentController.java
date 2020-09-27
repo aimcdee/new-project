@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 import static com.project.utils.ShiroUtils.getSysUserId;
-import static com.project.utils.ShiroUtils.getSysUserName;
 
 /**
  * 咨询分期客户管理表 Controller

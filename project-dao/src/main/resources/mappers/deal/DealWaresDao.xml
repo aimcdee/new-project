@@ -87,7 +87,7 @@
     </select>
 
     <!--企业客户分页查询自己上传的企业商品列表-->
-    <select id="queryPersonalPage" resultType="com.project.modules.deal.vo.wx.DealWaresWxPersonalListVo">
+    <select id="queryPersonalPage" resultType="com.project.modules.deal.vo.wx.list.DealWaresWxPersonalListVo">
         SELECT
             deal_wares_id,
             deal_wares_title,
@@ -145,7 +145,7 @@
     </select>
 
     <!--企业端分页查询商品列表-->
-    <select id="queryStorePage" resultType="com.project.modules.deal.vo.wx.DealWaresWxStoreListVo">
+    <select id="queryStorePage" resultType="com.project.modules.deal.vo.wx.list.DealWaresWxStoreListVo">
         SELECT
             deal_wares.deal_wares_id,
             deal_wares.deal_wares_title,
@@ -197,7 +197,7 @@
     </select>
 
     <!--零售端分页查询商品列表-->
-    <select id="queryRetailPage" resultType="com.project.modules.deal.vo.wx.DealWaresWxRetailListVo">
+    <select id="queryRetailPage" resultType="com.project.modules.deal.vo.wx.list.DealWaresWxRetailListVo">
         SELECT
             deal_wares.deal_wares_id,
             deal_wares.deal_wares_title,
@@ -292,7 +292,7 @@
     </select>
 
     <!--获取企业端商品的详情-->
-    <select id="store" resultType="com.project.modules.deal.vo.wx.DealWaresWxStoreInfoVo">
+    <select id="store" resultType="com.project.modules.deal.vo.wx.info.DealWaresWxStoreInfoVo">
         SELECT
             deal_wares.deal_wares_id,
             deal_wares.deal_wares_title,
@@ -329,7 +329,7 @@
     </select>
 
     <!--获取零售端商品的详情-->
-    <select id="retail" resultType="com.project.modules.deal.vo.wx.DealWaresWxRetailInfoVo">
+    <select id="retail" resultType="com.project.modules.deal.vo.wx.info.DealWaresWxRetailInfoVo">
         SELECT
             deal_wares.deal_wares_id,
             deal_wares.deal_wares_title,

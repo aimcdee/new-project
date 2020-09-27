@@ -157,6 +157,5 @@ public class DealWaresSaveVo implements Serializable {
 
     /**所属客户企业ID*/
     @ApiModelProperty(value = "所属企业客户ID")
-    @NotNull(message = "所属客户企业不能为空")
     private Long dealStoreId;
 }

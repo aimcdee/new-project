@@ -15,8 +15,8 @@ import com.project.modules.deal.vo.invoking.DealBillExamineInvokingVo;
 import com.project.modules.deal.vo.list.DealUserStoreRefundListVo;
 import com.project.modules.deal.vo.save.DealUserStoreRefundSaveVo;
 import com.project.modules.deal.vo.update.DealUserStoreRefundUpdateVo;
-import com.project.modules.deal.vo.wx.DealUserStoreRefundWxInfoVo;
-import com.project.modules.deal.vo.wx.DealUserStoreRefundWxListVo;
+import com.project.modules.deal.vo.wx.info.DealUserStoreRefundWxInfoVo;
+import com.project.modules.deal.vo.wx.list.DealUserStoreRefundWxListVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -242,8 +242,9 @@ public class DealUserStoreRefundServiceImpl extends ServiceImpl<DealUserStoreRef
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(refund);
+        if(Objects.isNull(refund.getDealStoreId())){
+            throw new RRException("请选择需要退费的客户企业");
+        }
         //校验企业用户
         checkStoreStatus(refund.getDealStoreId());
         //校验金额

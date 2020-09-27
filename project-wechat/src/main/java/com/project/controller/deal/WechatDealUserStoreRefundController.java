@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.project.common.utils.ShiroUtils.getDealStoreId;
-import static com.project.common.utils.ShiroUtils.isEnterprise;
+import static com.project.common.utils.ShiroUtils.*;
 
 /**
  * 微信端企业客户退费接口

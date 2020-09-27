@@ -32,6 +32,6 @@ public class DealUserStoreDepositUpdateVo implements Serializable {
 
     /**备注*/
     @ApiModelProperty(value = "备注")
-    @NotBlank(message = "请输入备注")
+    @NotBlank(message = "请输入金融单备注")
     private String remark;
 }

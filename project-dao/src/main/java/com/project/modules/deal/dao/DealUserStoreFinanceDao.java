@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.deal.entity.DealUserStoreFinanceEntity;
 import com.project.modules.deal.vo.info.DealUserStoreFinanceInfoVo;
 import com.project.modules.deal.vo.list.DealUserStoreFinanceListVo;
-import com.project.modules.deal.vo.wx.DealUserStoreFinanceWxListVo;
+import com.project.modules.deal.vo.wx.list.DealUserStoreFinanceWxListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -34,7 +34,7 @@
     </select>
 
     <!--分页查询退费单列表-->
-    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.DealUserStoreRefundWxListVo">
+    <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.list.DealUserStoreRefundWxListVo">
         SELECT
             deal_user_store_refund.refund_id,
             deal_user_store_refund.refund_no,
@@ -71,7 +71,7 @@
     </select>
 
     <!--分页查询退费单列表-->
-    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.DealUserStoreRefundWxInfoVo">
+    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.info.DealUserStoreRefundWxInfoVo">
         SELECT
             deal_user_store_refund.refund_id,
             deal_user_store_refund.refund_no,
