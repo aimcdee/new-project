@@ -184,6 +184,24 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
+  /sys/user/resetPassword/{userId}:
+    get:
+      tags:
+        - 用户管理
+      summary: 重置用户密码
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          description: 用户ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
   /sys/user/normal/{userId}:
     get:
       tags:
@@ -1863,7 +1881,7 @@ paths:
     get:
       tags:
         - 品牌管理-型号模块
-      summary: 分页查询商品型号列表
+      summary: 分页查询型号列表
       produces:
         - application/json
       parameters:
@@ -1895,14 +1913,14 @@ paths:
           type: string
       responses:
         '200':
-          description: 返回商品型号列表
+          description: 返回型号列表
           schema:
             $ref: '#/definitions/CouWaresModelEntities'
   /cou/wares/model/upload/image:
     post:
       tags:
         - 品牌管理-型号模块
-      summary: 上传商品型号图
+      summary: 上传型号图
       consumes:
         - multipart/form-data
       produces:
@@ -1922,7 +1940,7 @@ paths:
     get:
       tags:
         - 品牌管理-型号模块
-      summary: 删除商品型号图
+      summary: 删除型号图
       consumes:
         - multipart/form-data
       produces:
@@ -1942,12 +1960,12 @@ paths:
     post:
       tags:
         - 品牌管理-型号模块
-      summary: 新增商品型号信息
+      summary: 新增型号信息
       produces:
         - application/json
       parameters:
         - name: model
-          description: 商品型号对象
+          description: 型号对象
           in: body
           schema:
             $ref: '#/definitions/CouWaresModelSaveVo'
@@ -1961,18 +1979,18 @@ paths:
     get:
       tags:
         - 品牌管理-型号模块
-      summary: 获取商品型号信息
+      summary: 获取型号信息
       produces:
         - application/json
       parameters:
         - name: couModelId
-          description: 商品型号ID
+          description: 型号ID
           in: path
           type: integer
           required: true
       responses:
         '200':
-          description: 返回商品型号信息
+          description: 返回型号信息
           schema:
             type: object
             properties:
@@ -1987,12 +2005,12 @@ paths:
     post:
       tags:
         - 品牌管理-型号模块
-      summary: 修改商品型号信息
+      summary: 修改型号信息
       produces:
         - application/json
       parameters:
         - name: model
-          description: 商品型号对象
+          description: 型号对象
           in: body
           schema:
             $ref: '#/definitions/CouWaresModelUpdateVo'
@@ -2006,12 +2024,12 @@ paths:
     get:
       tags:
         - 品牌管理-型号模块
-      summary: 修改商品型号状态为启用
+      summary: 修改型号状态为启用
       produces:
         - application/json
       parameters:
         - name: couModelId
-          description: 商品型号ID
+          description: 型号ID
           in: path
           type: integer
           required: true
@@ -2024,12 +2042,12 @@ paths:
     get:
       tags:
         - 品牌管理-型号模块
-      summary: 修改商品型号状态为禁用
+      summary: 修改型号状态为禁用
       produces:
         - application/json
       parameters:
         - name: couModelId
-          description: 商品型号ID
+          description: 型号ID
           in: path
           type: integer
           required: true
@@ -2042,12 +2060,12 @@ paths:
     get:
       tags:
         - 品牌管理-型号模块
-      summary: 获取所有商品型号对象
+      summary: 获取所有型号对象
       produces:
         - application/json
       responses:
         '200':
-          description: 返回商品型号信息
+          description: 返回型号信息
           schema:
             type: object
             properties:
@@ -3522,7 +3540,7 @@ paths:
           in: query
           type: integer
         - name: couModelId
-          description: 所属商品型号ID
+          description: 所属型号ID
           in: query
           type: integer
         - name: dealStoreId
@@ -3561,7 +3579,7 @@ paths:
           format: 'date-time'
       responses:
         '200':
-          description: 返回商品评价列表
+          description: 返回出售商品列表
           schema:
             $ref: '#/definitions/DealWaresEntities'
   /deal/wares/upload/waresImage:
@@ -6354,10 +6372,9 @@ definitions:
         description: 所属系列ID
         type: integer
         format: int64
-      asessWaresTitle:
+      assessWaresTitle:
         description: 评估商品名称
-        type: String
-        format: int64
+        type: string
       registerTime:
         description: 上牌时间
         type: string
@@ -6379,7 +6396,7 @@ definitions:
         type: integer
         format: int64
       dealUserId:
-        description: 客户ID
+        description: 所属客户ID
         type: integer
         format: int64
       driveImage:
@@ -6837,12 +6854,16 @@ definitions:
         description: 所属系列名称
         type: string
       couModelId:
-        description: 所属商品型号ID
+        description: 所属型号ID
         type: integer
         format: int64
       couModelName:
-        description: 所属商品型号名称
+        description: 所属型号名称
         type: string
+      marketYear:
+        description: 年款
+        type: integer
+        format: int64
       tradePrice:
         description: 批发价
         type: string
@@ -7041,7 +7062,11 @@ definitions:
         type: integer
         format: int64
       couModelId:
-        description: 所属商品型号ID
+        description: 所属型号ID
+        type: integer
+        format: int64
+      marketYear:
+        description: 年款
         type: integer
         format: int64
       tradePrice:
@@ -7167,12 +7192,16 @@ definitions:
         description: 所属系列名称
         type: string
       couModelId:
-        description: 所属商品型号ID
+        description: 所属型号ID
         type: integer
         format: int64
       couModelName:
-        description: 所属商品型号名称
+        description: 所属型号名称
         type: string
+      marketYear:
+        description: 年款
+        type: integer
+        format: int64
       tradePrice:
         description: 批发价
         type: string
@@ -7344,7 +7373,11 @@ definitions:
         type: integer
         format: int64
       couModelId:
-        description: 所属商品型号ID
+        description: 所属型号ID
+        type: integer
+        format: int64
+      marketYear:
+        description: 年款
         type: integer
         format: int64
       tradePrice:

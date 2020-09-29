@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 商品型号ListVo
+ * 型号ListVo
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -17,14 +17,24 @@ import java.io.Serializable;
 public class CouWaresModelInvokingVo implements Serializable {
     private static final long serialVersionUID = 5318567593668803794L;
 
-    /**商品型号ID*/
-    @ApiModelProperty(value = "商品型号ID")
+    /**型号ID*/
+    @ApiModelProperty(value = "型号ID")
     private Long couModelId;
 
-    /**商品型号名称*/
-    @ApiModelProperty(value = "商品型号名称")
+    /**型号名称*/
+    @ApiModelProperty(value = "型号名称")
     private String couModelName;
 
+    /**图片路径*/
+    @ApiModelProperty(value = "图片路径")
+    private String image;
 
+    /**上级型号ID*/
+    @ApiModelProperty(value = "上级型号ID")
+    private Long parentId;
+
+    /**上级型号名称*/
+    @ApiModelProperty(value = "上级型号名称")
+    private String parentName;
 
 }

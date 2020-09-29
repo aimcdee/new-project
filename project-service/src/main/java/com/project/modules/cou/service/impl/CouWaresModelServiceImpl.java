@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
 import com.project.constant.RedisListKeyConstant;
+import com.project.exception.RRException;
 import com.project.modules.cou.dao.CouWaresModelDao;
 import com.project.modules.cou.entity.CouWaresModelEntity;
 import com.project.modules.cou.service.CouWaresModelService;
@@ -22,9 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 商品型号Service
@@ -53,6 +52,11 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
     public PageUtils queryPage(Map<String, Object> params) {
         Page<CouWaresModelListVo> page = new Query<CouWaresModelListVo>(params).getPage();
         List<CouWaresModelListVo> couWaresModelListVos = baseMapper.queryPage(page, StringUtils.trim(MapUtils.getString(params, "couModelName")), MapUtils.getInteger(params, "status"));
+        if (CollectionUtils.isNotEmpty(couWaresModelListVos)){
+            couWaresModelListVos.forEach(couWaresModel -> {
+                couWaresModel.setParentName(baseMapper.getCouModelNameById(couWaresModel.getParentId()));
+            });
+        }
         return new PageUtils(page.setRecords(couWaresModelListVos));
     }
 
@@ -69,8 +73,6 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //校验更新对象属性非空
-        checkUtils.checkNotNull(waresModel);
         save(getCouWaresModelSaveEntity(waresModel, sysUserId));
         updateRedis();
     }
@@ -128,7 +130,12 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
     @Override
     public List<CouWaresModelInvokingVo> getCouModelList() {
         List<CouWaresModelInvokingVo> modelList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_MODEL_LIST)), CouWaresModelInvokingVo.class);
-        modelList = CollectionUtils.isNotEmpty(modelList) ? modelList : baseMapper.getCouModelList(Constant.Status.NORMAL.getStatus());
+        if (CollectionUtils.isEmpty(modelList)){
+            modelList = baseMapper.getCouModelList(Constant.Status.NORMAL.getStatus());
+            modelList.forEach(model -> {
+                model.setParentName(baseMapper.getCouModelNameById(model.getParentId()));
+            });
+        }
         redisUtils.set(RedisKeys.CouWares.CouSeries(RedisListKeyConstant.COU_MODEL_LIST), modelList);
         return modelList;
     }
@@ -154,9 +161,13 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
     //获取DealWaresTypeEntity新增对象
     private CouWaresModelEntity getCouWaresModelSaveEntity(CouWaresModelSaveVo model, Long sysUserId) {
         CouWaresModelEntity couWaresModelEntity = new CouWaresModelEntity();
+        try {
+            couWaresModelEntity = (CouWaresModelEntity) JavaBeanUtils.mapToJavaBean(CouWaresModelEntity.class, JavaBeanUtils.javaBeanToMap(model));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RRException("操作失败,类转换失败");
+        }
         couWaresModelEntity
-                .setCouModelName(model.getCouModelName())
-                .setImage(model.getImage())
                 .setStatus(Constant.Status.NORMAL.getStatus())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);

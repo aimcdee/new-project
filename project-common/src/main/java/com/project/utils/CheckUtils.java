@@ -393,7 +393,7 @@ public class CheckUtils {
 
     //校验金额
     public void checkPrice(BigDecimal depositPrice) {
-        if (Objects.isNull(depositPrice) || depositPrice.compareTo(new BigDecimal(0)) == -1 || depositPrice.compareTo(new BigDecimal(0)) == 0){
+        if (Objects.isNull(depositPrice) || depositPrice.compareTo(new BigDecimal(0)) == -1){
             throw new RRException("操作失败,请输入正确金额");
         }
     }

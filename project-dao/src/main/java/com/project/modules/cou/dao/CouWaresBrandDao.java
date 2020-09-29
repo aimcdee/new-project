@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 商品品牌Dao
+ * 品牌Dao
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -21,7 +21,7 @@ import java.util.List;
 public interface CouWaresBrandDao extends BaseMapper<CouWaresBrandEntity> {
 
     /**
-     * 分页查询商品品牌列表
+     * 分页查询品牌列表
      * @param page
      * @param couBrandName
      * @param status
@@ -33,7 +33,7 @@ public interface CouWaresBrandDao extends BaseMapper<CouWaresBrandEntity> {
             @Param("status") Integer status);
 
     /**
-     * 根据商品品牌ID获取商品品牌详情
+     * 根据品牌ID获取商品品牌详情
      * @param couBrandId
      * @return
      */
@@ -47,7 +47,7 @@ public interface CouWaresBrandDao extends BaseMapper<CouWaresBrandEntity> {
     List<CouWaresBrandInvokingVo> getHotCouBrandList(@Param("status") Integer status);
 
     /**
-     * 获取所有状态为正常商品品牌的ID和名称
+     * 获取所有状态为正常品牌的ID和名称
      * @param status
      * @return
      */

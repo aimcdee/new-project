@@ -25,7 +25,7 @@ import java.util.Map;
 import static com.project.utils.ShiroUtils.getSysUserId;
 
 /**
- * 商品型号Controller
+ * 型号Controller
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -42,11 +42,11 @@ public class CouWaresModelController {
     private ImageService imageService;
 
     /**
-     * 分页查询状态为正常的商品型号列表
+     * 分页查询状态为正常的型号列表
      * @param params
      * @return
      */
-    @ApiOperation(value = "分页查询状态为正常的商品型号列表")
+    @ApiOperation(value = "分页查询状态为正常的型号列表")
     @GetMapping("/list")
     @RequiresPermissions("cou:wares:model:list")
     public R list(@RequestParam Map<String, Object> params){
@@ -54,12 +54,12 @@ public class CouWaresModelController {
     }
 
     /**
-     * 商品型号图上传
+     * 型号图上传
      * @param file
      * @return
      */
-    @ApiOperation(value = "商品型号图上传")
-    @SysLog("商品型号图上传")
+    @ApiOperation(value = "型号图上传")
+    @SysLog("型号图上传")
     @PostMapping("/upload/image")
     public R uploadImage(@RequestParam("file") MultipartFile file){
         return R.ok(imageService.uploadImage(file, null,
@@ -70,12 +70,12 @@ public class CouWaresModelController {
     }
 
     /**
-     * 删除商品型号图
+     * 删除型号图
      * @param url
      * @return
      */
-    @ApiOperation(value = "删除商品型号图")
-    @SysLog("删除商品型号图")
+    @ApiOperation(value = "删除型号图")
+    @SysLog("删除型号图")
     @GetMapping("/delete/image")
     public R deleteImage(@RequestParam("url") String url){
         imageService.deleteImage(url);
@@ -83,13 +83,13 @@ public class CouWaresModelController {
     }
 
     /**
-     * 新增商品型号
+     * 新增型号
      * @param model
      * @return
      */
-    @ApiOperation(value = "新增商品型号")
-    @ApiImplicitParam(paramType = "body", name = "model", value = "商品型号信息对象", required = true, dataType = "CouWaresModelSaveVo")
-    @SysLog("新增商品型号")
+    @ApiOperation(value = "新增型号")
+    @ApiImplicitParam(paramType = "body", name = "model", value = "型号信息对象", required = true, dataType = "CouWaresModelSaveVo")
+    @SysLog("新增型号")
     @PostMapping("/save")
     @RequiresPermissions("cou:wares:model:save")
     public R save(@RequestBody CouWaresModelSaveVo model){
@@ -99,11 +99,11 @@ public class CouWaresModelController {
     }
 
     /**
-     * 根据商品型号ID获取商品型号详情
+     * 根据型号ID获取型号详情
      * @param couModelId
      * @return
      */
-    @ApiOperation(value = "根据商品型号ID获取商品型号详情")
+    @ApiOperation(value = "根据型号ID获取型号详情")
     @GetMapping("/info/{couModelId}")
     @RequiresPermissions("cou:wares:model:info")
     public R info(@PathVariable("couModelId") Long couModelId) {
@@ -111,13 +111,13 @@ public class CouWaresModelController {
     }
 
     /**
-     * 更新商品型号
+     * 更新型号
      * @param model
      * @return
      */
-    @ApiOperation(value = "更新商品型号")
-    @ApiImplicitParam(paramType = "body", name = "model", value = "商品型号信息对象", required = true, dataType = "CouWaresModelUpdateVo")
-    @SysLog("更新商品型号")
+    @ApiOperation(value = "更新型号")
+    @ApiImplicitParam(paramType = "body", name = "model", value = "型号信息对象", required = true, dataType = "CouWaresModelUpdateVo")
+    @SysLog("更新型号")
     @PostMapping("/update")
     @RequiresPermissions("cou:wares:model:update")
     public R update(@RequestBody CouWaresModelUpdateVo model){
@@ -127,12 +127,12 @@ public class CouWaresModelController {
     }
 
     /**
-     * 修改商品型号的状态为启用
+     * 修改型号的状态为启用
      * @param couModelId
      * @return
      */
-    @ApiOperation(value = "修改商品型号的状态为启用")
-    @SysLog("修改商品型号的状态为启用")
+    @ApiOperation(value = "修改型号的状态为启用")
+    @SysLog("修改型号的状态为启用")
     @GetMapping("/normal/{couModelId}")
     @RequiresPermissions("cou:wares:model:update")
     public R normal(@PathVariable("couModelId") Long couModelId){
@@ -141,12 +141,12 @@ public class CouWaresModelController {
     }
 
     /**
-     * 修改商品型号的状态为禁用
+     * 修改型号的状态为禁用
      * @param couModelId
      * @return
      */
-    @ApiOperation(value = "修改商品型号的状态为禁用")
-    @SysLog("修改商品型号的状态为禁用")
+    @ApiOperation(value = "修改型号的状态为禁用")
+    @SysLog("修改型号的状态为禁用")
     @GetMapping("/disable/{couModelId}")
     @RequiresPermissions("cou:wares:model:update")
     public R disable(@PathVariable("couModelId") Long couModelId){
@@ -155,10 +155,10 @@ public class CouWaresModelController {
     }
 
     /**
-     * 获取所有状态为正常商品型号对象
+     * 获取所有状态为正常型号对象
      * @return
      */
-    @ApiOperation(value = "获取所有状态为正常商品型号对象")
+    @ApiOperation(value = "获取所有状态为正常型号对象")
     @GetMapping("/getCouModelList")
     public R getCouModelList(){
         return R.ok(couWaresModelService.getCouModelList());

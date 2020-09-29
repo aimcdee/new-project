@@ -166,7 +166,7 @@
         <where>
             deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
             <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
-                deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
+                AND deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
             </if>
             <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
                 AND deal_wares.cou_brand_id = #{couBrandId}
@@ -218,7 +218,7 @@
         <where>
             deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
             <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
-                deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
+                AND deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
             </if>
             <if test="couBrandId != null and !&quot;&quot;.equals(couBrandId)">
                 AND deal_wares.cou_brand_id = #{couBrandId}

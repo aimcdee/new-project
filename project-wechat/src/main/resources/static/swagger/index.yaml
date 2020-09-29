@@ -184,7 +184,7 @@ paths:
                 type: integer
                 format: int32
               user:
-                $ref: '#/definitions/CouWaresModelInvokingVo'
+                $ref: '#/definitions/CouWaresBrandInvokingVo'
   /wechat/cou/wares/brand/getCouBrandList:
     get:
       tags:
@@ -203,7 +203,7 @@ paths:
                 type: integer
                 format: int32
               user:
-                $ref: '#/definitions/CouWaresModelInvokingVo'
+                $ref: '#/definitions/CouWaresBrandInvokingVo'
   /wechat/cou/wares/series/getCouSeriesList/{couBrandId}:
     get:
       tags:
@@ -742,7 +742,7 @@ paths:
           in: query
           type: integer
         - name: couSeriesId
-          description: 所属品牌系列ID
+          description: 所属系列ID
           in: query
           type: integer
         - name: couModelId
@@ -1046,7 +1046,7 @@ paths:
           in: query
           type: integer
         - name: couSeriesId
-          description: 所属品牌系列ID
+          description: 所属系列ID
           in: query
           type: integer
         - name: couModelId
@@ -1153,7 +1153,7 @@ paths:
           in: query
           type: integer
         - name: couSeriesId
-          description: 所属品牌系列ID
+          description: 所属系列ID
           in: query
           type: integer
         - name: couModelId
@@ -1347,15 +1347,18 @@ definitions:
       couBrandName:
         description: 品牌名称
         type: string
+      image:
+        description: 图片路径
+        type: string
   CouWaresSeriesInvokingVo:
     type: object
     properties:
       couSeriesId:
-        description: 品牌系列ID
+        description: 系列ID
         type: integer
         format: int64
       couSeriesName:
-        description: 品牌系列名称
+        description: 系列名称
         type: string
   CouWaresInvokingVo:
     type: object
@@ -1379,6 +1382,16 @@ definitions:
         format: int64
       couModelName:
         description: 型号名称
+        type: string
+      image:
+        description: 图片路径
+        type: string
+      parentId:
+        description: 上级型号ID
+        type: integer
+        format: int64
+      parentName:
+        description: 上级型号名称
         type: string
   DealUserInfoVo:
     type: object
@@ -1681,7 +1694,7 @@ definitions:
         type: integer
         format: int64
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       assessWaresTitle:
@@ -2544,7 +2557,7 @@ definitions:
         type: integer
         format: int64
       couSeriesId:
-        description: 所属品牌系列ID
+        description: 所属系列ID
         type: integer
         format: int64
       couModelId:

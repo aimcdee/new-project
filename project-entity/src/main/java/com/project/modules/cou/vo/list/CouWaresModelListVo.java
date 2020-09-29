@@ -25,6 +25,14 @@ public class CouWaresModelListVo implements Serializable {
     @ApiModelProperty(value = "商品型号名称")
     private String couModelName;
 
+    /**上级型号ID*/
+    @ApiModelProperty(value = "上级型号ID")
+    private Long parentId;
+
+    /**上级型号名称*/
+    @ApiModelProperty(value = "上级型号名称")
+    private String parentName;
+
     /**商品型号图片路径*/
     @ApiModelProperty(value = "商品型号图片路径")
     private String image;

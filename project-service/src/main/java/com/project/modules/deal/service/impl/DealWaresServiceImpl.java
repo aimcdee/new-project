@@ -84,13 +84,13 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             DealWaresExamineInvokingVo dealWaresExamineInvokingVo = dealWaresExamineService.getExamineUser(wares.getDealWaresId());
             DealStoreUserInvokingVo storeUser = dealInvokingService.getDealStoreUserInvokingVoByStoreId(wares.getDealStoreId());
             wares
-                    .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(wares.getDealWaresTitle()).toString())
+                    .setDealWaresTitle(new StringBuilder(couBrandName).append(" ").append(couSeriesName).append(" ").append(wares.getDealWaresTitle()).toString())
                     .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
                     .setCouModelName(dealInvokingService.getCouModelNameById(wares.getCouModelId()))
-                    .setExamineId(Optional.ofNullable(dealWaresExamineInvokingVo.getExamineId()).orElse(null))
-                    .setExamineUserId(Optional.ofNullable(dealWaresExamineInvokingVo.getExamineUserId()).orElse(null))
-                    .setExamineUserName(Optional.ofNullable(dealWaresExamineInvokingVo.getExamineUserName()).orElse(null))
-                    .setExamineTime(Optional.ofNullable(dealWaresExamineInvokingVo.getExamineTime()).orElse(null))
+                    .setExamineId(Optional.ofNullable(dealWaresExamineInvokingVo).map(DealWaresExamineInvokingVo :: getExamineId).orElse(null))
+                    .setExamineUserId(Optional.ofNullable(dealWaresExamineInvokingVo).map(DealWaresExamineInvokingVo :: getExamineUserId).orElse(null))
+                    .setExamineUserName(Optional.ofNullable(dealWaresExamineInvokingVo).map(DealWaresExamineInvokingVo :: getExamineUserName).orElse(null))
+                    .setExamineTime(Optional.ofNullable(dealWaresExamineInvokingVo).map(DealWaresExamineInvokingVo :: getExamineTime).orElse(null))
                     .setCoverImage(dealWaresImageService.getImage(wares.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()))
                     .setWaresImages(dealWaresImageService.getImageList(wares.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.NO.getType()))
                     .setDriveImage(dealWaresImageService.getImage(wares.getDealWaresId(), Constant.ImageType.DRIVE.getType(), Constant.IsWaresCover.NO.getType()))
@@ -127,7 +127,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             String couBrandName = dealInvokingService.getCouBrandNameById(personal.getCouBrandId());
             String couSeriesName = dealInvokingService.getCouSeriesNameById(personal.getCouSeriesId());
             personal
-                    .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(personal.getDealWaresTitle()).toString())
+                    .setDealWaresTitle(new StringBuilder(couBrandName).append(" ").append(couSeriesName).append(" ").append(personal.getDealWaresTitle()).toString())
                     .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
                     .setCouModelName(dealInvokingService.getCouModelNameById(personal.getCouModelId()))
                     .setCoverImage(dealWaresImageService.getImage(personal.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()));
@@ -161,7 +161,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             String couBrandName = dealInvokingService.getCouBrandNameById(store.getCouBrandId());
             String couSeriesName = dealInvokingService.getCouSeriesNameById(store.getCouSeriesId());
             store
-                    .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(store.getDealWaresTitle()).toString())
+                    .setDealWaresTitle(new StringBuilder(couBrandName).append(" ").append(couSeriesName).append(" ").append(store.getDealWaresTitle()).toString())
                     .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
                     .setCouModelName(dealInvokingService.getCouModelNameById(store.getCouModelId()))
                     .setCoverImage(dealWaresImageService.getImage(store.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()));
@@ -195,8 +195,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             String couBrandName = dealInvokingService.getCouBrandNameById(retail.getCouBrandId());
             String couSeriesName = dealInvokingService.getCouSeriesNameById(retail.getCouSeriesId());
             retail
-                    .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(retail.getDealWaresTitle()).toString())
-                    .setDealWaresTitle(new StringBuilder().append(retail.getCouBrandName()).append(" ").append(retail.getDealWaresTitle()).toString())
+                    .setDealWaresTitle(new StringBuilder(couBrandName).append(" ").append(couSeriesName).append(" ").append(retail.getDealWaresTitle()).toString())
                     .setCouBrandName(dealInvokingService.getCouBrandNameById(retail.getCouBrandId()))
                     .setCoverImage(dealWaresImageService.getImage(retail.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()));
         });
@@ -264,7 +263,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         String couBrandName = dealInvokingService.getCouBrandNameById(storeInfo.getCouBrandId());
         String couSeriesName = dealInvokingService.getCouSeriesNameById(storeInfo.getCouSeriesId());
         storeInfo
-                .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(storeInfo.getDealWaresTitle()).toString())
+                .setDealWaresTitle(new StringBuilder(couBrandName).append(" ").append(couSeriesName).append(" ").append(storeInfo.getDealWaresTitle()).toString())
                 .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
                 .setCouModelName(dealInvokingService.getCouModelNameById(storeInfo.getCouModelId()))
                 .setCoverImage(dealWaresImageService.getImage(storeInfo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()))
@@ -283,7 +282,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         String couBrandName = dealInvokingService.getCouBrandNameById(retailInfo.getCouBrandId());
         String couSeriesName = dealInvokingService.getCouSeriesNameById(retailInfo.getCouSeriesId());
         retailInfo
-                .setDealWaresTitle(new StringBuilder().append(couBrandName).append(" ").append(couSeriesName).append(" ").append(retailInfo.getDealWaresTitle()).toString())
+                .setDealWaresTitle(new StringBuilder(couBrandName).append(" ").append(couSeriesName).append(" ").append(retailInfo.getDealWaresTitle()).toString())
                 .setCouBrandName(couBrandName).setCouSeriesName(couSeriesName)
                 .setCouModelName(dealInvokingService.getCouModelNameById(retailInfo.getCouModelId()))
                 .setCoverImage(dealWaresImageService.getImage(retailInfo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()))

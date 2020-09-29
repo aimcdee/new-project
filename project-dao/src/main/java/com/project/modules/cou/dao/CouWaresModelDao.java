@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 商品型号Dao
+ * 型号Dao
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -21,7 +21,7 @@ import java.util.List;
 public interface CouWaresModelDao extends BaseMapper<CouWaresModelEntity> {
 
     /**
-     * 分页查询商品型号列表
+     * 分页查询型号列表
      * @param page
      * @param couModelName
      * @param status
@@ -33,16 +33,23 @@ public interface CouWaresModelDao extends BaseMapper<CouWaresModelEntity> {
             @Param("status") Integer status);
 
     /**
-     * 根据商品型号ID获取商品型号详情
+     * 根据型号ID获取型号详情
      * @param couModelId
      * @return
      */
     CouWaresModelInfoVo info(@Param("couModelId") Long couModelId);
 
     /**
-     * 获取所有状态为正常商品型号的ID和名称
+     * 获取所有状态为正常型号的ID和名称
      * @param status
      * @return
      */
     List<CouWaresModelInvokingVo> getCouModelList(@Param("status") Integer status);
+
+    /**
+     * 根据型号ID获取型号名称
+     * @param couModelId
+     * @return
+     */
+    String getCouModelNameById(@Param("couModelId") Long couModelId);
 }

@@ -24,4 +24,8 @@ public class CouWaresBrandInvokingVo implements Serializable {
     /**品牌名称*/
     @ApiModelProperty(value = "品牌名称")
     private String couBrandName;
+
+    /**logo路径*/
+    @ApiModelProperty(value = "logo路径")
+    private String image;
 }

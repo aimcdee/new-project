@@ -26,7 +26,7 @@ public class Constant {
     public static final Long DEFAUL_TDEPT = -666666L;
 
     /**内部调用评估接口*/
-    public static final String DEAL_PASSWORD = "123456";
+    public static final String DEAL_PASSWORD = "88888888";
 
     /**默认ID*/
     public static final Long DEFAUL_ID = 0L;
@@ -695,6 +695,27 @@ public class Constant {
 
         public void setAppSecret(String appSecret) {
             this.appSecret = appSecret;
+        }
+    }
+
+    /**
+     * 默认密码
+     */
+    public enum PassWord {
+        DEFAULT("88888888");
+
+        private String password;
+
+        PassWord(String password) {
+            this.password = password;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
         }
     }
 }

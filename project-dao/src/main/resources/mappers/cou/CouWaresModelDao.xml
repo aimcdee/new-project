@@ -7,6 +7,7 @@
         SELECT
             cou_model_id,
             cou_model_name,
+            parent_id,
             image,
             status
         FROM
@@ -38,10 +39,22 @@
     <select id="getCouModelList" resultType="com.project.modules.cou.vo.Invoking.CouWaresModelInvokingVo">
         SELECT
             cou_model_id,
-            cou_model_name
+            cou_model_name,
+            image,
+            parent_id
         FROM
             cou_wares_model
         WHERE
             status = #{status}
+    </select>
+
+    <!--根据型号ID获取型号名称-->
+    <select id="getCouModelNameById" resultType="java.lang.String">
+        SELECT
+            cou_model_name
+        FROM
+            cou_wares_model
+        WHERE
+            cou_model_id = #{couModelId}
     </select>
 </mapper>
