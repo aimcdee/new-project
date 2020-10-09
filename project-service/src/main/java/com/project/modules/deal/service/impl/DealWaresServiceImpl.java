@@ -74,6 +74,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
                 MapUtils.getLong(params, "countyAreaId"),
+                MapUtils.getInteger(params, "status"),
                 MapUtils.getInteger(params, "onlineStatus"),
                 MapUtils.getInteger(params, "sellStatus"),
                 DateUtils.getDate(params, "startTime"),
@@ -119,6 +120,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
                 MapUtils.getLong(params, "countyAreaId"),
+                MapUtils.getInteger(params, "status"),
                 MapUtils.getInteger(params, "onlineStatus"),
                 MapUtils.getInteger(params, "sellStatus"),
                 DateUtils.getDate(params, "startTime"),
@@ -153,6 +155,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
                 MapUtils.getLong(params, "countyAreaId"),
+                Constant.WaresStatus.SUSSESS.getStatus(),
                 Constant.WaresOnLineStatus.ONLINE.getStatus(),
                 Constant.WaresSellStatus.UNSALE.getStatus(),
                 DateUtils.getDate(params, "startTime"),
@@ -187,6 +190,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 MapUtils.getLong(params, "proAreaId"),
                 MapUtils.getLong(params, "cityAreaId"),
                 MapUtils.getLong(params, "countyAreaId"),
+                Constant.WaresStatus.SUSSESS.getStatus(),
                 Constant.WaresOnLineStatus.ONLINE.getStatus(),
                 Constant.WaresSellStatus.UNSALE.getStatus(),
                 DateUtils.getDate(params, "startTime"),
@@ -318,7 +322,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     }
 
     /**
-     * 审核企业商品上线状态
+     * 修改企业商品审核状态
      * @param dealWaresId
      * @param remark
      * @param status
@@ -326,17 +330,31 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
      */
     @Override
     @Transactional
-    public void changeOnLineStatus(String dealWaresId, String remark, Integer status, Long sysUserId) {
+    public void changeStatus(String dealWaresId, String remark, Integer status, Long sysUserId) {
         DealWaresEntity dealWaresEntity = getOne(new QueryWrapper<DealWaresEntity>().eq("deal_wares_id", dealWaresId).last("LIMIT 1"));
         //更新状态前校验操作
         checkUpdateStatusBefore(dealWaresEntity, status);
-        //修改单据状态不为下架时
-        if (!status.equals(Constant.WaresOnLineStatus.UNLINE.getStatus())){
-            //新增审核单据
-            dealWaresExamineService.saveEntity(dealWaresId, remark, sysUserId);
-        }
+        //新增审核单据
+        dealWaresExamineService.saveEntity(dealWaresId, remark, sysUserId);
         //更新企业商品在线状态
         updateOnLineStatus(dealWaresEntity, status);
+    }
+
+    /**
+     * 修改企业商品上线状态
+     * @param dealWaresId
+     * @param dealStoreId
+     * @param onLineStatus
+     * @param sysUserId
+     */
+    @Override
+    @Transactional
+    public void changeOnLineStatus(String dealWaresId, Long dealStoreId, Integer onLineStatus, Long sysUserId) {
+        DealWaresEntity dealWaresEntity = getOne(new QueryWrapper<DealWaresEntity>().eq("deal_wares_id", dealWaresId).last("LIMIT 1"));
+        //更新状态前校验操作
+        checkUpdateOnLineStatusBefore(dealWaresEntity, onLineStatus, dealStoreId);
+        //更新企业商品在线状态
+        updateOnLineStatus(dealWaresEntity, onLineStatus);
     }
 
     /**
@@ -355,22 +373,31 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         updateOnLineStatus(dealWaresEntity, Constant.WaresOnLineStatus.UNLINE.getStatus());
     }
 
-    //更新企业商品在线状态
-    private void updateOnLineStatus(DealWaresEntity dealWaresEntity, Integer status) {
-        dealWaresEntity.setOnlineStatus(status).setUpdateTime(new Date());
+    //更新企业商品上线状态
+    private void updateOnLineStatus(DealWaresEntity dealWaresEntity, Integer onLineStatus) {
+        dealWaresEntity.setOnlineStatus(onLineStatus).setUpdateTime(new Date());
         updateById(dealWaresEntity);
     }
 
-    //更新状态前操作
+    //更新审核状态前操作
     private void checkUpdateStatusBefore(DealWaresEntity dealWaresEntity, Integer status) {
         checkUtils.checkEntityNotNull(dealWaresEntity);
-        checkUtils.checkWareRole(status, dealWaresEntity.getOnlineStatus(), dealWaresEntity.getSellStatus());
+        checkUtils.checkSysRole(dealWaresEntity.getOnlineStatus(), dealWaresEntity.getSellStatus(), status);
+    }
+
+    //更新上线状态前操作
+    private void checkUpdateOnLineStatusBefore(DealWaresEntity dealWaresEntity, Integer onLineStatus, Long dealStoreId) {
+        checkUtils.checkEntityNotNull(dealWaresEntity);
+        checkUtils.checkRole(onLineStatus, dealWaresEntity.getSellStatus(), dealWaresEntity.getStatus(), dealStoreId, dealWaresEntity.getDealStoreId());
     }
 
     //获取DealWaresEntity更新对象
     private DealWaresEntity getDealWaresUpdateEntity(DealWaresUpdateVo wares) {
         DealWaresEntity dealWaresEntity = getOne(new QueryWrapper<DealWaresEntity>().eq("deal_wares_id", wares.getDealWaresId()).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(dealWaresEntity);
+        if (dealWaresEntity.getOnlineStatus().equals(Constant.WaresOnLineStatus.ONLINE.getStatus()) || dealWaresEntity.getSellStatus().equals(Constant.WaresSellStatus.SALE.getStatus())){
+            throw new RRException("操作失败,该商品已上线或已出售");
+        }
         try {
             dealWaresEntity = (DealWaresEntity) JavaBeanUtils.mapToJavaBean(DealWaresEntity.class, JavaBeanUtils.javaBeanToMap(wares));
         } catch (Exception e) {
@@ -382,8 +409,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 .setProAreaName(dealInvokingService.getAreaNameById(wares.getProAreaId()))
                 .setCityAreaName(dealInvokingService.getAreaNameById(wares.getCityAreaId()))
                 .setCountyAreaName(dealInvokingService.getAreaNameById(wares.getCountyAreaId()))
-                .setSellStatus(Constant.WaresSellStatus.UNSALE.getStatus())
-                .setOnlineStatus(Constant.WaresOnLineStatus.SALE.getStatus())
+                .setStatus(Constant.WaresStatus.SALE.getStatus())
                 .setSubmitTime(new Date())
                 .setUpdateTime(new Date());
         return dealWaresEntity;
@@ -405,8 +431,9 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 .setProAreaName(dealInvokingService.getAreaNameById(wares.getProAreaId()))
                 .setCityAreaName(dealInvokingService.getAreaNameById(wares.getCityAreaId()))
                 .setCountyAreaName(dealInvokingService.getAreaNameById(wares.getCountyAreaId()))
+                .setStatus(Constant.WaresStatus.SALE.getStatus())
                 .setSellStatus(Constant.WaresSellStatus.UNSALE.getStatus())
-                .setOnlineStatus(Constant.WaresOnLineStatus.SALE.getStatus());
+                .setOnlineStatus(Constant.WaresOnLineStatus.UNLINE.getStatus());
         return dealWaresEntity;
     }
 

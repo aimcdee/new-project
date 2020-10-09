@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-public class DealWaresInvokingVo implements Serializable {
+public class DealWaresChangeStatusInvokingVo implements Serializable {
     private static final long serialVersionUID = 3230007901017023091L;
 
     /**企业商品ID*/

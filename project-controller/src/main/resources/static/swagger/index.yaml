@@ -3720,7 +3720,7 @@ paths:
     post:
       tags:
         - 客户商品-商品模块
-      summary: 修改企业商品上线状态为驳回
+      summary: 修改企业商品审核状态为驳回
       produces:
         - application/json
       parameters:
@@ -3728,7 +3728,7 @@ paths:
           description: 商品审核信息
           in: body
           schema:
-            $ref: '#/definitions/DealWaresInvokingVo'
+            $ref: '#/definitions/DealWaresChangeStatusInvokingVo'
           required: true
       responses:
         '200':
@@ -3739,7 +3739,7 @@ paths:
     post:
       tags:
         - 客户商品-商品模块
-      summary: 修改企业商品上线状态为经理审核
+      summary: 修改企业商品审核状态为经理审核
       produces:
         - application/json
       parameters:
@@ -3747,7 +3747,26 @@ paths:
           description: 商品审核信息
           in: body
           schema:
-            $ref: '#/definitions/DealWaresInvokingVo'
+            $ref: '#/definitions/DealWaresChangeStatusInvokingVo'
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /deal/wares/sussess:
+    post:
+      tags:
+        - 客户商品-商品模块
+      summary: 修改企业商品审核状态为审核通过
+      produces:
+        - application/json
+      parameters:
+        - name: wares
+          description: 商品审核信息
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresChangeStatusInvokingVo'
           required: true
       responses:
         '200':
@@ -3766,25 +3785,26 @@ paths:
           description: 商品审核信息
           in: body
           schema:
-            $ref: '#/definitions/DealWaresInvokingVo'
+            $ref: '#/definitions/DealWaresChangeOnlineStatusInvokingVo'
           required: true
       responses:
         '200':
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-  /deal/wares/unLine/{dealWaresId}:
-    get:
+  /deal/wares/unLine:
+    post:
       tags:
         - 客户商品-商品模块
       summary: 修改企业商品上线状态为下架
       produces:
         - application/json
       parameters:
-        - name: dealWaresId
-          description: 企业商品ID
-          in: path
-          type: integer
+        - name: wares
+          description: 商品审核信息
+          in: body
+          schema:
+            $ref: '#/definitions/DealWaresChangeOnlineStatusInvokingVo'
           required: true
       responses:
         '200':
@@ -7456,7 +7476,7 @@ definitions:
         description: 所属企业客户ID
         type: integer
         format: int64
-  DealWaresInvokingVo:
+  DealWaresChangeStatusInvokingVo:
     type: object
     properties:
       dealWaresId:
@@ -7465,6 +7485,16 @@ definitions:
       remark:
         description: 审核理由
         type: string
+  DealWaresChangeOnlineStatusInvokingVo:
+    type: object
+    properties:
+      dealWaresId:
+        description: 企业商品ID
+        type: string
+      dealStoreId:
+        description: 所属企业客户ID
+        type: integer
+        format: int64
   DealWaresInstallmentListVo:
     type: object
     properties:

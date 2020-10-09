@@ -35,6 +35,7 @@
             deal_wares.is_transfer,
             deal_wares.is_mortgage,
             deal_wares.is_maintain,
+            deal_wares.status,
             deal_wares.sell_status,
             deal_wares.online_status,
             deal_wares.submit_time,
@@ -73,6 +74,9 @@
             <if test="countyAreaId != null and !&quot;&quot;.equals(countyAreaId)">
                 AND deal_wares.county_area_id = #{countyAreaId}
             </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND deal_wares.status = #{status}
+            </if>
             <if test="onlineStatus != null and !&quot;&quot;.equals(onlineStatus)">
                 AND deal_wares.online_status = #{onlineStatus}
             </if>
@@ -98,6 +102,7 @@
             market_year,
             register_time,
             distance,
+            status,
             sell_status,
             online_status,
             submit_time
@@ -130,6 +135,9 @@
             </if>
             <if test="countyAreaId != null and !&quot;&quot;.equals(countyAreaId)">
                 AND county_area_id = #{countyAreaId}
+            </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND status = #{status}
             </if>
             <if test="onlineStatus != null and !&quot;&quot;.equals(onlineStatus)">
                 AND online_status = #{onlineStatus}
@@ -164,7 +172,7 @@
             deal_wares AS deal_wares
             JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
         <where>
-            deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
+            deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus} AND deal_wares.status = #{status}
             <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
                 AND deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
             </if>
@@ -216,7 +224,7 @@
             deal_wares AS deal_wares
             JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
         <where>
-            deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
+            deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus} AND deal_wares.status = #{status}
             <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
                 AND deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
             </if>

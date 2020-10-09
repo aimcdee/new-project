@@ -5,7 +5,8 @@ import com.project.constant.Constant;
 import com.project.modules.Image.service.ImageService;
 import com.project.modules.deal.service.DealWaresExamineService;
 import com.project.modules.deal.service.DealWaresService;
-import com.project.modules.deal.vo.invoking.DealWaresInvokingVo;
+import com.project.modules.deal.vo.invoking.DealWaresChangeOnlineStatusInvokingVo;
+import com.project.modules.deal.vo.invoking.DealWaresChangeStatusInvokingVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
 import com.project.utils.DateUtils;
@@ -145,7 +146,7 @@ public class DealWaresController {
     }
 
     /**
-     * 修改企业商品上线状态为驳回
+     * 修改企业商品审核状态为驳回
      * @param wares
      * @return
      */
@@ -154,14 +155,14 @@ public class DealWaresController {
     @SysLog("修改企业商品上线状态为驳回")
     @PostMapping("/reject")
     @RequiresPermissions("deal:wares:update")
-    public R reject(@RequestBody DealWaresInvokingVo wares){
+    public R reject(@RequestBody DealWaresChangeStatusInvokingVo wares){
         ValidatorUtils.validateEntity(wares);
-        dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresOnLineStatus.REJECT.getStatus(), getSysUserId());
+        dealWaresService.changeStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresStatus.REJECT.getStatus(), getSysUserId());
         return R.ok();
     }
 
     /**
-     * 修改企业商品上线状态为经理审核
+     * 修改企业商品审核状态为经理审核
      * @param wares
      * @return
      */
@@ -170,8 +171,23 @@ public class DealWaresController {
     @SysLog("修改企业商品上线状态为经理审核")
     @PostMapping("/manager")
     @RequiresPermissions("deal:wares:update")
-    public R manager(@RequestBody DealWaresInvokingVo wares){
-        dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresOnLineStatus.MANAGER.getStatus(), getSysUserId());
+    public R manager(@RequestBody DealWaresChangeStatusInvokingVo wares){
+        dealWaresService.changeStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresStatus.MANAGER.getStatus(), getSysUserId());
+        return R.ok();
+    }
+
+    /**
+     * 修改企业商品审核状态为通过
+     * @param wares
+     * @return
+     */
+    @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresInvokingVo")
+    @ApiOperation(value = "修改企业商品审核状态为通过")
+    @SysLog("修改企业商品审核状态为通过")
+    @PostMapping("/sussess")
+    @RequiresPermissions("deal:wares:update")
+    public R sussess(@RequestBody DealWaresChangeStatusInvokingVo wares){
+        dealWaresService.changeStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresStatus.SUSSESS.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -180,27 +196,28 @@ public class DealWaresController {
      * @param wares
      * @return
      */
-    @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresInvokingVo")
+    @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresChangeOnlineStatusInvokingVo")
     @ApiOperation(value = "修改企业商品上线状态为上架")
     @SysLog("修改企业商品上线状态为上架")
-    @PostMapping("/onLine")
+    @PostMapping("/onLine/{dealWaresId}")
     @RequiresPermissions("deal:wares:update")
-    public R onLine(@RequestBody DealWaresInvokingVo wares){
-        dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getRemark(), Constant.WaresOnLineStatus.ONLINE.getStatus(), getSysUserId());
+    public R onLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares){
+        dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getDealStoreId(), Constant.WaresOnLineStatus.ONLINE.getStatus(), getSysUserId());
         return R.ok();
     }
 
     /**
      * 修改企业商品上线状态为下架
-     * @param dealWaresId
+     * @param wares
      * @return
      */
+    @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresChangeOnlineStatusInvokingVo")
     @ApiOperation(value = "修改企业商品上线状态为下架")
     @SysLog("修改企业商品上线状态为下架")
     @GetMapping("/unLine/{dealWaresId}")
     @RequiresPermissions("deal:wares:update")
-    public R unLine(@PathVariable("dealWaresId") String dealWaresId){
-        dealWaresService.changeOnLineStatus(dealWaresId, null, Constant.WaresOnLineStatus.UNLINE.getStatus(), getSysUserId());
+    public R unLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares){
+        dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getDealStoreId(), Constant.WaresOnLineStatus.UNLINE.getStatus(), getSysUserId());
         return R.ok();
     }
 

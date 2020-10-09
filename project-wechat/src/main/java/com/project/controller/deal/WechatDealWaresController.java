@@ -157,6 +157,40 @@ public class WechatDealWaresController {
     }
 
     /**
+     * 个人中心-企业-商品模块-修改商品上线状态为上架
+     * @param dealWaresId
+     * @return
+     */
+    @ApiOperation(value = "修改商品上线状态为上架")
+    @SysLog("修改商品上线状态为上架")
+    @GetMapping("/onLine/{dealWaresId}")
+    public R onLine(@PathVariable("dealWaresId") String dealWaresId){
+        if (isEnterprise()){
+            dealWaresService.changeOnLineStatus(dealWaresId, getDealStoreId(), Constant.WaresOnLineStatus.ONLINE.getStatus(), null);
+            return R.ok();
+//            return R.ok(wxDealWaresService.changeOnLineStatus(dealWaresId));
+        }
+        return R.ok(Constant.DEFAUL_INDIVIDUAL);
+    }
+
+    /**
+     * 个人中心-企业-商品模块-修改商品上线状态为下架
+     * @param dealWaresId
+     * @return
+     */
+    @ApiOperation(value = "修改商品上线状态为下架")
+    @SysLog("修改商品上线状态为下架")
+    @GetMapping("/unLine/{dealWaresId}")
+    public R unLine(@PathVariable("dealWaresId") String dealWaresId){
+        if (isEnterprise()){
+            dealWaresService.changeOnLineStatus(dealWaresId, getDealStoreId(), Constant.WaresOnLineStatus.UNLINE.getStatus(), null);
+            return R.ok();
+//            return R.ok(wxDealWaresService.changeOnLineStatus(dealWaresId));
+        }
+        return R.ok(Constant.DEFAUL_INDIVIDUAL);
+    }
+
+    /**
      * 个人中心-企业-商品模块-修改企业商品出售情况为已出售
      * @param dealWaresId
      * @return

@@ -56,6 +56,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
             @Param("countyAreaId") Long countyAreaId,
+            @Param("status") Integer status,
             @Param("onlineStatus") Integer onlineStatus,
             @Param("sellStatus") Integer sellStatus,
             @Param("startTime") Date startTime,
@@ -89,6 +90,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
             @Param("countyAreaId") Long countyAreaId,
+            @Param("status") Integer status,
             @Param("onlineStatus") Integer onlineStatus,
             @Param("sellStatus") Integer sellStatus,
             @Param("startTime") Date startTime,
@@ -101,9 +103,11 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      * @param couBrandId
      * @param couSeriesId
      * @param couModelId
+     * @param marketYear
      * @param proAreaId
      * @param cityAreaId
      * @param countyAreaId
+     * @param status
      * @param onlineStatus
      * @param sellStatus
      * @param startTime
@@ -120,6 +124,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
             @Param("countyAreaId") Long countyAreaId,
+            @Param("status") Integer status,
             @Param("onlineStatus") Integer onlineStatus,
             @Param("sellStatus") Integer sellStatus,
             @Param("startTime") Date startTime,
@@ -132,9 +137,11 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      * @param couBrandId
      * @param couSeriesId
      * @param couModelId
+     * @param marketYear
      * @param proAreaId
      * @param cityAreaId
      * @param countyAreaId
+     * @param status
      * @param onlineStatus
      * @param sellStatus
      * @param startTime
@@ -151,6 +158,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
             @Param("proAreaId") Long proAreaId,
             @Param("cityAreaId") Long cityAreaId,
             @Param("countyAreaId") Long countyAreaId,
+            @Param("status") Integer status,
             @Param("onlineStatus") Integer onlineStatus,
             @Param("sellStatus") Integer sellStatus,
             @Param("startTime") Date startTime,

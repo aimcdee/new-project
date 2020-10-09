@@ -92,10 +92,22 @@
         SELECT
             deal_assess_sell.deal_sell_id,
             deal_assess_sell.deal_sell_title,
+            deal_assess_sell.deal_assess_id,
             deal_assess_sell.assess_wares_title,
+            deal_assess_sell.contact_phone,
+            deal_assess_sell.contact_name,
+            deal_assess_sell.pro_area_id,
+            deal_assess_sell.pro_area_name,
+            deal_assess_sell.city_area_id,
+            deal_assess_sell.city_area_name,
+            deal_assess_sell.county_area_id,
+            deal_assess_sell.county_area_name,
+            deal_assess_sell.addr,
             deal_assess_sell.sys_user_id,
             deal_assess_sell.sell_price,
-            deal_assess_sell.status
+            deal_assess_sell.status,
+            deal_assess_sell.examine_user_id,
+            deal_assess_sell.examine_time
         FROM
             deal_assess_sell AS deal_assess_sell
         WHERE

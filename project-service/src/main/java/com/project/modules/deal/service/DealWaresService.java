@@ -82,13 +82,22 @@ public interface DealWaresService extends IService<DealWaresEntity> {
     void updateEntity(DealWaresUpdateVo wares);
 
     /**
-     * 审核企业商品上线状态
+     * 修改企业商品审核状态
      * @param dealWaresId
      * @param remark
      * @param status
      * @param sysUserId
      */
-    void changeOnLineStatus(String dealWaresId, String remark, Integer status, Long sysUserId);
+    void changeStatus(String dealWaresId, String remark, Integer status, Long sysUserId);
+
+    /**
+     * 修改企业商品上线状态
+     * @param dealWaresId
+     * @param dealStoreId
+     * @param onLineStatus
+     * @param sysUserId
+     */
+    void changeOnLineStatus(String dealWaresId, Long dealStoreId, Integer onLineStatus, Long sysUserId);
 
     /**
      * 修改企业商品出售情况为已出售
@@ -96,5 +105,4 @@ public interface DealWaresService extends IService<DealWaresEntity> {
      * @param status
      */
     void changeSellStatus(String dealWaresId, Integer status);
-
 }

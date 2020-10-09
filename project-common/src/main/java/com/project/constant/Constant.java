@@ -539,11 +539,53 @@ public class Constant {
     }
 
     /**
+     * 企业商品审核状态
+     *   0.驳回 1.销售审核中 2.经理审核中 3.审核通过
+     */
+    public enum WaresStatus {
+        REJECT(0), SALE(1), MANAGER(2), SUSSESS(3);
+
+        private Integer status;
+
+        WaresStatus(Integer status) {
+            this.status = status;
+        }
+
+        public Integer getStatus() {
+            return status;
+        }
+
+        public void setStatus(Integer status) {
+            this.status = status;
+        }
+
+        public static WaresStatus getStatusValues(Integer status){
+            if (!status.equals(null)){
+                for (WaresStatus waresStatus : values()){
+                    if (waresStatus.getStatus().equals(status)){
+                        return waresStatus;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static Boolean checkStatus(Integer status){
+            if (!status.equals(null)){
+                if (REJECT.equals(status) || SUSSESS.equals(status)){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /**
      * 企业商品上架情况
-     *   0.驳回 1.销售审核中 2.经理审核中 4.上架 4.下架
+     *   0.上架 1.下架
      */
     public enum WaresOnLineStatus {
-        REJECT(0), SALE(1), MANAGER(2), ONLINE(3), UNLINE(4);
+        ONLINE(0), UNLINE(1);
 
         private Integer status;
 

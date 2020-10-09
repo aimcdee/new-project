@@ -598,7 +598,6 @@ paths:
           description: 返回商品评价列表
           schema:
             $ref: '#/definitions/DealWaresInstallmentEntities'
-
   /wechat/deal/user/store/finance/save:
     post:
       tags:
@@ -618,7 +617,6 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
   /wechat/deal/user/store/refund/cashOut:
     get:
       tags:
@@ -706,7 +704,6 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
   /wechat/deal/wares/personalList:
     get:
       tags:
@@ -913,11 +910,47 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
+  /wechat/deal/wares/onLine/{dealWaresId}:
+    get:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 商品上线状态修改-修改商品上线状态为上架
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 企业商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
+  /wechat/deal/wares/unLine/{dealWaresId}:
+    get:
+      tags:
+        - 个人中心-企业专属-商品模块
+      summary: 商品上线状态修改-修改商品上线状态为下架
+      produces:
+        - application/json
+      parameters:
+        - name: dealWaresId
+          description: 企业商品ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/R'
   /wechat/deal/wares/sale/{dealWaresId}:
     get:
       tags:
         - 个人中心-企业专属-商品模块
-      summary: 商品状态修改-修改商品出售状态为已出售
+      summary: 商品出售状态修改-修改商品出售状态为已出售
       produces:
         - application/json
       parameters:
@@ -1882,8 +1915,46 @@ definitions:
       dealSellTitle:
         description: 个人评估商品出售标题
         type: string
-      assessWaresTitle:
+      dealAssessId:
+        description: 所属评估ID
+        type: integer
+        format: int64
+      asessWaresTitle:
         description: 评估商品名称
+        type: String
+      contactName:
+        description: 联系人名称
+        type: string
+      contactPhone:
+        description: 联系人电话
+        type: string
+      sex:
+        description: 性别 0.先生 1.小姐
+        type: integer
+        format: int64
+      proAreaId:
+        description: 省级区域ID
+        type: integer
+        format: int64
+      proAreaName:
+        description: 省级区域名称
+        type: string
+      cityAreaId:
+        description: 市级区域ID
+        type: integer
+        format: int64
+      cityAreaName:
+        description: 市级区域名称
+        type: string
+      countyAreaId:
+        description: 县/区级区域ID
+        type: integer
+        format: int64
+      countyAreaName:
+        description: 县/区级区域名称
+        type: string
+      addr:
+        description: 详细地址
         type: string
       sysUserId:
         description: 跟进人ID
@@ -1899,6 +1970,14 @@ definitions:
       sellPrice:
         description: 最终出售金额
         type: string
+      examineUserId:
+        description: 审核人ID
+        type: integer
+        format: int64
+      examineTime:
+        description: 审核时间
+        type: string
+        format: date-time
   DealAssessSellUpdateVo:
     type: object
     properties:
