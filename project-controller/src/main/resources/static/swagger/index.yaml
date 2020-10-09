@@ -2078,7 +2078,7 @@ paths:
   /deal/user/list:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 分页查询状态为正常的客户列表
       produces:
         - application/json
@@ -2135,7 +2135,7 @@ paths:
   /deal/user/save:
     post:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 新增客户
       produces:
         - application/json
@@ -2154,7 +2154,7 @@ paths:
   /deal/user/info/{dealUserId}:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 获取客户信息
       produces:
         - application/json
@@ -2180,7 +2180,7 @@ paths:
   /deal/user/update:
     post:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 修改客户配置
       produces:
         - application/json
@@ -2199,7 +2199,7 @@ paths:
   /deal/user/normal/{dealUserId}:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 修改客户状态为启用
       produces:
         - application/json
@@ -2217,7 +2217,7 @@ paths:
   /deal/user/disable/{dealUserId}:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 修改客户状态为禁用
       produces:
         - application/json
@@ -2235,7 +2235,7 @@ paths:
   /deal/user/getDealUserList:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 获取用户集合
       produces:
         - application/json
@@ -2255,7 +2255,7 @@ paths:
   /deal/user/getStoreUserList:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 获取企业用户集合
       produces:
         - application/json
@@ -2275,7 +2275,7 @@ paths:
   /deal/user/cashOut/{dealUserId}:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户模块
       summary: 客户提现
       produces:
         - application/json
@@ -2290,12 +2290,11 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-
   /deal/user/store/listPage:
     get:
       tags:
-        - 客户商品-客户模块
-      summary: 分页企业的申请记录
+        - 客户管理-客户企业模块
+      summary: 分页所有客户企业申请记录
       produces:
         - application/json
       parameters:
@@ -2333,7 +2332,7 @@ paths:
   /deal/user/store/upload/image:
     post:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户企业模块
       summary: 上传客户企业门面图
       consumes:
         - multipart/form-data
@@ -2358,7 +2357,7 @@ paths:
   /deal/user/store/delete/image:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户企业模块
       summary: 删除客户企业门面图
       consumes:
         - multipart/form-data
@@ -2378,7 +2377,7 @@ paths:
   /deal/user/store/save:
     post:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户企业模块
       summary: 申请企业认证
       produces:
         - application/json
@@ -2397,8 +2396,8 @@ paths:
   /deal/user/store/list:
     get:
       tags:
-        - 客户商品-客户模块
-      summary: 分页客户查看申请成为企业的申请记录
+        - 客户管理-客户企业模块
+      summary: 分页查看客户企业申请记录
       produces:
         - application/json
       parameters:
@@ -2433,7 +2432,7 @@ paths:
   /deal/user/store/info/{dealStoreId}:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户企业模块
       summary: 查看客户企业认证详情
       produces:
         - application/json
@@ -2459,7 +2458,7 @@ paths:
   /deal/user/store/fail/{dealStoreId}:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户企业模块
       summary: 审核客户企业认证为失败
       produces:
         - application/json
@@ -2477,7 +2476,7 @@ paths:
   /deal/user/store/success:
     post:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户企业模块
       summary: 审核客户企业认证为成功
       produces:
         - application/json
@@ -2496,7 +2495,7 @@ paths:
   /deal/user/store/waste/{dealStoreId}:
     get:
       tags:
-        - 客户商品-客户模块
+        - 客户管理-客户企业模块
       summary: 审核客户企业认证为作废
       produces:
         - application/json
@@ -2514,7 +2513,7 @@ paths:
   /deal/user/store/deposit/list:
     get:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 分页查询保证金单列表
       produces:
         - application/json
@@ -2563,7 +2562,7 @@ paths:
   /deal/user/store/deposit/save:
     post:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 新增保证金单
       produces:
         - application/json
@@ -2582,7 +2581,7 @@ paths:
   /deal/user/store/deposit/info/{depositId}:
     get:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 查看客户企业保证金单详情
       produces:
         - application/json
@@ -2608,7 +2607,7 @@ paths:
   /deal/user/store/deposit/update:
     post:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 修改保证金单
       produces:
         - application/json
@@ -2627,7 +2626,7 @@ paths:
   /deal/user/store/deposit/cancel/{depositId}:
     get:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 修改单据状态为放弃
       produces:
         - application/json
@@ -2645,7 +2644,7 @@ paths:
   /deal/user/store/deposit/reject:
     post:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 修改单据状态为驳回
       produces:
         - application/json
@@ -2664,7 +2663,7 @@ paths:
   /deal/user/store/deposit/manager:
     post:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 修改单据状态为经理审核
       produces:
         - application/json
@@ -2683,7 +2682,7 @@ paths:
   /deal/user/store/deposit/success:
     post:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 修改单据状态为已通过
       produces:
         - application/json
@@ -2702,7 +2701,7 @@ paths:
   /deal/user/store/deposit/getExamineList/{depositId}:
     get:
       tags:
-        - 客户商品-保证金模块
+        - 金融管理-保证金模块
       summary: 获取保证金单据的审核记录
       produces:
         - application/json
@@ -2728,7 +2727,7 @@ paths:
   /deal/user/store/refund/list:
     get:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 分页查询退费单列表
       produces:
         - application/json
@@ -2777,7 +2776,7 @@ paths:
   /deal/user/store/refund/save:
     post:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 新增退费单
       produces:
         - application/json
@@ -2796,7 +2795,7 @@ paths:
   /deal/user/store/refund/info/{refundId}:
     get:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 查看企业客户退费单详情
       produces:
         - application/json
@@ -2822,7 +2821,7 @@ paths:
   /deal/user/store/refund/update:
     post:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 修改退费单
       produces:
         - application/json
@@ -2841,7 +2840,7 @@ paths:
   /deal/user/store/refund/cancel/{refundId}:
     get:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 修改单据状态为放弃
       produces:
         - application/json
@@ -2859,7 +2858,7 @@ paths:
   /deal/user/store/refund/reject:
     post:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 修改单据状态为驳回
       produces:
         - application/json
@@ -2878,7 +2877,7 @@ paths:
   /deal/user/store/refund/manager:
     post:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 修改单据状态为经理审核
       produces:
         - application/json
@@ -2897,7 +2896,7 @@ paths:
   /deal/user/store/refund/success:
     post:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 修改单据状态为已通过
       produces:
         - application/json
@@ -2916,7 +2915,7 @@ paths:
   /deal/user/store/refund/getExamineList/{refundId}:
     get:
       tags:
-        - 客户商品-退费单模块
+        - 金融管理-退费单模块
       summary: 获取退费单单据的审核记录
       produces:
         - application/json
@@ -2942,7 +2941,7 @@ paths:
   /deal/user/store/finance/list:
     get:
       tags:
-        - 客户商品-金融单模块
+        - 金融管理-金融单模块
       summary: 分页查询金融单列表
       produces:
         - application/json
@@ -2999,7 +2998,7 @@ paths:
   /deal/user/store/finance/save:
     post:
       tags:
-        - 客户商品-金融单模块
+        - 金融管理-金融单模块
       summary: 新增金融单
       produces:
         - application/json
@@ -3018,7 +3017,7 @@ paths:
   /deal/user/store/finance/info/{financeId}:
     get:
       tags:
-        - 客户商品-金融单模块
+        - 金融管理-金融单模块
       summary: 查看企业客户退费单详情
       produces:
         - application/json
@@ -3044,7 +3043,7 @@ paths:
   /deal/user/store/finance/checkpending:
     post:
       tags:
-        - 客户商品-金融单模块
+        - 金融管理-金融单模块
       summary: 修改金融单状态为处理中
       produces:
         - application/json
@@ -3063,7 +3062,7 @@ paths:
   /deal/user/store/finance/waste/{financeId}:
     get:
       tags:
-        - 客户商品-金融单模块
+        - 金融管理-金融单模块
       summary: 修改金融单状态为已作废
       produces:
         - application/json
@@ -3081,7 +3080,7 @@ paths:
   /deal/user/store/finance/success:
     post:
       tags:
-        - 客户商品-金融单模块
+        - 金融管理-金融单模块
       summary: 修改金融单状态为已完成
       produces:
         - application/json
@@ -3100,7 +3099,7 @@ paths:
   /deal/user/store/finance/getExamineList/{financeId}:
     get:
       tags:
-        - 客户商品-金融单模块
+        - 金融管理-金融单模块
       summary: 获取金融单的审核记录
       produces:
         - application/json
@@ -3126,7 +3125,7 @@ paths:
   /deal/assess/list:
     get:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 分页查询商品评估列表
       produces:
         - application/json
@@ -3175,7 +3174,7 @@ paths:
   /deal/assess/upload/waresImage:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 评估商品图上传
       consumes:
         - multipart/form-data
@@ -3200,7 +3199,7 @@ paths:
   /deal/assess/upload/drivingImage:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 行驶证图上传
       consumes:
         - multipart/form-data
@@ -3225,7 +3224,7 @@ paths:
   /deal/assess/delete/image:
     get:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 删除商品评估图
       consumes:
         - multipart/form-data
@@ -3245,7 +3244,7 @@ paths:
   /deal/assess/save:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 新增商品评估信息
       produces:
         - application/json
@@ -3264,7 +3263,7 @@ paths:
   /deal/assess/info/{dealAssessId}:
     get:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 获取商品评估信息
       produces:
         - application/json
@@ -3290,7 +3289,7 @@ paths:
   /deal/assess/update:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 商品评估价格
       produces:
         - application/json
@@ -3309,7 +3308,7 @@ paths:
   /deal/assess/waste/{dealAssessId}:
     get:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品模块
       summary: 审核客户提交的评估作废
       produces:
         - application/json
@@ -3327,7 +3326,7 @@ paths:
   /deal/assess/sell/list:
     get:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品出售模块
       summary: 分页查询个人评估商品出售列表
       produces:
         - application/json
@@ -3380,7 +3379,7 @@ paths:
   /deal/assess/sell/save:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品出售模块
       summary: 新增个人评估商品出售
       produces:
         - application/json
@@ -3399,7 +3398,7 @@ paths:
   /deal/assess/sell/info/{dealSellId}:
     get:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品出售模块
       summary: 根据个人评估商品出售ID获取个人评估商品出售详情
       produces:
         - application/json
@@ -3425,7 +3424,7 @@ paths:
   /deal/assess/sell/update:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品出售模块
       summary: 修改个人评估商品出售信息
       produces:
         - application/json
@@ -3444,7 +3443,7 @@ paths:
   /deal/assess/sell/processing:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品出售模块
       summary: 修改个人评估商品出售状态为处理中
       produces:
         - application/json
@@ -3463,7 +3462,7 @@ paths:
   /deal/assess/sell/cancel/{dealSellId}:
     get:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品出售模块
       summary: 修改个人评估商品出售状态为已取消
       produces:
         - application/json
@@ -3481,7 +3480,7 @@ paths:
   /deal/assess/sell/success:
     post:
       tags:
-        - 客户商品-评估模块
+        - 评估管理-评估商品出售模块
       summary: 修改个人评估商品出售状态为已完成
       produces:
         - application/json
@@ -3500,7 +3499,7 @@ paths:
   /deal/wares/list:
     get:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 分页查询企业商品列表
       produces:
         - application/json
@@ -3527,10 +3526,6 @@ paths:
           description: 出售商品标题
           in: query
           type: string
-        - name: releaseAreaId
-          description: 发布区域ID
-          in: query
-          type: integer
         - name: couBrandId
           description: 所属品牌ID
           in: query
@@ -3559,8 +3554,12 @@ paths:
           description: 所属区域县/区级ID
           in: query
           type: integer
+        - name: status
+          description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
+          in: query
+          type: integer
         - name: onlineStatus
-          description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+          description: 上线状态 0.上架 1.下架
           in: query
           type: integer
         - name: sellStatus
@@ -3585,7 +3584,7 @@ paths:
   /deal/wares/upload/waresImage:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 出售商品图上传
       consumes:
         - multipart/form-data
@@ -3610,7 +3609,7 @@ paths:
   /deal/wares/upload/drivingImage:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 行驶证图上传
       consumes:
         - multipart/form-data
@@ -3635,7 +3634,7 @@ paths:
   /deal/wares/delete/image:
     get:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 删除出售商品图/行驶证图
       consumes:
         - multipart/form-data
@@ -3655,7 +3654,7 @@ paths:
   /deal/wares/save:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 新增出售商品
       produces:
         - application/json
@@ -3674,7 +3673,7 @@ paths:
   /deal/wares/info/{dealWaresId}:
     get:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 根据出售商品ID获取出售商品详情
       produces:
         - application/json
@@ -3700,7 +3699,7 @@ paths:
   /deal/wares/update:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 更新出售商品
       produces:
         - application/json
@@ -3719,7 +3718,7 @@ paths:
   /deal/wares/reject:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 修改企业商品审核状态为驳回
       produces:
         - application/json
@@ -3738,7 +3737,7 @@ paths:
   /deal/wares/manager:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 修改企业商品审核状态为经理审核
       produces:
         - application/json
@@ -3757,7 +3756,7 @@ paths:
   /deal/wares/sussess:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 修改企业商品审核状态为审核通过
       produces:
         - application/json
@@ -3776,7 +3775,7 @@ paths:
   /deal/wares/onLine:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 修改企业商品上线状态为上架
       produces:
         - application/json
@@ -3795,7 +3794,7 @@ paths:
   /deal/wares/unLine:
     post:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 修改企业商品上线状态为下架
       produces:
         - application/json
@@ -3814,7 +3813,7 @@ paths:
   /deal/wares/sale/{dealWaresId}:
     get:
       tags:
-        - 客户商品-商品模块
+        - 商品管理-商品模块
       summary: 修改企业商品出售情况为已出售
       produces:
         - application/json
@@ -3832,7 +3831,7 @@ paths:
   /deal/wares/installment/list:
     get:
       tags:
-        - 客户商品-分期模块
+        - 商品管理-分期模块
       summary: 分页查询咨询分期列表
       produces:
         - application/json
@@ -3897,7 +3896,7 @@ paths:
   /deal/wares/installment/save:
     post:
       tags:
-        - 客户商品-分期模块
+        - 商品管理-分期模块
       summary: 新增咨询分期
       produces:
         - application/json
@@ -3916,7 +3915,7 @@ paths:
   /deal/wares/installment/info/{installmentId}:
     get:
       tags:
-        - 客户商品-分期模块
+        - 商品管理-分期模块
       summary: 根据咨询分期ID获取咨询分期详情
       produces:
         - application/json
@@ -3942,7 +3941,7 @@ paths:
   /deal/wares/installment/waste:
     post:
       tags:
-        - 客户商品-分期模块
+        - 商品管理-分期模块
       summary: 新增修改咨询分期单跟进状态为作废
       produces:
         - application/json
@@ -3961,7 +3960,7 @@ paths:
   /deal/wares/installment/success:
     post:
       tags:
-        - 客户商品-分期模块
+        - 商品管理-分期模块
       summary: 新增修改咨询分期单跟进状态为已跟进
       produces:
         - application/json
@@ -6839,10 +6838,6 @@ definitions:
       dealWaresNo:
         description: 出售商品编号
         type: string
-      releaseAreaId:
-        description: 发布区域ID
-        type: integer
-        format: int64
       releaseAreaName:
         description: 发布区域名称
         type: string
@@ -6935,12 +6930,16 @@ definitions:
         description: 是否有定期4s保养 0.无 1.是
         type: integer
         format: int64
+      status:
+        description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
+        type: integer
+        format: int64
       sellStatus:
         description: 出售状态 0.未出售 1.已出售
         type: integer
         format: int64
       onlineStatus:
-        description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+        description: 上线状态 0.上架 1.下架
         type: integer
         format: int64
       coverImage:
@@ -7056,10 +7055,6 @@ definitions:
       dealWaresTitle:
         description: 出售商品标题
         type: string
-      releaseAreaId:
-        description: 发布区域ID
-        type: integer
-        format: int64
       contactPhone:
         description: 联系电话
         type: string
@@ -7177,13 +7172,6 @@ definitions:
       dealWaresNo:
         description: 出售商品编号
         type: string
-      releaseAreaId:
-        description: 发布区域ID
-        type: integer
-        format: int64
-      releaseAreaName:
-        description: 发布区域名称
-        type: string
       contactPhone:
         description: 联系电话
         type: string
@@ -7273,12 +7261,16 @@ definitions:
         description: 是否有定期4s保养 0.无 1.是
         type: integer
         format: int64
+      status:
+        description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
+        type: integer
+        format: int64
       sellStatus:
         description: 出售状态 0.未出售 1.已出售
         type: integer
         format: int64
       onlineStatus:
-        description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+        description: 上线状态 0.上架 1.下架
         type: integer
         format: int64
       coverImage:
@@ -7367,10 +7359,6 @@ definitions:
       dealWaresTitle:
         description: 出售商品标题
         type: string
-      releaseAreaId:
-        description: 发布区域ID
-        type: integer
-        format: int64
       contactPhone:
         description: 联系电话
         type: string
@@ -7393,7 +7381,7 @@ definitions:
         type: integer
         format: int64
       couModelId:
-        description: 所属型号ID
+        description: 所属商品型号ID
         type: integer
         format: int64
       marketYear:
@@ -7466,7 +7454,7 @@ definitions:
             description: 图片路径
             type: string
       waresImages:
-        description: 商品图集合
+        description: 商品评估图集合
         type: array
         items:
           image:

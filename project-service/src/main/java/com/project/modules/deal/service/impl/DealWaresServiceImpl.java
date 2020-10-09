@@ -65,7 +65,6 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         List<DealWaresListVo> waresLists = baseMapper.queryPage(
                 page,
                 StringUtils.trim(MapUtils.getString(params, "dealWaresTitle")),
-                MapUtils.getLong(params, "releaseAreaId"),
                 MapUtils.getLong(params, "couBrandId"),
                 MapUtils.getLong(params, "couSeriesId"),
                 MapUtils.getLong(params, "couModelId"),
@@ -405,7 +404,6 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             throw new RRException("操作失败,类转换失败");
         }
         dealWaresEntity
-                .setReleaseAreaName(dealInvokingService.getAreaNameById(wares.getReleaseAreaId()))
                 .setProAreaName(dealInvokingService.getAreaNameById(wares.getProAreaId()))
                 .setCityAreaName(dealInvokingService.getAreaNameById(wares.getCityAreaId()))
                 .setCountyAreaName(dealInvokingService.getAreaNameById(wares.getCountyAreaId()))
@@ -427,7 +425,6 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         dealWaresEntity
                 .setDealWaresId(createNoAndIDUtils.getDealWaresId())
                 .setDealWaresNo(createNoAndIDUtils.getDealWaresCode())
-                .setReleaseAreaName(dealInvokingService.getAreaNameById(wares.getReleaseAreaId()))
                 .setProAreaName(dealInvokingService.getAreaNameById(wares.getProAreaId()))
                 .setCityAreaName(dealInvokingService.getAreaNameById(wares.getCityAreaId()))
                 .setCountyAreaName(dealInvokingService.getAreaNameById(wares.getCountyAreaId()))

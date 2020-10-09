@@ -33,11 +33,6 @@ public class DealWaresUpdateVo implements Serializable {
     @NotBlank(message = "请输入商品名称")
     private String dealWaresTitle;
 
-    /**发布区域ID*/
-    @ApiModelProperty(value = "发布区域ID")
-    @NotNull(message = "请选择发布区域")
-    private Long releaseAreaId;
-
     /**联系电话*/
     @ApiModelProperty(value = "联系电话")
     @NotBlank(message = "请输入联系电话")

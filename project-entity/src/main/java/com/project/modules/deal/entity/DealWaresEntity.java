@@ -36,14 +36,6 @@ public class DealWaresEntity implements Serializable {
     @ApiModelProperty(value = "出售商品编号")
     private String dealWaresNo;
 
-    /**发布区域ID*/
-    @ApiModelProperty(value = "发布区域ID")
-    private Long releaseAreaId;
-
-    /**发布区域名称*/
-    @ApiModelProperty(value = "发布区域名称")
-    private String releaseAreaName;
-
     /**联系电话*/
     @ApiModelProperty(value = "联系电话")
     private String contactPhone;

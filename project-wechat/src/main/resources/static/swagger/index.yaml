@@ -762,8 +762,12 @@ paths:
           description: 所属区域县/区级ID
           in: query
           type: integer
+        - name: status
+          description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
+          in: query
+          type: integer
         - name: onlineStatus
-          description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+          description: 上线状态 0.上架 1.下架
           in: query
           type: integer
         - name: sellStatus
@@ -2013,8 +2017,6 @@ definitions:
       addr:
         description: 详细地址
         type: string
-
-
   DealWaresWxPersonalListVo:
     type: object
     properties:
@@ -2043,12 +2045,16 @@ definitions:
         description: 行驶里程
         type: integer
         format: int64
+      status:
+        description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
+        type: integer
+        format: int64
       sellStatus:
         description: 出售状态 0.未出售 1.已出售
         type: integer
         format: int64
       onlineStatus:
-        description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+        description: 上线状态 0.上架 1.下架
         type: integer
         format: int64
       coverImage:
@@ -2303,10 +2309,6 @@ definitions:
       dealWaresTitle:
         description: 出售商品标题
         type: string
-      releaseAreaId:
-        description: 发布区域ID
-        type: integer
-        format: int64
       contactPhone:
         description: 联系电话
         type: string
@@ -2424,13 +2426,6 @@ definitions:
       dealWaresNo:
         description: 出售商品编号
         type: string
-      releaseAreaId:
-        description: 发布区域ID
-        type: integer
-        format: int64
-      releaseAreaName:
-        description: 发布区域名称
-        type: string
       contactPhone:
         description: 联系电话
         type: string
@@ -2520,12 +2515,16 @@ definitions:
         description: 是否有定期4s保养 0.无 1.是
         type: integer
         format: int64
+      status:
+        description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
+        type: integer
+        format: int64
       sellStatus:
         description: 出售状态 0.未出售 1.已出售
         type: integer
         format: int64
       onlineStatus:
-        description: 上线状态 0.驳回 1.销售审核中 2.经理审核中 3.上架 4.下架
+        description: 上线状态 0.上架 1.下架
         type: integer
         format: int64
       coverImage:
@@ -2614,10 +2613,6 @@ definitions:
       dealWaresTitle:
         description: 出售商品标题
         type: string
-      releaseAreaId:
-        description: 发布区域ID
-        type: integer
-        format: int64
       contactPhone:
         description: 联系电话
         type: string

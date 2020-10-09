@@ -47,7 +47,6 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
     List<DealWaresListVo> queryPage(
             Page<DealWaresListVo> page,
             @Param("dealWaresTitle") String dealWaresTitle,
-            @Param("releaseAreaId") Long releaseAreaId,
             @Param("couBrandId") Long couBrandId,
             @Param("couSeriesId") Long couSeriesId,
             @Param("couModelId") Long couModelId,
