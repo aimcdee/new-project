@@ -3,6 +3,7 @@ package com.project.modules.wechat.deal.controller;
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
 import com.project.modules.deal.service.DealWaresService;
+import com.project.modules.deal.vo.invoking.DealWaresChangeOnlineStatusInvokingVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
 import com.project.utils.R;
@@ -78,6 +79,34 @@ public class WxDealWareController {
     public R update (@RequestBody DealWaresUpdateVo wares){
         ValidatorUtils.validateEntity(wares);
         dealWaresService.updateEntity(wares);
+        return R.ok();
+    }
+
+    /**
+     * 个人中心-企业-商品模块-修改企业商品上线状态为上架
+     * @param wares
+     * @return
+     */
+    @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresChangeOnlineStatusInvokingVo")
+    @ApiOperation(value = "修改企业商品上线状态为上架")
+    @SysLog("修改企业商品上线状态为上架")
+    @PostMapping("/onLine")
+    public R onLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares){
+        dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getDealStoreId(), Constant.WaresOnLineStatus.ONLINE.getStatus(), null);
+        return R.ok();
+    }
+
+    /**
+     * 个人中心-企业-商品模块-修改企业商品上线状态为下架
+     * @param wares
+     * @return
+     */
+    @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresChangeOnlineStatusInvokingVo")
+    @ApiOperation(value = "修改企业商品上线状态为下架")
+    @SysLog("修改企业商品上线状态为下架")
+    @PostMapping("/unLine")
+    public R unLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares){
+        dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getDealStoreId(), Constant.WaresOnLineStatus.UNLINE.getStatus(), null);
         return R.ok();
     }
 

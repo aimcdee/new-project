@@ -34,6 +34,10 @@ public class DealUserStoreInvokingVo implements Serializable {
     @ApiModelProperty(value = "信用等级")
     private Integer creditGrade;
 
+    /**客户企业门面图*/
+    @ApiModelProperty(value = "客户企业门面图")
+    private String image;
+
     /**归属人名称*/
     @ApiModelProperty(value = "归属人名称")
     private String sysUserName;

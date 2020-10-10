@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface WxCouWaresBrandService {
 
     /**
+     * 获取热门品牌对象列表
+     * @return
+     */
+    @GetMapping(Constant.COU_BRAND_PATH + "/getHotCouBrandList")
+    R getHotCouBrandList();
+
+    /**
      * 获取所有状态为正常商品品牌对象
      * @return
      */

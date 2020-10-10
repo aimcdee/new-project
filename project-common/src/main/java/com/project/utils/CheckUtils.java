@@ -6,6 +6,7 @@ import com.project.modules.sys.entity.SysUserEntity;
 import com.project.modules.sys.vo.save.SysUserSaveVo;
 import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
 import com.project.modules.sys.vo.update.SysUserUpdateVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ import static com.project.utils.ShiroUtils.*;
  * @date 2020-03-30
  */
 @Component
+@Slf4j
 public class CheckUtils {
 
     /**
@@ -404,7 +406,7 @@ public class CheckUtils {
      * @param onlineStatus
      * @param sellStatus
      */
-    public void checkSysRole(Integer onlineStatus, Integer sellStatus, Integer status) {
+    public void checkSysRole(Integer onlineStatus, Integer sellStatus, Integer status, Integer oldStatus) {
         //如果当前企业商品出售状态为已出售或者审核状态状态不为通过是
         if (sellStatus.equals(Constant.WaresSellStatus.SALE.getStatus()) || onlineStatus.equals(Constant.WaresOnLineStatus.ONLINE.getStatus())){
             throw new RRException("操作失败,该商品已出售或还未审核");
@@ -412,15 +414,15 @@ public class CheckUtils {
         switch (Constant.WaresStatus.getStatusValues(status)){
             //如果需要修改审核状态为驳回
             case REJECT:
-                waresReject(onlineStatus, sellStatus, status);
+                waresReject(onlineStatus, sellStatus, oldStatus);
                 break;
             //如果需要修改审核状态为经理审核
             case MANAGER:
-                waresManager(onlineStatus, sellStatus, status);
+                waresManager(onlineStatus, sellStatus, oldStatus);
                 break;
             //如果需要修改审核状态为通过
             case SUSSESS:
-                waresSussess(onlineStatus, sellStatus, status);
+                waresSussess(onlineStatus, sellStatus, oldStatus);
                 break;
             default:
                 break;
@@ -429,77 +431,60 @@ public class CheckUtils {
 
     /**
      * 校验修改商品上线状态和当前操作的用户角色的权限
-     * @param onlineStatus
-     * @param onlineStatus
      * @param sellStatus
+     * @param status
+     * @param dealStoreId
+     * @param blongDealStoreId
      */
-    public void checkRole(Integer onlineStatus, Integer sellStatus, Integer status, Long dealStoreId, Long blongDealStoreId) {
+    public void checkRole(Integer sellStatus, Integer status, Long dealStoreId, Long blongDealStoreId) {
         //如果当前企业商品出售状态为已出售或者审核状态状态不为通过是
         if (sellStatus.equals(Constant.WaresSellStatus.SALE.getStatus()) || !status.equals(Constant.WaresStatus.SUSSESS.getStatus())){
             throw new RRException("操作失败,该商品已出售或还未审核");
         }
-        switch (Constant.WaresOnLineStatus.getStatusValues(onlineStatus)){
-            //如果需要修改状态为上线
-            case ONLINE:
-                waresOnline(dealStoreId, blongDealStoreId);
-                break;
-            //如果需要修改状态为下架
-            case UNLINE:
-                waresUnline(dealStoreId, blongDealStoreId);
-                break;
-            default:
-                break;
-        }
-    }
-    //如果需要修改状态为下架
-    private void waresUnline(Long dealStoreId, Long blongDealStoreId) {
         //登录用户如果不是超级管理员或者普通管理员或者总经理
-        if (!(isSuperAdmin() || isAdmin() || isManager()) || dealStoreId.equals(blongDealStoreId)){
-            throw new RRException("操作失败,你没有权限对此单据进行修改");
+        if (null != getSysUserId() && 0L != getSysUserId()){
+            if (!(isSuperAdmin() || isAdmin() || isManager())){
+                throw new RRException("操作失败,你没有权限对此单据进行修改");
+            }
         }
-    }
-
-    //如果需要修改状态为上线
-    private void waresOnline(Long dealStoreId, Long blongDealStoreId) {
-        //登录用户如果不是超级管理员或者普通管理员或者总经理
-        if (!(isSuperAdmin() || isAdmin() || isManager()) || dealStoreId.equals(blongDealStoreId)){
-            throw new RRException("操作失败,你没有权限对此单据进行修改");
+        if (!dealStoreId.equals(blongDealStoreId)){
+            throw new RRException("操作失败,此商品不属于该客户");
         }
     }
 
     //如果需要修改状态为通过
-    private void waresSussess(Integer onlineStatus, Integer sellStatus, Integer status) {
-        //当前审核状态不是经理审核中的状态并且销售状态不是未销售并且上线状态不为下架
-        if (!status.equals(Constant.WaresStatus.MANAGER.getStatus()) && sellStatus.equals(Constant.WaresSellStatus.UNSALE.getStatus()) && onlineStatus.equals(Constant.WaresOnLineStatus.UNLINE.getStatus())){
-            throw new RRException("操作失败,请确认商品当前审核状态和销售状态和上线状态");
-        }
+    private void waresSussess(Integer onlineStatus, Integer sellStatus, Integer oldStatus) {
         //登录用户如果不是超级管理员或者普通管理员或者总经理或会计专员或者财务经理
         if (!(isSuperAdmin() || isAdmin() || isManager() || isFinance() || isFinanceManager())){
             throw new RRException("操作失败,你没有权限对此单据进行修改");
         }
+        //当前审核状态不是经理审核中的状态并且销售状态不是未销售并且上线状态不为下架
+        if (!oldStatus.equals(Constant.WaresStatus.MANAGER.getStatus()) && sellStatus.equals(Constant.WaresSellStatus.UNSALE.getStatus()) && onlineStatus.equals(Constant.WaresOnLineStatus.UNLINE.getStatus())){
+            throw new RRException("操作失败,请确认商品当前审核状态和销售状态和上线状态");
+        }
     }
 
     //如果需要修改状态为经理审核中
-    private void waresManager(Integer onlineStatus, Integer sellStatus, Integer status) {
-        //当前审核状态不是销售审核中的状态并且销售状态不是未销售并且上线状态不为下架
-        if (!status.equals(Constant.WaresStatus.SALE.getStatus()) && sellStatus.equals(Constant.WaresSellStatus.UNSALE.getStatus()) && onlineStatus.equals(Constant.WaresOnLineStatus.UNLINE.getStatus())){
-            throw new RRException("操作失败,请确认商品当前审核状态和销售状态和上线状态");
-        }
+    private void waresManager(Integer onlineStatus, Integer sellStatus, Integer oldStatus) {
         //登录用户如果不是超级管理员或者普通管理员或者或者销售专员或者销售经理
         if (!(isSuperAdmin() || isAdmin() || isManager() || isSale() || isSaleManager())){
             throw new RRException("操作失败,你没有权限对此单据进行修改");
         }
+        //当前审核状态不是销售审核中的状态并且销售状态不是未销售并且上线状态不为下架
+        if ((!oldStatus.equals(Constant.WaresStatus.SALE.getStatus())) && sellStatus.equals(Constant.WaresSellStatus.UNSALE.getStatus()) && onlineStatus.equals(Constant.WaresOnLineStatus.UNLINE.getStatus())){
+            throw new RRException("操作失败,请确认商品当前审核状态和销售状态和上线状态");
+        }
     }
 
     //修改状态为驳回
-    private void waresReject(Integer onlineStatus, Integer sellStatus, Integer status) {
-        //当前企业商品的审核状态不是销售审核中或者经理审核中时并且销售状态不是未销售并且上线状态不为下架
-        if (Constant.WaresStatus.checkStatus(status) && sellStatus.equals(Constant.WaresSellStatus.UNSALE.getStatus()) && onlineStatus.equals(Constant.WaresOnLineStatus.UNLINE.getStatus())){
-            throw new RRException("操作失败,请确认商品当前审核状态和销售状态和上线状态");
-        }
+    private void waresReject(Integer onlineStatus, Integer sellStatus, Integer oldStatus) {
         //登录用户如果不是超级管理员或者普通管理员或者总经理或者销售专员或者销售经理
         if (!(isSuperAdmin() || isAdmin() || isManager() || isSale() || isSaleManager() || isFinance() || isFinanceManager())){
             throw new RRException("操作失败,你没有权限操作该单据");
+        }
+        //当前企业商品的审核状态不是销售审核中或者经理审核中时并且销售状态不是未销售并且上线状态不为下架
+        if (Constant.WaresStatus.checkStatus(oldStatus) && sellStatus.equals(Constant.WaresSellStatus.UNSALE.getStatus()) && onlineStatus.equals(Constant.WaresOnLineStatus.UNLINE.getStatus())){
+            throw new RRException("操作失败,请确认商品当前审核状态和销售状态和上线状态");
         }
     }
 

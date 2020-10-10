@@ -31,6 +31,16 @@ public class WxCouWaresBrandController {
      * @return
      */
     @ApiOperation(value = "获取所有状态为正常商品品牌对象")
+    @GetMapping("/getHotCouBrandList")
+    public R getHotCouBrandList(){
+        return R.ok(couWaresBrandService.getHotCouBrandList());
+    }
+
+    /**
+     * 获取所有状态为正常商品品牌对象
+     * @return
+     */
+    @ApiOperation(value = "获取所有状态为正常商品品牌对象")
     @GetMapping("/getCouBrandList")
     public R getCouBrandList(){
         return R.ok(couWaresBrandService.getCouBrandList());

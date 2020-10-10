@@ -4,7 +4,6 @@ import com.project.exception.RRException;
 import com.project.modules.deal.service.DealUserLoginService;
 import com.project.service.login.WxLoginDealUserService;
 import com.project.utils.R;
-import com.project.utils.StatusCode;
 import com.project.utils.WeChatLoginUtils;
 import com.project.vo.login.SmsUserLoginVo;
 import io.swagger.annotations.Api;
@@ -58,8 +57,8 @@ public class WechatDealUserLoginController {
         if (StringUtils.trim(form.getSmsCode()) == null) {
             throw new RRException("请输入验证码!");
         }
-//        return wxLoginDealUserService.wxLogin(form.getPhone());
-        return R.ok(dealUserLoginService.wxDealUserlogin(form.getPhone()));
+        return wxLoginDealUserService.wxLogin(form.getPhone());
+//        return R.ok(dealUserLoginService.wxDealUserlogin(form.getPhone()));
     }
 
     /**
@@ -71,9 +70,9 @@ public class WechatDealUserLoginController {
     @PostMapping("/wxLogin")
     public R wxLogin(@RequestBody Map<String, Object> params) {
         //解密获取微信授权登录的手机号码,并登录系统
-//        return wxLoginDealUserService.wxLogin(weChatLoginUtils.getLoginPhone(params));
+        return wxLoginDealUserService.wxLogin(weChatLoginUtils.getLoginPhone(params));
         //解密获取微信授权登录的手机号码,并登录系统
-        return R.ok(dealUserLoginService.wxDealUserlogin(weChatLoginUtils.getLoginPhone(params)));
+//        return R.ok(dealUserLoginService.wxDealUserlogin(weChatLoginUtils.getLoginPhone(params)));
     }
 
     /**
@@ -81,9 +80,9 @@ public class WechatDealUserLoginController {
      */
     @PostMapping("/logout")
     public R logout() {
-//        return wxLoginDealUserService.logout(getDealUserId());
-        dealUserLoginService.logout(getDealUserId());
-        return R.ok(StatusCode.LOGIN_OUT);
+        return wxLoginDealUserService.logout(getDealUserId());
+//        dealUserLoginService.logout(getDealUserId());
+//        return R.ok(StatusCode.LOGIN_OUT);
     }
 
 }

@@ -44,8 +44,8 @@ public class WechatDealAssessSellController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("dealUserId", getDealUserId());
-        return R.ok(dealAssessSellService.queryWxPage(params));
-//        return wxDealAssessSellService.queryPage(params);
+//        return R.ok(dealAssessSellService.queryWxPage(params));
+        return wxDealAssessSellService.queryPage(params);
     }
 
     /**
@@ -59,9 +59,9 @@ public class WechatDealAssessSellController {
     @PostMapping("/save")
     public R save(@RequestBody DealAssessSellSaveVo sell){
         ValidatorUtils.validateEntity(sell);
-        dealAssessSellService.saveEntity(sell);
-        return R.ok();
-//        return wxDealAssessSellService.saveEntity(sell);
+//        dealAssessSellService.saveEntity(sell);
+//        return R.ok();
+        return wxDealAssessSellService.saveEntity(sell);
     }
 
     /**
@@ -72,8 +72,8 @@ public class WechatDealAssessSellController {
     @ApiOperation(value = "根据个人评估商品出售ID获取个人评估商品出售详情")
     @GetMapping("/info/{dealSellId}")
     public R info(@PathVariable("dealSellId") Long dealSellId) {
-        return R.ok(dealAssessSellService.infoWx(dealSellId));
-//        return wxDealAssessSellService.info(dealSellId);
+//        return R.ok(dealAssessSellService.infoWx(dealSellId));
+        return wxDealAssessSellService.info(dealSellId);
     }
 
     /**
@@ -87,8 +87,8 @@ public class WechatDealAssessSellController {
     @PostMapping("/update")
     public R update(@RequestBody DealAssessSellUpdateVo sell){
         ValidatorUtils.validateEntity(sell);
-        dealAssessSellService.updateEntity(sell);
-        return R.ok();
-//        return wxDealAssessSellService.updateEntity(sell);
+//        dealAssessSellService.updateEntity(sell);
+//        return R.ok();
+        return wxDealAssessSellService.updateEntity(sell);
     }
 }

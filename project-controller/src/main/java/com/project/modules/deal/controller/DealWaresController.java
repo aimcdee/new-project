@@ -199,7 +199,7 @@ public class DealWaresController {
     @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresChangeOnlineStatusInvokingVo")
     @ApiOperation(value = "修改企业商品上线状态为上架")
     @SysLog("修改企业商品上线状态为上架")
-    @PostMapping("/onLine/{dealWaresId}")
+    @PostMapping("/onLine")
     @RequiresPermissions("deal:wares:update")
     public R onLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares){
         dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getDealStoreId(), Constant.WaresOnLineStatus.ONLINE.getStatus(), getSysUserId());
@@ -214,7 +214,7 @@ public class DealWaresController {
     @ApiImplicitParam(paramType = "body", name = "wares", value = "商品审核信息", required = true, dataType = "DealWaresChangeOnlineStatusInvokingVo")
     @ApiOperation(value = "修改企业商品上线状态为下架")
     @SysLog("修改企业商品上线状态为下架")
-    @GetMapping("/unLine/{dealWaresId}")
+    @PostMapping("/unLine")
     @RequiresPermissions("deal:wares:update")
     public R unLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares){
         dealWaresService.changeOnLineStatus(wares.getDealWaresId(), wares.getDealStoreId(), Constant.WaresOnLineStatus.UNLINE.getStatus(), getSysUserId());

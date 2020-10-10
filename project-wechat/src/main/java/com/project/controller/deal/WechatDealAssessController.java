@@ -51,8 +51,8 @@ public class WechatDealAssessController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         params.put("dealUserId", getDealUserId());
-        return R.ok(dealAssessService.queryWxPage(params));
-//        return wxDealAssessService.list(params);
+//        return R.ok(dealAssessService.queryWxPage(params));
+        return wxDealAssessService.list(params);
     }
 
     /**
@@ -112,9 +112,9 @@ public class WechatDealAssessController {
     public R save(@RequestBody DealAssessSaveVo assess){
         ValidatorUtils.validateEntity(assess);
         assess.setDealUserId(getDealUserId());
-        dealAssessService.saveEntity(assess);
-        return R.ok();
-//        return wxDealAssessService.saveEntity(assess);
+//        dealAssessService.saveEntity(assess);
+//        return R.ok();
+        return wxDealAssessService.saveEntity(assess);
     }
 
     /**
@@ -125,7 +125,7 @@ public class WechatDealAssessController {
     @ApiOperation(value = "根据商品评估ID获取商品评估详情")
     @GetMapping("/info/{dealAssessId}")
     public R info(@PathVariable("dealAssessId") Long dealAssessId) {
-//        return wxDealAssessService.info(dealAssessId);
-        return R.ok(dealAssessService.infoWx(dealAssessId));
+        return wxDealAssessService.info(dealAssessId);
+//        return R.ok(dealAssessService.infoWx(dealAssessId));
     }
 }

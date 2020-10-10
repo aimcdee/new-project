@@ -1,11 +1,13 @@
 package com.project.service.deal;
 
 import com.project.constant.Constant;
+import com.project.modules.deal.vo.invoking.DealWaresChangeOnlineStatusInvokingVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
 import com.project.service.deal.impl.WxDealWaresServiceImpl;
 import com.project.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -90,4 +92,20 @@ public interface WxDealWaresService {
      */
     @GetMapping(Constant.DEAL_WARES_PATH + "/sale/{dealWaresId}")
     R changeSellStatus(String dealWaresId);
+
+    /**
+     * 修改商品上线状态为上架
+     * @param wares
+     * @return
+     */
+    @PostMapping(value = Constant.DEAL_WARES_PATH + "/onLine", consumes = MediaType.APPLICATION_JSON_VALUE)
+    R onLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares);
+
+    /**
+     * 修改商品上线状态为下架
+     * @param wares
+     * @return
+     */
+    @PostMapping(value = Constant.DEAL_WARES_PATH + "/unLine", consumes = MediaType.APPLICATION_JSON_VALUE)
+    R unLine(@RequestBody DealWaresChangeOnlineStatusInvokingVo wares);
 }

@@ -39,8 +39,8 @@ public class WechatDealUserController {
     @ApiOperation(value = "客户获取自己的详细信息")
     @GetMapping("/info")
     public R info() {
-        return R.ok(dealUserService.info(getDealUserId()));
-//        return wxDealUserService.getDealUserInfoVo(getDealUserId());
+//        return R.ok(dealUserService.info(getDealUserId()));
+        return wxDealUserService.getDealUserInfoVo(getDealUserId());
     }
 
     /**
@@ -55,8 +55,8 @@ public class WechatDealUserController {
     public R update(@RequestBody DealUserUpdateVo user){
         ValidatorUtils.validateEntity(user);
         user.setDealUserId(getDealUserId());
-        dealUserService.updateEntity(user);
-        return R.ok();
-//        return wxDealUserService.updateDealUser(user);
+//        dealUserService.updateEntity(user);
+//        return R.ok();
+        return wxDealUserService.updateDealUser(user);
     }
 }

@@ -35,7 +35,7 @@ public class WechatCouWaresModelController {
     @ApiOperation(value = "获取所有状态为正常商品型号对象")
     @GetMapping("/getCouModelList")
     public R getCouModelList(){
-        return R.ok(couWaresModelService.getCouModelList());
-//        return wxCouWaresModelService.getCouModelList();
+//        return R.ok(couWaresModelService.getCouModelList());
+        return wxCouWaresModelService.getCouModelList();
     }
 }

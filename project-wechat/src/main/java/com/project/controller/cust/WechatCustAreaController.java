@@ -1,6 +1,5 @@
 package com.project.controller.cust;
 
-import com.project.constant.Constant;
 import com.project.modules.cust.service.CustAreaService;
 import com.project.service.cust.WxCustAresService;
 import com.project.utils.R;
@@ -37,8 +36,8 @@ public class WechatCustAreaController {
     @ApiOperation(value = "查看省份")
     @GetMapping("/province")
     public R province() {
-        return R.ok(custAreaService.getArea(null, Constant.AreaType.PROVINCE.getType()));
-//        return wxCustAresService.province();
+//        return R.ok(custAreaService.getArea(null, Constant.AreaType.PROVINCE.getType()));
+        return wxCustAresService.province();
     }
 
     /**
@@ -48,8 +47,8 @@ public class WechatCustAreaController {
     @ApiOperation(value = "查看市")
     @GetMapping("/city/{areaId}")
     public R city(@PathVariable("areaId") Long areaId){
-        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.CITY.getType()));
-//        return wxCustAresService.city(areaId);
+//        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.CITY.getType()));
+        return wxCustAresService.city(areaId);
     }
 
     /**
@@ -59,7 +58,7 @@ public class WechatCustAreaController {
     @ApiOperation(value = "查看县/区")
     @GetMapping("/county/{areaId}")
     public R county(@PathVariable("areaId") Long areaId){
-        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.COUNTY.getType()));
-//        return wxCustAresService.county(areaId);
+//        return R.ok(custAreaService.getArea(areaId, Constant.AreaType.COUNTY.getType()));
+        return wxCustAresService.county(areaId);
     }
 }

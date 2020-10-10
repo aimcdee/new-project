@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping(Constant.CUST_AREA_PATH)
-@Api(tags = "微信区域端管理", description = "WxCoufAreaController")
+@Api(tags = "微信端区域管理", description = "WxCoufAreaController")
 public class WxCustAreaController {
 
     @Autowired

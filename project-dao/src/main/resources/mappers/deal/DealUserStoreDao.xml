@@ -89,6 +89,7 @@
             deal_store_name,
             deposit_price,
             credit_grade,
+            image,
             sys_user_name
         FROM
             deal_user_store

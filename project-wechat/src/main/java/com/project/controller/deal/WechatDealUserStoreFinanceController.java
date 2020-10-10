@@ -45,8 +45,8 @@ public class WechatDealUserStoreFinanceController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("dealUserId", getDealUserId());
-        return R.ok(dealUserStoreFinanceService.queryPage(params));
-//        return wxDealUserStoreFinanceService.list(params);
+//        return R.ok(dealUserStoreFinanceService.queryPage(params));
+        return wxDealUserStoreFinanceService.list(params);
     }
 
     /**
@@ -62,9 +62,9 @@ public class WechatDealUserStoreFinanceController {
         //判断当前操作的客户是否为企业客户
         if (isEnterprise()){
             ValidatorUtils.validateEntity(finance);
-            dealUserStoreFinanceService.saveEntity(finance);
-            return R.ok();
-//            return wxDealUserStoreFinanceService.saveEntity(finance);
+//            dealUserStoreFinanceService.saveEntity(finance);
+//            return R.ok();
+            return wxDealUserStoreFinanceService.saveEntity(finance);
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
     }

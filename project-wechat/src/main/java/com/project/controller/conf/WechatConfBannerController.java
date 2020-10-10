@@ -1,6 +1,5 @@
 package com.project.controller.conf;
 
-import com.project.constant.Constant;
 import com.project.modules.conf.service.ConfBannerService;
 import com.project.service.conf.WxConfbannerService;
 import com.project.utils.R;
@@ -36,7 +35,7 @@ public class WechatConfBannerController {
     @ApiOperation(value = "查询可显示的轮播图集合")
     @GetMapping("/list")
     public R list() {
-        return R.ok(confBannerService.normalList(Constant.Status.NORMAL.getStatus()));
-//        return R.ok(wxConfbannerService.list());
+//        return R.ok(confBannerService.normalList(Constant.Status.NORMAL.getStatus()));
+        return R.ok(wxConfbannerService.list());
     }
 }

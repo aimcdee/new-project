@@ -35,8 +35,8 @@ public class WechatCouWaresBrandController {
     @ApiOperation(value = "获取热门品牌对象列表")
     @GetMapping("/getHotCouBrandList")
     public R getHotCouBrandList(){
-        return R.ok(couWaresBrandService.getHotCouBrandList());
-//        return wxCouWaresBrandService.getHotCouBrandList();
+//        return R.ok(couWaresBrandService.getHotCouBrandList());
+        return wxCouWaresBrandService.getHotCouBrandList();
     }
 
     /**
@@ -46,7 +46,7 @@ public class WechatCouWaresBrandController {
     @ApiOperation(value = "获取所有状态为正常品牌对象")
     @GetMapping("/getCouBrandList")
     public R getCouBrandList(){
-        return R.ok(couWaresBrandService.getCouBrandList());
-//        return wxCouWaresBrandService.getCouBrandList();
+//        return R.ok(couWaresBrandService.getCouBrandList());
+        return wxCouWaresBrandService.getCouBrandList();
     }
 }

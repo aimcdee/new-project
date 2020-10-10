@@ -135,6 +135,8 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
                     .setDealStoreId(Optional.ofNullable(dealUserStoreInvokingVo).map(DealUserStoreInvokingVo::getDealStoreId).orElse(Constant.DEFAUL_ID))
                     //设置企业名称
                     .setDealStoreName(Optional.ofNullable(dealUserStoreInvokingVo.getDealStoreName()).orElse(Constant.DEFAUL_NAME))
+                    //设置门面图
+                    .setImage(dealUserStoreInvokingVo.getImage())
                     //设置归属人名称
                     .setSysUserName(Optional.ofNullable(dealUserStoreInvokingVo.getSysUserName()).orElse(Constant.DEFAUL_NAME));
         }

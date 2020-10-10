@@ -43,8 +43,8 @@ public class WechatDealWaresInstallmentController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("dealUserId", getDealUserId());
-        return R.ok(dealWaresInstallmentService.queryWxPage(params));
-//        return wxDealWaresInstallmentService.queryPage(params);
+//        return R.ok(dealWaresInstallmentService.queryWxPage(params));
+        return wxDealWaresInstallmentService.queryPage(params);
     }
 
     /**
@@ -59,8 +59,8 @@ public class WechatDealWaresInstallmentController {
     public R save(@RequestBody DealWaresInstallmentSaveVo installment){
         ValidatorUtils.validateEntity(installment);
         installment.setDealUserId(getDealUserId());
-        dealWaresInstallmentService.saveEntity(installment);
-        return R.ok();
-//        return wxDealWaresInstallmentService.saveEntity(installment);
+//        dealWaresInstallmentService.saveEntity(installment);
+//        return R.ok();
+        return wxDealWaresInstallmentService.saveEntity(installment);
     }
 }

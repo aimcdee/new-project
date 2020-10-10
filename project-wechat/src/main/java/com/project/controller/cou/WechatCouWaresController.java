@@ -38,7 +38,7 @@ public class WechatCouWaresController {
     @ApiOperation(value = "获取所有状态为正常商品对象")
     @GetMapping("/getCouWaresList/{couSeriesId}")
     public R getCouWaresList(@PathVariable("couSeriesId") Long couSeriesId){
-        return R.ok(couWaresService.getCouWaresList(couSeriesId));
-//        return wxCouWaresService.getCouWaresList(couSeriesId);
+//        return R.ok(couWaresService.getCouWaresList(couSeriesId));
+        return wxCouWaresService.getCouWaresList(couSeriesId);
     }
 }

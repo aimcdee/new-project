@@ -51,8 +51,8 @@ public class WechatDealUserStoreController {
     @GetMapping("/recordList")
     public R recordList(@RequestParam Map<String, Object> params) {
         params.put("dealUserId", getDealUserId());
-        return R.ok(dealUserStoreService.queryPage(params));
-//        return wxDealUserStoreService.recordList(params);
+//        return R.ok(dealUserStoreService.queryPage(params));
+        return wxDealUserStoreService.recordList(params);
     }
 
     /**
@@ -96,8 +96,8 @@ public class WechatDealUserStoreController {
     public R save(@RequestBody DealUserStoreSaveVo store){
         ValidatorUtils.validateEntity(store);
         store.setDealUserId(getDealUserId());
-        dealUserStoreService.saveEntity(store);
-        return R.ok();
-//        return wxDealUserStoreService.saveEntity(store);
+//        dealUserStoreService.saveEntity(store);
+//        return R.ok();
+        return wxDealUserStoreService.saveEntity(store);
     }
 }

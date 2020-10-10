@@ -212,7 +212,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     @Override
     @Transactional
     public void saveEntity(DealWaresSaveVo wares) {
-        checkStoreStatus(wares.getDealStoreId());
+        checkPermissions(wares.getDealStoreId(), null);
         try {
             trimUtils.beanValueTrim(wares);
         } catch (Exception e) {
@@ -300,7 +300,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     @Override
     @Transactional
     public void updateEntity(DealWaresUpdateVo wares) {
-        checkUpdateBefore(wares.getDealStoreId(), wares.getDealWaresId());
+        checkPermissions(wares.getDealStoreId(), wares.getDealWaresId());
         try {
             trimUtils.beanValueTrim(wares);
         } catch (Exception e) {
@@ -333,10 +333,11 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         DealWaresEntity dealWaresEntity = getOne(new QueryWrapper<DealWaresEntity>().eq("deal_wares_id", dealWaresId).last("LIMIT 1"));
         //更新状态前校验操作
         checkUpdateStatusBefore(dealWaresEntity, status);
+        //更新商品审核状态
+        dealWaresEntity.setStatus(status).setUpdateTime(new Date());
+        updateById(dealWaresEntity);
         //新增审核单据
         dealWaresExamineService.saveEntity(dealWaresId, remark, sysUserId);
-        //更新企业商品在线状态
-        updateOnLineStatus(dealWaresEntity, status);
     }
 
     /**
@@ -351,7 +352,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     public void changeOnLineStatus(String dealWaresId, Long dealStoreId, Integer onLineStatus, Long sysUserId) {
         DealWaresEntity dealWaresEntity = getOne(new QueryWrapper<DealWaresEntity>().eq("deal_wares_id", dealWaresId).last("LIMIT 1"));
         //更新状态前校验操作
-        checkUpdateOnLineStatusBefore(dealWaresEntity, onLineStatus, dealStoreId);
+        checkUpdateOnLineStatusBefore(dealWaresEntity, dealStoreId);
         //更新企业商品在线状态
         updateOnLineStatus(dealWaresEntity, onLineStatus);
     }
@@ -381,13 +382,13 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
     //更新审核状态前操作
     private void checkUpdateStatusBefore(DealWaresEntity dealWaresEntity, Integer status) {
         checkUtils.checkEntityNotNull(dealWaresEntity);
-        checkUtils.checkSysRole(dealWaresEntity.getOnlineStatus(), dealWaresEntity.getSellStatus(), status);
+        checkUtils.checkSysRole(dealWaresEntity.getOnlineStatus(), dealWaresEntity.getSellStatus(), status, dealWaresEntity.getStatus());
     }
 
     //更新上线状态前操作
-    private void checkUpdateOnLineStatusBefore(DealWaresEntity dealWaresEntity, Integer onLineStatus, Long dealStoreId) {
+    private void checkUpdateOnLineStatusBefore(DealWaresEntity dealWaresEntity, Long dealStoreId) {
         checkUtils.checkEntityNotNull(dealWaresEntity);
-        checkUtils.checkRole(onLineStatus, dealWaresEntity.getSellStatus(), dealWaresEntity.getStatus(), dealStoreId, dealWaresEntity.getDealStoreId());
+        checkUtils.checkRole(dealWaresEntity.getSellStatus(), dealWaresEntity.getStatus(), dealStoreId, dealWaresEntity.getDealStoreId());
     }
 
     //获取DealWaresEntity更新对象
@@ -434,21 +435,20 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
         return dealWaresEntity;
     }
 
-    //新增前校验客户是否是企业客户
-    private void checkStoreStatus(Long storeId) {
-        if (dealInvokingService.checkUserStore(storeId, Constant.StoreType.ENTERPRISE.getType()) <= 0){
-            throw new RRException("新增商品失败,该名客户不是企业用户");
-        }
-    }
+    //新增或更新校验客户权限
+    private void checkPermissions(Long storeId, String dealWareId){
+        if (null == dealWareId){
+            if (dealInvokingService.checkUserStore(storeId, Constant.StoreType.ENTERPRISE.getType()) <= 0){
+                throw new RRException("新增商品失败,该名客户不是企业用户");
+            }
+        } else {
+            if (dealInvokingService.checkUserStore(storeId, Constant.StoreType.ENTERPRISE.getType()) <= 0){
+                throw new RRException("更新商品失败,该名客户不是企业用户");
+            }
 
-    //更新前校验客户是否是企业客户和该商品是否属于该客户
-    private void checkUpdateBefore(Long storeId, String dealWareId) {
-        if (dealInvokingService.checkUserStore(storeId, Constant.StoreType.ENTERPRISE.getType()) <= 0){
-            throw new RRException("更新商品失败,该名客户不是企业用户");
-        }
-
-        if (dealInvokingService.checkWaresStore(storeId, dealWareId) <= 0){
-            throw new RRException("更新商品失败,该条商品不属于该企业客户");
+            if (dealInvokingService.checkWaresStore(storeId, dealWareId) <= 0){
+                throw new RRException("更新商品失败,此条商品不属于该客户");
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.project.controller.deal;
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
 import com.project.modules.deal.service.DealWaresService;
+import com.project.modules.deal.vo.invoking.DealWaresChangeOnlineStatusInvokingVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
 import com.project.service.deal.WxDealWaresService;
@@ -53,8 +54,8 @@ public class WechatDealWaresController {
     public R personalList(@RequestParam Map<String, Object> params){
         if (isEnterprise()){
             params.put("dealStoreId", getDealStoreId());
-            return R.ok(dealWaresService.queryPersonalPage(params));
-//            return wxDealWaresService.queryPersonalPage(params);
+//            return R.ok(dealWaresService.queryPersonalPage(params));
+            return wxDealWaresService.queryPersonalPage(params);
         }
         return R.ok();
     }
@@ -117,9 +118,9 @@ public class WechatDealWaresController {
         if (isEnterprise()){
             ValidatorUtils.validateEntity(wares);
             wares.setDealStoreId(getDealStoreId());
-            dealWaresService.saveEntity(wares);
-            return R.ok();
-//            return wxDealWaresService.saveEntity(wares);
+//            dealWaresService.saveEntity(wares);
+//            return R.ok();
+            return wxDealWaresService.saveEntity(wares);
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
     }
@@ -132,8 +133,8 @@ public class WechatDealWaresController {
     @ApiOperation(value = "企业客户获取自己商品的详情")
     @GetMapping("/personal/{dealWaresId}")
     public R personal(@PathVariable("dealWaresId") String dealWaresId){
-        return R.ok(dealWaresService.info(dealWaresId));
-//        return wxDealWaresService.info(dealWaresId);
+//        return R.ok(dealWaresService.info(dealWaresId));
+        return wxDealWaresService.info(dealWaresId);
     }
 
     /**
@@ -149,9 +150,9 @@ public class WechatDealWaresController {
         if (isEnterprise()){
             ValidatorUtils.validateEntity(wares);
             wares.setDealStoreId(getDealStoreId());
-            dealWaresService.updateEntity(wares);
-            return R.ok();
-//            return wxDealWaresService.updateEntity(wares);
+//            dealWaresService.updateEntity(wares);
+//            return R.ok();
+            return wxDealWaresService.updateEntity(wares);
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
     }
@@ -166,9 +167,11 @@ public class WechatDealWaresController {
     @GetMapping("/onLine/{dealWaresId}")
     public R onLine(@PathVariable("dealWaresId") String dealWaresId){
         if (isEnterprise()){
-            dealWaresService.changeOnLineStatus(dealWaresId, getDealStoreId(), Constant.WaresOnLineStatus.ONLINE.getStatus(), null);
-            return R.ok();
-//            return R.ok(wxDealWaresService.changeOnLineStatus(dealWaresId));
+//            dealWaresService.changeOnLineStatus(dealWaresId, getDealStoreId(), Constant.WaresOnLineStatus.ONLINE.getStatus(), null);
+//            return R.ok();
+            DealWaresChangeOnlineStatusInvokingVo wares = new DealWaresChangeOnlineStatusInvokingVo();
+            wares.setDealWaresId(dealWaresId).setDealStoreId(getDealStoreId());
+            return R.ok(wxDealWaresService.onLine(wares));
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
     }
@@ -183,9 +186,11 @@ public class WechatDealWaresController {
     @GetMapping("/unLine/{dealWaresId}")
     public R unLine(@PathVariable("dealWaresId") String dealWaresId){
         if (isEnterprise()){
-            dealWaresService.changeOnLineStatus(dealWaresId, getDealStoreId(), Constant.WaresOnLineStatus.UNLINE.getStatus(), null);
-            return R.ok();
-//            return R.ok(wxDealWaresService.changeOnLineStatus(dealWaresId));
+//            dealWaresService.changeOnLineStatus(dealWaresId, getDealStoreId(), Constant.WaresOnLineStatus.UNLINE.getStatus(), null);
+//            return R.ok();
+            DealWaresChangeOnlineStatusInvokingVo wares = new DealWaresChangeOnlineStatusInvokingVo();
+            wares.setDealWaresId(dealWaresId).setDealStoreId(getDealStoreId());
+            return R.ok(wxDealWaresService.unLine(wares));
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
     }
@@ -200,9 +205,9 @@ public class WechatDealWaresController {
     @GetMapping("/sale/{dealWaresId}")
     public R sale(@PathVariable("dealWaresId") String dealWaresId){
         if (isEnterprise()){
-            dealWaresService.changeSellStatus(dealWaresId, Constant.WaresSellStatus.SALE.getStatus());
-            return R.ok();
-//            return R.ok(wxDealWaresService.changeSellStatus(dealWaresId));
+//            dealWaresService.changeSellStatus(dealWaresId, Constant.WaresSellStatus.SALE.getStatus());
+//            return R.ok();
+            return R.ok(wxDealWaresService.changeSellStatus(dealWaresId));
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);
     }
@@ -215,8 +220,8 @@ public class WechatDealWaresController {
     @ApiOperation(value = "企业端-分页显示商品列表")
     @GetMapping("/storeList")
     public R storeList(@RequestParam Map<String, Object> params){
-        return R.ok(dealWaresService.queryStorePage(params));
-//        return wxDealWaresService.queryStorePage(params);
+//        return R.ok(dealWaresService.queryStorePage(params));
+        return wxDealWaresService.queryStorePage(params);
     }
 
     /**
@@ -227,8 +232,8 @@ public class WechatDealWaresController {
     @ApiOperation(value = "企业端-获取商品的详情")
     @GetMapping("/store/{dealWaresId}")
     public R store(@PathVariable("dealWaresId") String dealWaresId){
-        return R.ok(dealWaresService.store(dealWaresId));
-//        return wxDealWaresService.store(dealWaresId);
+//        return R.ok(dealWaresService.store(dealWaresId));
+        return wxDealWaresService.store(dealWaresId);
     }
 
     /**
@@ -239,8 +244,8 @@ public class WechatDealWaresController {
     @ApiOperation(value = "零售端分页显示商品列表")
     @GetMapping("/retailList")
     public R retailList(@RequestParam Map<String, Object> params){
-        return R.ok(dealWaresService.queryRetailPage(params));
-//        return wxDealWaresService.queryRetailPage(params);
+//        return R.ok(dealWaresService.queryRetailPage(params));
+        return wxDealWaresService.queryRetailPage(params);
     }
 
     /**
@@ -251,7 +256,7 @@ public class WechatDealWaresController {
     @ApiOperation(value = "零售端-获取商品的详情")
     @GetMapping("/retail/{dealWaresId}")
     public R retail(@PathVariable("dealWaresId") String dealWaresId){
-        return R.ok(dealWaresService.retail(dealWaresId));
-//        return wxDealWaresService.retail(dealWaresId);
+//        return R.ok(dealWaresService.retail(dealWaresId));
+        return wxDealWaresService.retail(dealWaresId);
     }
 }

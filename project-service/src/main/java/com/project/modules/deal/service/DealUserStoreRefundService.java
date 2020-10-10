@@ -48,7 +48,7 @@ public interface DealUserStoreRefundService extends IService<DealUserStoreRefund
     DealUserStoreRefundInfoVo info(String refundId);
 
     /**
-     *
+     * 企业客户获取提现或扣费记录详情
      * @param refundId
      * @return
      */

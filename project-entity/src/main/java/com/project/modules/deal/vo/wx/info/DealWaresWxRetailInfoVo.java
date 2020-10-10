@@ -145,6 +145,10 @@ public class DealWaresWxRetailInfoVo implements Serializable {
     @ApiModelProperty(value = "企业名称")
     private String dealStoreName;
 
+    /**企业门面图*/
+    @ApiModelProperty(value = "企业门面图")
+    private String storeImage;
+
     /**信用等级*/
     @ApiModelProperty(value = "信用等级")
     private Integer creditGrade;

@@ -16,6 +16,16 @@ import org.springframework.stereotype.Service;
 public class WxCouWaresBrandServiceImpl implements WxCouWaresBrandService {
 
     /**
+     * 获取热门品牌对象列表
+     * @return
+     */
+    @Override
+    public R getHotCouBrandList() {
+        log.error("调用{}异常:{}", "获取热门品牌对象列表");
+        return null;
+    }
+
+    /**
      * 获取所有状态为正常商品品牌对象
      * @return
      */

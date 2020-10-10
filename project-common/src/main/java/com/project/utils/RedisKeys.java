@@ -13,7 +13,7 @@ public class RedisKeys {
     /**
      * token超时时间 单位:秒  默认设置1小时
      */
-    public static final int TOKEN_EXPIRE_SECOND = 1 * 3600;
+    public static final int TOKEN_EXPIRE_SECOND = 3 * 3600;
     public static final int TOKEN_EXPIRE_MS = TOKEN_EXPIRE_SECOND * 1000;
 
     /**Redis Key*/

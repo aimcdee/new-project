@@ -43,15 +43,17 @@ spring:
 eureka:
   client:
     serviceUrl:
+      # 指定连接eureka服务路径
       defaultZone: http://118.190.26.73:8080/eureka/
     # 缓存清单每隔30秒跟新一次
     registry-fetch-interval-seconds: 10
   instance:
-    hostname: project-controller
+    # 服务的名称
+    hostname: project-wechat
     # 实例使用ip进行访问
     prefer-ip-address: true
     # 实例显示id
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
     # 服务续约任务调用间隔时间，默认30秒
     lease-renewal-interval-in-seconds: 5
     # 服务失效时间，默认90秒
@@ -94,4 +96,3 @@ renren:
     #WebMvcConfg
     expire: 604800
     header: token
-

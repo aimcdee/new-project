@@ -59,3 +59,8 @@ spring:
 #    listener:
 #      simple:
 #        acknowledge-mode: manual
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/

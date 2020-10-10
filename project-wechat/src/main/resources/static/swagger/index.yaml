@@ -2861,6 +2861,9 @@ definitions:
       dealStoreName:
         description: 企业名称
         type: string
+      storeImage:
+        description: 企业门面图
+        type: string
       creditGrade:
         description: 信用等级
         type: integer
@@ -3008,11 +3011,13 @@ definitions:
       dealStoreName:
         description: 企业名称
         type: string
+      storeImage:
+        description: 企业门面图
+        type: string
       creditGrade:
         description: 信用等级
         type: integer
         format: int64
-
   DealWaresInstallmentWxListVo:
     type: object
     properties:

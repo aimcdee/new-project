@@ -1,5 +1,6 @@
 package com.project.service.deal.impl;
 
+import com.project.modules.deal.vo.invoking.DealWaresChangeOnlineStatusInvokingVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
 import com.project.service.deal.WxDealWaresService;
@@ -107,6 +108,33 @@ public class WxDealWaresServiceImpl implements WxDealWaresService {
         return null;
     }
 
+    /**
+     * 修改商品上线状态为上架
+     * @param wares
+     * @return
+     */
+    @Override
+    public R onLine(DealWaresChangeOnlineStatusInvokingVo wares) {
+        log.error("调用{}异常:{}, 企业商品ID:{}", "修改商品上线状态为上架", wares.getDealWaresId());
+        return null;
+    }
+
+    /**
+     * 修改商品上线状态为下架
+     * @param wares
+     * @return
+     */
+    @Override
+    public R unLine(DealWaresChangeOnlineStatusInvokingVo wares) {
+        log.error("调用{}异常:{}, 企业商品ID:{}", "修改商品上线状态为下架", wares.getDealWaresId());
+        return null;
+    }
+
+    /**
+     * 企业客户修改商品出售状态
+     * @param dealWaresId
+     * @return
+     */
     @Override
     public R changeSellStatus(String dealWaresId) {
         log.error("调用{}异常:{}, 企业商品ID:{}", "修改企业商品出售情况为已出售", dealWaresId);

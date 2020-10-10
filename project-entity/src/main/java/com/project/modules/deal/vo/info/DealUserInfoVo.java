@@ -54,6 +54,10 @@ public class DealUserInfoVo implements Serializable {
     @ApiModelProperty(value = "客户企业名称")
     private String dealStoreName;
 
+    /**客户企业门面图路径*/
+    @ApiModelProperty(value = "客户企业门面图路径")
+    private String image;
+
     /**归属人ID*/
     @ApiModelProperty(value = "归属人ID")
     private Long sysUserId;
