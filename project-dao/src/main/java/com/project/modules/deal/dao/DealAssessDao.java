@@ -35,6 +35,7 @@ public interface DealAssessDao extends BaseMapper<DealAssessEntity> {
             Page<DealAssessListVo> page,
             @Param("dealUserId") Long dealUserId,
             @Param("status") Integer status,
+            @Param("sellStatus") Integer sellStatus,
             @Param("startTime") Date startTime,
             @Param("endTime") Date endTime);
 

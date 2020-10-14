@@ -51,7 +51,10 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         Page<CouWaresSeriesListVo> page = new Query<CouWaresSeriesListVo>(params).getPage();
-        List<CouWaresSeriesListVo> couWaresSeriesListVos = baseMapper.queryPage(page, MapUtils.getLong(params, "couBrandId"), StringUtils.trim(MapUtils.getString(params, "couSeriesName")), MapUtils.getInteger(params, "status"));
+        List<CouWaresSeriesListVo> couWaresSeriesListVos = baseMapper.queryPage(
+                page, MapUtils.getLong(params, "couBrandId"),
+                StringUtils.trim(MapUtils.getString(params, "couSeriesName")),
+                MapUtils.getInteger(params, "status"));
         return new PageUtils(page.setRecords(couWaresSeriesListVos));
     }
 

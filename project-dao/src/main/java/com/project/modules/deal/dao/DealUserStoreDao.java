@@ -10,6 +10,7 @@ import com.project.modules.deal.vo.list.DealUserStoreListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,12 +35,18 @@ public interface DealUserStoreDao extends BaseMapper<DealUserStoreEntity> {
      * @param page
      * @param dealUserId
      * @param dealUserPhone
+     * @param examine
+     * @param startTime
+     * @param endTime
      * @return
      */
     List<DealStoreListVo> listPage(
             Page<DealStoreListVo> page,
             @Param("dealUserId") Long dealUserId,
-            @Param("dealUserPhone") String dealUserPhone);
+            @Param("dealUserPhone") String dealUserPhone,
+            @Param("examine") Integer examine,
+            @Param("startTime") Date startTime,
+            @Param("endTime") Date endTime);
 
     /**
      * 分页查询企业申请验证

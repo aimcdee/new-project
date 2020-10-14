@@ -98,11 +98,11 @@ public class DealUserStoreController {
     }
 
     /**
-     * 分页客户查看申请成为企业的申请记录
+     * 分页查看客户申请成为企业的申请记录
      * @param params
      * @return
      */
-    @ApiOperation(value = "分页客户查看申请成为企业的申请记录")
+    @ApiOperation(value = "分页查看客户申请成为企业的申请记录")
     @GetMapping("/list")
     @RequiresPermissions("deal:user:store:list")
     public R list(@RequestParam Map<String, Object> params){

@@ -5,6 +5,7 @@ import com.project.modules.deal.entity.DealWaresEntity;
 import com.project.modules.deal.vo.info.DealWaresInfoVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
+import com.project.modules.deal.vo.wx.info.DealWaresWxInfoVo;
 import com.project.modules.deal.vo.wx.info.DealWaresWxRetailInfoVo;
 import com.project.modules.deal.vo.wx.info.DealWaresWxStoreInfoVo;
 import com.project.utils.PageUtils;
@@ -59,6 +60,13 @@ public interface DealWaresService extends IService<DealWaresEntity> {
      * @return
      */
     DealWaresInfoVo info(String dealWaresId);
+
+    /**
+     * 客户获取自己企业商品的详情
+     * @param dealWaresId
+     * @return
+     */
+    DealWaresWxInfoVo infoWx(String dealWaresId);
 
 
     /**

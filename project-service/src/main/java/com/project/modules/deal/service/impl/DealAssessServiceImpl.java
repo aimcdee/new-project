@@ -61,6 +61,7 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
                 page,
                 MapUtils.getLong(params, "dealUserId"),
                 MapUtils.getInteger(params, "status"),
+                MapUtils.getInteger(params, "sellStatus"),
                 DateUtils.getDate(params, "startTime"),
                 DateUtils.getDate(params, "endTime"));
         if (CollectionUtils.isNotEmpty(assessList)){

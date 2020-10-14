@@ -58,6 +58,11 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public void logout(Long userId) {
+        //删除redis上的角色的缓存
+        redisUtils.delete(RedisKeys.SysLogin.Part(userId));
+        //删除redis上的权限的缓存
+        redisUtils.delete(RedisKeys.SysLogin.Perm(userId));
+        //删除redis上的登录的缓存
         redisUtils.delete(RedisKeys.SysLogin.Login(userId));
     }
 
@@ -69,13 +74,13 @@ public class LoginServiceImpl implements LoginService {
                 .setUserId(sysUserEntity.getUserId())
                 // 用户姓名
                 .setUserName(sysUserEntity.getUserName())
-                //手机号码
+                // 手机号码
                 .setPhone(sysUserEntity.getPhone())
-                //用户状态
+                // 用户状态
                 .setStatus(sysUserEntity.getStatus())
                 // token到期时间
                 .setExpireTime(JjwtUtils.getExpiration(token))
-                //登录IP
+                // 登录IP
                 .setLoginIp(IPUtils.getIpAddr(request))
                 // 登录时间
                 .setLoginTime(JjwtUtils.getIssuedAt(token));

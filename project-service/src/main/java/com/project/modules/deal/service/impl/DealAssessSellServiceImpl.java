@@ -174,7 +174,7 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
 
     //获取DealAssessSellEntity更新对象
     private DealAssessSellEntity getDealAssessSellUpdateEntity(DealAssessSellUpdateVo sell) {
-        DealAssessSellEntity dealAssessSellEntity = getOne(new QueryWrapper<DealAssessSellEntity>().eq("deal_sell_id", sell.getDealSellId()).eq("status", Constant.DropInStatus.INREVIEW.getStatus()).last("LIMIT 1"));
+        DealAssessSellEntity dealAssessSellEntity = getOne(new QueryWrapper<DealAssessSellEntity>().eq("deal_sell_id", sell.getDealSellId()).in("status", Constant.DropInStatus.CANCEL.getStatus(), Constant.DropInStatus.INREVIEW.getStatus()).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(dealAssessSellEntity);
         try {
             dealAssessSellEntity = (DealAssessSellEntity) JavaBeanUtils.mapToJavaBean(DealAssessSellEntity.class, JavaBeanUtils.javaBeanToMap(sell));
@@ -182,6 +182,7 @@ public class DealAssessSellServiceImpl extends ServiceImpl<DealAssessSellDao, De
             e.printStackTrace();
         }
         dealAssessSellEntity
+                .setStatus(Constant.DropInStatus.INREVIEW.getStatus())
                 .setProAreaName(dealInvokingService.getAreaNameById(sell.getProAreaId()))
                 .setCityAreaName(dealInvokingService.getAreaNameById(sell.getCityAreaId()))
                 .setCountyAreaName(dealInvokingService.getAreaNameById(sell.getCountyAreaId()));

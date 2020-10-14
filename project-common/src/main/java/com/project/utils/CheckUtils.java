@@ -3,7 +3,6 @@ package com.project.utils;
 import com.project.constant.Constant;
 import com.project.exception.RRException;
 import com.project.modules.sys.entity.SysUserEntity;
-import com.project.modules.sys.vo.save.SysUserSaveVo;
 import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
 import com.project.modules.sys.vo.update.SysUserUpdateVo;
 import lombok.extern.slf4j.Slf4j;
@@ -70,30 +69,13 @@ public class CheckUtils {
     }
 
     /**
-     * 注册系统用户的非空校验
-     * @param user
+     * 注册系统密码校验是否匹配
+     * @param password
+     * @param confirm
      */
-    public void checkSaveUserNotNull(SysUserSaveVo user){
-        if (StringUtils.isBlank(user.getUserName())){
-            throw new RRException("请输入用户名");
-        }
-        if (StringUtils.isBlank(user.getPassword())){
-            throw new RRException("请输入密码");
-        }
-        if (StringUtils.isBlank(user.getConfirm())){
-            throw new RRException("请输入确认密码");
-        }
-        if (!user.getConfirm().equals(user.getPassword())){
+    public void checkPasswordTheSame(String password, String confirm){
+        if (!confirm.equals(password)){
             throw new RRException("两次密码输入不匹配,请重新输入");
-        }
-        if (StringUtils.isBlank(user.getPhone())){
-            throw new RRException("请输入手机号码");
-        }
-        if (Objects.isNull(user.getDeptId()) || user.getDeptId() == 0){
-            throw new RRException("请选择部门");
-        }
-        if (CollectionUtils.isEmpty(user.getRoleIdList())){
-            throw new RRException("请选择角色");
         }
     }
 

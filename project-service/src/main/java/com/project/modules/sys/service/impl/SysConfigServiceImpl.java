@@ -74,10 +74,10 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     public PageUtils queryPage(Map<String, Object> params) {
         Page<SysConfigListVo> page = new Query<SysConfigListVo>(params).getPage();
         List<SysConfigListVo> sysConfigListVos = baseMapper.queryPage(page, MapUtils.getString(params, "name"));
-        sysConfigListVos.forEach(sysConfigListVo -> {
-            sysConfigListVo.setValue(JsonUtil.toJson(sysConfigListVo.getValue()));
-
-        });
+//        sysConfigListVos.forEach(sysConfigListVo -> {
+//            sysConfigListVo.setValue(JsonUtil.toJson(sysConfigListVo.getValue()));
+//
+//        });
         return new PageUtils(page.setRecords(sysConfigListVos));
     }
 
@@ -143,13 +143,13 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     }
 
     /**
-     * 获取配置好的默认省份ID
-     * @param defaulTprovince
+     * 获取配置好的默认ID
+     * @param code
      * @return
      */
     @Override
-    public Long getDefaultValue(String defaulTprovince) {
-        return Long.parseLong(baseMapper.getDefaultValue(defaulTprovince, Constant.Status.NORMAL.getStatus()));
+    public String getDefaultValue(String code) {
+        return baseMapper.getDefaultValue(code, Constant.Status.NORMAL.getStatus());
     }
 
     //新增redis缓存数据

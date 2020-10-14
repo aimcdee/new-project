@@ -65,7 +65,7 @@ public class WxDealWareController {
     @ApiOperation(value = "个人中心-企业-商品模块-获取自己商品的详情")
     @GetMapping("/personal/{dealWaresId}")
     public R personal(@PathVariable("dealWaresId") String dealWaresId){
-        return R.ok(dealWaresService.info(dealWaresId));
+        return R.ok(dealWaresService.infoWx(dealWaresId));
     }
 
     /**

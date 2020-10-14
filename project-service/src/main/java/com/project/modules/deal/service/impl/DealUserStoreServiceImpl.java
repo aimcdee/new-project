@@ -68,12 +68,19 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
     @Override
     public PageUtils listPage(Map<String, Object> params) {
         Page<DealStoreListVo> page = new Query<DealStoreListVo>(params).getPage();
-        List<DealStoreListVo> dealStoreListVos = baseMapper.listPage(page, MapUtils.getLong(params, "dealUserId"), MapUtils.getString(params, "dealUserPhone"));
+        log.info("审核状态:{}", MapUtils.getInteger(params, "examine"));
+        List<DealStoreListVo> dealStoreListVos = baseMapper.listPage(
+                page,
+                MapUtils.getLong(params, "dealUserId"),
+                MapUtils.getString(params, "dealUserPhone"),
+                MapUtils.getInteger(params, "examine"),
+                DateUtils.getDate(params, "startTime"),
+                DateUtils.getDate(params, "endTime"));
         return new PageUtils(page.setRecords(dealStoreListVos));
     }
 
     /**
-     * 分页查询企业申请验证
+     * 分页查看客户申请成为企业的申请记录
      * @param params
      * @return
      */

@@ -143,7 +143,7 @@ public class DealAssessController {
     }
 
     /**
-     * 审核客户提交的评估作废
+     * 修改客户提交的评估作废
      * @param dealAssessId
      * @return
      */

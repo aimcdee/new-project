@@ -17,6 +17,7 @@ import com.project.modules.deal.vo.invoking.DealWaresExamineInvokingVo;
 import com.project.modules.deal.vo.list.DealWaresListVo;
 import com.project.modules.deal.vo.save.DealWaresSaveVo;
 import com.project.modules.deal.vo.update.DealWaresUpdateVo;
+import com.project.modules.deal.vo.wx.info.DealWaresWxInfoVo;
 import com.project.modules.deal.vo.wx.info.DealWaresWxRetailInfoVo;
 import com.project.modules.deal.vo.wx.info.DealWaresWxStoreInfoVo;
 import com.project.modules.deal.vo.wx.list.DealWaresWxPersonalListVo;
@@ -253,6 +254,31 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 .setDealUserId(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserId).orElse(null))
                 .setDealUserName(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserName).orElse(null));
         return waresInfo;
+    }
+
+    /**
+     * 客户获取自己企业商品的详情
+     * @param dealWaresId
+     * @return
+     */
+    @Override
+    public DealWaresWxInfoVo infoWx(String dealWaresId) {
+        DealWaresWxInfoVo waresWxInfoVo = baseMapper.infoWx(dealWaresId);
+        DealStoreUserInvokingVo storeUser = dealInvokingService.getDealStoreUserInvokingVoByStoreId(waresWxInfoVo.getDealStoreId());
+        waresWxInfoVo
+                .setSexLable(Constant.SexValue.getSexLabeValue(waresWxInfoVo.getSex()))
+                .setCouBrandName(dealInvokingService.getCouBrandNameById(waresWxInfoVo.getCouBrandId()))
+                .setCouSeriesName(dealInvokingService.getCouSeriesNameById(waresWxInfoVo.getCouSeriesId()))
+                .setCouModelName(dealInvokingService.getCouModelNameById(waresWxInfoVo.getCouModelId()))
+                .setIsMaintainLable(Constant.DefaultField.DefaultFieldValue(waresWxInfoVo.getIsMaintain()))
+                .setIsMortgageLable(Constant.DefaultField.DefaultFieldValue(waresWxInfoVo.getIsMortgage()))
+                .setIsTransferLable(Constant.DefaultField.DefaultFieldValue(waresWxInfoVo.getIsTransfer()))
+                .setCoverImage(dealWaresImageService.getImage(waresWxInfoVo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.YES.getType()))
+                .setWaresImages(dealWaresImageService.getImageList(waresWxInfoVo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.NO.getType()))
+                .setDriveImage(dealWaresImageService.getImage(waresWxInfoVo.getDealWaresId(), Constant.ImageType.DRIVE.getType(), Constant.IsWaresCover.NO.getType()))
+                .setDealUserId(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserId).orElse(null))
+                .setDealUserName(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserName).orElse(null));
+        return waresWxInfoVo;
     }
 
     /**

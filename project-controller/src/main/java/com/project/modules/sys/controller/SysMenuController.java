@@ -90,24 +90,31 @@ public class SysMenuController {
         List<SysMenuEntity> menuList = sysMenuService.queryNotButtonList();
         //添加顶级菜单
         SysMenuEntity sysMenuEntity = new SysMenuEntity();
-        sysMenuEntity
-                .setMenuId(0L)
-                .setName("一级菜单")
-                .setParentId(-1L)
-                .setOpen(true);
+        sysMenuEntity.setMenuId(0L).setName("一级菜单").setParentId(-1L).setOpen(true);
         menuList.add(sysMenuEntity);
         return R.ok(menuList);
     }
 
     /**
-     * 系统菜单信息
+     * 系统菜单信息(暂时去除权限,因为会报权限异常问题)
      * @param menuId
      * @return
      */
     @ApiOperation(value = "系统信息")
     @GetMapping("/info/{menuId}")
-    @RequiresPermissions("sys:menu:info")
+//    @RequiresPermissions("sys:menu:info")
     public R info(@PathVariable("menuId") Long menuId) {
+        return R.ok(sysMenuService.getSysMenuEntity(menuId));
+    }
+
+    /**
+     * 系统菜单信息无权限
+     * @param menuId
+     * @return
+     */
+    @ApiOperation(value = "系统菜单信息无权限")
+    @GetMapping("/noPerm/{menuId}")
+    public R noPerm(@PathVariable("menuId") Long menuId) {
         return R.ok(sysMenuService.getSysMenuEntity(menuId));
     }
 

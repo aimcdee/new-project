@@ -153,13 +153,13 @@ public class DealWaresListVo implements Serializable {
     @ApiModelProperty(value = "审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过")
     private Integer status;
 
-    /**出售状态 0.未出售 1.已出售*/
-    @ApiModelProperty(value = "出售状态 0.未出售 1.已出售")
-    private Integer sellStatus;
-
     /**上线状态 0.上架 1.下架*/
     @ApiModelProperty(value = "上线状态 0.上架 1.下架")
     private Integer onlineStatus;
+
+    /**出售状态 0.未出售 1.已出售*/
+    @ApiModelProperty(value = "出售状态 0.未出售 1.已出售")
+    private Integer sellStatus;
 
     /**商品封面图*/
     @ApiModelProperty(value = "商品封面图")

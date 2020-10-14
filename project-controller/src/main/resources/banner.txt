@@ -1,0 +1,12 @@
+====================================================================================================================
+
+${AnsiColor.GREEN}__  __ ____ ${AnsiColor.RED}  ____  __   __
+${AnsiColor.GREEN}| |/ // ___|${AnsiColor.RED} / ___| | |  | |
+${AnsiColor.GREEN}|_/ / \____ ${AnsiColor.RED}/ /     | |==| |
+${AnsiColor.GREEN} / /   ___ \${AnsiColor.RED}\ \___  | |  | |
+${AnsiColor.GREEN}/_/   |____/${AnsiColor.RED} \____| |_|  |_|
+
+${AnsiColor.BRIGHT_BLUE}:: MircoX 🤓  :: Running Spring Boot ${spring-boot.version} ::
+:: 相信指尖的力量可以改变世界 :: 银会车汇 微信端项目 启动 ::${AnsiColor.DEFAULT}
+
+====================================================================================================================

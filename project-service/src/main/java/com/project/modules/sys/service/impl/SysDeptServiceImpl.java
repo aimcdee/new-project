@@ -1,10 +1,13 @@
 package com.project.modules.sys.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.constant.Constant;
 import com.project.constant.RedisKeyConstant;
+import com.project.constant.RedisListKeyConstant;
 import com.project.exception.RRException;
 import com.project.modules.sys.dao.SysDeptDao;
 import com.project.modules.sys.entity.SysDeptEntity;
@@ -90,32 +93,51 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
      */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        Long deptId = getDeptId(params);
         Page<SysDeptListVo> page = new Query<SysDeptListVo>(params).getPage();
         List<SysDeptListVo> sysUserListVos = baseMapper.queryByPage(
                 page, StringUtils.trim(MapUtils.getString(params, "deptName")),
-                getDeptIdList(new ArrayList<>(), MapUtils.getLong(params, "deptId")),
-                MapUtils.getInteger(params, "status"));
+                getRedisDeptIdList(deptId),MapUtils.getInteger(params, "status"));
         return new PageUtils(page.setRecords(sysUserListVos));
     }
 
     //获取该系统部门及所有的子部门
-    private List<Long> getDeptIdList(List<Long> deptIdList, Long deptId) {
-        if (ObjectUtils.isEmpty(deptId)){
-            String redisMsg = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT));
-            deptId = StringUtils.isNotBlank(redisMsg) ? Long.parseLong(redisMsg) : sysConfigService.getDefaultValue(RedisKeyConstant.DEFAUL_DEPT);
-            if (StringUtils.isBlank(redisMsg)){
-                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), deptId);
-            }
+    private List<Long> getRedisDeptIdList(Long deptId) {
+        List<Long> redisValues = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.Dept(new StringBuilder().append(RedisListKeyConstant.SYS_DEPT_ID_LIST).append("_").append(deptId).toString())), Long.class);
+        List<Long> deptIdList = CollectionUtils.isNotEmpty(redisValues) ? redisValues : new ArrayList<>();
+        if (CollectionUtils.isEmpty(deptIdList)){
+            deptIdList = getDeptIdList(deptIdList, deptId);
+            redisUtils.set(RedisKeys.Sys.Dept(new StringBuilder().append(RedisListKeyConstant.SYS_DEPT_ID_LIST).append("_").append(deptId).toString()), deptIdList);
         }
+        return deptIdList;
+    }
+
+    //递归获取该部门及其子部门
+    private List<Long> getDeptIdList(List<Long> deptIdList, Long deptId) {
         deptIdList.add(deptId);
         //获取该部门的子部门
-        List<Long> childDeptIdList = getChildDeptIdList(deptId);
+        List<Long> childDeptIdList = baseMapper.getChildDeptIdList(deptId);
         if (CollectionUtils.isNotEmpty(childDeptIdList)) {
             childDeptIdList.forEach(childDeptId -> {
                 getDeptIdList(deptIdList, childDeptId);
             });
         }
         return deptIdList;
+    }
+
+    //获取查询条件的部门ID
+    private Long getDeptId(Map<String, Object> params) {
+        Long deptId = MapUtils.getLong(params, "deptId");
+        if (Objects.isNull(deptId)){
+            //从redis中配置缓存获取默认部门ID
+            deptId = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), Long.class);
+            if (Objects.isNull(deptId)){
+                Map map = JSON.parseObject(sysConfigService.getDefaultValue(RedisKeyConstant.DEFAUL_DEPT));
+                deptId = Long.parseLong(String.valueOf(map.get(RedisKeyConstant.DEFAUL_DEPT)));
+                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), deptId);
+            }
+        }
+        return deptId;
     }
 
     /**

@@ -88,5 +88,5 @@ public interface SysConfigService extends IService<SysConfigEntity> {
      * @param code
      * @return
      */
-    Long getDefaultValue(String code);
+    String getDefaultValue(String code);
 }

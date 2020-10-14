@@ -45,6 +45,10 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "性别 0.男 1.女")
     private Integer sex;
 
+    /**性别*/
+    @ApiModelProperty(value = "性别")
+    private String sexLable;
+
     /**商品框架号*/
     @ApiModelProperty(value = "商品框架号")
     private String waresFrameCode;
@@ -57,12 +61,12 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "所属品牌名称")
     private String couBrandName;
 
-    /**所属品牌系列ID*/
-    @ApiModelProperty(value = "所属品牌系列ID")
+    /**所属系列ID*/
+    @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
 
-    /**所属品牌系列名称*/
-    @ApiModelProperty(value = "所属品牌系列名称")
+    /**所属系列名称*/
+    @ApiModelProperty(value = "所属系列名称")
     private String couSeriesName;
 
     /**所属商品型号ID*/
@@ -137,21 +141,37 @@ public class DealWaresWxInfoVo implements Serializable {
     @ApiModelProperty(value = "是否包含过户费 0.无 1.是")
     private Integer isTransfer;
 
+    /**是否包含过户费*/
+    @ApiModelProperty(value = "是否包含过户费")
+    private String isTransferLable;
+
     /**是否有抵押 0.无 1.是*/
     @ApiModelProperty(value = "是否有抵押 0.无 1.是")
     private Integer isMortgage;
+
+    /**是否有抵押*/
+    @ApiModelProperty(value = "是否有抵押")
+    private String isMortgageLable;
 
     /**是否有定期4s保养 0.无 1.是*/
     @ApiModelProperty(value = "是否有定期4s保养 0.无 1.是")
     private Integer isMaintain;
 
+    /**是否有定期4s保养*/
+    @ApiModelProperty(value = "是否有定期4s保养")
+    private String isMaintainLable;
+
+    /**审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过*/
+    @ApiModelProperty(value = "审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过")
+    private Integer status;
+
+    /**上线状态 0.上架 1.下架*/
+    @ApiModelProperty(value = "上线状态 0.上架 1.下架")
+    private Integer onlineStatus;
+
     /**出售状态 0.未出售 1.已出售*/
     @ApiModelProperty(value = "出售状态 0.未出售 1.已出售")
     private Integer sellStatus;
-
-    /**上线状态 0.审核失败 1.待审核 2.上架 3.下架*/
-    @ApiModelProperty(value = "上线状态 0.审核失败 1.待审核 2.上架 3.下架")
-    private Integer onlineStatus;
 
     /**商品封面图*/
     @ApiModelProperty(value = "商品封面图")
@@ -168,6 +188,10 @@ public class DealWaresWxInfoVo implements Serializable {
     /**所属客户企业ID*/
     @ApiModelProperty(value = "所属企业客户ID")
     private Long dealStoreId;
+
+    /**所属企业客户ID*/
+    @ApiModelProperty(value = "所属企业客户ID")
+    private Long dealUserId;
 
     /**所属企业客户名称*/
     @ApiModelProperty(value = "所属企业客户名称")

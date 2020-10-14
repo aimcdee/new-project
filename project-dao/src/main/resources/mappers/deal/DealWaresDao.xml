@@ -98,8 +98,8 @@
             register_time,
             distance,
             status,
-            sell_status,
             online_status,
+            sell_status,
             submit_time
         FROM
             deal_wares
@@ -167,7 +167,9 @@
             deal_wares AS deal_wares
             JOIN deal_user_store AS deal_user_store ON deal_wares.deal_store_id = deal_user_store.deal_store_id
         <where>
-            deal_wares.status = #{status} AND deal_wares.online_status = #{onlineStatus} AND deal_wares.sell_status = #{sellStatus}
+            deal_wares.status = #{status}
+            AND deal_wares.online_status = #{onlineStatus}
+            AND deal_wares.sell_status = #{sellStatus}
             <if test="dealWaresTitle != null and dealWaresTitle.trim() != ''">
                 AND deal_wares.deal_wares_title LIKE "%"#{dealWaresTitle}"%"
             </if>
@@ -282,8 +284,51 @@
             is_transfer,
             is_mortgage,
             is_maintain,
-            sell_status,
+            status,
             online_status,
+            sell_status,
+            submit_time,
+            deal_store_id
+        FROM
+            deal_wares
+        WHERE
+            deal_wares_id = #{dealWaresId}
+    </select>
+
+    <!--客户获取自己企业商品的详情-->
+    <select id="infoWx" resultType="com.project.modules.deal.vo.wx.info.DealWaresWxInfoVo">
+        SELECT
+            deal_wares_id,
+            deal_wares_title,
+            deal_wares_no,
+            contact_phone,
+            contact_name,
+            sex,
+            wares_frame_code,
+            cou_brand_id,
+            cou_series_id,
+            cou_model_id,
+            market_year,
+            trade_price,
+            retail_price,
+            register_time,
+            distance,
+            license_code,
+            pro_area_id,
+            pro_area_name,
+            city_area_id,
+            city_area_name,
+            county_area_id,
+            county_area_name,
+            addr,
+            wares_remark,
+            transfer_num,
+            is_transfer,
+            is_mortgage,
+            is_maintain,
+            status,
+            online_status,
+            sell_status,
             submit_time,
             deal_store_id
         FROM

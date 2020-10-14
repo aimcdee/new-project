@@ -7,6 +7,7 @@ import com.project.utils.JsonUtil;
 import com.project.utils.RedisKeys;
 import com.project.utils.RedisUtils;
 import com.project.utils.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -26,6 +27,7 @@ import java.util.Set;
  * @author liangyuding
  * @date 2020-03-18
  */
+@Slf4j
 @Component
 public class AuthRealm extends AuthorizingRealm {
     @Autowired
@@ -44,7 +46,7 @@ public class AuthRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         LoginUserVo user = (LoginUserVo) principals.getPrimaryPrincipal();
-        System.out.println("登陆的对象:" + user);
+        log.info("登陆的对象:{}" + user);
         Long userId = user.getUserId();
 
         //用户权限列表
@@ -81,7 +83,7 @@ public class AuthRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("登陆的token:" + token);
+        log.info("登陆的token:{}" + token);
         SysAuthcToken statelessToken = (SysAuthcToken) token;
         // 签证信息
         LoginUserVo userVo = statelessToken.getLoginUser();

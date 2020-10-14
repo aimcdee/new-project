@@ -47,14 +47,14 @@
     <!--分页查询咨询分期客户列表-->
     <select id="queryWxPage" resultType="com.project.modules.deal.vo.wx.list.DealWaresInstallmentWxListVo">
         SELECT
-        installment_id,
-        deal_wares_id,
-        deal_wares_title,
-        submit_time,
-        follow_status,
-        sys_user_id
+            installment_id,
+            deal_wares_id,
+            deal_wares_title,
+            submit_time,
+            follow_status,
+            sys_user_id
         FROM
-        deal_wares_installment
+            deal_wares_installment
         <where>
             <if test="dealUserId != null and !&quot;&quot;.equals(dealUserId) != ''">
                 deal_user_id = #{dealUserId}

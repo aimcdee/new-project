@@ -26,11 +26,14 @@
         FROM
             deal_assess
         <where>
-            <if test="status != null and !&quot;&quot;.equals(status)">
-                status = #{status}
-            </if>
             <if test="dealUserId != null and !&quot;&quot;.equals(dealUserId)">
-                AND deal_user_id = #{dealUserId}
+                deal_user_id = #{dealUserId}
+            </if>
+            <if test="status != null and !&quot;&quot;.equals(status)">
+                AND status = #{status}
+            </if>
+            <if test="sellStatus != null and !&quot;&quot;.equals(sellStatus)">
+                AND sell_status = #{sellStatus}
             </if>
             <if test="startTime != null and endTime != null">
                 AND create_time BETWEEN #{startTime} AND #{endTime}

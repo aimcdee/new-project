@@ -30,10 +30,6 @@ public class SysRoleEntity implements Serializable {
     @ApiModelProperty(value = "角色名称")
     private String roleName;
 
-    /**所属角色ID*/
-    @ApiModelProperty(value = "所属角色ID")
-    private Long parentId;
-
     /**状态 0.禁用 1.正常*/
     @ApiModelProperty(value = "状态 0.禁用 1.正常")
     private Integer status;

@@ -60,12 +60,13 @@ public interface CustAreaDao extends BaseMapper<CustAreaEntity> {
 
     /**
      * 查看区域
-     * @param areaId
+     * @param areaIdList
      * @param parentId
      * @param type
      * @return
      */
-    List<CustAreaInvokingVo> getCustAreaInvokingVo(@Param("areaId") Long areaId, @Param("parentId") Long parentId, @Param("type") Integer type);
+//    List<CustAreaInvokingVo> getCustAreaInvokingVo(@Param("areaId") Long areaId, @Param("parentId") Long parentId, @Param("type") Integer type);
+    List<CustAreaInvokingVo> getCustAreaInvokingVo(@Param("areaIdList") List<Long> areaIdList, @Param("parentId") Long parentId, @Param("type") Integer type);
 
     /**
      * 获取该区域下所有子区域
@@ -73,4 +74,12 @@ public interface CustAreaDao extends BaseMapper<CustAreaEntity> {
      * @return
      */
     List<Long> getChildAreaIdList(@Param("areaId") Long areaId);
+
+    /**
+     *
+     * @param areaIdList
+     * @param type
+     * @return
+     */
+//    List<CustAreaInvokingVo> getCustAreaInvokingVoList(@Param("areaIdList") List<Long> areaIdList, @Param("type") Integer type);
 }

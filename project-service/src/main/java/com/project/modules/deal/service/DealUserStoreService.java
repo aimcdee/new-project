@@ -47,7 +47,7 @@ public interface DealUserStoreService extends IService<DealUserStoreEntity> {
     PageUtils listPage(Map<String, Object> params);
 
     /**
-     * 查看客户企业验证详情
+     * 分页查看客户申请成为企业的申请记录
      * @param params
      * @return
      */

@@ -63,13 +63,17 @@ public class DealWaresWxPersonalListVo implements Serializable {
     @ApiModelProperty(value = "行驶里程")
     private Long distance;
 
+    /**审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过*/
+    @ApiModelProperty(value = "审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过")
+    private Integer status;
+
+    /**上线状态 0.上架 1.下架*/
+    @ApiModelProperty(value = "上线状态 0.上架 1.下架")
+    private Integer onlineStatus;
+
     /**出售状态 0.未出售 1.已出售*/
     @ApiModelProperty(value = "出售状态 0.未出售 1.已出售")
     private Integer sellStatus;
-
-    /**上线状态 0.审核失败 1.待审核 2.上架 3.下架*/
-    @ApiModelProperty(value = "上线状态 0.审核失败 1.待审核 2.上架 3.下架")
-    private Integer onlineStatus;
 
     /**商品封面图*/
     @ApiModelProperty(value = "商品封面图")

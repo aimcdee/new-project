@@ -11,7 +11,7 @@ public interface RedisKeyConstant {
     /**默认省份*/
     String DEFAUL_TPROVINCE = "DEFAUL_TPROVINCE";
 
-    /**默认省份*/
+    /**默认部门*/
     String DEFAUL_DEPT = "DEFAUL_DEPT";
 
     /**微信登录*/

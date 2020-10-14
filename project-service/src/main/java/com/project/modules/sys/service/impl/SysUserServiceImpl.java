@@ -1,5 +1,6 @@
 package com.project.modules.sys.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,10 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 系统用户Service
@@ -102,18 +100,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        Long deptId = getDeptId(params);
         Page<SysUserListVo> page = new Query<SysUserListVo>(params).getPage();
         List<SysUserListVo> sysUserListVos  = baseMapper.queryByPage(
                 page, StringUtils.trim(MapUtils.getString(params, "userName")),
                 StringUtils.trim(MapUtils.getString(params, "phone")),
                 MapUtils.getInteger(params, "status"),
-                getRedisDeptIdList(MapUtils.getLongValue(params, "deptId")));
+                getRedisDeptIdList(deptId));
         sysUserListVos.forEach(sysUserListVo -> {
             sysUserListVo.setRoleList(sysRoleService.getRoleListByUserId(sysUserListVo.getUserId()));
         });
         return new PageUtils(page.setRecords(sysUserListVos));
     }
-
 
     /**
      * 新增系统用户
@@ -129,7 +127,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
             e.printStackTrace();
         }
         //校验非空
-        checkUtils.checkSaveUserNotNull(user);
+        checkUtils.checkPasswordTheSame(user.getPassword(), user.getConfirm());
         SysUserEntity sysUserEntity = getSaveSysUserEntity(user, sysUserId);
         //新增系统用户
         save(sysUserEntity);
@@ -224,7 +222,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     @Transactional
     public void changeStatus(Long userId, Integer status, Long sysUserId) {
-//        SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq(Objects.nonNull(userId), "user_id", userId).last("LIMIT 1"));
         SysUserEntity sysUserEntity = getOne(new QueryWrapper<SysUserEntity>().eq(ObjectUtils.isNotBlank(userId), "user_id", userId).last("LIMIT 1"));
         checkUtils.checkEntityNotNull(sysUserEntity);
         sysUserEntity.setStatus(status).setUpdateUserId(sysUserId).setUpdateTime(new Date());
@@ -292,6 +289,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         return sysUserEntity;
     }
 
+    //更新redis上的用户列表信息
+    private void updateRedis() {
+        redisUtils.delete(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST));
+        List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.Status.NORMAL.getStatus());
+        redisUtils.set(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
+    }
+
     //设置新增SysUserEntity对象
     private SysUserEntity getSaveSysUserEntity(SysUserSaveVo user, Long sysUserId) {
         SysUserEntity sysUserEntity = new SysUserEntity();
@@ -315,23 +319,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     //从redis中获取部门ID集合
     private List<Long> getRedisDeptIdList(Long deptId) {
-        List <Long> deptIdList = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.Dept(RedisListKeyConstant.SYS_DEPT_ID_LIST + deptId)), Long.class);
+        List<Long> redisValues = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.Dept(new StringBuilder().append(RedisListKeyConstant.SYS_DEPT_ID_LIST).append("_").append(deptId).toString())), Long.class);
+        List<Long> deptIdList = CollectionUtils.isNotEmpty(redisValues) ? redisValues : new ArrayList<>();
         if (CollectionUtils.isEmpty(deptIdList)){
-            deptIdList = getDeptIdList(new ArrayList<>(), deptId);
-            redisUtils.set(RedisKeys.Sys.Dept(RedisListKeyConstant.SYS_DEPT_ID_LIST + deptId), deptIdList);
+            deptIdList = getDeptIdList(deptIdList, deptId);
+            redisUtils.set(RedisKeys.Sys.Dept(new StringBuilder().append(RedisListKeyConstant.SYS_DEPT_ID_LIST).append("_").append(deptId).toString()), deptIdList);
         }
         return deptIdList;
     }
 
-    //获取该系统部门及所有的子部门
+    //递归获取该部门及其子部门
     private List<Long> getDeptIdList(List<Long> deptIdList, Long deptId) {
-        if (ObjectUtils.isEmpty(deptId)){
-            String redisMsg = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT));
-            deptId = StringUtils.isNotBlank(redisMsg) ? Long.parseLong(redisMsg) : sysConfigService.getDefaultValue(RedisKeyConstant.DEFAUL_DEPT);
-            if (StringUtils.isBlank(redisMsg)){
-                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), deptId);
-            }
-        }
         deptIdList.add(deptId);
         //获取该部门的子部门
         List<Long> childDeptIdList = sysDeptService.getChildDeptIdList(deptId);
@@ -343,10 +341,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         return deptIdList;
     }
 
-    //更新redis上的用户列表信息
-    private void updateRedis() {
-        redisUtils.delete(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST));
-        List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.Status.NORMAL.getStatus());
-        redisUtils.set(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
+    //获取查询条件的部门ID
+    private Long getDeptId(Map<String, Object> params) {
+        Long deptId = MapUtils.getLong(params, "areaId");
+        if (Objects.isNull(deptId)){
+            //从redis中配置缓存获取默认部门ID
+            deptId = redisUtils.get(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), Long.class);
+            if (Objects.isNull(deptId)){
+                Map map = JSON.parseObject(sysConfigService.getDefaultValue(RedisKeyConstant.DEFAUL_DEPT));
+                deptId = Long.parseLong(String.valueOf(map.get(RedisKeyConstant.DEFAUL_DEPT)));
+                redisUtils.set(RedisKeys.Sys.Config(RedisKeyConstant.DEFAUL_DEPT), deptId);
+            }
+        }
+        return deptId;
     }
 }

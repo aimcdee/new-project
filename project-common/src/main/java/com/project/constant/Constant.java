@@ -465,8 +465,8 @@ public class Constant {
     }
 
     /**
-     * 个人商品上门情况
-     *   0.已取消   1.待上门   2.上门中   3.已交易
+     * 处理状态
+     * 0.撤回 1.待处理 2.跟进中 3.已完成
      */
     public enum DropInStatus {
         CANCEL(0), INREVIEW(1), PROCESSING(2), SUCCESS(3);
@@ -761,6 +761,92 @@ public class Constant {
 
         public void setPassword(String password) {
             this.password = password;
+        }
+    }
+
+    /**
+     * 默认标签字段
+     * 0. 否  1.是
+     */
+    public enum DefaultField {
+        NO(0, "否"), YES(1, "是");
+
+        private Integer status;
+        private String text;
+
+        DefaultField(Integer status, String text) {
+            this.status= status;
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Integer getStatus() {
+            return status;
+        }
+
+        public void setStatus(Integer status) {
+            this.status = status;
+        }
+
+        public static String DefaultFieldValue(Integer status){
+            if (null != status){
+                for (DefaultField defaultField: values()) {
+                    if (status.equals(defaultField.status)){
+                        return defaultField.getText();
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 性别
+     * 0.先生 1.小姐
+     */
+    public enum SexValue {
+        MAN(0, "先生"), WOMAN(1, "小姐");
+
+        private Integer sex;
+        private String sexLable;
+
+        SexValue(Integer sex, String sexLable) {
+            this.sex = sex;
+            this.sexLable = sexLable;
+        }
+
+        public Integer getSex() {
+            return sex;
+        }
+
+        public void setSex(Integer sex) {
+            this.sex = sex;
+        }
+
+        public String getSexLable() {
+            return sexLable;
+        }
+
+        public void setSexLable(String sexLable) {
+            this.sexLable = sexLable;
+        }
+
+        public static String getSexLabeValue(Integer sex){
+            if (null != sex){
+                for (SexValue sexValue: values()) {
+                    if (sex.equals(sexValue.getSex())){
+                        return sexValue.getSexLable();
+                    }
+                }
+            }
+            return null;
         }
     }
 }

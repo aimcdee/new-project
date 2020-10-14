@@ -58,10 +58,8 @@ public class DealUserStoreFinanceServiceImpl extends ServiceImpl<DealUserStoreFi
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         Page<DealUserStoreFinanceListVo> page = new Query<DealUserStoreFinanceListVo>(params).getPage();
-        Long dealStoreId = dataIsEmpty(MapUtils.getLong(params, "dealUserId")) ? null : dealInvokingService.getDealStoreId(MapUtils.getLong(params, "dealUserId"), Constant.Examine.SUCCESS.getExamine());
         List<DealUserStoreFinanceListVo> financeList = baseMapper.queryPage(
-                page, dealStoreId,
-                StringUtils.trim(MapUtils.getString(params, "dealPhone")),
+                page,
                 StringUtils.trim(MapUtils.getString(params, "contactPhone")),
                 StringUtils.trim(MapUtils.getString(params, "contactName")),
                 MapUtils.getInteger(params, "status"),

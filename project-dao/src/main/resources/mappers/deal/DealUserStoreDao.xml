@@ -16,29 +16,35 @@
     <!--客户查看申请成为企业的申请记录-->
     <select id="listPage" resultType="com.project.modules.deal.vo.list.DealStoreListVo">
         SELECT
-        deal_user_store.deal_store_id,
-        deal_user.deal_user_id,
-        deal_user.deal_user_name,
-        deal_user.phone,
-        deal_user_store.deal_store_name,
-        deal_user_store.deal_user_job,
-        deal_user_store.sys_user_id,
-        deal_user_store.sys_user_name,
-        deal_user_store.examine,
-        deal_user_store.examine_user_id,
-        deal_user_store.examine_time
+            deal_user_store.deal_store_id,
+            deal_user.deal_user_id,
+            deal_user.deal_user_name,
+            deal_user.phone,
+            deal_user_store.deal_store_name,
+            deal_user_store.deal_user_job,
+            deal_user_store.sys_user_id,
+            deal_user_store.sys_user_name,
+            deal_user_store.examine,
+            deal_user_store.examine_user_id,
+            deal_user_store.examine_time
         FROM
-        deal_user_store AS deal_user_store
-        JOIN deal_user AS deal_user ON deal_user_store.deal_user_id = deal_user.deal_user_id
+            deal_user_store AS deal_user_store
+            JOIN deal_user AS deal_user ON deal_user_store.deal_user_id = deal_user.deal_user_id
         <where>
-            <if test="dealUserId != null and &quot;&quot;.equals(dealUserId)">
+            <if test="dealUserId != null and !&quot;&quot;.equals(dealUserId)">
                 deal_user_store.deal_user_id = #{dealUserId}
             </if>
+            <if test="examine != null and !&quot;&quot;.equals(examine)">
+                AND deal_user_store.examine = #{examine}
+            </if>
             <if test="dealUserPhone != null and dealUserPhone.trim() != ''">
-                deal_user.phone = #{dealUserPhone}
+                AND deal_user.phone = #{dealUserPhone}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND deal_user_store.apply_time BETWEEN #{startTime} AND #{endTime}
             </if>
         </where>
-        ORDER BY apply_time DESC
+            ORDER BY apply_time DESC
     </select>
 
     <!--客户查看申请成为企业的申请记录-->

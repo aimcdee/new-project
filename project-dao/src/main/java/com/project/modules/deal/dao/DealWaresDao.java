@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.deal.entity.DealWaresEntity;
 import com.project.modules.deal.vo.info.DealWaresInfoVo;
 import com.project.modules.deal.vo.list.DealWaresListVo;
+import com.project.modules.deal.vo.wx.info.DealWaresWxInfoVo;
 import com.project.modules.deal.vo.wx.info.DealWaresWxRetailInfoVo;
 import com.project.modules.deal.vo.wx.info.DealWaresWxStoreInfoVo;
 import com.project.modules.deal.vo.wx.list.DealWaresWxPersonalListVo;
@@ -29,7 +30,6 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      * 分页企业商品列表
      * @param page
      * @param dealWaresTitle
-     * @param releaseAreaId
      * @param couBrandId
      * @param couSeriesId
      * @param couModelId
@@ -38,6 +38,7 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      * @param proAreaId
      * @param cityAreaId
      * @param countyAreaId
+     * @param status
      * @param onlineStatus
      * @param sellStatus
      * @param startTime
@@ -169,6 +170,13 @@ public interface DealWaresDao extends BaseMapper<DealWaresEntity> {
      * @return
      */
     DealWaresInfoVo info(@Param("dealWaresId") String dealWaresId);
+
+    /**
+     * 客户获取自己企业商品的详情
+     * @param dealWaresId
+     * @return
+     */
+    DealWaresWxInfoVo infoWx(@Param("dealWaresId") String dealWaresId);
 
     /**
      * 获取企业端商品的详情

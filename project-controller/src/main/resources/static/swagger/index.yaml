@@ -785,6 +785,32 @@ paths:
               menu:
                 description: 菜单信息
                 $ref: '#/definitions/SysMenuEntity'
+  /sys/menu/noPerm/{menuId}:
+    get:
+      tags:
+        - 菜单管理
+      summary: 获取菜单信息无权限
+      produces:
+        - application/json
+      parameters:
+        - name: menuId
+          description: 菜单ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: 返回菜单信息
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              menu:
+                description: 菜单信息
+                $ref: '#/definitions/SysMenuEntity'
   /sys/menu/save:
     post:
       tags:
@@ -2324,6 +2350,20 @@ paths:
           description: 客户联系电话
           in: query
           type: string
+        - name: examine
+          description: 状态 0.禁用 1正常
+          in: query
+          type: integer
+        - name: startTime
+          description: 开始日期
+          in: query
+          type: string
+          format: 'date-time'
+        - name: endTime
+          description: 结束日期
+          in: query
+          type: string
+          format: 'date-time'
       responses:
         '200':
           description: 返回客户列表
@@ -2964,10 +3004,6 @@ paths:
           description: 排序方式，如：asc、desc
           in: query
           type: string
-        - name: dealPhone
-          description: 所属企业客户手机号码
-          in: query
-          type: integer
         - name: contactPhone
           description: 联系电话
           in: query
@@ -3148,12 +3184,16 @@ paths:
           description: 排序方式，如：asc、desc
           in: query
           type: string
-        - name: status
-          description: 个人商品审核状态 0.待审核   1.已审核   2.已作废
-          in: query
-          type: integer
         - name: dealUserId
           description: 客户ID
+          in: query
+          type: integer
+        - name: status
+          description: 审核状态 0.待审核 1.已审核 2.已作废
+          in: query
+          type: integer
+        - name: sellStatus
+          description: 交易状态 0.未交易 1.交易中 2.已交易
           in: query
           type: integer
         - name: startTime
@@ -3350,7 +3390,7 @@ paths:
           in: query
           type: string
         - name: status
-          description: 出售情况 0.已取消 1.待处理 2.处理中 3.已完成
+          description: 处理状态 0.撤回 1.待处理 2.跟进中 3.已完成
           in: query
           type: integer
         - name: contactName
@@ -6077,7 +6117,7 @@ definitions:
         description: 金融单交易金额
         type: string
       status:
-        description: 状态 0.作废 1.处理中 4.已完成
+        description: 状态 0.作废 1.待处理 2.处理中 3.已完成
         type: integer
         format: int64
       submitTime:
@@ -6172,7 +6212,7 @@ definitions:
         description: 金融单交易金额
         type: string
       status:
-        description: 状态 0.作废 1.处理中 4.已完成
+        description: 状态 0.作废 1.待处理 2.处理中 3.已完成
         type: integer
         format: int64
       submitTime:
@@ -6621,7 +6661,7 @@ definitions:
         description: 最终出售金额
         type: string
       status:
-        description: 出售情况 0.已取消 1.待处理 2.处理中 3.已完成
+        description: 处理状态 0.撤回 1.待处理 2.跟进中 3.已完成
         type: integer
         format: int64
       examineUserId:
@@ -6756,7 +6796,7 @@ definitions:
         description: 跟进人名称
         type: string
       status:
-        description: 出售情况 0.已取消 1.待处理 2.处理中 3.已完成
+        description: 处理状态 0.撤回 1.待处理 2.跟进中 3.已完成
         type: integer
         format: int64
       sellPrice:
@@ -7265,12 +7305,12 @@ definitions:
         description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
         type: integer
         format: int64
-      sellStatus:
-        description: 出售状态 0.未出售 1.已出售
-        type: integer
-        format: int64
       onlineStatus:
         description: 上线状态 0.上架 1.下架
+        type: integer
+        format: int64
+      sellStatus:
+        description: 出售状态 0.未出售 1.已出售
         type: integer
         format: int64
       coverImage:

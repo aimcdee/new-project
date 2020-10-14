@@ -2414,7 +2414,7 @@ definitions:
         description: 所属企业客户ID
         type: integer
         format: int64
-  DealWaresInfoVo:
+  DealWaresWxInfoVo:
     type: object
     properties:
       dealWaresId:
@@ -2436,6 +2436,9 @@ definitions:
         description: 性别 0.先生 1.小姐
         type: integer
         format: int64
+      sexLable:
+        description: 性别
+        type: string
       waresFrameCode:
         description: 商品框架号
         type: string
@@ -2454,11 +2457,11 @@ definitions:
         description: 所属系列名称
         type: string
       couModelId:
-        description: 所属商品型号ID
+        description: 所属型号ID
         type: integer
         format: int64
       couModelName:
-        description: 所属商品型号名称
+        description: 所属型号名称
         type: string
       marketYear:
         description: 年款
@@ -2507,24 +2510,33 @@ definitions:
         description: 是否含过户费 0.无 1.是
         type: integer
         format: int64
+      isTransferLable:
+        description: 是否含过户费
+        type: string
       isMortgage:
         description: 是否有抵押 0.无 1.是
         type: integer
         format: int64
+      isMortgageLable:
+        description: 是否有抵押
+        type: string
       isMaintain:
         description: 是否有定期4s保养 0.无 1.是
         type: integer
         format: int64
+      isMaintainLable:
+        description: 是否有定期4s保
+        type: string
       status:
         description: 审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过
         type: integer
         format: int64
-      sellStatus:
-        description: 出售状态 0.未出售 1.已出售
-        type: integer
-        format: int64
       onlineStatus:
         description: 上线状态 0.上架 1.下架
+        type: integer
+        format: int64
+      sellStatus:
+        description: 出售状态 0.未出售 1.已出售
         type: integer
         format: int64
       coverImage:
