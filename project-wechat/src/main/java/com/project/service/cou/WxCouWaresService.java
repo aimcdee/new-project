@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface WxCouWaresService {
 
     /**
-     * 根据品牌系列获取所有状态为正常商品对象
+     * 根据系列获取所有状态为正常商品对象
      * @param couSeriesId
      * @return
      */

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 品牌系列Service
+ * 系列Service
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -20,35 +20,35 @@ import java.util.Map;
 public interface CouWaresSeriesService extends IService<CouWaresSeriesEntity> {
 
     /**
-     * 分页查询品牌系列列表
+     * 分页查询系列列表
      * @param params
      * @return
      */
     PageUtils queryPage(Map<String, Object> params);
 
     /**
-     * 新增品牌系列
+     * 新增系列
      * @param series
      * @param sysUserId
      */
     void saveEntity(CouWaresSeriesSaveVo series, Long sysUserId);
 
     /**
-     * 根据品牌系列ID获取品牌系列详情
+     * 根据系列ID获取系列详情
      * @param couSeriesId
      * @return
      */
     CouWaresSeriesInfoVo info(Long couSeriesId);
 
     /**
-     * 更新品牌系列
+     * 更新系列
      * @param series
      * @param sysUserId
      */
     void updateEntity(CouWaresSeriesUpdateVo series, Long sysUserId);
 
     /**
-     * 修改品牌系列的状态
+     * 修改系列的状态
      * @param couSeriesId
      * @param status
      * @param sysUserId
@@ -56,7 +56,7 @@ public interface CouWaresSeriesService extends IService<CouWaresSeriesEntity> {
     void changeStatus(Long couSeriesId, Integer status, Long sysUserId);
 
     /**
-     * 根据品牌ID获取所有状态为正常品牌系列的ID和名称
+     * 根据品牌ID获取所有状态为正常系列的ID和名称
      * @param couBrandId
      * @return
      */

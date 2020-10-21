@@ -109,7 +109,7 @@ public class RedisKeys {
      * 轮播图
      */
     public static class ConfBanner {
-        public static String ConfBanner(String key){
+        public static String Banner(String key){
             return Prefix.ConfKey(key);
         }
     }
@@ -120,11 +120,11 @@ public class RedisKeys {
         public static String CouWares(String key) {
             return Prefix.CouKey("wares:",key);
         }
-        /**商品品牌*/
+        /**品牌*/
         public static String CouBrand(String key) {
             return Prefix.CouKey("brand:", key);
         }
-        /**品牌系列*/
+        /**系列*/
         public static String CouSeries(String key) {
             return Prefix.CouKey("series:", key);
         }

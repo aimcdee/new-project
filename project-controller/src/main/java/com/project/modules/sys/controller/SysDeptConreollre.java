@@ -127,7 +127,7 @@ public class SysDeptConreollre {
     @GetMapping("/normal/{deptId}")
     @RequiresPermissions("sys:dept:update")
     public R normal(@PathVariable("deptId") Long deptId){
-        sysDeptService.changeStatus(deptId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        sysDeptService.changeStatus(deptId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -141,7 +141,7 @@ public class SysDeptConreollre {
     @GetMapping("/disable/{deptId}")
     @RequiresPermissions("sys:dept:update")
     public R disable(@PathVariable("deptId") Long deptId){
-        sysDeptService.changeStatus(deptId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        sysDeptService.changeStatus(deptId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 

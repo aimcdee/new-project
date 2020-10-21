@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * 微信系统商品品牌调用层
+ * 微信系统品牌调用层
  *
  * @author liangyuding
  * @date 2020-06-09
@@ -23,7 +23,7 @@ public interface WxCouWaresBrandService {
     R getHotCouBrandList();
 
     /**
-     * 获取所有状态为正常商品品牌对象
+     * 获取所有状态为正常品牌对象
      * @return
      */
     @GetMapping(Constant.COU_BRAND_PATH + "/getCouBrandList")

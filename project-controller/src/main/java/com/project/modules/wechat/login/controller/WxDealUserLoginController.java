@@ -26,11 +26,22 @@ public class WxDealUserLoginController {
     private DealUserLoginService dealUserLoginService;
 
     /**
-     * 客户微信登录
+     * 微信端手机号码登录
      * @param phone
      * @return
      */
-    @ApiOperation(value = "客户微信登录")
+    @ApiOperation(value = "微信端手机号码登录")
+    @PostMapping("/wxSmsLogin")
+    public R wxSmsLogin(@RequestBody String phone){
+        return R.ok(dealUserLoginService.wxSmsDealUserlogin(phone));
+    }
+
+    /**
+     * 微信端授权登录
+     * @param phone
+     * @return
+     */
+    @ApiOperation(value = "微信端授权登录")
     @PostMapping("/wxLogin")
     public R wxLogin(@RequestBody String phone){
         return R.ok(dealUserLoginService.wxDealUserlogin(phone));

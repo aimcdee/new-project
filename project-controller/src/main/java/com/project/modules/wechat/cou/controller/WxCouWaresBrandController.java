@@ -27,10 +27,10 @@ public class WxCouWaresBrandController {
     private CouWaresBrandService couWaresBrandService;
 
     /**
-     * 获取所有状态为正常商品对象
+     * 获取所有热门品牌
      * @return
      */
-    @ApiOperation(value = "获取所有状态为正常商品对象")
+    @ApiOperation(value = "获取所有热门品牌")
     @GetMapping("/getHotCouBrandList")
     public R getHotCouBrandList(){
         return R.ok(couWaresBrandService.getHotCouBrandList());
@@ -43,6 +43,6 @@ public class WxCouWaresBrandController {
     @ApiOperation(value = "获取所有状态为正常商品对象")
     @GetMapping("/getCouBrandList")
     public R getCouBrandList(){
-        return R.ok(couWaresBrandService.getCouBrandList());
+        return R.ok(couWaresBrandService.getBrandList());
     }
 }

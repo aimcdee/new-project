@@ -29,13 +29,24 @@ public class WechatConfBannerController {
     private ConfBannerService confBannerService;
 
     /**
-     * 查询可显示的轮播图集合
+     * 查询状态为正常的零售端轮播图集合
      * @return
      */
-    @ApiOperation(value = "查询可显示的轮播图集合")
-    @GetMapping("/list")
-    public R list() {
-//        return R.ok(confBannerService.normalList(Constant.Status.NORMAL.getStatus()));
-        return R.ok(wxConfbannerService.list());
+    @ApiOperation(value = "查询状态为正常的零售端轮播图集合")
+    @GetMapping("/retailList")
+    public R retailList() {
+//        return R.ok(confBannerService.typeList(Constant.DisplayType.RETAIL.getType(), Constant.Status.NORMAL.getStatus()));
+        return R.ok(wxConfbannerService.retailList());
+    }
+
+    /**
+     * 查询状态为正常的企业端轮播图集合
+     * @return
+     */
+    @ApiOperation(value = "查询状态为正常的企业端轮播图集合")
+    @GetMapping("/storeList")
+    public R storeList() {
+//        return R.ok(confBannerService.typeList(Constant.DisplayType.STORE.getType(), Constant.Status.NORMAL.getStatus()));
+        return R.ok(wxConfbannerService.storeList());
     }
 }

@@ -16,13 +16,24 @@ import org.springframework.stereotype.Service;
 public class WxLoginDealUserServiceImpl implements WxLoginDealUserService {
 
     /**
-     * 客户微信登录
+     * 客户微信端手机号码登录
+     * @param phone
+     * @return
+     */
+    @Override
+    public R wxSmsLogin(String phone) {
+        log.error("调用{}异常:{}, phone:{}", "客户微信端手机号码登录", phone);
+        return null;
+    }
+
+    /**
+     * 客户微信端授权登录
      * @param phone
      * @return
      */
     @Override
     public R wxLogin(String phone) {
-        log.error("调用{}异常:{}, phone:{}", "客户微信登录", phone);
+        log.error("调用{}异常:{}, phone:{}", "客户微信端授权登录", phone);
         return null;
     }
 

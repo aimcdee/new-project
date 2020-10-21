@@ -100,7 +100,7 @@ public class CouWaresController {
     @GetMapping("/normal/{waresId}")
     @RequiresPermissions("cou:wares:update")
     public R normal(@PathVariable("waresId") Long waresId){
-        couWaresService.changeStatus(waresId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        couWaresService.changeStatus(waresId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -114,15 +114,15 @@ public class CouWaresController {
     @GetMapping("/disable/{waresId}")
     @RequiresPermissions("cou:wares:update")
     public R disable(@PathVariable("waresId") Long waresId){
-        couWaresService.changeStatus(waresId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        couWaresService.changeStatus(waresId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 
     /**
-     * 根据品牌系列ID获取所有状态为正常商品对象
+     * 根据系列ID获取所有状态为正常商品对象
      * @return
      */
-    @ApiOperation(value = "根据品牌系列ID获取所有状态为正常商品对象")
+    @ApiOperation(value = "根据系列ID获取所有状态为正常商品对象")
     @GetMapping("/getCouWaresList/{couSeriesId}")
     public R getCouWaresList(@PathVariable("couSeriesId") Long couSeriesId){
         return R.ok(couWaresService.getCouWaresList(couSeriesId));

@@ -83,13 +83,13 @@ public class DealUserStoreController {
     }
 
     /**
-     * 客户申请成为企业用户
+     * 客户申请成为企业客户
      * @param userStore
      * @return
      */
-    @ApiOperation(value = "客户申请成为企业用户")
+    @ApiOperation(value = "客户申请成为企业客户")
     @ApiImplicitParam(paramType = "body", name = "userStore", value = "客户申请对象", required = true, dataType = "DealUserStoreSaveVo")
-    @SysLog("客户申请成为企业用户")
+    @SysLog("客户申请成为企业客户")
     @PostMapping("/save")
     @RequiresPermissions("deal:user:store:save")
     public R save(@RequestBody DealUserStoreSaveVo userStore){

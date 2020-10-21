@@ -114,7 +114,7 @@ public class SysRoleController {
     @GetMapping("/normal/{roleId}")
     @RequiresPermissions("sys:role:update")
     public R normal(@PathVariable("roleId") Long roleId){
-        sysRoleService.changeStatus(roleId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        sysRoleService.changeStatus(roleId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -128,7 +128,7 @@ public class SysRoleController {
     @GetMapping("/disable/{roleId}")
     @RequiresPermissions("sys:role:update")
     public R disable(@PathVariable("roleId") Long roleId){
-        sysRoleService.changeStatus(roleId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        sysRoleService.changeStatus(roleId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 

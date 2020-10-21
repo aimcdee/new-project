@@ -9,7 +9,14 @@ package com.project.modules.deal.service;
 public interface DealUserLoginService {
 
     /**
-     * 客户微信登录
+     * 微信端手机号码登录
+     * @param phone
+     * @return
+     */
+    String wxSmsDealUserlogin(String phone);
+
+    /**
+     * 微信端授权登录
      * @param phone
      */
     String wxDealUserlogin(String phone);

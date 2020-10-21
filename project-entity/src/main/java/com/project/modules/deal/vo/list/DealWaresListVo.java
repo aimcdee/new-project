@@ -45,10 +45,6 @@ public class DealWaresListVo implements Serializable {
     @ApiModelProperty(value = "性别 0.男 1.女")
     private Integer sex;
 
-    /**商品框架号*/
-    @ApiModelProperty(value = "商品框架号")
-    private String waresFrameCode;
-
     /**所属品牌ID*/
     @ApiModelProperty(value = "所属品牌ID")
     private Long couBrandId;
@@ -57,12 +53,12 @@ public class DealWaresListVo implements Serializable {
     @ApiModelProperty(value = "所属品牌名称")
     private String couBrandName;
 
-    /**所属品牌系列ID*/
-    @ApiModelProperty(value = "所属品牌系列ID")
+    /**所属系列ID*/
+    @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
 
-    /**所属品牌系列名称*/
-    @ApiModelProperty(value = "所属品牌系列名称")
+    /**所属系列名称*/
+    @ApiModelProperty(value = "所属系列名称")
     private String couSeriesName;
 
     /**所属商品型号ID*/

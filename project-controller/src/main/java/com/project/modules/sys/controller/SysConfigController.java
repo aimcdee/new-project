@@ -124,7 +124,7 @@ public class SysConfigController {
     @GetMapping("/normal/{configId}")
     @RequiresPermissions("sys:config:update")
     public R normal(@PathVariable("configId") Long configId){
-        sysConfigService.changeStatus(configId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        sysConfigService.changeStatus(configId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -138,7 +138,7 @@ public class SysConfigController {
     @GetMapping("/disable/{configId}")
     @RequiresPermissions("sys:config:update")
     public R disable(@PathVariable("configId") Long configId){
-        sysConfigService.changeStatus(configId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        sysConfigService.changeStatus(configId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 }

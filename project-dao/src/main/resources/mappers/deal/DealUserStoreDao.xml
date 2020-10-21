@@ -88,7 +88,7 @@
             deal_user_store.deal_store_id = #{dealStoreId}
     </select>
 
-    <!--根据用户ID获取企业信息-->
+    <!--根据客户ID获取企业信息-->
     <select id="getDealUserStoreInvokingVo" resultType="com.project.modules.deal.vo.invoking.DealUserStoreInvokingVo">
         SELECT
             deal_store_id,
@@ -103,7 +103,7 @@
             deal_user_id = #{dealUserId} AND examine = #{examine}
     </select>
 
-    <!--将用户除了该条记录以外的所有状态为成功的申请记录全都改为作废-->
+    <!--将客户除了该条记录以外的所有状态为成功的申请记录全都改为作废-->
     <update id="updateDealUserStoreExamine">
         UPDATE
             deal_user_store

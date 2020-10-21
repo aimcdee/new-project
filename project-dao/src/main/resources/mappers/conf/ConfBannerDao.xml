@@ -8,7 +8,8 @@
             conf_banner.banner_id,
             conf_banner.banner_name,
             conf_banner.status,
-            conf_banner.sort
+            conf_banner.sort,
+            conf_banner.display_type
         FROM
             conf_banner AS conf_banner
         <where>
@@ -18,8 +19,11 @@
             <if test="status != null and !&quot;&quot;.equals(status)">
                 AND conf_banner.status = #{status}
             </if>
+            <if test="displayType != null and !&quot;&quot;.equals(displayType)">
+                AND conf_banner.display_type = #{displayType}
+            </if>
         </where>
-        ORDER BY conf_banner.create_time DESC, conf_banner.update_time DESC
+        ORDER BY conf_banner.sort DESC,conf_banner.create_time DESC, conf_banner.update_time DESC
     </select>
 
     <!--根据轮播图ID获取轮播图详情-->
@@ -28,25 +32,55 @@
             conf_banner.banner_id,
             conf_banner.banner_name,
             conf_banner.status,
-            conf_banner.sort
+            conf_banner.sort,
+            conf_banner.display_type
         FROM
             conf_banner AS conf_banner
         WHERE
             conf_banner.banner_id = #{bannerId}
     </select>
 
-    <!--查询状态为正常的轮播图集合-->
-    <select id="normalList" resultType="com.project.modules.conf.vo.info.ConfBannerInfoVo">
+    <!--查询状态为正常的零售端/企业轮播图集合-->
+    <select id="getConfBanner" resultType="com.project.modules.conf.vo.info.ConfBannerInfoVo">
         SELECT
             conf_banner.banner_id,
             conf_banner.banner_name,
             conf_banner.status,
-            conf_banner.sort
+            conf_banner.sort,
+            conf_banner.display_type
         FROM
             conf_banner AS conf_banner
         WHERE
             conf_banner.status = #{status}
-            ORDER BY conf_banner.sort DESC
+            AND conf_banner.display_type = #{displayType}
+            ORDER BY conf_banner.sort DESC, conf_banner.update_time DESC LIMIT 1
     </select>
 
+    <!--查询所有状态为正常的轮播图ID-->
+    <select id="getNormalBannerId" resultType="java.lang.Long">
+        SELECT
+            banner_id
+        FROM
+            conf_banner
+        WHERE
+            status = #{status}
+            AND display_type = #{displayType}
+            AND banner_id NOT IN (#{bannerId})
+    </select>
+
+    <update id="updateBannerToDisable">
+        UPDATE
+            conf_banner
+        SET
+            status = #{disable},
+            update_user_id = #{sysUserId},
+            update_time = #{newTime}
+        <where>
+            display_type = #{displayType}
+            AND banner_id IN
+            <foreach collection="bannerIdList" item="bannerId" open="(" separator="," close=")">
+                #{bannerId}
+            </foreach>
+        </where>
+    </update>
 </mapper>

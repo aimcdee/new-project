@@ -18,7 +18,7 @@ import java.util.Map;
 public interface DealUserStoreService extends IService<DealUserStoreEntity> {
 
     /**
-     * 客户申请成为企业用户
+     * 客户申请成为企业客户
      * @param userStore
      */
     void saveEntity(DealUserStoreSaveVo userStore);
@@ -54,7 +54,7 @@ public interface DealUserStoreService extends IService<DealUserStoreEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     /**
-     * 根据用户ID获取企业信息
+     * 根据客户ID获取企业信息
      * @param DealUserId
      * @return
      */

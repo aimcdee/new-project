@@ -56,7 +56,7 @@ public interface CouWaresService extends IService<CouWaresEntity> {
     void changeStatus(Long waresId, Integer status, Long sysUserId);
 
     /**
-     * 根据品牌系列ID获取所有状态为正常商品对象
+     * 根据系列ID获取所有状态为正常商品对象
      * @param couSeriesId
      * @return
      */

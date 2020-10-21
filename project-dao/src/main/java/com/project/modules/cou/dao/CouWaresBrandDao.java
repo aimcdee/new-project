@@ -3,6 +3,7 @@ package com.project.modules.cou.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.cou.entity.CouWaresBrandEntity;
+import com.project.modules.cou.vo.Invoking.CouBrandInvokingVo;
 import com.project.modules.cou.vo.Invoking.CouWaresBrandInvokingVo;
 import com.project.modules.cou.vo.info.CouWaresBrandInfoVo;
 import com.project.modules.cou.vo.list.CouWaresBrandListVo;
@@ -33,7 +34,7 @@ public interface CouWaresBrandDao extends BaseMapper<CouWaresBrandEntity> {
             @Param("status") Integer status);
 
     /**
-     * 根据品牌ID获取商品品牌详情
+     * 根据品牌ID获取品牌详情
      * @param couBrandId
      * @return
      */
@@ -52,4 +53,19 @@ public interface CouWaresBrandDao extends BaseMapper<CouWaresBrandEntity> {
      * @return
      */
     List<CouWaresBrandInvokingVo> getCouBrandList(@Param("status") Integer status);
+
+    /**
+     * 按字母排序查询错所有的首字母
+     * @param status
+     * @return
+     */
+    List<CouBrandInvokingVo> getFirstLetter(@Param("status") Integer status);
+
+    /**
+     * 按字母分类查询所有品牌
+     * @param firstLetter
+     * @param status
+     * @return
+     */
+    List<CouWaresBrandInvokingVo> getBrandList(@Param("firstLetter") String firstLetter, @Param("status") Integer status);
 }

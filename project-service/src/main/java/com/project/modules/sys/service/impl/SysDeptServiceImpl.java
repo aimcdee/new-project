@@ -250,7 +250,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptDao, SysDeptEntity> i
         sysDeptEntity
                 .setDeptName(dept.getDeptName())
                 .setParentId(dept.getParentId())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);
         return sysDeptEntity;

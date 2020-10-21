@@ -3,6 +3,7 @@ package com.project.modules.deal.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.project.constant.Constant;
 import com.project.constant.RedisKeyConstant;
+import com.project.exception.RRException;
 import com.project.modules.deal.entity.DealUserEntity;
 import com.project.modules.deal.service.DealInvokingService;
 import com.project.modules.deal.service.DealUserLoginService;
@@ -41,7 +42,24 @@ public class DealUserLoginServiceImpl implements DealUserLoginService {
     private RedisUtils redisUtils;
 
     /**
-     * 微信端登录
+     * 微信端手机号码登录
+     * @param phone
+     * @return
+     */
+    @Override
+    public String wxSmsDealUserlogin(String phone) {
+        checkUtils.checkPhone(phone);
+        DealUserEntity dealUserEntity = dealUserService.getOne(new QueryWrapper<DealUserEntity>().eq("phone", phone).eq("status", Constant.StatusEnums.NORMAL.getStatus()).last("LIMIT 1"));
+        //如果查询结果为null,则抛出异常
+        if (Objects.isNull(dealUserEntity)){
+            throw new RRException("该用户不存在,请重新输入");
+        }
+        //如果该客户已存在则更新redis消息并生成token返回
+        return createDealUserToken(dealUserEntity);
+    }
+
+    /**
+     * 微信端授权登录
      * @param phone
      * @return
      */
@@ -49,7 +67,7 @@ public class DealUserLoginServiceImpl implements DealUserLoginService {
     @Transactional
     public String wxDealUserlogin(String phone) {
         checkUtils.checkPhone(phone);
-        DealUserEntity dealUserEntity = dealUserService.getOne(new QueryWrapper<DealUserEntity>().eq("phone", phone).eq("status", Constant.Status.NORMAL.getStatus()).last("LIMIT 1"));
+        DealUserEntity dealUserEntity = dealUserService.getOne(new QueryWrapper<DealUserEntity>().eq("phone", phone).eq("status", Constant.StatusEnums.NORMAL.getStatus()).last("LIMIT 1"));
         //如果该客户是第一次登录,则新增客户并返回token
         if (Objects.isNull(dealUserEntity)){
             DealUserSaveVo dealUserSaveVo = new DealUserSaveVo();

@@ -7,7 +7,6 @@ import com.project.modules.conf.vo.save.ConfBannerSaveVo;
 import com.project.modules.conf.vo.update.ConfBannerUpdateVo;
 import com.project.utils.PageUtils;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,9 +54,10 @@ public interface ConfBannerService extends IService<ConfBannerEntity> {
     void changeStatus(Long bannerId, Integer status, Long sysUserId);
 
     /**
-     * 查询状态为正常的轮播图集合
+     * 查询状态为正常的零售端/企业轮播图集合
+     * @param displayType
      * @param status
      * @return
      */
-    List<ConfBannerInfoVo> normalList(Integer status);
+    ConfBannerInfoVo typeList(Integer displayType, Integer status);
 }

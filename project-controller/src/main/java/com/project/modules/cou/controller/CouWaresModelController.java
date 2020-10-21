@@ -136,7 +136,7 @@ public class CouWaresModelController {
     @GetMapping("/normal/{couModelId}")
     @RequiresPermissions("cou:wares:model:update")
     public R normal(@PathVariable("couModelId") Long couModelId){
-        couWaresModelService.changeStatus(couModelId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        couWaresModelService.changeStatus(couModelId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -150,7 +150,7 @@ public class CouWaresModelController {
     @GetMapping("/disable/{couModelId}")
     @RequiresPermissions("cou:wares:model:update")
     public R disable(@PathVariable("couModelId") Long couModelId){
-        couWaresModelService.changeStatus(couModelId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        couWaresModelService.changeStatus(couModelId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 

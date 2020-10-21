@@ -145,7 +145,7 @@ public class SysUserController {
     @GetMapping("/normal/{userId}")
     @RequiresPermissions("sys:user:update")
     public R normal(@PathVariable("userId") Long userId){
-        sysUserService.changeStatus(userId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        sysUserService.changeStatus(userId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -159,7 +159,7 @@ public class SysUserController {
     @GetMapping("/disable/{userId}")
     @RequiresPermissions("sys:user:update")
     public R disable(@PathVariable("userId") Long userId){
-        sysUserService.changeStatus(userId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        sysUserService.changeStatus(userId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 

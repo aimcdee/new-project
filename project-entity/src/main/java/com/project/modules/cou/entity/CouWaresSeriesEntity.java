@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 商品品牌系列Entity
+ * 系列Entity
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -34,8 +34,8 @@ public class CouWaresSeriesEntity implements Serializable {
     @ApiModelProperty(value = "所属品牌ID")
     private Long couBrandId;
 
-    /**商品品牌系列状态 0.禁用 1.正常*/
-    @ApiModelProperty(value = "商品品牌系列状态 0.禁用 1.正常")
+    /**系列状态 0.禁用 1.正常*/
+    @ApiModelProperty(value = "系列状态 0.禁用 1.正常")
     private Integer status;
 
     /**创建者ID*/

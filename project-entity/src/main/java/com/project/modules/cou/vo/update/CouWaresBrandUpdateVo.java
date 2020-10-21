@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 商品品牌UpdateVo
+ * 品牌UpdateVo
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -33,7 +33,7 @@ public class CouWaresBrandUpdateVo implements Serializable {
     @ApiModelProperty(value = "品牌首字母")
     private String firstLetter;
 
-    /**商品品牌排序*/
-    @ApiModelProperty(value = "商品品牌排序")
+    /**品牌排序*/
+    @ApiModelProperty(value = "品牌排序")
     private Integer sort;
 }

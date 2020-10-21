@@ -26,12 +26,12 @@ public class WxCouWaresBrandServiceImpl implements WxCouWaresBrandService {
     }
 
     /**
-     * 获取所有状态为正常商品品牌对象
+     * 获取所有状态为正常品牌对象
      * @return
      */
     @Override
     public R getCouBrandList() {
-        log.error("调用{}异常:{}", "获取所有状态为正常商品品牌对象");
+        log.error("调用{}异常:{}", "获取所有状态为正常品牌对象");
         return null;
     }
 }

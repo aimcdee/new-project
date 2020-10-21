@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 商品品牌系列SaveVo
+ * 系列SaveVo
  *
  * @author liangyuding
  * @date 2020-04-17

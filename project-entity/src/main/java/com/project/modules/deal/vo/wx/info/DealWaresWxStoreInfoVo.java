@@ -53,8 +53,8 @@ public class DealWaresWxStoreInfoVo implements Serializable {
     @ApiModelProperty(value = "所属系列ID")
     private Long couSeriesId;
 
-    /**所属品牌系列名称*/
-    @ApiModelProperty(value = "所属品牌系列名称")
+    /**所属系列名称*/
+    @ApiModelProperty(value = "所属系列名称")
     private String couSeriesName;
 
     /**所属商品型号ID*/

@@ -46,7 +46,7 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
     private CheckUtils checkUtils;
 
     /**
-     * 客户申请成为企业用户
+     * 客户申请成为企业客户
      * @param userStore
      */
     @Override
@@ -92,7 +92,7 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
     }
 
     /**
-     * 根据用户ID获取企业信息
+     * 根据客户ID获取企业信息
      * @param dealUserId
      * @return
      */
@@ -146,7 +146,7 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
         //如果企业验证审核成功或者审核作废时
         if (examine.equals(Constant.Examine.SUCCESS.getExamine()) || examine.equals(Constant.Examine.WASTE.getExamine())) {
             if (examine.equals(Constant.Examine.SUCCESS.getExamine())) {
-                //将用户除了该条记录以外的所有状态为成功的申请记录全都改为作废
+                //将客户除了该条记录以外的所有状态为成功的申请记录全都改为作废
                 baseMapper.updateDealUserStoreExamine(dealUserStoreEntity.getDealUserId(), Constant.Examine.SUCCESS.getExamine(), dealUserStoreEntity.getDealStoreId(), Constant.Examine.WASTE.getExamine());
                 dealUserStoreEntity
                         .setSysUserId(belongUserId)
@@ -158,7 +158,7 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
         updateById(dealUserStoreEntity);
     }
 
-    //修改用户客户类型
+    //修改客户客户类型
     private void changeUserType(DealUserStoreEntity dealUserStoreEntity) {
         Integer type = dealUserStoreEntity.getExamine().equals(Constant.Examine.SUCCESS.getExamine()) ? Constant.StoreType.ENTERPRISE.getType() : Constant.StoreType.INDIVIDUAL.getType();
         //修改客户类型
@@ -168,7 +168,7 @@ public class DealUserStoreServiceImpl extends ServiceImpl<DealUserStoreDao, Deal
     //设置DealUserStoreEntity保存对象
     private DealUserStoreEntity getSaveDealUserStoreEntity(DealUserStoreSaveVo userStore) {
         //校验客户状态是否为正常
-        if (dealInvokingService.checkDealUserStatus(userStore.getDealUserId(), Constant.Status.NORMAL.getStatus()) <= 0){
+        if (dealInvokingService.checkDealUserStatus(userStore.getDealUserId(), Constant.StatusEnums.NORMAL.getStatus()) <= 0){
             throw new RRException("客户已被禁用,请确认后再操作");
         }
         //校验客户是否存在还未审核的企业申请验证

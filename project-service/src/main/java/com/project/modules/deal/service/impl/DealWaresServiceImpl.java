@@ -220,9 +220,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             e.printStackTrace();
             throw new RRException("操作失败,类元素去空失败");
         }
-        if (Objects.isNull(wares.getDealStoreId())){
-            throw new RRException("操作失败,请选择所属客户");
-        }
+        checkUtils.checkStoreIdAndWaresImage(wares.getDealStoreId(), wares.getCoverImage(), wares.getWaresImages(), wares.getDriveImage());
         DealWaresEntity dealWaresEntity = getDealWaresSaveEntity(wares);
         save(dealWaresEntity);
         //保存行驶证图
@@ -252,7 +250,8 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
                 .setWaresImages(dealWaresImageService.getImageList(waresInfo.getDealWaresId(), Constant.ImageType.WARES.getType(), Constant.IsWaresCover.NO.getType()))
                 .setDriveImage(dealWaresImageService.getImage(waresInfo.getDealWaresId(), Constant.ImageType.DRIVE.getType(), Constant.IsWaresCover.NO.getType()))
                 .setDealUserId(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserId).orElse(null))
-                .setDealUserName(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserName).orElse(null));
+                .setDealUserName(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserName).orElse(null))
+                .setDealUserPhone(Optional.ofNullable(storeUser).map(DealStoreUserInvokingVo::getDealUserPhone).orElse(null));
         return waresInfo;
     }
 
@@ -333,6 +332,7 @@ public class DealWaresServiceImpl extends ServiceImpl<DealWaresDao, DealWaresEnt
             e.printStackTrace();
             throw new RRException("操作失败,类元素去空失败");
         }
+        checkUtils.checkStoreIdAndWaresImage(wares.getDealStoreId(), wares.getCoverImage(), wares.getWaresImages(), wares.getDriveImage());
         DealWaresEntity dealWaresEntity = getDealWaresUpdateEntity(wares);
         updateById(dealWaresEntity);
         dealWaresImageService.deleteEntity(dealWaresEntity.getDealWaresId());

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
- * 微信系统品牌系列调用层
+ * 微信系统系列调用层
  *
  * @author liangyuding
  * @date 2020-06-09
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface WxCouWaresSeriesService {
 
     /**
-     * 根据品牌ID获取所有状态为正常品牌系列对象
+     * 根据品牌ID获取所有状态为正常系列对象
      * @param couBrandId
      * @return
      */

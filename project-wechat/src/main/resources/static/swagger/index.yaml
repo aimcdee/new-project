@@ -74,11 +74,31 @@ paths:
           description: 返回信息
           schema:
             $ref: '#/definitions/R'
-  /wechat/conf/banner/list:
+  /wechat/conf/banner/retailList:
     get:
       tags:
         - 系统-轮播图模块
-      summary: 查询状态为正常的轮播图集合
+      summary: 查询状态为正常的零售端轮播图集合
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 返回状态为正常的轮播图集合
+          schema:
+            type: object
+            properties:
+              code:
+                description: 状态码 0：成功  非0：失败
+                type: integer
+                format: int32
+              config:
+                description: 返回客户信息
+                $ref: '#/definitions/ConfBannerInfoVo'
+  /wechat/conf/banner/storeList:
+    get:
+      tags:
+        - 系统-轮播图模块
+      summary: 查询状态为正常的企业端轮播图集合
       produces:
         - application/json
       responses:
@@ -1374,19 +1394,26 @@ definitions:
       areaName:
         description: 部门名称
         type: string
-  CouWaresBrandInvokingVo:
+  CouBrandInvokingVo:
     type: object
     properties:
-      couBrandId:
-        description: 品牌ID
-        type: integer
-        format: int64
-      couBrandName:
-        description: 品牌名称
+      firstLetter:
+        description: 首字母
         type: string
-      image:
-        description: 图片路径
-        type: string
+      brandVoList:
+        description: 品牌对象集合
+        type: array
+        items:
+          couBrandId:
+            description: 品牌ID
+            type: integer
+            format: int64
+          couBrandName:
+            description: 品牌名称
+            type: string
+          image:
+            description: 图片路径
+            type: string
   CouWaresSeriesInvokingVo:
     type: object
     properties:

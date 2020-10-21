@@ -14,8 +14,12 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-public class DealUserInvokingVo implements Serializable {
+public class DealUserStoreInfoInvokingVo implements Serializable {
     private static final long serialVersionUID = -6498787315948229663L;
+
+    /**客户企业ID*/
+    @ApiModelProperty(value = "客户企业ID")
+    private Long dealStoreId;
 
     /**企业客户ID*/
     @ApiModelProperty(value = "企业客户ID")
@@ -28,4 +32,8 @@ public class DealUserInvokingVo implements Serializable {
     /**企业客户名称*/
     @ApiModelProperty(value = "企业客户名称")
     private String dealUserName;
+
+    /**客户企业名称*/
+    @ApiModelProperty(value = "客户企业名称")
+    private String dealStoreName;
 }

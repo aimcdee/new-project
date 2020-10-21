@@ -64,7 +64,7 @@
             cou_brand_id = #{couBrandId}
     </select>
 
-    <!--根据品牌系列ID获取品牌系列名称-->
+    <!--根据系列ID获取系列名称-->
     <select id="getCouSeriesNameById" resultType="java.lang.String">
         SELECT
             cou_series_name
@@ -183,7 +183,8 @@
     <select id="getDealStoreUserInvokingVoByStoreId" resultType="com.project.modules.deal.vo.invoking.DealStoreUserInvokingVo">
         SELECT
             deal_user.deal_user_id,
-            deal_user.deal_user_name
+            deal_user.deal_user_name,
+            deal_user.phone AS dealUserPhone
         FROM
             deal_user AS deal_user
             JOIN deal_user_store AS deal_user_store ON deal_user.deal_user_id = deal_user_store.deal_user_id

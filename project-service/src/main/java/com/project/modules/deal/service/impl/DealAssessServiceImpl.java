@@ -109,6 +109,7 @@ public class DealAssessServiceImpl extends ServiceImpl<DealAssessDao, DealAssess
         } catch (Exception e) {
             e.printStackTrace();
         }
+        checkUtils.checkUserIdAndWaresImage(assess.getDealUserId(), assess.getWaresImages(), assess.getDriveImage());
         if (Objects.isNull(assess.getDealUserId())){
             throw new RRException("请选择所属客户");
         }

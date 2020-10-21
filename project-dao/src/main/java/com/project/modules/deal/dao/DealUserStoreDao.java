@@ -66,7 +66,7 @@ public interface DealUserStoreDao extends BaseMapper<DealUserStoreEntity> {
     DealUserStoreInfoVo info(@Param("dealStoreId") Long dealStoreId);
 
     /**
-     * 将用户除了该条记录以外的所有状态为成功的申请记录全都改为作废
+     * 将客户除了该条记录以外的所有状态为成功的申请记录全都改为作废
      * @param dealUserId
      * @param success
      * @param storeId
@@ -79,7 +79,7 @@ public interface DealUserStoreDao extends BaseMapper<DealUserStoreEntity> {
             @Param("waste") Integer waste);
 
     /**
-     * 根据用户ID获取企业信息
+     * 根据客户ID获取企业信息
      * @param dealUserId
      * @return
      */

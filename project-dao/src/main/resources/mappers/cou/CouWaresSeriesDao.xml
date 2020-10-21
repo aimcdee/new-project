@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.modules.cou.dao.CouWaresSeriesDao">
 
-    <!--分页查询商品品牌系列-->
+    <!--分页查询系列-->
     <select id="queryPage" resultType="com.project.modules.cou.vo.list.CouWaresSeriesListVo">
         SELECT
             cou_wares_series.cou_series_id,
@@ -27,7 +27,7 @@
         ORDER BY cou_wares_series.create_time DESC
     </select>
 
-    <!--根据商品品牌系列ID获取商品品牌系列详情-->
+    <!--根据系列ID获取系列详情-->
     <select id="info" resultType="com.project.modules.cou.vo.info.CouWaresSeriesInfoVo">
         SELECT
             cou_wares_series.cou_series_id,
@@ -41,7 +41,7 @@
             cou_wares_series.cou_series_id = #{couSeriesId}
     </select>
 
-    <!--根据品牌ID获取所有状态为正常品牌系列的ID和名称-->
+    <!--根据品牌ID获取所有状态为正常系列的ID和名称-->
     <select id="getCouSeriesList" resultType="com.project.modules.cou.vo.Invoking.CouWaresSeriesInvokingVo">
         SELECT
             cou_series_id,

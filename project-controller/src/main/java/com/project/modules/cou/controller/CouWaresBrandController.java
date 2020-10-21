@@ -136,7 +136,7 @@ public class CouWaresBrandController {
     @GetMapping("/normal/{couBrandId}")
     @RequiresPermissions("cou:wares:brand:update")
     public R normal(@PathVariable("couBrandId") Long couBrandId){
-        couWaresBrandService.changeStatus(couBrandId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        couWaresBrandService.changeStatus(couBrandId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -150,7 +150,7 @@ public class CouWaresBrandController {
     @GetMapping("/disable/{couBrandId}")
     @RequiresPermissions("cou:wares:brand:update")
     public R disable(@PathVariable("couBrandId") Long couBrandId){
-        couWaresBrandService.changeStatus(couBrandId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        couWaresBrandService.changeStatus(couBrandId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 

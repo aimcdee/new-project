@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.modules.deal.entity.DealUserEntity;
 import com.project.modules.deal.vo.info.DealUserInfoVo;
 import com.project.modules.deal.vo.invoking.DealUserInvokingVo;
+import com.project.modules.deal.vo.invoking.DealUserStoreInfoInvokingVo;
 import com.project.modules.deal.vo.list.DealUserListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -49,19 +50,24 @@ public interface DealUserDao extends BaseMapper<DealUserEntity> {
     DealUserInfoVo getDealUserInfoVo(@Param("dealUserId") Long dealUserId);
 
     /**
-     * 获取所有用户ID集合
+     * 获取所有状态为正常的客户集合
      * @param status
      * @return
      */
-    List<DealUserInvokingVo> getDealUserList(@Param("status") Integer status);
+    List<DealUserInvokingVo> getDealUserList(@Param("status") Integer status, @Param("dealUserName") String dealUserName);
 
     /**
-     * 获取企业用户ID集合
+     * 获取企业客户ID集合
+     * @param status
      * @param type
      * @param examine
      * @return
      */
-    List<DealUserInvokingVo> getStoreUserList(@Param("type") Integer type, @Param("examine") Integer examine);
+    List<DealUserStoreInfoInvokingVo> getStoreUserList(
+            @Param("status") Integer status, 
+            @Param("type") Integer type, 
+            @Param("examine") Integer examine, 
+            @Param("dealUserName") String dealUserName);
 
     /**
      * 根据客户ID,客户类型和客户状态查询是否存在该客户

@@ -38,6 +38,10 @@ public class ConfBannerEntity implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
+    /**展示类型 0.零售 1.企业*/
+    @ApiModelProperty(value = "展示类型 0.零售 1.企业")
+    private Integer displayType;
+
     /**创建者ID*/
     @ApiModelProperty(value = "创建者ID")
     private Long createUserId;

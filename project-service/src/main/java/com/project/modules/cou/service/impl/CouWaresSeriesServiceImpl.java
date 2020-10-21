@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 品牌系列Service
+ * 系列Service
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -44,7 +44,7 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
     private RedisUtils redisUtils;
 
     /**
-     * 分页查询品牌系列列表
+     * 分页查询系列列表
      * @param params
      * @return
      */
@@ -59,7 +59,7 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
     }
 
     /**
-     * 新增品牌系列
+     * 新增系列
      * @param series
      * @param sysUserId
      */
@@ -79,7 +79,7 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
     }
 
     /**
-     * 根据品牌系列ID获取品牌系列详情
+     * 根据系列ID获取系列详情
      * @param couSeriesId
      * @return
      */
@@ -89,7 +89,7 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
     }
 
     /**
-     * 更新品牌系列
+     * 更新系列
      * @param series
      * @param sysUserId
      */
@@ -109,7 +109,7 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
     }
 
     /**
-     * 修改品牌系列的状态
+     * 修改系列的状态
      * @param couSeriesId
      * @param status
      * @param sysUserId
@@ -127,22 +127,22 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
     }
 
     /**
-     * 根据品牌ID获取所有状态为正常品牌系列的ID和名称
+     * 根据品牌ID获取所有状态为正常系列的ID和名称
      * @param couBrandId
      * @return
      */
     @Override
     public List<CouWaresSeriesInvokingVo> getCouSeriesList(Long couBrandId) {
         List<CouWaresSeriesInvokingVo> seriesList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_SERIES_LIST).append("_").append(couBrandId).toString())), CouWaresSeriesInvokingVo.class);
-        seriesList = CollectionUtils.isEmpty(seriesList) ? baseMapper.getCouSeriesList(couBrandId, Constant.Status.NORMAL.getStatus()) : seriesList;
+        seriesList = CollectionUtils.isEmpty(seriesList) ? baseMapper.getCouSeriesList(couBrandId, Constant.StatusEnums.NORMAL.getStatus()) : seriesList;
         redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_SERIES_LIST).append("_").append(couBrandId).toString()), seriesList);
         return seriesList;
     }
 
-    //更新redis上的品牌系列列表信息
+    //更新redis上的系列列表信息
     private void updateRedis(Long couBrandId) {
         redisUtils.delete(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_SERIES_LIST).append("_").append(couBrandId).toString()));
-        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_SERIES_LIST).append("_").append(couBrandId).toString()), baseMapper.getCouSeriesList(couBrandId, Constant.Status.NORMAL.getStatus()));
+        redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_SERIES_LIST).append("_").append(couBrandId).toString()), baseMapper.getCouSeriesList(couBrandId, Constant.StatusEnums.NORMAL.getStatus()));
     }
 
     //获取CouWaresSeriesEntity更新对象
@@ -165,7 +165,7 @@ public class CouWaresSeriesServiceImpl extends ServiceImpl<CouWaresSeriesDao, Co
         couWaresSeriesEntity
                 .setCouSeriesName(series.getCouSeriesName())
                 .setCouBrandId(series.getCouBrandId())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);
         return couWaresSeriesEntity;

@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 public class WxCouWaresServiceImpl implements WxCouWaresService {
 
     /**
-     * 根据品牌系列ID获取所有状态为正常商品对象
+     * 根据系列ID获取所有状态为正常商品对象
      * @param seriesId
      * @return
      */
     @Override
     public R getCouWaresList(Long seriesId) {
-        log.error("调用{}异常:{}, 品牌系列ID{}", "根据品牌系列ID获取所有状态为正常商品对象", seriesId);
+        log.error("调用{}异常:{}, 系列ID{}", "根据系列ID获取所有状态为正常商品对象", seriesId);
         return null;
     }
 }

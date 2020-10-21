@@ -48,11 +48,6 @@ public class DealWaresUpdateVo implements Serializable {
     @NotNull(message = "请选择性别")
     private Integer sex;
 
-    /**商品框架号*/
-    @ApiModelProperty(value = "商品框架号")
-    @NotBlank(message = "请输入商品框架号")
-    private String waresFrameCode;
-
     /**所属品牌ID*/
     @ApiModelProperty(value = "所属品牌ID")
     @NotNull(message = "请选择所属品牌")

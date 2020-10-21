@@ -49,29 +49,41 @@
             deal_user.deal_user_id = #{dealUserId}
     </select>
 
-    <!--获取所有用户ID集合-->
+    <!--获取所有状态为正常的客户集合-->
     <select id="getDealUserList" resultType="com.project.modules.deal.vo.invoking.DealUserInvokingVo">
         SELECT
             deal_user_id,
-            deal_user_name
+            deal_user_name,
+            phone AS dealUserPhone
         FROM
             deal_user
-        WHERE
+        <where>
             status = #{status}
+            <if test="dealUserName != null and dealUserName.trim() != ''">
+                AND deal_user_name LIKE "%"#{dealUserName}"%"
+            </if>
+        </where>
     </select>
 
-    <!--获取企业用户ID集合-->
-    <select id="getStoreUserList" resultType="com.project.modules.deal.vo.invoking.DealUserInvokingVo">
+    <!--获取企业客户ID集合-->
+    <select id="getStoreUserList" resultType="com.project.modules.deal.vo.invoking.DealUserStoreInfoInvokingVo">
         SELECT
             deal_user_store.deal_store_id,
             deal_user.deal_user_id,
-            deal_user.deal_user_name
+            deal_user.deal_user_name,
+            deal_user.phone AS dealUserPhone,
+            deal_user_store.deal_store_name
         FROM
             deal_user AS deal_user
             JOIN deal_user_store AS deal_user_store ON deal_user.deal_user_id = deal_user_store.deal_user_id
-        WHERE
-            deal_user_store.examine = #{examine}
+        <where>
+            deal_user.status = #{status}
+            AND deal_user_store.examine = #{examine}
             AND deal_user.type = #{type}
+            <if test="dealUserName != null and dealUserName.trim() != ''">
+                AND deal_user.deal_user_name LIKE "%"#{dealUserName}"%"
+            </if>
+        </where>
     </select>
 
     <!--根据客户ID,客户类型和客户状态查询是否存在该客户-->

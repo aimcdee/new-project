@@ -14,6 +14,7 @@
         WHERE
             deal_assess_id = #{dealAssessId}
             AND image_type = #{type}
+
     </select>
 
     <!--根据评估ID查询评估商品图集合对象-->

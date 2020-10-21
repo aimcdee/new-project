@@ -37,12 +37,12 @@ public class DealAssessListVo implements Serializable {
     @ApiModelProperty(value = "品牌名称")
     private String couBrandName;
 
-    /**品牌系列ID*/
-    @ApiModelProperty(value = "品牌系列ID")
+    /**系列ID*/
+    @ApiModelProperty(value = "系列ID")
     private Long couSeriesId;
 
-    /**品牌系列名称*/
-    @ApiModelProperty(value = "品牌系列名称")
+    /**系列名称*/
+    @ApiModelProperty(value = "系列名称")
     private String couSeriesName;
 
     /**上牌时间*/

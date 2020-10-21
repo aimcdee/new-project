@@ -12,9 +12,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class ProjectControllerApplication {
 
     public static void main(String[] args) {
-        System.out.println("=============================后台项目开始启动!=====================================");
+        System.out.println("=============================后端开始启动!=====================================");
         SpringApplication.run(ProjectControllerApplication.class, args);
-        System.out.println("=============================后台项目启动成功!=====================================");
+        System.out.println("=============================后端开始启动!=====================================");
     }
 
 }

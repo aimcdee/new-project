@@ -141,14 +141,14 @@ public class CouWaresServiceImpl extends ServiceImpl<CouWaresDao, CouWaresEntity
     }
 
     /**
-     * 根据品牌系列ID获取所有状态为正常商品对象
+     * 根据系列ID获取所有状态为正常商品对象
      * @param couSeriesId
      * @return
      */
     @Override
     public List<CouWaresInvokingVo> getCouWaresList(Long couSeriesId) {
         List<CouWaresInvokingVo> queryWaresList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString())), CouWaresInvokingVo.class);
-        List<CouWaresInvokingVo>  waresList = CollectionUtils.isNotEmpty(queryWaresList) ? queryWaresList : baseMapper.getCouWaresList(couSeriesId, Constant.Status.NORMAL.getStatus());
+        List<CouWaresInvokingVo>  waresList = CollectionUtils.isNotEmpty(queryWaresList) ? queryWaresList : baseMapper.getCouWaresList(couSeriesId, Constant.StatusEnums.NORMAL.getStatus());
         redisUtils.set(RedisKeys.CouWares.CouSeries(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()), waresList);
         return waresList;
     }
@@ -156,7 +156,7 @@ public class CouWaresServiceImpl extends ServiceImpl<CouWaresDao, CouWaresEntity
     //更新redis上的列表信息
     private void updateRedis(Long couSeriesId) {
         redisUtils.delete(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()));
-        redisUtils.set(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()), baseMapper.getCouWaresList(couSeriesId, Constant.Status.NORMAL.getStatus()));
+        redisUtils.set(RedisKeys.CouWares.CouWares(new StringBuilder().append(RedisListKeyConstant.COU_WARES_LIST).append("_").append(couSeriesId).toString()), baseMapper.getCouWaresList(couSeriesId, Constant.StatusEnums.NORMAL.getStatus()));
     }
 
     //获取CouWaresEntity更新对象
@@ -194,7 +194,7 @@ public class CouWaresServiceImpl extends ServiceImpl<CouWaresDao, CouWaresEntity
                 .setDisMent(wares.getDisMent())
                 .setVarBox(wares.getVarBox())
                 .setDrive(wares.getDrive())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setConsume(wares.getConsume())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);

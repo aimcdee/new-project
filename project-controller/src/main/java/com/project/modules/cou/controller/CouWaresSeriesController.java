@@ -20,7 +20,7 @@ import java.util.Map;
 import static com.project.utils.ShiroUtils.getSysUserId;
 
 /**
- * 品牌系列管理Controller
+ * 系列管理Controller
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -35,11 +35,11 @@ public class CouWaresSeriesController {
     private CouWaresSeriesService couWaresSeriesService;
 
     /**
-     * 分页查询品牌系列列表
+     * 分页查询系列列表
      * @param params
      * @return
      */
-    @ApiOperation(value = "分页查询品牌系列列表")
+    @ApiOperation(value = "分页查询系列列表")
     @GetMapping("/list")
     @RequiresPermissions("cou:wares:series:list")
     public R list(@RequestParam Map<String, Object> params){
@@ -47,13 +47,13 @@ public class CouWaresSeriesController {
     }
 
     /**
-     * 新增品牌系列
+     * 新增系列
      * @param series
      * @return
      */
-    @ApiOperation(value = "新增品牌系列")
-    @ApiImplicitParam(paramType = "body", name = "series", value = "品牌系列信息对象", required = true, dataType = "CouWaresSeriesSaveVo")
-    @SysLog("新增品牌系列")
+    @ApiOperation(value = "新增系列")
+    @ApiImplicitParam(paramType = "body", name = "series", value = "系列信息对象", required = true, dataType = "CouWaresSeriesSaveVo")
+    @SysLog("新增系列")
     @PostMapping("/save")
     @RequiresPermissions("cou:wares:series:save")
     public R save(@RequestBody CouWaresSeriesSaveVo series){
@@ -63,11 +63,11 @@ public class CouWaresSeriesController {
     }
 
     /**
-     * 根据品牌系列ID获取品牌系列详情
+     * 根据系列ID获取系列详情
      * @param couSeriesId
      * @return
      */
-    @ApiOperation(value = "根据品牌ID获取品牌系列详情")
+    @ApiOperation(value = "根据品牌ID获取系列详情")
     @GetMapping("/info/{couSeriesId}")
     @RequiresPermissions("cou:wares:series:info")
     public R info(@PathVariable("couSeriesId") Long couSeriesId) {
@@ -75,13 +75,13 @@ public class CouWaresSeriesController {
     }
 
     /**
-     * 更新品牌系列
+     * 更新系列
      * @param series
      * @return
      */
-    @ApiOperation(value = "更新品牌系列")
-    @ApiImplicitParam(paramType = "body", name = "series", value = "品牌系列信息对象", required = true, dataType = "CouWaresUpdateVo")
-    @SysLog("更新品牌系列")
+    @ApiOperation(value = "更新系列")
+    @ApiImplicitParam(paramType = "body", name = "series", value = "系列信息对象", required = true, dataType = "CouWaresUpdateVo")
+    @SysLog("更新系列")
     @PostMapping("/update")
     @RequiresPermissions("cou:wares:series:update")
     public R update(@RequestBody CouWaresSeriesUpdateVo series){
@@ -91,39 +91,39 @@ public class CouWaresSeriesController {
     }
 
     /**
-     * 修改品牌系列的状态为启用
+     * 修改系列的状态为启用
      * @param couSeriesId
      * @return
      */
-    @ApiOperation(value = "修改品牌系列的状态为启用")
-    @SysLog("修改品牌系列的状态为启用")
+    @ApiOperation(value = "修改系列的状态为启用")
+    @SysLog("修改系列的状态为启用")
     @GetMapping("/normal/{couSeriesId}")
     @RequiresPermissions("cou:wares:series:update")
     public R normal(@PathVariable("couSeriesId") Long couSeriesId){
-        couWaresSeriesService.changeStatus(couSeriesId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        couWaresSeriesService.changeStatus(couSeriesId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
     /**
-     * 修改品牌系列的状态为禁用
+     * 修改系列的状态为禁用
      * @param couSeriesId
      * @return
      */
-    @ApiOperation(value = "修改品牌系列的状态为禁用")
-    @SysLog("修改品牌系列的状态为禁用")
+    @ApiOperation(value = "修改系列的状态为禁用")
+    @SysLog("修改系列的状态为禁用")
     @GetMapping("/disable/{couSeriesId}")
     @RequiresPermissions("cou:wares:series:update")
     public R disable(@PathVariable("couSeriesId") Long couSeriesId){
-        couWaresSeriesService.changeStatus(couSeriesId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        couWaresSeriesService.changeStatus(couSeriesId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 
     /**
-     * 根据品牌ID获取所有状态为正常品牌系列对象
+     * 根据品牌ID获取所有状态为正常系列对象
      * @param couBrandId
      * @return
      */
-    @ApiOperation(value = "根据品牌ID获取所有状态为正常品牌系列对象")
+    @ApiOperation(value = "根据品牌ID获取所有状态为正常系列对象")
     @GetMapping("/getCouSeriesList/{couBrandId}")
     public R getCouSeriesList(@PathVariable("couBrandId") Long couBrandId){
         return R.ok(couWaresSeriesService.getCouSeriesList(couBrandId));

@@ -15,6 +15,7 @@ import com.project.modules.deal.service.DealUserStoreService;
 import com.project.modules.deal.vo.info.DealUserInfoVo;
 import com.project.modules.deal.vo.invoking.DealUserInvokingVo;
 import com.project.modules.deal.vo.invoking.DealUserStoreCheckInvokingVo;
+import com.project.modules.deal.vo.invoking.DealUserStoreInfoInvokingVo;
 import com.project.modules.deal.vo.invoking.DealUserStoreInvokingVo;
 import com.project.modules.deal.vo.list.DealUserListVo;
 import com.project.modules.deal.vo.login.DealUserLoginVo;
@@ -23,7 +24,6 @@ import com.project.modules.deal.vo.save.DealUserStoreRefundSaveVo;
 import com.project.modules.deal.vo.update.DealUserUpdateVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -175,8 +175,8 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
         dealUserEntity.setStatus(status).setUpdateTime(new Date());
         updateById(dealUserEntity);
         //如果修改的状态为禁用
-        if (status.equals(Constant.Status.DISABLE.getStatus())){
-            //如果该客户是企业用户则修改企业认证
+        if (status.equals(Constant.StatusEnums.DISABLE.getStatus())){
+            //如果该客户是企业客户则修改企业认证
             if (dealUserEntity.getType().equals(Constant.StoreType.ENTERPRISE.getType())){
                 dealUserStoreService.changeUserStore(dealUserId, getSysUserId());
             }
@@ -191,27 +191,24 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
     }
 
     /**
-     * 获取所有客户
+     * 获取所有状态为正常的客户集合
+     * @param status
+     * @param dealUserName
      * @return
      */
     @Override
-    public List<DealUserInvokingVo> getDealUserList() {
-        List<DealUserInvokingVo> dealUserInvokingVos = baseMapper.getDealUserList(Constant.Status.NORMAL.getStatus());
-        if (CollectionUtils.isNotEmpty(dealUserInvokingVos)){
-            dealUserInvokingVos.forEach(dealUserInvokingVo -> {
-                dealUserInvokingVo.setDealStoreId(dealInvokingService.getDealStoreId(dealUserInvokingVo.getDealUserId(), Constant.Examine.SUCCESS.getExamine()));
-            });
-        }
+    public List<DealUserInvokingVo> getDealUserList(Integer status, String dealUserName) {
+        List<DealUserInvokingVo> dealUserInvokingVos = baseMapper.getDealUserList(status, dealUserName);
         return dealUserInvokingVos;
     }
 
     /**
-     * 获取企业用户ID集合
+     * 获取所有状态为正常的企业客户集合
      * @return
      */
     @Override
-    public List<DealUserInvokingVo> getStoreUserList() {
-        return baseMapper.getStoreUserList(Constant.StoreType.ENTERPRISE.getType(), Constant.Examine.SUCCESS.getExamine());
+    public List<DealUserStoreInfoInvokingVo> getStoreUserList(Integer status, Integer storeType, Integer examine, String dealUserName) {
+        return baseMapper.getStoreUserList(Constant.StatusEnums.NORMAL.getStatus(), Constant.StoreType.ENTERPRISE.getType(), Constant.Examine.SUCCESS.getExamine(), dealUserName);
     }
 
     /**
@@ -233,7 +230,7 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
         if (Objects.isNull(storeCheck)){
             throw new RRException("提现失败,该企业客户已提现成功");
         }
-        if (baseMapper.getCountDealUser(storeCheck.getDealUserId(), Constant.StoreType.ENTERPRISE.getType(), Constant.Status.NORMAL.getStatus()) <= 0){
+        if (baseMapper.getCountDealUser(storeCheck.getDealUserId(), Constant.StoreType.ENTERPRISE.getType(), Constant.StatusEnums.NORMAL.getStatus()) <= 0){
             throw new RRException("提现失败,客户状态已被禁用或客户非企业客户");
         }
     }
@@ -268,7 +265,7 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
         if (Objects.nonNull(dealUserLoginVo)){
             dealInvokingService.deleteOldUserInfo(wxDealIdKey, dealUserLoginVo);
             dealUserLoginVo
-                    //用户名称
+                    //客户名称
                     .setDealUserName(dealUserEntity.getDealUserName())
                     // token到期时间
                     .setExpireTime((new Date(new Date(System.currentTimeMillis()).getTime() + RedisKeys.TOKEN_EXPIRE_MS)));
@@ -309,13 +306,13 @@ public class DealUserServiceImpl extends ServiceImpl<DealUserDao, DealUserEntity
         dealUserEntity
                 .setDealUserName(user.getDealUserName())
                 .setPhone(user.getPhone())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setIntegral(Constant.INTEGRAL)
                 .setType(Constant.StoreType.INDIVIDUAL.getType());
         return dealUserEntity;
     }
 
-    //根据用户ID获取企业信息
+    //根据客户ID获取企业信息
     private DealUserStoreInvokingVo getDealUserStoreInvokingVo(Long DealUserId) {
         return dealUserStoreService.getDealUserStoreInvokingVo(DealUserId);
     }

@@ -1216,6 +1216,10 @@ paths:
           description: 状态 0.禁用 1.正常
           in: query
           type: integer
+        - name: displayType
+          description: 展示类型 0.零售 1.企业
+          in: query
+          type: integer
       responses:
         '200':
           description: 返回轮播图列表
@@ -2265,6 +2269,11 @@ paths:
       summary: 获取用户集合
       produces:
         - application/json
+      parameters:
+        - name: dealUserName
+          description: 客户名称
+          in: query
+          type: string
       responses:
         '200':
           description: 返回客户信息
@@ -2282,12 +2291,17 @@ paths:
     get:
       tags:
         - 客户管理-客户模块
-      summary: 获取企业用户集合
+      summary: 获取所有企业用户集合
       produces:
         - application/json
+      parameters:
+        - name: dealUserName
+          description: 客户名称
+          in: query
+          type: string
       responses:
         '200':
-          description: 返回客户信息
+          description: 返回企业客户信息
           schema:
             type: object
             properties:
@@ -2297,7 +2311,7 @@ paths:
                 format: int32
               config:
                 description: 返回参数信息
-                $ref: '#/definitions/DealUserInvokingVo'
+                $ref: '#/definitions/DealUserStoreInfoInvokingVo'
   /deal/user/cashOut/{dealUserId}:
     get:
       tags:
@@ -4666,6 +4680,10 @@ definitions:
         description: 排序
         type: integer
         format: int64
+      displayType:
+        description: 展示类型 0.零售 1.企业
+        type: integer
+        format: int64
       bannerWaresList:
         type: array
         items:
@@ -4730,6 +4748,10 @@ definitions:
         description: 排序
         type: integer
         format: int64
+      displayType:
+        description: 展示类型 0.零售 1.企业
+        type: integer
+        format: int64
       bannerWaresList:
         description: 企业商品集合
         type: array
@@ -4747,6 +4769,10 @@ definitions:
         type: string
       sort:
         description: 排序
+        type: integer
+        format: int64
+      displayType:
+        description: 展示类型 0.零售 1.企业
         type: integer
         format: int64
       bannerWaresList:
@@ -4781,6 +4807,10 @@ definitions:
         type: string
       sort:
         description: 排序
+        type: integer
+        format: int64
+      displayType:
+        description: 展示类型 0.零售 1.企业
         type: integer
         format: int64
       bannerWaresList:
@@ -5540,11 +5570,34 @@ definitions:
     type: object
     properties:
       dealUserId:
+        description: 客户ID
+        type: integer
+        format: int64
+      dealUserName:
+        description: 客户名称
+        type: string
+      dealUserPhone:
+        description: 客户手机号码
+        type: string
+  DealUserStoreInfoInvokingVo:
+    type: object
+    properties:
+      dealStoreId:
+        description: 企业ID
+        type: integer
+        format: int64
+      dealUserId:
         description: 企业客户ID
         type: integer
         format: int64
       dealUserName:
         description: 企业客户名称
+        type: string
+      dealUserPhone:
+        description: 企业客户手机号码
+        type: string
+      dealStoreName:
+        description: 企业名称
         type: string
   DealStoreListVo:
     type: object
@@ -7385,6 +7438,9 @@ definitions:
         format: int64
       dealUserName:
         description: 所属企业客户名称
+        type: string
+      dealUserPhone:
+        description: 所属企业客户手机号码
         type: string
       submitTime:
         description: 提交时间

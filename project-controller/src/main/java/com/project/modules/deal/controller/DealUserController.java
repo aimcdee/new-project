@@ -97,7 +97,7 @@ public class DealUserController {
     @GetMapping("/normal/{dealUserId}")
     @RequiresPermissions("deal:user:update")
     public R normal(@PathVariable("dealUserId") Long dealUserId){
-        dealUserService.changeStatus(dealUserId, Constant.Status.NORMAL.getStatus());
+        dealUserService.changeStatus(dealUserId, Constant.StatusEnums.NORMAL.getStatus());
         return R.ok();
     }
 
@@ -111,28 +111,30 @@ public class DealUserController {
     @GetMapping("/disable/{dealUserId}")
     @RequiresPermissions("deal:user:update")
     public R disable(@PathVariable("dealUserId") Long dealUserId){
-        dealUserService.changeStatus(dealUserId, Constant.Status.DISABLE.getStatus());
+        dealUserService.changeStatus(dealUserId, Constant.StatusEnums.DISABLE.getStatus());
         return R.ok();
     }
 
     /**
-     * 获取所有客户
+     * 获取所有状态为正常的客户集合
+     * @param dealUserName
      * @return
      */
-    @ApiOperation(value = "获取所有客户")
+    @ApiOperation(value = "获取所有状态为正常的客户集合")
     @GetMapping("/getDealUserList")
-    public R getDealUserList() {
-        return R.ok(dealUserService.getDealUserList());
+    public R getDealUserList(@RequestParam(value="dealUserName", required=false) String dealUserName) {
+        return R.ok(dealUserService.getDealUserList(Constant.StatusEnums.NORMAL.getStatus(), dealUserName));
     }
 
     /**
-     * 获取企业用户集合
+     * 获取所有状态为正常的企业客户集合
+     * @param dealUserName
      * @return
      */
-    @ApiOperation(value = "获取企业用户集合")
+    @ApiOperation(value = "获取企业客户集合")
     @GetMapping("/getStoreUserList")
-    public R getStoreUserList(){
-        return R.ok(dealUserService.getStoreUserList());
+    public R getStoreUserList(@RequestParam(value="dealUserName", required=false) String dealUserName){
+        return R.ok(dealUserService.getStoreUserList(Constant.StatusEnums.NORMAL.getStatus(), Constant.StoreType.ENTERPRISE.getType(), Constant.Examine.SUCCESS.getExamine(), dealUserName));
     }
 
     /**

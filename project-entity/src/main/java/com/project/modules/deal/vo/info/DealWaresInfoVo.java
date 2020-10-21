@@ -45,10 +45,6 @@ public class DealWaresInfoVo implements Serializable {
     @ApiModelProperty(value = "性别 0.男 1.女")
     private Integer sex;
 
-    /**商品框架号*/
-    @ApiModelProperty(value = "商品框架号")
-    private String waresFrameCode;
-
     /**所属品牌ID*/
     @ApiModelProperty(value = "所属品牌ID")
     private Long couBrandId;
@@ -180,6 +176,10 @@ public class DealWaresInfoVo implements Serializable {
     /**所属企业客户名称*/
     @ApiModelProperty(value = "所属企业客户名称")
     private String dealUserName;
+
+    /**所属企业客户手机号码*/
+    @ApiModelProperty(value = "所属企业客户手机号码")
+    private String dealUserPhone;
 
     /**提交时间*/
     @ApiModelProperty(value = "提交时间")

@@ -20,7 +20,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface WxLoginDealUserService {
 
     /**
-     * 客户验证码登录
+     * 客户微信端手机号码登录
+     * @param phone
+     * @return
+     */
+    @PostMapping(value = Constant.DEAL_USER_PATH + "/wxSmsLogin", consumes = MediaType.APPLICATION_JSON_VALUE)
+    R wxSmsLogin(@RequestBody String phone);
+
+    /**
+     * 客户微信端授权登录
      * @param phone
      * @return
      */

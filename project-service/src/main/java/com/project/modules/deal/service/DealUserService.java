@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.project.modules.deal.entity.DealUserEntity;
 import com.project.modules.deal.vo.info.DealUserInfoVo;
 import com.project.modules.deal.vo.invoking.DealUserInvokingVo;
+import com.project.modules.deal.vo.invoking.DealUserStoreInfoInvokingVo;
 import com.project.modules.deal.vo.save.DealUserSaveVo;
 import com.project.modules.deal.vo.update.DealUserUpdateVo;
 import com.project.utils.PageUtils;
@@ -53,16 +54,20 @@ public interface DealUserService extends IService<DealUserEntity> {
     void changeStatus(Long dealUserId, Integer status);
 
     /**
-     * 获取用户ID集合
+     * 获取所有状态为正常的客户集合
      * @return
      */
-    List<DealUserInvokingVo> getDealUserList();
+    List<DealUserInvokingVo> getDealUserList(Integer status, String dealUserName);
 
     /**
-     * 获取企业用户ID集合
+     * 获取所有状态为正常的企业客户集合
+     * @param status
+     * @param storeType
+     * @param examine
+     * @param dealUserName
      * @return
      */
-    List<DealUserInvokingVo> getStoreUserList();
+    List<DealUserStoreInfoInvokingVo> getStoreUserList(Integer status, Integer storeType, Integer examine, String dealUserName);
 
     /**
      * 客户提现

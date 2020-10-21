@@ -236,7 +236,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     public List<SysUserListInvokingVo> getSysUser() {
         List<SysUserListInvokingVo> sysUserListInvokingVos = JSONArray.parseArray(redisUtils.get(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST)), SysUserListInvokingVo.class);
-        sysUserListInvokingVos = CollectionUtils.isNotEmpty(sysUserListInvokingVos) ? sysUserListInvokingVos : baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.Status.NORMAL.getStatus());
+        sysUserListInvokingVos = CollectionUtils.isNotEmpty(sysUserListInvokingVos) ? sysUserListInvokingVos : baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.StatusEnums.NORMAL.getStatus());
         redisUtils.set(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
         return sysUserListInvokingVos;
     }
@@ -248,7 +248,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      */
     @Override
     public List<SysUserListInvokingVo> getSaleUser(List<Long> roleIdList) {
-        List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSaleUser(roleIdList, Constant.Status.NORMAL.getStatus());
+        List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSaleUser(roleIdList, Constant.StatusEnums.NORMAL.getStatus());
         return sysUserListInvokingVos;
     }
 
@@ -283,7 +283,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         sysUserEntity
                 .setUserName(user.getUserName())
                 .setPhone(user.getPhone())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setUpdateUserId(sysUserId)
                 .setUpdateTime(new Date());
         return sysUserEntity;
@@ -292,7 +292,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     //更新redis上的用户列表信息
     private void updateRedis() {
         redisUtils.delete(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST));
-        List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.Status.NORMAL.getStatus());
+        List<SysUserListInvokingVo> sysUserListInvokingVos = baseMapper.getSysUser(Constant.SUPER_ADMIN, Constant.SUPER_ADMIN_STRING, Constant.StatusEnums.NORMAL.getStatus());
         redisUtils.set(RedisKeys.Sys.User(RedisListKeyConstant.SYS_USER_LIST), sysUserListInvokingVos);
     }
 
@@ -306,7 +306,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
                 .setPhone(StringUtils.trim(user.getPhone()))
                 .setSalt(salt)
                 .setPassword(new Sha256Hash(StringUtils.trim(user.getPassword()), salt).toHex())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);
         return sysUserEntity;

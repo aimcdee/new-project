@@ -2,6 +2,7 @@ package com.project.utils;
 
 import com.project.constant.Constant;
 import com.project.exception.RRException;
+import com.project.modules.deal.vo.invoking.DealImageInvokingVo;
 import com.project.modules.sys.entity.SysUserEntity;
 import com.project.modules.sys.vo.update.SysUserUpdatePasswordVo;
 import com.project.modules.sys.vo.update.SysUserUpdateVo;
@@ -164,7 +165,7 @@ public class CheckUtils {
             throw new RRException(StatusCode.LOGIN_PASSWORD_ERROR.getMsg());
         }
         //账号锁定
-        if (Constant.Status.DISABLE.getStatus().equals(user.getStatus())) {
+        if (Constant.StatusEnums.DISABLE.getStatus().equals(user.getStatus())) {
             throw new RRException(StatusCode.LOGIN_USER_LOCK.getMsg());
         }
     }
@@ -539,6 +540,65 @@ public class CheckUtils {
     private void changeInstallmentStatus(Integer oldStatus) {
         if (!oldStatus.equals(Constant.InstallmentStatus.CHECKPENDING.getStatus())){
             throw new RRException("操作失败,请确认金融单当前状态");
+        }
+    }
+
+    /**
+     * 校验新增商品的企业ID和封面图和商品图和行驶证
+     * @param dealStoreId
+     * @param coverImage
+     * @param waresImages
+     * @param driveImage
+     */
+    public void checkStoreIdAndWaresImage(Long dealStoreId, DealImageInvokingVo coverImage, List<DealImageInvokingVo> waresImages, DealImageInvokingVo driveImage) {
+        //校验企业ID
+        if (Objects.isNull(dealStoreId)){
+            throw new RRException("操作失败,请选择所属客户");
+        }
+        //校验封面图
+        if (StringUtils.isBlank(coverImage.getImage())){
+            throw new RRException("操作失败,请上传封面图");
+        }
+        //校验商品图
+        if (waresImages.size() == 0){
+            throw new RRException("操作失败,请上传商品图");
+        } else {
+            waresImages.forEach(waresImage -> {
+                if (StringUtils.isBlank(waresImage.getImage())){
+                    throw new RRException("操作失败,请上传商品图");
+                }
+            });
+        }
+        //校验行驶证图
+        if (StringUtils.isBlank(driveImage.getImage())){
+            throw new RRException("操作失败,请上传行驶证图");
+        }
+    }
+
+    /**
+     * 校验新增评估商品的用户ID和商品图和行驶证
+     * @param dealUserId
+     * @param waresImages
+     * @param driveImage
+     */
+    public void checkUserIdAndWaresImage(Long dealUserId, List<DealImageInvokingVo> waresImages, DealImageInvokingVo driveImage) {
+        //校验企业ID
+        if (Objects.isNull(dealUserId)){
+            throw new RRException("操作失败,请选择所属客户");
+        }
+        //校验商品图
+        if (waresImages.size() == 0){
+            throw new RRException("操作失败,请上传商品图");
+        } else {
+            waresImages.forEach(waresImage -> {
+                if (StringUtils.isBlank(waresImage.getImage())){
+                    throw new RRException("操作失败,请上传商品图");
+                }
+            });
+        }
+        //校验行驶证图
+        if (StringUtils.isBlank(driveImage.getImage())){
+            throw new RRException("操作失败,请上传行驶证图");
         }
     }
 }

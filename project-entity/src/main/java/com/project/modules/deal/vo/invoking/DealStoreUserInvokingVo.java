@@ -24,4 +24,8 @@ public class DealStoreUserInvokingVo implements Serializable {
     /**企业客户名称*/
     @ApiModelProperty(value = "企业客户名称")
     private String dealUserName;
+
+    /**企业客户手机号码*/
+    @ApiModelProperty(value = "企业客户手机号码")
+    private String dealUserPhone;
 }

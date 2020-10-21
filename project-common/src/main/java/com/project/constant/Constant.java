@@ -70,10 +70,10 @@ public class Constant {
     /**内部调用系统商品接口*/
     public static final String COU_WARES_PATH = "/wechat/cou/wares";
 
-    /**内部调用系统商品品牌接口*/
+    /**内部调用系统品牌接口*/
     public static final String COU_BRAND_PATH = "/wechat/cou/wares/brand";
 
-    /**内部调用系统品牌系列接口*/
+    /**内部调用系统系列接口*/
     public static final String COU_SERIES_PATH = "/wechat/cou/wares/series";
 
     /**内部调用系统商品类型接口*/
@@ -201,15 +201,58 @@ public class Constant {
     }
 
     /**
+     * 展示类型
+     *   0.零售 1.企业
+     */
+    public enum DisplayType {
+        RETAIL(0, "RETAIL"), STORE(1, "STORE");
+
+        private Integer type;
+        private String typeName;
+
+        DisplayType(Integer type, String typeName) {
+            this.type = type;
+            this.typeName = typeName;
+        }
+
+        public Integer getType() {
+            return type;
+        }
+
+        public void setType(Integer type) {
+            this.type = type;
+        }
+
+        public String getTypeName() {
+            return typeName;
+        }
+
+        public void setTypeName(String typeName) {
+            this.typeName = typeName;
+        }
+
+        public static String getTypeName(Integer type){
+            if (null != type){
+                for (DisplayType displayType: values()){
+                    if (type.equals(displayType.getType())){
+                        return displayType.getTypeName();
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
+    /**
      * 通用状态
      *   0.禁用   1.正常
      */
-    public enum Status {
+    public enum StatusEnums {
         DISABLE(0), NORMAL(1);
 
         private Integer status;
 
-        Status(Integer status) {
+        StatusEnums(Integer status) {
             this.status = status;
         }
 
@@ -221,8 +264,13 @@ public class Constant {
             this.status = status;
         }
 
-        public boolean equals(Integer status) {
-            return status.equals(this.status);
+        public static Boolean isNormal(Integer status){
+            if (null != status){
+                if (status.equals(NORMAL.getStatus())){
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

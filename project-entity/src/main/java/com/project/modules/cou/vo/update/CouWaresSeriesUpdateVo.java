@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 商品品牌系列UpdateVo
+ * 系列UpdateVo
  *
  *
  * @author liangyuding

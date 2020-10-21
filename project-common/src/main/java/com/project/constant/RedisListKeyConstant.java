@@ -30,6 +30,8 @@ public interface RedisListKeyConstant {
     String COU_HOT_BRAND_LIST = "COU_HOT_BRAND_LIST";
     /**品牌列表*/
     String COU_BRAND_LIST = "COU_BRAND_LIST";
+    /**品牌树状列表*/
+    String COU_BRAND_TREE_LIST = "COU_BRAND_TREE_LIST";
     /**系列列表*/
     String COU_SERIES_LIST = "COU_SERIES_LIST";
     /**型号列表*/

@@ -5,6 +5,7 @@ import com.project.modules.deal.service.DealUserLoginService;
 import com.project.service.login.WxLoginDealUserService;
 import com.project.utils.R;
 import com.project.utils.WeChatLoginUtils;
+import com.project.validator.ValidatorUtils;
 import com.project.vo.login.SmsUserLoginVo;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -47,17 +48,20 @@ public class WechatDealUserLoginController {
     @PostMapping("/smsLogin")
     public R smsLogin(@RequestBody SmsUserLoginVo form) {
         //表单校验
-//        ValidatorUtils.validateEntity(form);
-//        if (!"000000".equals(form.getSmsCode()) && !sendSmsService.checkSmsCode(form.getPhone(), form.getSmsCode())) {
-//            throw new RRException("短信验证码错误!");
-//        }
+        ValidatorUtils.validateEntity(form);
+        if (!"000000".equals(form.getSmsCode())) {
+            throw new RRException("短信验证码错误!");
+        }
+        if (!"13422356011".equals(form.getPhone())){
+            throw new RRException("账号不存在,请重新输入!");
+        }
         if (StringUtils.trim(form.getPhone()) == null) {
             throw new RRException("手机号码不能为空!");
         }
         if (StringUtils.trim(form.getSmsCode()) == null) {
             throw new RRException("请输入验证码!");
         }
-        return wxLoginDealUserService.wxLogin(form.getPhone());
+        return wxLoginDealUserService.wxSmsLogin(form.getPhone());
 //        return R.ok(dealUserLoginService.wxDealUserlogin(form.getPhone()));
     }
 

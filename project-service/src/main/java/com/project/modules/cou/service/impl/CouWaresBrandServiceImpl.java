@@ -9,6 +9,7 @@ import com.project.constant.RedisListKeyConstant;
 import com.project.modules.cou.dao.CouWaresBrandDao;
 import com.project.modules.cou.entity.CouWaresBrandEntity;
 import com.project.modules.cou.service.CouWaresBrandService;
+import com.project.modules.cou.vo.Invoking.CouBrandInvokingVo;
 import com.project.modules.cou.vo.Invoking.CouWaresBrandInvokingVo;
 import com.project.modules.cou.vo.info.CouWaresBrandInfoVo;
 import com.project.modules.cou.vo.list.CouWaresBrandListVo;
@@ -16,18 +17,16 @@ import com.project.modules.cou.vo.save.CouWaresBrandSaveVo;
 import com.project.modules.cou.vo.update.CouWaresBrandUpdateVo;
 import com.project.utils.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
- * 商品品牌Service
+ * 品牌Service
  *
  * @author liangyuding
  * @date 2020-04-17
@@ -44,7 +43,7 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
     private RedisUtils redisUtils;
 
     /**
-     * 分页查询商品品牌列表
+     * 分页查询品牌列表
      * @param params
      * @return
      */
@@ -56,7 +55,7 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
     }
 
     /**
-     * 新增商品品牌
+     * 新增品牌
      * @param brand
      * @param sysUserId
      */
@@ -76,7 +75,7 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
     }
 
     /**
-     * 根据商品品牌ID获取商品品牌详情
+     * 根据品牌ID获取品牌详情
      * @param couBrandId
      * @return
      */
@@ -86,7 +85,7 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
     }
 
     /**
-     * 更新商品品牌
+     * 更新品牌
      * @param brand
      * @param sysUserId
      */
@@ -105,7 +104,7 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
     }
 
     /**
-     * 修改商品品牌的状态
+     * 修改品牌的状态
      * @param couBrandId
      * @param status
      * @param sysUserId
@@ -130,27 +129,47 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
     @Override
     public List<CouWaresBrandInvokingVo> getHotCouBrandList() {
         List<CouWaresBrandInvokingVo> brandList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_HOT_BRAND_LIST)), CouWaresBrandInvokingVo.class);
-        brandList = Optional.ofNullable(brandList).orElse(baseMapper.getHotCouBrandList(Constant.Status.NORMAL.getStatus()));
+        brandList = Optional.ofNullable(brandList).orElse(baseMapper.getHotCouBrandList(Constant.StatusEnums.NORMAL.getStatus()));
         redisUtils.set(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_HOT_BRAND_LIST), brandList);
         return brandList;
     }
 
     /**
-     * 获取所有状态为正常商品品牌的ID和名称
+     * 获取所有状态为正常品牌的ID和名称
      * @return
      */
     @Override
     public List<CouWaresBrandInvokingVo> getCouBrandList() {
         List<CouWaresBrandInvokingVo> brandList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_BRAND_LIST)), CouWaresBrandInvokingVo.class);
-        brandList = Optional.ofNullable(brandList).orElse(baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus()));
+        brandList = Optional.ofNullable(brandList).orElse(baseMapper.getCouBrandList(Constant.StatusEnums.NORMAL.getStatus()));
         redisUtils.set(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_BRAND_LIST), brandList);
+        return brandList;
+    }
+
+    /**
+     * 按字母分类查询所有品牌
+     * @return
+     */
+    @Override
+    public List<CouBrandInvokingVo> getBrandList() {
+        List<CouBrandInvokingVo> redisBrandList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_BRAND_TREE_LIST)), CouBrandInvokingVo.class);
+        List<CouBrandInvokingVo> brandList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(redisBrandList)){
+            brandList = baseMapper.getFirstLetter(Constant.StatusEnums.NORMAL.getStatus());
+            brandList.forEach(brand -> {
+                brand.setBrandVoList(baseMapper.getBrandList(brand.getFirstLetter(), Constant.StatusEnums.NORMAL.getStatus()));
+            });
+            redisUtils.set(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_BRAND_TREE_LIST), brandList);
+        } else {
+            brandList.addAll(redisBrandList);
+        }
         return brandList;
     }
 
     //更新redis上的列表信息
     private void updateRedis() {
         redisUtils.delete(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_BRAND_LIST));
-        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_BRAND_LIST), baseMapper.getCouBrandList(Constant.Status.NORMAL.getStatus()));
+        redisUtils.set(RedisKeys.CouWares.CouBrand(RedisListKeyConstant.COU_BRAND_LIST), baseMapper.getCouBrandList(Constant.StatusEnums.NORMAL.getStatus()));
     }
 
     //设置DealWaresBrandEntity更新对象
@@ -174,7 +193,7 @@ public class CouWaresBrandServiceImpl extends ServiceImpl<CouWaresBrandDao, CouW
                 .setCouBrandName(brand.getCouBrandName())
                 .setImage(brand.getImage())
                 .setFirstLetter(brand.getFirstLetter())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setSort(brand.getSort())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);

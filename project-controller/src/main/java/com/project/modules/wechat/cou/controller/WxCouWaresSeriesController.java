@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 微信系统品牌系列Controller
+ * 微信系统系列Controller
  *
  * @author liangyuding
  * @date 2020-06-09
@@ -28,11 +28,11 @@ public class WxCouWaresSeriesController {
     private CouWaresSeriesService couWaresSeriesService;
 
     /**
-     * 根据品牌ID获取该品牌下所有状态为正常品牌系列对象
+     * 根据品牌ID获取该品牌下所有状态为正常系列对象
      * @param couBrandId
      * @return
      */
-    @ApiOperation(value = "根据品牌ID获取该品牌下所有状态为正常品牌系列对象")
+    @ApiOperation(value = "根据品牌ID获取该品牌下所有状态为正常系列对象")
     @GetMapping("/getCouSeriesList/{couBrandId}")
     public R getCouSeriesList(@PathVariable("couBrandId") Long couBrandId){
         return R.ok(couWaresSeriesService.getCouSeriesList(couBrandId));

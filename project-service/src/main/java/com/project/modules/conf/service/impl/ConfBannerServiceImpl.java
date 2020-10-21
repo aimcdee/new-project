@@ -1,6 +1,5 @@
 package com.project.modules.conf.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,10 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 轮播图Service
@@ -56,7 +55,8 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
         List<ConfBannerListVo> confBannerListVos = baseMapper.queryPage(
                 page,
                 StringUtils.trim(MapUtils.getString(params, "bannerName")),
-                MapUtils.getInteger(params, "status"));
+                MapUtils.getInteger(params, "status"),
+                MapUtils.getInteger(params, "displayType"));
         confBannerListVos.forEach(confBannerListVo -> {
             confBannerListVo.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(confBannerListVo.getBannerId()));
         });
@@ -76,7 +76,6 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
         } catch (Exception e) {
             e.printStackTrace();
         }
-        checkUtils.checkNotNull(banner);
         //获取新增轮播图对象
         ConfBannerEntity confbannerEntity = getConfbannerSaveEntity(banner, sysUserId);
         //新增轮播图
@@ -87,7 +86,12 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
                 confBannerWaresService.saveEntity(confbannerEntity.getBannerId(), bannerWare.getDealWaresId(), bannerWare.getImage());
             });
         }
-        editRedis(Constant.Status.NORMAL.getStatus());
+        //如果修改的状态为正常时
+        if (Constant.StatusEnums.isNormal(confbannerEntity.getStatus())){
+            //将除了该ID和所属的展示类型以为的所有轮播图改为禁用
+            updateBannerToDisable(confbannerEntity.getBannerId(), confbannerEntity.getDisplayType(), sysUserId);
+        }
+        editRedis(Constant.DisplayType.RETAIL.getType(), Constant.DisplayType.STORE.getType(), Constant.StatusEnums.NORMAL.getStatus());
     }
 
     /**
@@ -115,11 +119,8 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
         } catch (Exception e) {
             e.printStackTrace();
         }
-        checkUtils.checkNotNull(banner);
         //获取更新轮播图对象
         ConfBannerEntity confbannerEntity = getConfbannerUpdateEntity(banner, sysUserId);
-        //更新轮播图
-        updateById(confbannerEntity);
         //更新轮播图
         updateById(confbannerEntity);
         if (CollectionUtils.isNotEmpty(banner.getBannerWaresList())){
@@ -128,7 +129,12 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
                 confBannerWaresService.updateEntity(confbannerEntity.getBannerId(), bannerWare.getDealWaresId(), bannerWare.getImage());
             });
         }
-        editRedis(Constant.Status.NORMAL.getStatus());
+        //如果修改的状态为正常时
+        if (Constant.StatusEnums.isNormal(confbannerEntity.getStatus())){
+            //将除了该ID和所属的展示类型以为的所有轮播图改为禁用
+            updateBannerToDisable(confbannerEntity.getBannerId(), confbannerEntity.getDisplayType(), sysUserId);
+        }
+        editRedis(Constant.DisplayType.RETAIL.getType(), Constant.DisplayType.STORE.getType(), Constant.StatusEnums.NORMAL.getStatus());
     }
 
     /**
@@ -142,39 +148,66 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
     public void changeStatus(Long bannerId, Integer status, Long sysUserId) {
         //获取ConfbannerEntity对象
         ConfBannerEntity confbannerEntity = getConfbannerEntity(bannerId);
-        confbannerEntity.setStatus(status).setUpdateUserId(sysUserId).setUpdateTime(new Date());
+        confbannerEntity
+                .setStatus(status)
+                .setUpdateUserId(sysUserId)
+                .setUpdateTime(new Date());
         //更新轮播图
         updateById(confbannerEntity);
-        editRedis(Constant.Status.NORMAL.getStatus());
+        //如果修改的状态为正常时
+        if (Constant.StatusEnums.isNormal(status)){
+            //将除了该ID和所属的展示类型以为的所有轮播图改为禁用
+            updateBannerToDisable(bannerId, confbannerEntity.getDisplayType(), sysUserId);
+        }
+        editRedis(Constant.DisplayType.RETAIL.getType(), Constant.DisplayType.STORE.getType(), Constant.StatusEnums.NORMAL.getStatus());
+    }
+
+    //将除了该ID和所属的展示类型以为的所有轮播图改为禁用
+    private void updateBannerToDisable(Long bannerId, Integer displayType, Long sysUserId) {
+        List<Long> bannerIdList = baseMapper.getNormalBannerId(bannerId, displayType, Constant.StatusEnums.NORMAL.getStatus());
+        if (CollectionUtils.isNotEmpty(bannerIdList)){
+            //更新轮播图状态为禁用
+            baseMapper.updateBannerToDisable(bannerIdList, displayType, Constant.StatusEnums.DISABLE.getStatus(), sysUserId, new Date());
+        }
     }
 
     /**
-     * 查询状态为正常的轮播图集合
+     * 查询状态为正常的零售端/企业轮播图集合
+     * @param displayType
      * @param status
      * @return
      */
     @Override
-    public List<ConfBannerInfoVo> normalList(Integer status) {
-        List<ConfBannerInfoVo> getRedisConfBannerInfoVos = JSONArray.parseArray(redisUtils.get(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status))), ConfBannerInfoVo.class);
-        List<ConfBannerInfoVo> confBannerInfoVos = CollectionUtils.isNotEmpty(getRedisConfBannerInfoVos) ? getRedisConfBannerInfoVos : new ArrayList<>();
-        if (CollectionUtils.isEmpty(confBannerInfoVos)){
-            confBannerInfoVos = baseMapper.normalList(status);
-            confBannerInfoVos.forEach(confBannerInfoVo -> {
-                confBannerInfoVo.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(confBannerInfoVo.getBannerId()));
-            });
-            redisUtils.set(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status)), confBannerInfoVos);
+    public ConfBannerInfoVo typeList(Integer displayType, Integer status) {
+        String typeName = Constant.DisplayType.getTypeName(displayType);
+        ConfBannerInfoVo queryConfBannerInfoVo = redisUtils.get(RedisKeys.ConfBanner.Banner(typeName), ConfBannerInfoVo.class);
+        ConfBannerInfoVo confBannerInfoVo = Objects.nonNull(queryConfBannerInfoVo) ? queryConfBannerInfoVo : new ConfBannerInfoVo();
+        if (Objects.nonNull(confBannerInfoVo)){
+            confBannerInfoVo = baseMapper.getConfBanner(displayType, status);
+            confBannerInfoVo.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(confBannerInfoVo.getBannerId()));
+            redisUtils.set(RedisKeys.ConfBanner.Banner(typeName), confBannerInfoVo);
         }
-        return confBannerInfoVos;
+        return confBannerInfoVo;
     }
 
     //对redis操作
-    private void editRedis(Integer status) {
-        redisUtils.delete(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status)));
-        List<ConfBannerInfoVo> confBannerInfoVos = baseMapper.normalList(status);
-        confBannerInfoVos.forEach(confBannerInfoVo -> {
-            confBannerInfoVo.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(confBannerInfoVo.getBannerId()));
-        });
-        redisUtils.set(RedisKeys.ConfBanner.ConfBanner(String.valueOf(status)), confBannerInfoVos);
+    private void editRedis(Integer retail, Integer store, Integer status) {
+        String retailName = Constant.DisplayType.getTypeName(retail);
+        String storeName = Constant.DisplayType.getTypeName(store);
+        redisUtils.delete(RedisKeys.ConfBanner.Banner(retailName));
+        redisUtils.delete(RedisKeys.ConfBanner.Banner(storeName));
+        //查询并设置零售端显示的轮播图
+        ConfBannerInfoVo retailBanner = baseMapper.getConfBanner(retail, status);
+        if (Objects.nonNull(retailBanner)){
+            retailBanner.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(retailBanner.getBannerId()));
+            redisUtils.set(RedisKeys.ConfBanner.Banner(retailName), retailBanner);
+        }
+        //查询并设置企业端显示的轮播图
+        ConfBannerInfoVo storeBanner = baseMapper.getConfBanner(store, status);
+        if (Objects.nonNull(storeBanner)){
+            storeBanner.setBannerWaresList(confBannerWaresService.getBannerWaresListByBannerId(storeBanner.getBannerId()));
+            redisUtils.set(RedisKeys.ConfBanner.Banner(storeName), storeBanner);
+        }
     }
 
     //设置更新轮播图对象
@@ -182,8 +215,9 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
         //获取ConfbannerEntity对象
         ConfBannerEntity confbannerEntity = getConfbannerEntity(banner.getBannerId());
         confbannerEntity
-                .setBannerName(banner.getName())
+                .setBannerName(banner.getBannerName())
                 .setSort(banner.getSort())
+                .setDisplayType(banner.getDisplayType())
                 .setUpdateUserId(sysUserId);
         return confbannerEntity;
     }
@@ -200,8 +234,9 @@ public class ConfBannerServiceImpl extends ServiceImpl<ConfBannerDao, ConfBanner
         ConfBannerEntity confbannerEntity = new ConfBannerEntity();
         confbannerEntity
                 .setBannerName(banner.getBannerName())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setSort(banner.getSort())
+                .setDisplayType(banner.getDisplayType())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);
         return confbannerEntity;

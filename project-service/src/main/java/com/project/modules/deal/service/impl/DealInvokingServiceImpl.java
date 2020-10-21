@@ -139,7 +139,7 @@ public class DealInvokingServiceImpl implements DealInvokingService {
     }
 
     /**
-     * 根据品牌系列ID获取品牌系列名称
+     * 根据系列ID获取系列名称
      * @param couSeriesId
      * @return
      */

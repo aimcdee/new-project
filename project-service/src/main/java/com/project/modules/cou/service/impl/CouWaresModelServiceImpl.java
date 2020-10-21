@@ -131,7 +131,7 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
     public List<CouWaresModelInvokingVo> getCouModelList() {
         List<CouWaresModelInvokingVo> modelList = JSONArray.parseArray(redisUtils.get(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_MODEL_LIST)), CouWaresModelInvokingVo.class);
         if (CollectionUtils.isEmpty(modelList)){
-            modelList = baseMapper.getCouModelList(Constant.Status.NORMAL.getStatus());
+            modelList = baseMapper.getCouModelList(Constant.StatusEnums.NORMAL.getStatus());
             modelList.forEach(model -> {
                 model.setParentName(baseMapper.getCouModelNameById(model.getParentId()));
             });
@@ -143,7 +143,7 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
     //更新redis上的列表信息
     private void updateRedis() {
         redisUtils.delete(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_MODEL_LIST));
-        redisUtils.set(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_MODEL_LIST), baseMapper.getCouModelList(Constant.Status.NORMAL.getStatus()));
+        redisUtils.set(RedisKeys.CouWares.CouModel(RedisListKeyConstant.COU_MODEL_LIST), baseMapper.getCouModelList(Constant.StatusEnums.NORMAL.getStatus()));
     }
 
     //获取DealWaresTypeEntity更新对象
@@ -168,7 +168,7 @@ public class CouWaresModelServiceImpl extends ServiceImpl<CouWaresModelDao, CouW
             throw new RRException("操作失败,类转换失败");
         }
         couWaresModelEntity
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);
         return couWaresModelEntity;

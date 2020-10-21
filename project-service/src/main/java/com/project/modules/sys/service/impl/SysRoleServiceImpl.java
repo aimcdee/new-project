@@ -202,7 +202,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
         SysRoleEntity sysRoleEntity = new SysRoleEntity();
         sysRoleEntity
                 .setRoleName(role.getRoleName())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setRemake(role.getRemake())
                 .setCreateUserId(sysUserId)
                 .setUpdateUserId(sysUserId);

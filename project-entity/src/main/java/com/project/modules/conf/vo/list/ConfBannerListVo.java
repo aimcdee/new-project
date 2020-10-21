@@ -35,6 +35,10 @@ public class ConfBannerListVo implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
+    /**展示类型 0.零售 1.企业*/
+    @ApiModelProperty(value = "展示类型 0.零售 1.企业")
+    private Integer displayType;
+
     /**企业商品对象*/
     private List<ConfBannerWaresInvokingVo> bannerWaresList;
 }

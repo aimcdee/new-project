@@ -136,7 +136,7 @@ public class ConfBannerController {
     @GetMapping("/normal/{bannerId}")
     @RequiresPermissions("conf:banner:update")
     public R normal(@PathVariable("bannerId") Long bannerId){
-        confBannerService.changeStatus(bannerId, Constant.Status.NORMAL.getStatus(), getSysUserId());
+        confBannerService.changeStatus(bannerId, Constant.StatusEnums.NORMAL.getStatus(), getSysUserId());
         return R.ok();
     }
 
@@ -150,7 +150,7 @@ public class ConfBannerController {
     @GetMapping("/disable/{bannerId}")
     @RequiresPermissions("conf:banner:update")
     public R disable(@PathVariable("bannerId") Long bannerId){
-        confBannerService.changeStatus(bannerId, Constant.Status.DISABLE.getStatus(), getSysUserId());
+        confBannerService.changeStatus(bannerId, Constant.StatusEnums.DISABLE.getStatus(), getSysUserId());
         return R.ok();
     }
 }

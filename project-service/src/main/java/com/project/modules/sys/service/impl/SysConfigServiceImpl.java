@@ -149,12 +149,12 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
      */
     @Override
     public String getDefaultValue(String code) {
-        return baseMapper.getDefaultValue(code, Constant.Status.NORMAL.getStatus());
+        return baseMapper.getDefaultValue(code, Constant.StatusEnums.NORMAL.getStatus());
     }
 
     //新增redis缓存数据
     private void updateRedis() {
-        List<SysConfigEntity> sysConfigEntities = list(new QueryWrapper<SysConfigEntity>().eq("status", Constant.Status.NORMAL.getStatus()));
+        List<SysConfigEntity> sysConfigEntities = list(new QueryWrapper<SysConfigEntity>().eq("status", Constant.StatusEnums.NORMAL.getStatus()));
         sysConfigEntities.forEach(sysConfigEntity -> {
             redisUtils.delete(RedisKeys.Sys.Config(sysConfigEntity.getCode()));
             redisUtils.set(RedisKeys.Sys.Config(sysConfigEntity.getCode()), sysConfigEntity.getValue());
@@ -189,7 +189,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
                 .setName(config.getName()).setCode(config.getCode())
                 .setValue(config.getValue())
                 .setMemo(config.getMemo())
-                .setStatus(Constant.Status.NORMAL.getStatus())
+                .setStatus(Constant.StatusEnums.NORMAL.getStatus())
                 .setCreateUserId(sysUserId).setUpdateUserId(sysUserId);
         return sysConfigEntity;
     }

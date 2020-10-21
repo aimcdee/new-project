@@ -16,9 +16,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface WxConfbannerService {
 
     /**
-     * 查询可显示的轮播图集合
+     * 查询状态为正常的零售端轮播图集合
      * @return
      */
-    @GetMapping(Constant.CONF_BANNER_PATH + "/list")
-    R list();
+    @GetMapping(Constant.CONF_BANNER_PATH + "/retailList")
+    R retailList();
+
+    /**
+     * 查询状态为正常的企业端轮播图集合
+     * @return
+     */
+    @GetMapping(Constant.CONF_BANNER_PATH + "/storeList")
+    R storeList();
 }

@@ -63,4 +63,29 @@
             status = #{status}
         ORDER BY first_letter ASC
     </select>
+
+    <!--按字母排序查询错所有的首字母-->
+    <select id="getFirstLetter" resultType="com.project.modules.cou.vo.Invoking.CouBrandInvokingVo">
+        SELECT
+            first_letter
+        FROM
+            cou_wares_brand
+        WHERE
+            status = #{status}
+            GROUP BY first_letter
+            ORDER BY first_letter ASC
+    </select>
+
+    <!--按字母分类查询所有品牌-->
+    <select id="getBrandList" resultType="com.project.modules.cou.vo.Invoking.CouWaresBrandInvokingVo">
+        SELECT
+            cou_brand_id,
+            cou_brand_name,
+            image
+        FROM
+            cou_wares_brand
+        WHERE
+            status = #{status}
+            AND first_letter = #{firstLetter}
+    </select>
 </mapper>
