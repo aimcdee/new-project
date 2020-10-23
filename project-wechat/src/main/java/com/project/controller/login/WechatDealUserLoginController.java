@@ -1,7 +1,6 @@
 package com.project.controller.login;
 
 import com.project.exception.RRException;
-import com.project.modules.deal.service.DealUserLoginService;
 import com.project.service.login.WxLoginDealUserService;
 import com.project.utils.R;
 import com.project.utils.WeChatLoginUtils;
@@ -39,9 +38,6 @@ public class WechatDealUserLoginController {
     @Autowired
     private WeChatLoginUtils weChatLoginUtils;
 
-    @Autowired
-    private DealUserLoginService dealUserLoginService;
-
     /**
      * 短信验证码登录
      */
@@ -49,20 +45,16 @@ public class WechatDealUserLoginController {
     public R smsLogin(@RequestBody SmsUserLoginVo form) {
         //表单校验
         ValidatorUtils.validateEntity(form);
-        if (!"000000".equals(form.getSmsCode())) {
-            throw new RRException("短信验证码错误!");
+        if (StringUtils.isNotBlank(form.getPhone())){
+            throw new RRException("此登录功能尚未开通,请选择微信登录");
         }
-        if (!"13422356011".equals(form.getPhone())){
-            throw new RRException("账号不存在,请重新输入!");
+        if (!"000000".equals(form.getSmsCode()) || !"13422356011".equals(form.getPhone())) {
+            throw new RRException("账号或密码填写错误,请重新输入");
         }
-        if (StringUtils.trim(form.getPhone()) == null) {
-            throw new RRException("手机号码不能为空!");
-        }
-        if (StringUtils.trim(form.getSmsCode()) == null) {
-            throw new RRException("请输入验证码!");
+        if (StringUtils.trim(form.getPhone()) == null || StringUtils.trim(form.getSmsCode()) == null) {
+            throw new RRException("手机号码或密码不能为空!");
         }
         return wxLoginDealUserService.wxSmsLogin(form.getPhone());
-//        return R.ok(dealUserLoginService.wxDealUserlogin(form.getPhone()));
     }
 
     /**
@@ -75,8 +67,6 @@ public class WechatDealUserLoginController {
     public R wxLogin(@RequestBody Map<String, Object> params) {
         //解密获取微信授权登录的手机号码,并登录系统
         return wxLoginDealUserService.wxLogin(weChatLoginUtils.getLoginPhone(params));
-        //解密获取微信授权登录的手机号码,并登录系统
-//        return R.ok(dealUserLoginService.wxDealUserlogin(weChatLoginUtils.getLoginPhone(params)));
     }
 
     /**
@@ -85,8 +75,6 @@ public class WechatDealUserLoginController {
     @PostMapping("/logout")
     public R logout() {
         return wxLoginDealUserService.logout(getDealUserId());
-//        dealUserLoginService.logout(getDealUserId());
-//        return R.ok(StatusCode.LOGIN_OUT);
     }
 
 }

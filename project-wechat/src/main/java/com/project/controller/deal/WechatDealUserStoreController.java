@@ -2,7 +2,6 @@ package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
-import com.project.modules.deal.service.DealUserStoreService;
 import com.project.modules.deal.vo.save.DealUserStoreSaveVo;
 import com.project.service.deal.WxDealUserStoreService;
 import com.project.service.upload.WxUploadService;
@@ -40,8 +39,6 @@ public class WechatDealUserStoreController {
     private WxUploadService wxUploadService;
     @Autowired
     private WxDealUserStoreService wxDealUserStoreService;
-    @Autowired
-    private DealUserStoreService dealUserStoreService;
 
     /**
      * 客户查看申请企业验证的申请记录
@@ -51,7 +48,6 @@ public class WechatDealUserStoreController {
     @GetMapping("/recordList")
     public R recordList(@RequestParam Map<String, Object> params) {
         params.put("dealUserId", getDealUserId());
-//        return R.ok(dealUserStoreService.queryPage(params));
         return wxDealUserStoreService.recordList(params);
     }
 
@@ -96,8 +92,6 @@ public class WechatDealUserStoreController {
     public R save(@RequestBody DealUserStoreSaveVo store){
         ValidatorUtils.validateEntity(store);
         store.setDealUserId(getDealUserId());
-//        dealUserStoreService.saveEntity(store);
-//        return R.ok();
         return wxDealUserStoreService.saveEntity(store);
     }
 }

@@ -2,7 +2,6 @@ package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
-import com.project.modules.deal.service.DealUserStoreFinanceService;
 import com.project.modules.deal.vo.save.DealUserStoreFinanceSaveVo;
 import com.project.service.deal.WxDealUserStoreFinanceService;
 import com.project.utils.R;
@@ -33,8 +32,6 @@ public class WechatDealUserStoreFinanceController {
 
     @Autowired
     private WxDealUserStoreFinanceService wxDealUserStoreFinanceService;
-    @Autowired
-    private DealUserStoreFinanceService dealUserStoreFinanceService;
 
     /**
      * 企业客户分页查询金融单列表
@@ -45,7 +42,6 @@ public class WechatDealUserStoreFinanceController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("dealUserId", getDealUserId());
-//        return R.ok(dealUserStoreFinanceService.queryPage(params));
         return wxDealUserStoreFinanceService.list(params);
     }
 
@@ -62,8 +58,6 @@ public class WechatDealUserStoreFinanceController {
         //判断当前操作的客户是否为企业客户
         if (isEnterprise()){
             ValidatorUtils.validateEntity(finance);
-//            dealUserStoreFinanceService.saveEntity(finance);
-//            return R.ok();
             return wxDealUserStoreFinanceService.saveEntity(finance);
         }
         return R.ok(Constant.DEFAUL_INDIVIDUAL);

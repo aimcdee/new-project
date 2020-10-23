@@ -1,6 +1,5 @@
 package com.project.controller.conf;
 
-import com.project.modules.conf.service.ConfBannerService;
 import com.project.service.conf.WxConfbannerService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
@@ -25,8 +24,6 @@ public class WechatConfBannerController {
 
     @Autowired
     private WxConfbannerService wxConfbannerService;
-    @Autowired
-    private ConfBannerService confBannerService;
 
     /**
      * 查询状态为正常的零售端轮播图集合
@@ -35,7 +32,6 @@ public class WechatConfBannerController {
     @ApiOperation(value = "查询状态为正常的零售端轮播图集合")
     @GetMapping("/retailList")
     public R retailList() {
-//        return R.ok(confBannerService.typeList(Constant.DisplayType.RETAIL.getType(), Constant.Status.NORMAL.getStatus()));
         return R.ok(wxConfbannerService.retailList());
     }
 
@@ -46,7 +42,6 @@ public class WechatConfBannerController {
     @ApiOperation(value = "查询状态为正常的企业端轮播图集合")
     @GetMapping("/storeList")
     public R storeList() {
-//        return R.ok(confBannerService.typeList(Constant.DisplayType.STORE.getType(), Constant.Status.NORMAL.getStatus()));
         return R.ok(wxConfbannerService.storeList());
     }
 }

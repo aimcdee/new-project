@@ -1,6 +1,5 @@
 package com.project.controller.cust;
 
-import com.project.modules.cust.service.CustAreaLicenseService;
 import com.project.service.cust.WxCustAreaLicenseService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
@@ -26,8 +25,6 @@ public class WecharCustLicenseController {
 
     @Autowired
     private WxCustAreaLicenseService wxCustAreaLicenseService;
-    @Autowired
-    private CustAreaLicenseService custAreaLicenseService;
 
     /**
      * 查看省份牌照
@@ -36,7 +33,6 @@ public class WecharCustLicenseController {
     @ApiOperation(value = "查看省份牌照")
     @GetMapping("/list")
     public R list(@RequestParam("provinceId") Long provinceId, @RequestParam("cityId") Long cityId) {
-//        return R.ok(custAreaLicenseService.getList(provinceId, cityId));
         return wxCustAreaLicenseService.getList(provinceId, cityId);
     }
 }

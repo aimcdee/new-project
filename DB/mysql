@@ -1,0 +1,423 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+CREATE TABLE `car`.`conf_banner`  (
+  `banner_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `banner_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1.正常',
+  `sort` int(5) NOT NULL COMMENT '排序',
+  `display_type` tinyint(1) NOT NULL COMMENT '展示类型 0.零售 1.企业',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`banner_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '轮播图表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`conf_banner_wares`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `banner_id` bigint(20) NOT NULL COMMENT '轮播图ID',
+  `deal_wares_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '企业商品图ID',
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图片路径',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '图片表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`cou_wares`  (
+  `cou_wares_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '商品ID',
+  `cou_wares_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品名称',
+  `cou_brand_id` bigint(20) NOT NULL COMMENT '所属品牌ID',
+  `cou_series_id` bigint(20) NOT NULL COMMENT '所属品牌系列ID',
+  `cou_model_id` bigint(20) NOT NULL COMMENT '所属型号ID',
+  `cou_wares_price` decimal(20, 2) NOT NULL COMMENT '厂商指导价',
+  `market_year` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '年款',
+  `market_time` datetime(0) NOT NULL COMMENT '上市时间',
+  `dis_ment` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '排量',
+  `var_box` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '变速箱',
+  `drive` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '驱动方式',
+  `consume` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '油耗量',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1正常',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`cou_wares_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`cou_wares_brand`  (
+  `cou_brand_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '品牌ID',
+  `cou_brand_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '品牌名称',
+  `image` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片地址',
+  `first_letter` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '首字母',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1.正常',
+  `sort` int(5) NOT NULL COMMENT '品牌排序',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`cou_brand_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`cou_wares_model`  (
+  `cou_model_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '型号ID',
+  `cou_model_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '型号名称',
+  `parent_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '上级型号ID',
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图片路径',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1.正常',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`cou_model_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品类型' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`cou_wares_series`  (
+  `cou_series_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '系列ID',
+  `cou_series_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系列名称',
+  `cou_brand_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '所属品牌ID',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1.正常',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`cou_series_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`cust_area`  (
+  `area_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '区域ID',
+  `area_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '区域名称',
+  `parent_id` bigint(20) NOT NULL COMMENT '上级区域ID',
+  `type` tinyint(1) NOT NULL COMMENT '区域类型 0.省级 1.市级 2.县/区',
+  PRIMARY KEY (`area_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '省级表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`cust_area_license`  (
+  `license_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '所在区域牌号表ID',
+  `province_id` bigint(20) NOT NULL COMMENT '所属省份ID',
+  `city_id` bigint(20) NOT NULL COMMENT '所属市级ID',
+  `license_code` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所在区域牌号',
+  PRIMARY KEY (`license_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品所在地区牌号表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_assess`  (
+  `deal_assess_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '评估ID',
+  `cou_brand_id` bigint(20) NOT NULL COMMENT '品牌ID',
+  `cou_series_id` bigint(20) NOT NULL COMMENT '系列ID',
+  `assess_wares_title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评估商品名称',
+  `register_time` datetime(0) NOT NULL COMMENT '上牌时间',
+  `pro_area_id` bigint(20) NOT NULL COMMENT '省级区域ID',
+  `pro_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '省级区域名称',
+  `city_area_id` bigint(20) NULL DEFAULT NULL COMMENT '市级区域ID',
+  `city_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '市级区域名称',
+  `county_area_id` bigint(20) NULL DEFAULT NULL COMMENT '县/区级区域ID',
+  `county_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '县/区级区域名称',
+  `distance` bigint(20) NOT NULL COMMENT '行驶里程',
+  `deal_user_id` bigint(20) NOT NULL COMMENT '所属客户ID',
+  `status` tinyint(1) NOT NULL COMMENT '审核状态 0.待审核 1.已审核 2.已作废',
+  `deal_assess_price` decimal(20, 2) NOT NULL COMMENT '评估价格',
+  `sell_status` tinyint(1) NOT NULL COMMENT '交易状态 0.未交易 1.交易中 2.已交易',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `examine_user_id` bigint(20) NULL DEFAULT NULL COMMENT '审核人',
+  `examine_time` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
+  PRIMARY KEY (`deal_assess_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '评估价钱表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_assess_image`  (
+  `image_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '图片ID',
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图片路径',
+  `image_type` tinyint(1) NOT NULL COMMENT '图片类型 0.商品图 1.行驶证图',
+  `deal_assess_id` bigint(20) NOT NULL COMMENT '评估ID',
+  PRIMARY KEY (`image_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品评估价格图片管理' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_assess_sell`  (
+  `deal_sell_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '评估商品出售ID',
+  `deal_sell_title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评估商品出售标题',
+  `deal_assess_id` bigint(20) NOT NULL COMMENT '所属评估ID',
+  `assess_wares_title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属评估商品名称',
+  `contact_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系人姓名',
+  `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系人电话',
+  `sex` tinyint(1) NULL DEFAULT NULL COMMENT '性别 0.先生 1.小姐',
+  `pro_area_id` bigint(20) NOT NULL COMMENT '省级区域ID',
+  `pro_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '省级区域名称',
+  `city_area_id` bigint(20) NULL DEFAULT NULL COMMENT '市级区域ID',
+  `city_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '市级区域名称',
+  `county_area_id` bigint(20) NULL DEFAULT NULL COMMENT '县/区级区域ID',
+  `county_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '县/区级区域名称',
+  `addr` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '具体地址',
+  `sys_user_id` bigint(20) NULL DEFAULT NULL COMMENT '跟进人ID',
+  `sell_price` decimal(20, 2) NULL DEFAULT NULL COMMENT '最终交易金额',
+  `status` tinyint(1) NOT NULL COMMENT '处理状态 0.撤回 1.待处理 2.跟进中 3.已完成',
+  `deal_user_id` bigint(20) NOT NULL COMMENT '所属客户ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `examine_user_id` bigint(20) NULL DEFAULT NULL COMMENT '审核人ID',
+  `examine_time` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
+  INDEX `sell_id`(`deal_sell_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '评估商品出售表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_bill_examine`  (
+  `examine_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '审核表ID',
+  `bill_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '单据ID',
+  `bill_type` tinyint(1) NOT NULL COMMENT '单据类型 0.保证金单 1.退费单 2.金融单',
+  `examine_user_id` bigint(20) NOT NULL COMMENT '审核人ID',
+  `examine_remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '审核理由',
+  `examine_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '审核时间',
+  PRIMARY KEY (`examine_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '单据审核表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_user`  (
+  `deal_user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '客户ID',
+  `deal_user_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户名称',
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号码',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1正常',
+  `type` tinyint(1) NOT NULL COMMENT '客户类型 0.个人 1.车商',
+  `integral` bigint(20) NOT NULL COMMENT '积分',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`deal_user_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '客户表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_user_store`  (
+  `deal_store_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '企业表ID',
+  `deal_user_id` bigint(20) NOT NULL COMMENT '客户ID',
+  `deal_store_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '企业名称',
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '企业门面图路径',
+  `deal_user_job` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '客户职位',
+  `deposit_price` decimal(20, 2) NOT NULL COMMENT '保证金金额',
+  `credit_grade` int(10) NULL DEFAULT NULL COMMENT '信用等级',
+  `sys_user_id` bigint(20) NULL DEFAULT NULL COMMENT '归属人ID',
+  `sys_user_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '归属人名称',
+  `examine` tinyint(1) NOT NULL COMMENT '审核状态 0.失败  1.审核中  2.通过  3.作废',
+  `apply_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '申请时间',
+  `examine_user_id` bigint(20) NULL DEFAULT NULL COMMENT '审核时间',
+  `examine_time` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
+  PRIMARY KEY (`deal_store_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '客户企业表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_user_store_deposit`  (
+  `deposit_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '保证金单ID',
+  `deposit_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '保证金单编号',
+  `deal_store_id` bigint(20) NOT NULL COMMENT '客户企业表ID',
+  `deposit_price` decimal(20, 2) NOT NULL COMMENT '保证金金额',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '备注',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.放弃 1.驳回 2.财务审核中 3.经理审核中 4.通过',
+  `submit_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '提交时间',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`deposit_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业用户保证金表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_user_store_finance`  (
+  `finance_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '金融单ID',
+  `finance_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '金融单编号',
+  `deal_store_id` bigint(20) NOT NULL COMMENT '所属客户企业ID',
+  `contact_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系人名称',
+  `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系电话',
+  `sex` tinyint(1) NOT NULL COMMENT '性别 0.先生 1.小姐',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.作废 1.待处理 2.处理中 3.已完成',
+  `sys_user_id` bigint(20) NULL DEFAULT NULL COMMENT '跟进人ID',
+  `sys_user_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '跟进人名称',
+  `finance_price` decimal(20, 2) NOT NULL COMMENT '金融单交易金额',
+  `submit_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '提交时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`finance_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '客户金融单表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_user_store_refund`  (
+  `refund_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '退费单ID',
+  `refund_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '退费单编号',
+  `deal_store_id` bigint(20) NOT NULL COMMENT '客户企业表ID',
+  `refund_price` decimal(20, 2) NOT NULL COMMENT '退费金额',
+  `refund_type` tinyint(1) NOT NULL COMMENT '退费类型 0.退费 1.提现',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '备注',
+  `status` tinyint(1) NOT NULL COMMENT '状态状态 0.放弃 1.驳回 2.待提交 3.财务审核中 4.经理审核中 5.通过',
+  `submit_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '提交时间',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`refund_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业用户退费表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_wares`  (
+  `deal_wares_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '出售商品ID',
+  `deal_wares_title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '出售商品标题',
+  `deal_wares_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '出售商品编号',
+  `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系电话',
+  `contact_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系人名称',
+  `sex` tinyint(1) NOT NULL COMMENT '性别 0.先生 1.小姐',
+  `cou_brand_id` bigint(20) NOT NULL COMMENT '所属品牌ID',
+  `cou_series_id` bigint(20) NOT NULL COMMENT '所属品牌系列ID',
+  `cou_model_id` bigint(20) NOT NULL COMMENT '所属商品型号ID',
+  `market_year` int(4) NOT NULL COMMENT '年款',
+  `trade_price` decimal(20, 2) NOT NULL COMMENT '批发价',
+  `retail_price` decimal(20, 2) NOT NULL COMMENT '零售价',
+  `register_time` date NOT NULL COMMENT '上牌时间',
+  `distance` bigint(20) NOT NULL COMMENT '行驶里程',
+  `license_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所在区域牌号',
+  `pro_area_id` bigint(20) NOT NULL COMMENT '省级区域ID',
+  `pro_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '省级区域名称',
+  `city_area_id` bigint(20) NULL DEFAULT NULL COMMENT '市级区域ID',
+  `city_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '市级区域名称',
+  `county_area_id` bigint(20) NULL DEFAULT NULL COMMENT '县/区级区域ID',
+  `county_area_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '县/区级区域名称',
+  `addr` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '详细地址',
+  `wares_remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '商品描述',
+  `transfer_num` int(10) NOT NULL COMMENT '过户次数',
+  `is_transfer` tinyint(1) NOT NULL COMMENT '是否包含过户费 0.无 1.是',
+  `is_mortgage` tinyint(1) NOT NULL COMMENT '是否有抵押 0.无 1.是',
+  `is_maintain` tinyint(1) NOT NULL COMMENT '是否有定期4s保养 0.无 1.是',
+  `status` tinyint(1) NOT NULL COMMENT '审核状态 0.驳回 1.销售审核中 2.经理审核中 3.审核通过',
+  `sell_status` tinyint(1) NOT NULL COMMENT '出售状态 0.未出售 1.已出售',
+  `online_status` tinyint(1) NOT NULL COMMENT '上线状态 0.上架 1.下架',
+  `submit_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '提交时间',
+  `deal_store_id` bigint(20) NOT NULL COMMENT '所属客户企业ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`deal_wares_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '出售商品表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_wares_examine`  (
+  `examine_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '审核ID',
+  `deal_wares_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '企业商品ID',
+  `examine_user_id` bigint(20) NOT NULL COMMENT '审核人ID',
+  `examine_remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '审核人理由',
+  `examine_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '审核人时间',
+  PRIMARY KEY (`examine_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业商品审核单' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_wares_image`  (
+  `image_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '图片ID',
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图片路径',
+  `image_type` tinyint(1) NOT NULL COMMENT '图片类型 0.商品图 1.行驶证图',
+  `is_cover` tinyint(1) NOT NULL COMMENT '是否封面图 0.否 1.是',
+  `deal_wares_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属企业商品ID',
+  PRIMARY KEY (`image_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品图片管理' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`deal_wares_installment`  (
+  `installment_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '咨询分期ID',
+  `deal_user_id` bigint(20) NOT NULL COMMENT '所属客户ID',
+  `deal_wares_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '咨询商品ID',
+  `deal_wares_title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '咨询商品标题',
+  `contact_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系人名称',
+  `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系电话',
+  `sex` tinyint(1) NOT NULL COMMENT '性别 0.先生 1.小姐',
+  `submit_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '提交咨询时间',
+  `follow_status` tinyint(1) NOT NULL COMMENT '跟进状态 0.作废 1.待处理 2.已处理',
+  `sys_user_id` bigint(20) NULL DEFAULT NULL COMMENT '根据人ID',
+  `follow_remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '跟进备注',
+  `follow_time` datetime(0) NULL DEFAULT NULL COMMENT '根据时间',
+  PRIMARY KEY (`installment_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '咨询分期客户表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_config`  (
+  `config_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号ID',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '配置名称',
+  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '配置编码 唯一主键',
+  `value` json NOT NULL COMMENT '配置值',
+  `memo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '配置显示值',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0：禁用 1：正常',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`config_id`) USING BTREE,
+  UNIQUE INDEX `CODE`(`code`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_dept`  (
+  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门表ID',
+  `dept_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门名称',
+  `parent_id` bigint(20) NOT NULL COMMENT '上级部门ID',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1.正常',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`dept_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_log`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `operation` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户操作',
+  `method` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法',
+  `params` json NULL COMMENT '请求参数',
+  `time` bigint(20) NOT NULL COMMENT '执行时长(毫秒)',
+  `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
+  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统操作日志' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_menu`  (
+  `menu_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
+  `parent_id` bigint(20) NULL DEFAULT NULL COMMENT '上级菜单ID 一级菜单为0',
+  `url` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单URL',
+  `perms` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '授权(多个用逗号分隔，如：user:list,user:create)',
+  `type` tinyint(1) NOT NULL COMMENT '类型 0：目录 1：菜单 2：按钮',
+  `icon` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
+  `order_num` int(11) NULL DEFAULT NULL COMMENT '菜单排序',
+  PRIMARY KEY (`menu_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_role`  (
+  `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+  `role_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色名称',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1.正常',
+  `remake` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`role_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色列表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_role_dept`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色与部门关系' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_role_menu`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色与菜单权限' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_user`  (
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `user_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名称',
+  `phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号码',
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `salt` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '盐',
+  `status` tinyint(1) NOT NULL COMMENT '状态 0.禁用 1.正常',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建者ID',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_user_id` bigint(20) NOT NULL COMMENT '更新者ID',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `login_ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后登录IP',
+  `login_time` datetime(0) NULL DEFAULT NULL COMMENT '最后登录时间',
+  PRIMARY KEY (`user_id`) USING BTREE,
+  UNIQUE INDEX `PHONE`(`phone`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户列表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_user_dept`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与部门关系表' ROW_FORMAT = Dynamic;
+
+CREATE TABLE `car`.`sys_user_role`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS=1;

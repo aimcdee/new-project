@@ -1,6 +1,5 @@
 package com.project.controller.cou;
 
-import com.project.modules.cou.service.CouWaresService;
 import com.project.service.cou.WxCouWaresService;
 import com.project.utils.R;
 import io.swagger.annotations.Api;
@@ -26,8 +25,6 @@ public class WechatCouWaresController {
 
     @Autowired
     private WxCouWaresService wxCouWaresService;
-    @Autowired
-    private CouWaresService couWaresService;
 
 
     /**
@@ -38,7 +35,6 @@ public class WechatCouWaresController {
     @ApiOperation(value = "获取所有状态为正常商品对象")
     @GetMapping("/getCouWaresList/{couSeriesId}")
     public R getCouWaresList(@PathVariable("couSeriesId") Long couSeriesId){
-//        return R.ok(couWaresService.getCouWaresList(couSeriesId));
         return wxCouWaresService.getCouWaresList(couSeriesId);
     }
 }

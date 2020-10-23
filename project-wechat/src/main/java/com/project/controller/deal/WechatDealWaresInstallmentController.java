@@ -1,7 +1,6 @@
 package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
-import com.project.modules.deal.service.DealWaresInstallmentService;
 import com.project.modules.deal.vo.save.DealWaresInstallmentSaveVo;
 import com.project.service.deal.WxDealWaresInstallmentService;
 import com.project.utils.R;
@@ -31,8 +30,6 @@ public class WechatDealWaresInstallmentController {
 
     @Autowired
     private WxDealWaresInstallmentService wxDealWaresInstallmentService;
-    @Autowired
-    private DealWaresInstallmentService dealWaresInstallmentService;
 
     /**
      * 客户分页查询个人咨询分期记录列表
@@ -43,7 +40,6 @@ public class WechatDealWaresInstallmentController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("dealUserId", getDealUserId());
-//        return R.ok(dealWaresInstallmentService.queryWxPage(params));
         return wxDealWaresInstallmentService.queryPage(params);
     }
 
@@ -59,8 +55,6 @@ public class WechatDealWaresInstallmentController {
     public R save(@RequestBody DealWaresInstallmentSaveVo installment){
         ValidatorUtils.validateEntity(installment);
         installment.setDealUserId(getDealUserId());
-//        dealWaresInstallmentService.saveEntity(installment);
-//        return R.ok();
         return wxDealWaresInstallmentService.saveEntity(installment);
     }
 }

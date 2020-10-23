@@ -2,7 +2,6 @@ package com.project.controller.deal;
 
 import com.project.annotation.SysLog;
 import com.project.constant.Constant;
-import com.project.modules.deal.service.DealAssessService;
 import com.project.modules.deal.vo.save.DealAssessSaveVo;
 import com.project.service.deal.WxDealAssessService;
 import com.project.service.upload.WxUploadService;
@@ -40,8 +39,6 @@ public class WechatDealAssessController {
     private WxUploadService wxUploadService;
     @Autowired
     private WxDealAssessService wxDealAssessService;
-    @Autowired
-    private DealAssessService dealAssessService;
 
     /**
      * 分页查询个人商品评估列表
@@ -51,7 +48,6 @@ public class WechatDealAssessController {
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         params.put("dealUserId", getDealUserId());
-//        return R.ok(dealAssessService.queryWxPage(params));
         return wxDealAssessService.list(params);
     }
 
@@ -112,8 +108,6 @@ public class WechatDealAssessController {
     public R save(@RequestBody DealAssessSaveVo assess){
         ValidatorUtils.validateEntity(assess);
         assess.setDealUserId(getDealUserId());
-//        dealAssessService.saveEntity(assess);
-//        return R.ok();
         return wxDealAssessService.saveEntity(assess);
     }
 
@@ -126,6 +120,5 @@ public class WechatDealAssessController {
     @GetMapping("/info/{dealAssessId}")
     public R info(@PathVariable("dealAssessId") Long dealAssessId) {
         return wxDealAssessService.info(dealAssessId);
-//        return R.ok(dealAssessService.infoWx(dealAssessId));
     }
 }

@@ -9,7 +9,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     druid:
-      url: jdbc:mysql://rm-8vbp3mp7461zs9xt70o.mysql.zhangbei.rds.aliyuncs.com:3306/car_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=FALSE&serverTimezone=GMT%2b8
+      url: jdbc:mysql://rm-8vbp3mp7461zs9xt70o.mysql.zhangbei.rds.aliyuncs.com:3306/car?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=FALSE&serverTimezone=GMT%2b8
       username: root
       password: Lyd13422356022
       initial-size: 10
